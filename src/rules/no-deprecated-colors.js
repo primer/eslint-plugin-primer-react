@@ -8,6 +8,7 @@ module.exports = {
   },
   create(context) {
     return {
+      // TODO: check get() and themeGet()
       JSXOpeningElement(node) {
         // TODO: check if jsx element was imported from @primer/components
 
