@@ -1,4 +1,5 @@
 # eslint-plugin-primer-react
+
 ESLint rules for Primer React
 
 ## Installation
@@ -6,10 +7,10 @@ ESLint rules for Primer React
 1. Assuming you already have [ESLint](https://www.npmjs.com/package/eslint) installed, run:
 
    ```shell
-   # npm 
+   # npm
    npm install --save-dev eslint-plugin-primer-react
- 
-   # yarn 
+
+   # yarn
    yarn add --dev eslint-plugin-primer-react
    ```
 
@@ -26,4 +27,4 @@ ESLint rules for Primer React
 
 ## Rules
 
-* [no-deprecated-color-variables](#)
+- [no-deprecated-colors](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-colors.md)

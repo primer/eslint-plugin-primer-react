@@ -1,0 +1,28 @@
+{
+  "name": "eslint-plugin-primer-react",
+  "version": "0.1.0",
+  "description": "ESLint rules for Primer React",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/primer/eslint-plugin-primer-react.git"
+  },
+  "keywords": [
+    "eslint",
+    "eslintplugin"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/primer/eslint-plugin-primer-react/issues"
+  },
+  "homepage": "https://github.com/primer/eslint-plugin-primer-react#readme",
+  "devDependencies": {
+    "@github/prettier-config": "0.0.4",
+    "eslint": "^7.32.0",
+    "jest": "^27.0.6"
+  },
+  "prettier": "@github/prettier-config"
+}
