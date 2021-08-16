@@ -16,6 +16,7 @@ module.exports = {
           const propName = attribute.name.name
           const propValue = attribute.value.value
 
+          // Check if styled-system color prop is using a deprecated color
           if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
             const replacement = deprecations[propValue]
 
