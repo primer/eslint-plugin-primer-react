@@ -28,7 +28,10 @@ ruleTester.run('no-deprecated-colors', rule, {
     `import {hello} from "@primer/components"; hello("colors.text.primary")`,
     `import {themeGet} from "@primer/components"; themeGet("space.text.primary")`,
     `import {themeGet} from "@other/design-system"; themeGet("colors.text.primary")`,
-    `import {get} from "@other/constants"; get("space.text.primary")`
+    `import {get} from "@other/constants"; get("space.text.primary")`,
+    `import {Box} from '@primer/components'; <Box sx={styles}>Hello</Box>`,
+    `import {Box} from '@primer/components'; <Box sx={{color: text.primary}}>Hello</Box>`,
+    `import {Box} from '@primer/components'; <Box sx={{color: "fg.default"}}>Hello</Box>`
   ],
   invalid: [
     {
@@ -61,6 +64,15 @@ ruleTester.run('no-deprecated-colors', rule, {
     {
       code: `import {Box} from "@primer/components"; <Box bg="bg.primary" m={1} />`,
       output: `import {Box} from "@primer/components"; <Box bg="canvas.default" m={1} />`,
+      errors: [
+        {
+          message: '"bg.primary" is deprecated. Use "canvas.default" instead.'
+        }
+      ]
+    },
+    {
+      code: `import {Box} from "@primer/components"; <Box sx={{bg: "bg.primary", m: 1, ...rest}} />`,
+      output: `import {Box} from "@primer/components"; <Box sx={{bg: "canvas.default", m: 1, ...rest}} />`,
       errors: [
         {
           message: '"bg.primary" is deprecated. Use "canvas.default" instead.'
