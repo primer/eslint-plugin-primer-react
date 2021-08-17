@@ -12,6 +12,8 @@ jest.mock('@primer/primitives/dist/deprecations/colors_v2', () => testDeprecatio
 
 const ruleTester = new RuleTester({
   parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true
     }
@@ -19,11 +21,14 @@ const ruleTester = new RuleTester({
 })
 
 ruleTester.run('no-deprecated-colors', rule, {
-  valid: [],
+  valid: [
+    `import {Box} from '@other/design-system'; <Box color="text.primary">Hello</Box>`,
+    `import {Box} from '@primer/components'; <Box color="fg.default">Hello</Box>`
+  ],
   invalid: [
     {
-      code: '<Box color="text.primary" />',
-      output: '<Box color="fg.default" />',
+      code: `import {Box} from '@primer/components'; function Example() { return <Box color="text.primary">Hello</Box> }`,
+      output: `import {Box} from '@primer/components'; function Example() { return <Box color="fg.default">Hello</Box> }`,
       errors: [
         {
           message: '"text.primary" is deprecated. Use "fg.default" instead.'
@@ -31,8 +36,26 @@ ruleTester.run('no-deprecated-colors', rule, {
       ]
     },
     {
-      code: '<Box bg="bg.primary" />',
-      output: '<Box bg="canvas.default" />',
+      code: `import Box from '@primer/components/lib-esm/Box'; function Example() { return <Box color="text.primary">Hello</Box> }`,
+      output: `import Box from '@primer/components/lib-esm/Box'; function Example() { return <Box color="fg.default">Hello</Box> }`,
+      errors: [
+        {
+          message: '"text.primary" is deprecated. Use "fg.default" instead.'
+        }
+      ]
+    },
+    {
+      code: `import {Box} from '@primer/components'; const Example = () => <Box color="text.primary">Hello</Box>`,
+      output: `import {Box} from '@primer/components'; const Example = () => <Box color="fg.default">Hello</Box>`,
+      errors: [
+        {
+          message: '"text.primary" is deprecated. Use "fg.default" instead.'
+        }
+      ]
+    },
+    {
+      code: `import {Box} from '@primer/components'; <Box bg="bg.primary" />`,
+      output: `import {Box} from '@primer/components'; <Box bg="canvas.default" />`,
       errors: [
         {
           message: '"bg.primary" is deprecated. Use "canvas.default" instead.'
@@ -40,29 +63,41 @@ ruleTester.run('no-deprecated-colors', rule, {
       ]
     },
     {
-      code: '<Box color="auto.green.5" />',
+      code: `import {Box} from '@primer/components'; <Box color="auto.green.5" />`,
       errors: [
         {
           message: '"auto.green.5" is deprecated.',
           suggestions: [
             {
               desc: 'Use "success.fg" instead.',
-              output: '<Box color="success.fg" />'
+              output: `import {Box} from '@primer/components'; <Box color="success.fg" />`
             },
             {
               desc: 'Use "success.emphasis" instead.',
-              output: '<Box color="success.emphasis" />'
+              output: `import {Box} from '@primer/components'; <Box color="success.emphasis" />`
             }
           ]
         }
       ]
     },
     {
-      code: '<Box color="fade.fg10" />',
+      code: `import {Box} from '@primer/components'; <Box color="fade.fg10" />`,
       errors: [
         {
           message:
-            '"fade.fg10" is deprecated. See https://primer.style/primitives or reach out in the #primer Slack channel to find a suitable replacement.'
+            '"fade.fg10" is deprecated. Go to https://primer.style/primitives or reach out in the #primer channel on Slack to find a suitable replacement.'
+        }
+      ]
+    },
+    {
+      code: `import {Box, Text} from '@primer/components'; <Box bg="bg.primary"><Text color="text.primary">Hello</Text></Box>`,
+      output: `import {Box, Text} from '@primer/components'; <Box bg="canvas.default"><Text color="fg.default">Hello</Text></Box>`,
+      errors: [
+        {
+          message: '"bg.primary" is deprecated. Use "canvas.default" instead.'
+        },
+        {
+          message: '"text.primary" is deprecated. Use "fg.default" instead.'
         }
       ]
     }

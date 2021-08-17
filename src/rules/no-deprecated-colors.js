@@ -8,11 +8,17 @@ module.exports = {
   },
   create(context) {
     return {
-      // TODO: check get() and themeGet()
       JSXOpeningElement(node) {
-        // TODO: check if jsx element was imported from @primer/components
+        // Skip if component was not imported from @primer/components
+        if (!isImportedFrom(/^@primer\/components/, node.name, context.getScope(node))) {
+          return
+        }
 
         for (const attribute of node.attributes) {
+          if (!attribute.name || !attribute.value) {
+            continue
+          }
+
           const propName = attribute.name.name
           const propValue = attribute.value.value
 
@@ -53,4 +59,31 @@ module.exports = {
       }
     }
   }
+}
+
+/**
+ * Get the variable declaration for the given identifier
+ */
+function getVariableDeclaration(scope, identifier) {
+  if (scope === null) {
+    return null
+  }
+
+  for (const variable of scope.variables) {
+    if (variable.name === identifier.name) {
+      return variable.defs[0]
+    }
+  }
+
+  return getVariableDeclaration(scope.upper, identifier)
+}
+
+/**
+ * Check if the given identifier is imported from the given module
+ */
+function isImportedFrom(moduleRegex, identifier, scope) {
+  const definition = getVariableDeclaration(scope, identifier)
+
+  // Return true if the variable was imported from the given module
+  return definition && definition.type == 'ImportBinding' && moduleRegex.test(definition.parent.source.value)
 }
