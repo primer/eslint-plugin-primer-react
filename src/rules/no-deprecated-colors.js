@@ -10,7 +10,7 @@ module.exports = {
     return {
       JSXOpeningElement(node) {
         // Skip if component was not imported from @primer/components
-        if (!isImportedFrom(/^@primer\/components/, node.name, context.getScope(node))) {
+        if (!isPrimerComponent(node.name, context.getScope(node))) {
           return
         }
 
@@ -22,39 +22,25 @@ module.exports = {
           const propName = attribute.name.name
           const propValue = attribute.value.value
 
+          // TODO: handle sx prop
+
           // Check if styled-system color prop is using a deprecated color
           if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
-            const replacement = deprecations[propValue]
-
-            if (replacement === null) {
-              // No replacement
-              context.report({
-                node: attribute.value,
-                message: `"${propValue}" is deprecated. Go to https://primer.style/primitives or reach out in the #primer channel on Slack to find a suitable replacement.`
-              })
-            } else if (Array.isArray(replacement)) {
-              // Multiple possible replacements
-              context.report({
-                node: attribute.value,
-                message: `"${propValue}" is deprecated.`,
-                suggest: replacement.map(replacementValue => ({
-                  desc: `Use "${replacementValue}" instead.`,
-                  fix(fixer) {
-                    return fixer.replaceText(attribute.value, JSON.stringify(replacementValue))
-                  }
-                }))
-              })
-            } else {
-              // One replacement
-              context.report({
-                node: attribute.value,
-                message: `"${propValue}" is deprecated. Use "${replacement}" instead.`,
-                fix(fixer) {
-                  return fixer.replaceText(attribute.value, JSON.stringify(replacement))
-                }
-              })
-            }
+            replaceDeprecatedColor(context, attribute.value, propValue)
           }
+        }
+      },
+      CallExpression(node) {
+        // Skip if not `themeGet` or `get` function
+        if (!isThemeGet(node.callee, context.getScope(node)) && !isGet(node.callee, context.getScope(node))) {
+          return
+        }
+
+        const [key, ...path] = node.arguments[0].value.split('.')
+        const name = path.join('.')
+
+        if (['colors', 'shadows'].includes(key) && Object.keys(deprecations).includes(name)) {
+          replaceDeprecatedColor(context, node.arguments[0], name, str => [key, str].join('.'))
         }
       }
     }
@@ -86,4 +72,50 @@ function isImportedFrom(moduleRegex, identifier, scope) {
 
   // Return true if the variable was imported from the given module
   return definition && definition.type == 'ImportBinding' && moduleRegex.test(definition.parent.source.value)
+}
+
+function isPrimerComponent(identifier, scope) {
+  return isImportedFrom(/^@primer\/components/, identifier, scope)
+}
+
+function isThemeGet(identifier, scope) {
+  return isImportedFrom(/^@primer\/components/, identifier, scope) && identifier.name === 'themeGet'
+}
+
+function isGet(identifier, scope) {
+  return isImportedFrom(/^\.\.?\/constants$/, identifier, scope) && identifier.name === 'get'
+}
+
+function replaceDeprecatedColor(context, node, deprecatedName, transformName = str => str) {
+  const replacement = deprecations[deprecatedName]
+  const transformedDeprecatedName = transformName(deprecatedName)
+
+  if (replacement === null) {
+    // No replacement
+    context.report({
+      node,
+      message: `"${transformedDeprecatedName}" is deprecated. Go to https://primer.style/primitives or reach out in the #primer channel on Slack to find a suitable replacement.`
+    })
+  } else if (Array.isArray(replacement)) {
+    // Multiple possible replacements
+    context.report({
+      node,
+      message: `"${transformedDeprecatedName}" is deprecated.`,
+      suggest: replacement.map(replacementValue => ({
+        desc: `Use "${transformName(replacementValue)}" instead.`,
+        fix(fixer) {
+          return fixer.replaceText(node, JSON.stringify(transformName(replacementValue)))
+        }
+      }))
+    })
+  } else {
+    // One replacement
+    context.report({
+      node,
+      message: `"${transformedDeprecatedName}" is deprecated. Use "${transformName(replacement)}" instead.`,
+      fix(fixer) {
+        return fixer.replaceText(node, JSON.stringify(transformName(replacement)))
+      }
+    })
+  }
 }
