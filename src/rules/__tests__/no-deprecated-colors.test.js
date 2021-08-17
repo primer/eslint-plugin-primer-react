@@ -54,8 +54,8 @@ ruleTester.run('no-deprecated-colors', rule, {
       ]
     },
     {
-      code: `import {Box} from '@primer/components'; <Box bg="bg.primary" />`,
-      output: `import {Box} from '@primer/components'; <Box bg="canvas.default" />`,
+      code: `import {Box} from '@primer/components'; <Box bg="bg.primary" m={1} />`,
+      output: `import {Box} from '@primer/components'; <Box bg="canvas.default" m={1} />`,
       errors: [
         {
           message: '"bg.primary" is deprecated. Use "canvas.default" instead.'

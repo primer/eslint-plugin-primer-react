@@ -30,7 +30,7 @@ module.exports = {
               // No replacement
               context.report({
                 node: attribute.value,
-                message: `"${propValue}" is deprecated. See https://primer.style/primitives or reach out in the #primer Slack channel to find a suitable replacement.`
+                message: `"${propValue}" is deprecated. Go to https://primer.style/primitives or reach out in the #primer channel on Slack to find a suitable replacement.`
               })
             } else if (Array.isArray(replacement)) {
               // Multiple possible replacements
