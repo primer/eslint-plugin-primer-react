@@ -4,7 +4,8 @@
   "description": "ESLint rules for Primer React",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "release": "changeset publish"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,8 @@
   },
   "homepage": "https://github.com/primer/eslint-plugin-primer-react#readme",
   "devDependencies": {
+    "@changesets/changelog-github": "^0.4.0",
+    "@changesets/cli": "^2.16.0",
     "@github/prettier-config": "0.0.4",
     "@primer/primitives": "^4.6.2",
     "eslint": "^7.32.0",
