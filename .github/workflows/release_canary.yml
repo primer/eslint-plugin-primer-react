@@ -6,8 +6,8 @@ on:
       - 'changeset-release/main'
 
 jobs:
-  release-canary:
-    if: ${{ github.repository == 'eslint-plugin-primer-react' }}
+  release:
+    if: ${{ github.repository == 'primer/eslint-plugin-primer-react' }}
 
     runs-on: ubuntu-latest
     steps:
