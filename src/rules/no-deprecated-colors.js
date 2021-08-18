@@ -4,7 +4,9 @@ const styledSystemColorProps = ['color', 'bg', 'backgroundColor', 'borderColor',
 
 module.exports = {
   meta: {
-    fixable: 'code'
+    type: 'suggestion',
+    fixable: 'code',
+    schema: [] // no options
   },
   create(context) {
     return {
