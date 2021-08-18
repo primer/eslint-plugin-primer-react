@@ -9,7 +9,7 @@ const testDeprecations = {
   'autocomplete.shadow': 'shadow.medium'
 }
 
-jest.mock('@primer/primitives/dist/deprecations/colors_v2', () => testDeprecations)
+jest.mock('@primer/primitives/dist/deprecations/colors', () => testDeprecations)
 
 const ruleTester = new RuleTester({
   parserOptions: {
