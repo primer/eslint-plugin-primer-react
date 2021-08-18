@@ -7,10 +7,10 @@ ESLint rules for Primer React
 1. Assuming you already have [ESLint](https://www.npmjs.com/package/eslint) installed, run:
 
    ```shell
-   # npm
    npm install --save-dev eslint-plugin-primer-react
 
-   # yarn
+   # or
+   
    yarn add --dev eslint-plugin-primer-react
    ```
 
