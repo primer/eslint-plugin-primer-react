@@ -1,4 +1,4 @@
-const deprecations = require('@primer/primitives/dist/deprecations/colors_v2')
+const deprecations = require('@primer/primitives/dist/deprecations/colors')
 
 const styledSystemColorProps = ['color', 'bg', 'backgroundColor', 'borderColor', 'textShadow', 'boxShadow']
 

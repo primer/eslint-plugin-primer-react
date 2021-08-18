@@ -21,9 +21,13 @@
   "homepage": "https://github.com/primer/eslint-plugin-primer-react#readme",
   "devDependencies": {
     "@github/prettier-config": "0.0.4",
-    "@primer/primitives": "^4.6.1",
+    "@primer/primitives": "^4.6.2",
     "eslint": "^7.32.0",
     "jest": "^27.0.6"
+  },
+  "peerDependencies": {
+    "eslint": ">=4.19.0",
+    "@primer/primitives": ">=4.6.2"
   },
   "prettier": "@github/prettier-config"
 }
