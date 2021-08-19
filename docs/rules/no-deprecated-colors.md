@@ -1,7 +1,7 @@
 # Disallow references to deprecated color variables
 
 
-[Theming](https://primer.style/react/theming) in Primer React is made possible by a theme object that defines your application's colors, spacing, fonts, and more. The color variables in Primer React's default theme object are pulled from [Primer Primitives](). When a color variable is deprecated in Primer Primitives, it's important to remove references to that color variable before the variable removed from the library.   
+[Theming](https://primer.style/react/theming) in Primer React is made possible by a theme object that defines your application's colors, spacing, fonts, and more. The color variables in Primer React's [default theme object](https://primer.style/react/theme-reference) are pulled from [Primer Primitives](https://github.com/primer/primitives). When a color variable is deprecated in Primer Primitives, it's important to remove references to that color variable before the variable removed from the library.   
 
 ## Rule details
 
