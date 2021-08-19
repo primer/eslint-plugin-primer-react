@@ -11,7 +11,7 @@ This rule disallows references to color variables that are deprecated in [Primer
 👎 Examples of **incorrect** code for this rule:
 
 ```jsx
-/* eslint no-deprecated-colors: "error" */
+/* eslint primer-react/no-deprecated-colors: "error" */
 import {Box, themeGet} from '@primer/components'
 import styled from 'styled-components'
 
@@ -25,7 +25,7 @@ const StyledExample = styled.div`
 👍 Examples of **correct** code for this rule:
 
 ```jsx
-/* eslint no-deprecated-colors: "error" */
+/* eslint primer-react/no-deprecated-colors: "error" */
 import {Box, themeGet} from '@primer/components'
 import styled from 'styled-components'
 
