@@ -1,5 +1,7 @@
 # eslint-plugin-primer-react
 
+[![npm package](https://img.shields.io/npm/v/eslint-plugin-primer-react.svg)](https://www.npmjs.com/package/eslint-plugin-primer-react)
+
 ESLint rules for Primer React
 
 ## Installation
