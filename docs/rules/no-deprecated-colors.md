@@ -16,9 +16,11 @@ This rule disallows references to color variables that are deprecated in [Primer
 import {Box, themeGet} from '@primer/components'
 import styled from 'styled-components'
 
-const Example() = () => <Box color="some.deprecated.color">Incorrect</Box>
+const SystemPropExample() = () => <Box color="some.deprecated.color">Incorrect</Box>
 
-const StyledExample = styled.div`
+const SxPropExample() = () => <Box sx={{color: 'some.deprecated.color'}}>Incorrect</Box>
+
+const ThemeGetExample = styled.div`
   color: ${themeGet('some.deprecated.color')};
 `
 ```
@@ -30,9 +32,11 @@ const StyledExample = styled.div`
 import {Box, themeGet} from '@primer/components'
 import styled from 'styled-components'
 
-const Example() = () => <Box color="some.color">Correct</Box>
+const SystemPropExample() = () => <Box color="some.color">Incorrect</Box>
 
-const StyledExample = styled.div`
+const SxPropExample() = () => <Box sx={{color: 'some.color'}}>Incorrect</Box>
+
+const ThemeGetExample = styled.div`
   color: ${themeGet('some.color')};
 `
 ```
