@@ -91,9 +91,9 @@ function isImportedFrom(moduleRegex, identifier, scope) {
   return definition && definition.type == 'ImportBinding' && moduleRegex.test(definition.parent.source.value)
 }
 
-function isPrimerComponent(identifier, scope) {
-  return isImportedFrom(/^@primer\/components/, identifier, scope)
-}
+// function isPrimerComponent(identifier, scope) {
+//   return isImportedFrom(/^@primer\/components/, identifier, scope)
+// }
 
 function isThemeGet(identifier, scope) {
   return isImportedFrom(/^@primer\/components/, identifier, scope) && identifier.name === 'themeGet'
