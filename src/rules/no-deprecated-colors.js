@@ -11,9 +11,9 @@ module.exports = {
     return {
       JSXOpeningElement(node) {
         // Skip if component was not imported from @primer/components
-        if (!isPrimerComponent(node.name, context.getScope(node))) {
-          return
-        }
+        // if (!isPrimerComponent(node.name, context.getScope(node))) {
+        //   return
+        // }
 
         for (const attribute of node.attributes) {
           if (!attribute.name || !attribute.value) {
