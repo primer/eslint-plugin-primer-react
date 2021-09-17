@@ -1,4 +1,5 @@
 const deprecations = require('@primer/primitives/dist/deprecations/colors')
+const traverse = require('eslint-traverse')
 
 const styledSystemColorProps = ['color', 'bg', 'backgroundColor', 'borderColor', 'textShadow', 'boxShadow']
 
@@ -25,19 +26,18 @@ module.exports = {
 
           // Check for the sx prop
           if (propName === 'sx' && attribute.value.expression.type === 'ObjectExpression') {
-            // Ignore non-literal properties
-            const sxProperties = attribute.value.expression.properties.filter(
-              property => property.type === 'Property' && property.value.type === 'Literal'
-            )
+            // Search all properties of the sx object (even nested properties)
+            traverse(context, attribute.value, path => {
+              if (path.node.type === 'Property' && path.node.value.type === 'Literal') {
+                const prop = path.node
+                const propName = prop.key.name
+                const propValue = prop.value.value
 
-            for (const prop of sxProperties) {
-              const propName = prop.key.name
-              const propValue = prop.value.value
-
-              if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
-                replaceDeprecatedColor(context, prop.value, propValue)
+                if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
+                  replaceDeprecatedColor(context, prop.value, propValue)
+                }
               }
-            }
+            })
           }
 
           // Check if styled-system color prop is using a deprecated color

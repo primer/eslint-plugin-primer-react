@@ -80,6 +80,15 @@ ruleTester.run('no-deprecated-colors', rule, {
       ]
     },
     {
+      code: `import {Box} from "@primer/components"; <Box sx={{"&:hover": {bg: "bg.primary"}}} />`,
+      output: `import {Box} from "@primer/components"; <Box sx={{"&:hover": {bg: "canvas.default"}}} />`,
+      errors: [
+        {
+          message: '"bg.primary" is deprecated. Use "canvas.default" instead.'
+        }
+      ]
+    },
+    {
       code: `import {Box} from "@primer/components"; <Box color="auto.green.5" />`,
       errors: [
         {
