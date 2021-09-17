@@ -37,6 +37,34 @@ module.exports = {
                   replaceDeprecatedColor(context, prop.value, propValue)
                 }
               }
+
+              // Check functions passed to sx object properties
+              // (e.g. boxShadow: theme => `0 1px 2px ${theme.colors.text.primary}` )
+              if (path.node.type === 'Property' && path.node.value.type === 'ArrowFunctionExpression') {
+                traverse(context, path.node.value.body, path => {
+                  if (path.node.type === 'MemberExpression') {
+                    // Convert MemberExpression AST to string
+                    const code = context.getSourceCode().getText(path.node)
+
+                    const [param, key, ...rest] = code.split('.')
+                    const name = rest.join('.')
+
+                    if (['colors', 'shadows'].includes(key) && Object.keys(deprecations).includes(name)) {
+                      replaceDeprecatedColor(
+                        context,
+                        path.node,
+                        name,
+                        str => [param, key, str].join('.'),
+                        str => str
+                      )
+                    }
+
+                    // Don't traverse any nested member expressions.
+                    // The root-level member expression gives us all the data we need.
+                    return traverse.SKIP
+                  }
+                })
+              }
             })
           }
 
@@ -103,14 +131,20 @@ function isGet(identifier, scope) {
   return isImportedFrom(/^\.\.?\/constants$/, identifier, scope) && identifier.name === 'get'
 }
 
-function replaceDeprecatedColor(context, node, deprecatedName, getDisplayName = str => str) {
+function replaceDeprecatedColor(
+  context,
+  node,
+  deprecatedName,
+  transformName = str => str,
+  transformReplacementValue = str => JSON.stringify(str)
+) {
   const replacement = deprecations[deprecatedName]
 
   if (replacement === null) {
     // No replacement
     context.report({
       node,
-      message: `"${getDisplayName(
+      message: `"${transformName(
         deprecatedName
       )}" is deprecated. Go to https://primer.style/primitives or reach out in the #primer channel on Slack to find a suitable replacement.`
     })
@@ -118,11 +152,11 @@ function replaceDeprecatedColor(context, node, deprecatedName, getDisplayName = 
     // Multiple possible replacements
     context.report({
       node,
-      message: `"${getDisplayName(deprecatedName)}" is deprecated.`,
+      message: `"${transformName(deprecatedName)}" is deprecated.`,
       suggest: replacement.map(replacementValue => ({
-        desc: `Use "${getDisplayName(replacementValue)}" instead.`,
+        desc: `Use "${transformName(replacementValue)}" instead.`,
         fix(fixer) {
-          return fixer.replaceText(node, JSON.stringify(getDisplayName(replacementValue)))
+          return fixer.replaceText(node, transformReplacementValue(transformName(replacementValue)))
         }
       }))
     })
@@ -130,9 +164,9 @@ function replaceDeprecatedColor(context, node, deprecatedName, getDisplayName = 
     // One replacement
     context.report({
       node,
-      message: `"${getDisplayName(deprecatedName)}" is deprecated. Use "${getDisplayName(replacement)}" instead.`,
+      message: `"${transformName(deprecatedName)}" is deprecated. Use "${transformName(replacement)}" instead.`,
       fix(fixer) {
-        return fixer.replaceText(node, JSON.stringify(getDisplayName(replacement)))
+        return fixer.replaceText(node, transformReplacementValue(transformName(replacement)))
       }
     })
   }
