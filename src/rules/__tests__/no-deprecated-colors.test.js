@@ -80,6 +80,42 @@ ruleTester.run('no-deprecated-colors', rule, {
       ]
     },
     {
+      code: `import {Box} from "@primer/components"; <Box sx={{boxShadow: theme => theme.shadows.autocomplete.shadow}} />`,
+      output: `import {Box} from "@primer/components"; <Box sx={{boxShadow: theme => theme.shadows.shadow.medium}} />`,
+      errors: [
+        {
+          message: '"theme.shadows.autocomplete.shadow" is deprecated. Use "theme.shadows.shadow.medium" instead.'
+        }
+      ]
+    },
+    {
+      code: `import {Box} from "@primer/components"; <Box sx={{boxShadow: theme => \`0 1px 2px \${theme.colors.text.primary}\`}} />`,
+      output: `import {Box} from "@primer/components"; <Box sx={{boxShadow: theme => \`0 1px 2px \${theme.colors.fg.default}\`}} />`,
+      errors: [
+        {
+          message: '"theme.colors.text.primary" is deprecated. Use "theme.colors.fg.default" instead.'
+        }
+      ]
+    },
+    {
+      code: `import {Box} from "@primer/components"; <Box sx={{boxShadow: t => \`0 1px 2px \${t.colors.text.primary}\`}} />`,
+      output: `import {Box} from "@primer/components"; <Box sx={{boxShadow: t => \`0 1px 2px \${t.colors.fg.default}\`}} />`,
+      errors: [
+        {
+          message: '"t.colors.text.primary" is deprecated. Use "t.colors.fg.default" instead.'
+        }
+      ]
+    },
+    {
+      code: `import {Box} from "@primer/components"; <Box sx={{"&:hover": {bg: "bg.primary"}}} />`,
+      output: `import {Box} from "@primer/components"; <Box sx={{"&:hover": {bg: "canvas.default"}}} />`,
+      errors: [
+        {
+          message: '"bg.primary" is deprecated. Use "canvas.default" instead.'
+        }
+      ]
+    },
+    {
       code: `import {Box} from "@primer/components"; <Box color="auto.green.5" />`,
       errors: [
         {
