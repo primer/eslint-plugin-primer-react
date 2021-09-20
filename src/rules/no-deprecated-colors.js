@@ -11,8 +11,11 @@ module.exports = {
   create(context) {
     return {
       JSXOpeningElement(node) {
+        const options = context.options[0] || {}
+        const ignoreImport = options.ignoreImport || false
+
         // Skip if component was not imported from @primer/components
-        if (!isPrimerComponent(node.name, context.getScope(node))) {
+        if (!ignoreImport && !isPrimerComponent(node.name, context.getScope(node))) {
           return
         }
 
