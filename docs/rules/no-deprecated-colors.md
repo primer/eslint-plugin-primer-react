@@ -42,10 +42,10 @@ const ThemeGetExample = styled.div`
 
 ## Options
 
-- `checkImport` (default: `true`)
+- `skipImportCheck` (default: `false`)
 
-  By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/components`. You can disable this behavior by setting `checkImport` to `false`. This is useful for linting custom components that that pass color-related props down to Primer React components.
+  By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/components`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that that pass color-related props down to Primer React components.
 
   ```
-  "primer-react/no-deprecated-colors": ["warn", {"checkImport": false}]
+  "primer-react/no-deprecated-colors": ["warn", {"skipImportCheck": true}]
   ```

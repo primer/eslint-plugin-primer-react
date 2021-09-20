@@ -10,7 +10,7 @@ module.exports = {
       {
         type: 'object',
         properties: {
-          checkImport: {
+          skipImportCheck: {
             type: 'boolean'
           }
         },
@@ -19,14 +19,14 @@ module.exports = {
     ]
   },
   create(context) {
-    // If `shouldCheckImport` is true, this rule will only check for deprecated colors
-    // used in functions and components that are imported from `@primer/components`.
-    const shouldCheckImport = context.options[0] ? context.options[0].checkImport : true
+    // If `skipImportCheck` is true, this rule will check for deprecated colors
+    // used in any components (not just ones that are imported from `@primer/components`).
+    const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
 
     return {
       JSXOpeningElement(node) {
         // Skip if component was not imported from @primer/components
-        if (shouldCheckImport && !isPrimerComponent(node.name, context.getScope(node))) {
+        if (!skipImportCheck && !isPrimerComponent(node.name, context.getScope(node))) {
           return
         }
 
@@ -65,7 +65,7 @@ module.exports = {
         // Skip if not calling the `themeGet` or `get` function
         // `get` is the internal version of `themeGet` that's used in the primer/react repository
         if (
-          !isThemeGet(node.callee, context.getScope(node), shouldCheckImport) &&
+          !isThemeGet(node.callee, context.getScope(node), skipImportCheck) &&
           !isGet(node.callee, context.getScope(node))
         ) {
           return
@@ -113,8 +113,8 @@ function isPrimerComponent(identifier, scope) {
   return isImportedFrom(/^@primer\/components/, identifier, scope)
 }
 
-function isThemeGet(identifier, scope, shouldCheckImport = true) {
-  if (shouldCheckImport) {
+function isThemeGet(identifier, scope, skipImportCheck = false) {
+  if (!skipImportCheck) {
     return isImportedFrom(/^@primer\/components/, identifier, scope) && identifier.name === 'themeGet'
   }
 

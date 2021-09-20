@@ -46,7 +46,7 @@ ruleTester.run('no-deprecated-colors', rule, {
     {
       code: `import {Box} from "../components"; function Example() { return <Box color="text.primary">Hello</Box> }`,
       output: `import {Box} from "../components"; function Example() { return <Box color="fg.default">Hello</Box> }`,
-      options: [{checkImport: false}],
+      options: [{skipImportCheck: true}],
       errors: [
         {
           message: '"text.primary" is deprecated. Use "fg.default" instead.'
