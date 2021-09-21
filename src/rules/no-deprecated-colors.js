@@ -25,6 +25,11 @@ module.exports = {
     const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
 
     return {
+      Literal(node) {
+        if (Object.keys(deprecations).includes(node.value)) {
+          replaceDeprecatedColor(context, node, node.value)
+        }
+      },
       JSXOpeningElement(node) {
         // Skip if component was not imported from @primer/components
         if (!skipImportCheck && !isPrimerComponent(node.name, context.getScope(node))) {
@@ -43,15 +48,15 @@ module.exports = {
           if (propName === 'sx' && attribute.value.expression.type === 'ObjectExpression') {
             // Search all properties of the sx object (even nested properties)
             traverse(context, attribute.value, path => {
-              if (path.node.type === 'Property' && path.node.value.type === 'Literal') {
-                const prop = path.node
-                const propName = prop.key.name
-                const propValue = prop.value.value
+              // if (path.node.type === 'Property' && path.node.value.type === 'Literal') {
+              //   const prop = path.node
+              //   const propName = prop.key.name
+              //   const propValue = prop.value.value
 
-                if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
-                  replaceDeprecatedColor(context, prop.value, propValue)
-                }
-              }
+              //   if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
+              //     replaceDeprecatedColor(context, prop.value, propValue)
+              //   }
+              // }
 
               // Check functions passed to sx object properties
               // (e.g. boxShadow: theme => `0 1px 2px ${theme.colors.text.primary}` )
@@ -84,9 +89,9 @@ module.exports = {
           }
 
           // Check if styled-system color prop is using a deprecated color
-          if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
-            replaceDeprecatedColor(context, attribute.value, propValue)
-          }
+          // if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
+          //   replaceDeprecatedColor(context, attribute.value, propValue)
+          // }
         }
       },
       CallExpression(node) {
