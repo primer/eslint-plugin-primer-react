@@ -19,6 +19,8 @@ const SystemPropExample() = () => <Box color="some.deprecated.color">Incorrect</
 
 const SxPropExample() = () => <Box sx={{color: 'some.deprecated.color'}}>Incorrect</Box>
 
+const SxPropExample2() = () => <Box sx={{boxShadow: theme => `0 1px 2px ${theme.colors.some.deprecated.color}`}}>Incorrect</Box>
+
 const ThemeGetExample = styled.div`
   color: ${themeGet('colors.some.deprecated.color')};
 `
@@ -31,9 +33,11 @@ const ThemeGetExample = styled.div`
 import {Box, themeGet} from '@primer/components'
 import styled from 'styled-components'
 
-const SystemPropExample() = () => <Box color="some.color">Incorrect</Box>
+const SystemPropExample() = () => <Box color="some.color">Correct</Box>
 
-const SxPropExample() = () => <Box sx={{color: 'some.color'}}>Incorrect</Box>
+const SxPropExample() = () => <Box sx={{color: 'some.color'}}>Correct</Box>
+
+const SxPropExample2() = () => <Box sx={{boxShadow: theme => `0 1px 2px ${theme.colors.some.color}`}}>Correct</Box>
 
 const ThemeGetExample = styled.div`
   color: ${themeGet('colors.some.color')};
@@ -46,7 +50,33 @@ const ThemeGetExample = styled.div`
 
   By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/components`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass color-related props down to Primer React components.
 
+  ```js
+  /* eslint primer-react/no-deprecated-colors: ["warn", {"skipImportCheck": true}] */
+  import {Box} from '@primer/components'
 
+  function MyBox({color, children}) {
+    return <Box color={color}>{children}</Box>
+  }
+
+  function App() {
+    // Enabling `skipImportCheck` will find deprecated colors used like this:
+    return <MyBox color="text.primary">Hello</MyBox>
+  }
   ```
-  "primer-react/no-deprecated-colors": ["warn", {"skipImportCheck": true}]
+
+- `checkAllStrings` (default: `false`)
+
+  If `checkAllStrings` is set to `true`, the `no-deprecated-colors` rule will check for deprecated colors in all strings. This is useful for catching uses of deprecated colors outside system props and the `sx` prop.
+
+  ```js
+  /* eslint primer-react/no-deprecated-colors: ["warn", {"checkAllStrings": true}] */
+  import {Box} from '@primer/components'
+
+  function ExampleComponent() {
+    const styles = {
+      // Enabling `checkAllStrings` will find deprecated colors used like this:
+      color: 'text.primary'
+    }
+    return <Box sx={styles}>Hello</Box>
+  }
   ```
