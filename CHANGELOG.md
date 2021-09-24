@@ -1,5 +1,26 @@
 # eslint-plugin-primer-react
 
+## 0.5.0
+
+### Minor Changes
+
+- [#10](https://github.com/primer/eslint-plugin-primer-react/pull/10) [`31d069b`](https://github.com/primer/eslint-plugin-primer-react/commit/31d069b0d210c53862de30757ecdfd2222e098b5) Thanks [@colebemis](https://github.com/colebemis)! - Add a `checkAllStrings` option to the `no-deprecated-colors` rule.
+
+  If `checkAllStrings` is set to `true`, the `no-deprecated-colors` rule will check for deprecated colors in all strings. This is useful for catching uses of deprecated colors outside system props and the `sx` prop.
+
+  ```js
+  /* eslint primer-react/no-deprecated-colors: ["warn", {"checkAllStrings": true}] */
+  import {Box} from '@primer/components'
+
+  function ExampleComponent() {
+    const styles = {
+      // Enabling `checkAllStrings` will find deprecated colors used like this:
+      color: 'text.primary'
+    }
+    return <Box sx={styles}>Hello</Box>
+  }
+  ```
+
 ## 0.4.2
 
 ### Patch Changes
