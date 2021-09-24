@@ -23,7 +23,7 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('no-deprecated-colors', rule, {
   valid: [
-    // `import {Box} from '@other/design-system'; <Box color="text.primary">Hello</Box>`,
+    `import {Box} from '@other/design-system'; <Box color="text.primary">Hello</Box>`,
     `import {Box} from "@primer/components"; <Box color="fg.default">Hello</Box>`,
     `import {hello} from "@primer/components"; hello("colors.text.primary")`,
     `import {themeGet} from "@primer/components"; themeGet("space.text.primary")`,
@@ -31,12 +31,14 @@ ruleTester.run('no-deprecated-colors', rule, {
     `import {get} from "@other/constants"; get("space.text.primary")`,
     `import {Box} from '@primer/components'; <Box sx={styles}>Hello</Box>`,
     `import {Box} from '@primer/components'; <Box sx={{color: text.primary}}>Hello</Box>`,
-    `import {Box} from '@primer/components'; <Box sx={{color: "fg.default"}}>Hello</Box>`
+    `import {Box} from '@primer/components'; <Box sx={{color: "fg.default"}}>Hello</Box>`,
+    `{color: 'text.primary'}`
   ],
   invalid: [
     {
       code: `{color: 'text.primary'}`,
       output: `{color: "fg.default"}`,
+      options: [{checkAllStrings: true}],
       errors: [
         {
           message: '"text.primary" is deprecated. Use "fg.default" instead.'

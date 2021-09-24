@@ -13,6 +13,9 @@ module.exports = {
         properties: {
           skipImportCheck: {
             type: 'boolean'
+          },
+          checkAllStrings: {
+            type: 'boolean'
           }
         },
         additionalProperties: false
@@ -24,9 +27,14 @@ module.exports = {
     // used in any components (not just ones that are imported from `@primer/components`).
     const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
 
+    const checkAllStrings = context.options[0] ? context.options[0].checkAllStrings : false
+
+    // Track visited string literals to avoid reporting the same string multiple times
+    const visitedStrings = new Set()
+
     return {
       Literal(node) {
-        if (Object.keys(deprecations).includes(node.value)) {
+        if (checkAllStrings && Object.keys(deprecations).includes(node.value) && !visitedStrings.has(node)) {
           replaceDeprecatedColor(context, node, node.value)
         }
       },
@@ -48,15 +56,16 @@ module.exports = {
           if (propName === 'sx' && attribute.value.expression.type === 'ObjectExpression') {
             // Search all properties of the sx object (even nested properties)
             traverse(context, attribute.value, path => {
-              // if (path.node.type === 'Property' && path.node.value.type === 'Literal') {
-              //   const prop = path.node
-              //   const propName = prop.key.name
-              //   const propValue = prop.value.value
+              if (path.node.type === 'Property' && path.node.value.type === 'Literal') {
+                const prop = path.node
+                const propName = prop.key.name
+                const propValue = prop.value.value
 
-              //   if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
-              //     replaceDeprecatedColor(context, prop.value, propValue)
-              //   }
-              // }
+                if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
+                  replaceDeprecatedColor(context, prop.value, propValue)
+                  visitedStrings.add(prop.value)
+                }
+              }
 
               // Check functions passed to sx object properties
               // (e.g. boxShadow: theme => `0 1px 2px ${theme.colors.text.primary}` )
@@ -89,9 +98,10 @@ module.exports = {
           }
 
           // Check if styled-system color prop is using a deprecated color
-          // if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
-          //   replaceDeprecatedColor(context, attribute.value, propValue)
-          // }
+          if (styledSystemColorProps.includes(propName) && Object.keys(deprecations).includes(propValue)) {
+            replaceDeprecatedColor(context, attribute.value, propValue)
+            visitedStrings.add(attribute.value)
+          }
         }
       },
       CallExpression(node) {
