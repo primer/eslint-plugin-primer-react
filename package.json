@@ -34,6 +34,8 @@
   },
   "prettier": "@github/prettier-config",
   "dependencies": {
-    "eslint-traverse": "^1.0.0"
+    "@styled-system/props": "^5.1.5",
+    "eslint-traverse": "^1.0.0",
+    "styled-system": "^5.1.5"
   }
 }
