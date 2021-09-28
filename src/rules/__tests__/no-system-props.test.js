@@ -17,7 +17,7 @@ ruleTester.run('no-system-props', rule, {
     `import {Button} from 'coles-cool-design-system'; <Button width={200} />`,
     `import {Button} from '@primer/components'; <Button someOtherProp="foo" />`,
     `import {Box} from '@primer/components'; <Box width={200} />`,
-    `import {TextInput} from '@primer/components'; <TextInput width={200} />`
+    `import {ProgressBar} from '@primer/components'; <ProgressBar bg="howdy" />`
   ],
   invalid: [
     {
