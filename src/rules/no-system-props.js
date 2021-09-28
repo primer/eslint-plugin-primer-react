@@ -79,5 +79,5 @@ const stylesMapfromSxProp = sxProp => {
 }
 
 const stylesMapFromPropNodes = (badProps, context) => {
-  return new Map(badProps.map(a => [a.name.name, a.value.raw ?? context.getSourceCode().getText(a.value.expression)]))
+  return new Map(badProps.map(a => [a.name.name, a.value.raw || context.getSourceCode().getText(a.value.expression)]))
 }
