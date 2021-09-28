@@ -2,7 +2,6 @@ const deprecations = require('@primer/primitives/dist/deprecations/colors')
 const traverse = require('eslint-traverse')
 const {isImportedFrom} = require('../utils/isImportedFrom')
 const {isPrimerComponent} = require('../utils/isPrimerComponent')
-const {getVariableDeclaration} = require('../utils/getVariableDeclaration')
 
 const styledSystemColorProps = ['color', 'bg', 'backgroundColor', 'borderColor', 'textShadow', 'boxShadow']
 
@@ -177,7 +176,7 @@ function replaceDeprecatedColor(
       node,
       message: `"${transformName(deprecatedName)}" is deprecated. Use "${transformName(replacement)}" instead.`,
       fix(fixer) {
-        // return fixer.replaceText(node, transformReplacementValue(transformName(replacement)))
+        return fixer.replaceText(node, transformReplacementValue(transformName(replacement)))
       }
     })
   }
