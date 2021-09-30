@@ -6,7 +6,12 @@ const {some, last} = require('lodash')
 const excludedComponents = new Set(['Box', 'Text'])
 
 // Components for which we allow a set of prop names
-const excludedComponentProps = new Map([['ProgressBar', new Set(['bg'])]])
+const excludedComponentProps = new Map([
+  ['Avatar', new Set(['size'])],
+  ['Label', new Set(['variant'])],
+  ['ProgressBar', new Set(['bg'])],
+  ['Spinner', new Set(['size'])]
+])
 
 module.exports = {
   meta: {
@@ -100,7 +105,12 @@ const objectEntriesStringFromStylesMap = styles => {
 
 // Given an array of styled prop attributes, return a mapping from attribute to expression
 const stylesMapFromPropNodes = (badProps, context) => {
-  return new Map(badProps.map(a => [a.name.name, a.value.raw || context.getSourceCode().getText(a.value.expression)]))
+  return new Map(
+    badProps.map(a => [
+      a.name.name,
+      a.value === null ? 'true' : a.value.raw || context.getSourceCode().getText(a.value.expression)
+    ])
+  )
 }
 
 // Given a style map and an existing sx prop, return a style map containing
