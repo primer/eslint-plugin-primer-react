@@ -1,5 +1,6 @@
 const {isPrimerComponent} = require('../utils/isPrimerComponent')
 const {pick} = require('@styled-system/props')
+const {some, last} = require('lodash')
 
 // Components for which we allow all styled system props
 const excludedComponents = new Set(['Box', 'Text'])
@@ -13,7 +14,7 @@ module.exports = {
     fixable: 'code',
     schema: [],
     messages: {
-      noSystemProps: 'Styled-system props are deprecated ({{ propNames }})'
+      noSystemProps: 'Styled-system props are deprecated ({{componentName}} called with props: {{ propNames }})'
     }
   },
   create(context) {
@@ -22,13 +23,20 @@ module.exports = {
         if (!isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
         if (excludedComponents.has(jsxNode.name.name)) return
 
-        const propsByNameMap = jsxNode.attributes.reduce((prev, cur) => {
-          prev[cur.name.name] = cur
-          return prev
+        // Create an object mapping from prop name to the AST node for that attribute
+        const propsByNameObject = jsxNode.attributes.reduce((object, cur) => {
+          // We don't do anything about spreads for now — only named attributes:
+          if (cur.type === 'JSXAttribute') {
+            object[cur.name.name] = cur
+          }
+
+          return object
         }, {})
 
-        let badProps = Object.values(pick(propsByNameMap))
+        // Create an array of bad prop attribute nodes
+        let badProps = Object.values(pick(propsByNameObject))
 
+        // Filter out our exceptional props
         badProps = badProps.filter(prop => {
           const excludedProps = excludedComponentProps.get(jsxNode.name.name)
           if (!excludedProps) {
@@ -42,25 +50,37 @@ module.exports = {
             node: jsxNode,
             messageId: 'noSystemProps',
             data: {
+              componentName: jsxNode.name.name,
               propNames: badProps.map(a => a.name.name).join(', ')
             },
             fix(fixer) {
-              const existingSxProp = jsxNode.attributes.find(attribute => attribute.name.name === 'sx')
+              const existingSxProp = jsxNode.attributes.find(
+                attribute => attribute.type === 'JSXAttribute' && attribute.name.name === 'sx'
+              )
               const badPropStylesMap = stylesMapFromPropNodes(badProps, context)
               if (existingSxProp && existingSxProp.value.expression.type !== 'ObjectExpression') {
                 return
               }
+
+              const stylesToAdd = existingSxProp
+                ? excludeSxEntriesFromStyleMap(badPropStylesMap, existingSxProp)
+                : badPropStylesMap
+
               return [
+                // Remove the bad props:
                 ...badProps.map(node => fixer.remove(node)),
-                existingSxProp
-                  ? fixer.replaceText(
-                      existingSxProp,
-                      sxPropTextFromStylesMap(new Map([...badPropStylesMap, ...stylesMapfromSxProp(existingSxProp)]))
-                    )
-                  : fixer.insertTextAfter(
-                      jsxNode.attributes[jsxNode.attributes.length - 1],
-                      sxPropTextFromStylesMap(badPropStylesMap)
-                    )
+                ...(stylesToAdd.size > 0
+                  ? [
+                      existingSxProp
+                        ? // Update an existing sx prop:
+                          fixer.insertTextAfter(
+                            last(existingSxProp.value.expression.properties),
+                            `, ${objectEntriesStringFromStylesMap(stylesToAdd)}`
+                          )
+                        : // Insert new sx prop
+                          fixer.insertTextAfter(last(jsxNode.attributes), sxPropTextFromStylesMap(badPropStylesMap))
+                    ]
+                  : [])
               ]
             }
           })
@@ -71,13 +91,31 @@ module.exports = {
 }
 
 const sxPropTextFromStylesMap = styles => {
-  return `sx={{${[...styles].map(([name, value]) => `${name}: ${value}`).join(', ')}}}`
+  return `sx={{${objectEntriesStringFromStylesMap(styles)}}}`
 }
 
-const stylesMapfromSxProp = sxProp => {
-  return new Map(sxProp.value.expression.properties.map(prop => [prop.key.name, prop.value.raw]))
+const objectEntriesStringFromStylesMap = styles => {
+  return [...styles].map(([name, value]) => `${name}: ${value}`).join(', ')
 }
 
+// Given an array of styled prop attributes, return a mapping from attribute to expression
 const stylesMapFromPropNodes = (badProps, context) => {
   return new Map(badProps.map(a => [a.name.name, a.value.raw || context.getSourceCode().getText(a.value.expression)]))
+}
+
+// Given a style map and an existing sx prop, return a style map containing
+// only the entries that aren't already overridden by an sx object entry
+const excludeSxEntriesFromStyleMap = (stylesMap, sxProp) => {
+  if (
+    !sxProp.value ||
+    sxProp.value.type !== 'JSXExpressionContainer' ||
+    sxProp.value.expression.type != 'ObjectExpression'
+  ) {
+    return stylesMap
+  }
+  return new Map(
+    [...stylesMap].filter(([key, _value]) => {
+      return !some(sxProp.value.expression.properties, p => p.type === 'Property' && p.key.name === key)
+    })
+  )
 }
