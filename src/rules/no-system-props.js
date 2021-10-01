@@ -14,6 +14,7 @@ const excludedComponentProps = new Map([
   ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Avatar', new Set(['size'])],
   ['Dialog', new Set(['width', 'height'])],
+  ['Flash', new Set(['variant'])],
   ['Label', new Set(['variant'])],
   ['ProgressBar', new Set(['bg'])],
   ['Spinner', new Set(['size'])],
@@ -26,7 +27,7 @@ module.exports = {
     fixable: 'code',
     schema: [],
     messages: {
-      noSystemProps: 'Styled-system props are deprecated ({{componentName}} called with props: {{ propNames }})'
+      noSystemProps: 'Styled-system props are deprecated ({{ componentName }} called with props: {{ propNames }})'
     }
   },
   create(context) {
@@ -36,20 +37,20 @@ module.exports = {
         if (excludedComponents.has(jsxNode.name.name)) return
 
         // Create an object mapping from prop name to the AST node for that attribute
-        const propsByNameObject = jsxNode.attributes.reduce((object, cur) => {
-          // We don't do anything about spreads for now — only named attributes:
-          if (cur.type === 'JSXAttribute') {
-            object[cur.name.name] = cur
+        const propsByNameObject = jsxNode.attributes.reduce((object, attribute) => {
+          // We don't do anything about spreads for now — only named attributes
+          if (attribute.type === 'JSXAttribute') {
+            object[attribute.name.name] = attribute
           }
 
           return object
         }, {})
 
-        // Create an array of bad prop attribute nodes
-        let badProps = Object.values(pick(propsByNameObject))
+        // Create an array of system prop attribute nodes
+        let systemProps = Object.values(pick(propsByNameObject))
 
         // Filter out our exceptional props
-        badProps = badProps.filter(prop => {
+        systemProps = systemProps.filter(prop => {
           const excludedProps = excludedComponentProps.get(jsxNode.name.name)
           if (!excludedProps) {
             return true
@@ -57,40 +58,40 @@ module.exports = {
           return !excludedProps.has(prop.name.name)
         })
 
-        if (badProps.length !== 0) {
+        if (systemProps.length !== 0) {
           context.report({
             node: jsxNode,
             messageId: 'noSystemProps',
             data: {
               componentName: jsxNode.name.name,
-              propNames: badProps.map(a => a.name.name).join(', ')
+              propNames: systemProps.map(a => a.name.name).join(', ')
             },
             fix(fixer) {
               const existingSxProp = jsxNode.attributes.find(
                 attribute => attribute.type === 'JSXAttribute' && attribute.name.name === 'sx'
               )
-              const badPropStylesMap = stylesMapFromPropNodes(badProps, context)
+              const systemPropstylesMap = stylesMapFromPropNodes(systemProps, context)
               if (existingSxProp && existingSxProp.value.expression.type !== 'ObjectExpression') {
                 return
               }
 
               const stylesToAdd = existingSxProp
-                ? excludeSxEntriesFromStyleMap(badPropStylesMap, existingSxProp)
-                : badPropStylesMap
+                ? excludeSxEntriesFromStyleMap(systemPropstylesMap, existingSxProp)
+                : systemPropstylesMap
 
               return [
-                // Remove the bad props:
-                ...badProps.map(node => fixer.remove(node)),
+                // Remove the bad props
+                ...systemProps.map(node => fixer.remove(node)),
                 ...(stylesToAdd.size > 0
                   ? [
                       existingSxProp
-                        ? // Update an existing sx prop:
+                        ? // Update an existing sx prop
                           fixer.insertTextAfter(
                             last(existingSxProp.value.expression.properties),
                             `, ${objectEntriesStringFromStylesMap(stylesToAdd)}`
                           )
                         : // Insert new sx prop
-                          fixer.insertTextAfter(last(jsxNode.attributes), sxPropTextFromStylesMap(badPropStylesMap))
+                          fixer.insertTextAfter(last(jsxNode.attributes), sxPropTextFromStylesMap(systemPropstylesMap))
                     ]
                   : [])
               ]
@@ -111,9 +112,9 @@ const objectEntriesStringFromStylesMap = styles => {
 }
 
 // Given an array of styled prop attributes, return a mapping from attribute to expression
-const stylesMapFromPropNodes = (badProps, context) => {
+const stylesMapFromPropNodes = (systemProps, context) => {
   return new Map(
-    badProps.map(a => [
+    systemProps.map(a => [
       a.name.name,
       a.value === null ? 'true' : a.value.raw || context.getSourceCode().getText(a.value.expression)
     ])
