@@ -7,6 +7,7 @@ module.exports = {
   },
   plugins: ['primer-react'],
   rules: {
-    'primer-react/no-deprecated-colors': 'warn'
+    'primer-react/no-deprecated-colors': 'warn',
+    'primer-react/no-system-props': 'warn'
   }
 }
