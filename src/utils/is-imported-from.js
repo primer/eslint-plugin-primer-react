@@ -1,4 +1,4 @@
-const {getVariableDeclaration} = require('./getVariableDeclaration')
+const {getVariableDeclaration} = require('./get-variable-declaration')
 
 /**
  * Check if the given identifier is imported from the given module

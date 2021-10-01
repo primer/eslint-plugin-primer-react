@@ -6,7 +6,7 @@
 
 ## Rule details
 
-This rule disallows the use of any styled-system prop on Primer components.
+This rule disallows the use of any styled-system prop on Primer components, as the `sx` prop is now the prefered way to apply additional styling.
 
 \*The two non-deprecated utility components (`Box` and `Text`) are allowed to use system props.
 

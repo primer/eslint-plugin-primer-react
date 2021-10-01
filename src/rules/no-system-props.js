@@ -1,4 +1,4 @@
-const {isPrimerComponent} = require('../utils/isPrimerComponent')
+const {isPrimerComponent} = require('../utils/is-primer-component')
 const {pick} = require('@styled-system/props')
 const {some, last} = require('lodash')
 
