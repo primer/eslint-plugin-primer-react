@@ -7,10 +7,13 @@ const excludedComponents = new Set(['Box', 'Text'])
 
 // Components for which we allow a set of prop names
 const excludedComponentProps = new Map([
+  ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Avatar', new Set(['size'])],
+  ['Dialog', new Set(['width', 'height'])],
   ['Label', new Set(['variant'])],
   ['ProgressBar', new Set(['bg'])],
-  ['Spinner', new Set(['size'])]
+  ['Spinner', new Set(['size'])],
+  ['StyledOcticon', new Set(['size'])]
 ])
 
 module.exports = {
@@ -96,7 +99,7 @@ module.exports = {
 }
 
 const sxPropTextFromStylesMap = styles => {
-  return `sx={{${objectEntriesStringFromStylesMap(styles)}}}`
+  return ` sx={{${objectEntriesStringFromStylesMap(styles)}}}`
 }
 
 const objectEntriesStringFromStylesMap = styles => {

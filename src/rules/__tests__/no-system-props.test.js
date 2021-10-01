@@ -23,7 +23,7 @@ ruleTester.run('no-system-props', rule, {
   invalid: [
     {
       code: `import {Button} from '@primer/components'; <Button width={200} />`,
-      output: `import {Button} from '@primer/components'; <Button sx={{width: 200}} />`,
+      output: `import {Button} from '@primer/components'; <Button  sx={{width: 200}} />`,
       errors: [
         {
           messageId: 'noSystemProps',
@@ -33,7 +33,7 @@ ruleTester.run('no-system-props', rule, {
     },
     {
       code: `import {Button} from '@primer/components'; <Button width="200" />`,
-      output: `import {Button} from '@primer/components'; <Button sx={{width: "200"}} />`,
+      output: `import {Button} from '@primer/components'; <Button  sx={{width: "200"}} />`,
       errors: [
         {
           messageId: 'noSystemProps',
@@ -43,7 +43,7 @@ ruleTester.run('no-system-props', rule, {
     },
     {
       code: `import {Button} from '@primer/components'; <Button width={"200"} />`,
-      output: `import {Button} from '@primer/components'; <Button sx={{width: "200"}} />`,
+      output: `import {Button} from '@primer/components'; <Button  sx={{width: "200"}} />`,
       errors: [
         {
           messageId: 'noSystemProps',
@@ -53,7 +53,7 @@ ruleTester.run('no-system-props', rule, {
     },
     {
       code: `import {Button} from '@primer/components'; <Button width={myWidth} />`,
-      output: `import {Button} from '@primer/components'; <Button sx={{width: myWidth}} />`,
+      output: `import {Button} from '@primer/components'; <Button  sx={{width: myWidth}} />`,
       errors: [
         {
           messageId: 'noSystemProps',
@@ -63,7 +63,7 @@ ruleTester.run('no-system-props', rule, {
     },
     {
       code: `import {Button} from '@primer/components'; <Button width={200} height={100} />`,
-      output: `import {Button} from '@primer/components'; <Button  sx={{width: 200, height: 100}} />`,
+      output: `import {Button} from '@primer/components'; <Button   sx={{width: 200, height: 100}} />`,
       errors: [
         {
           messageId: 'noSystemProps',
@@ -108,6 +108,16 @@ ruleTester.run('no-system-props', rule, {
         {
           messageId: 'noSystemProps',
           data: {propNames: 'width', componentName: 'Button'}
+        }
+      ]
+    },
+    {
+      code: `import {Label} from '@primer/components'; <Label width={200} outline />`,
+      output: `import {Label} from '@primer/components'; <Label  outline sx={{width: 200}} />`,
+      errors: [
+        {
+          messageId: 'noSystemProps',
+          data: {propNames: 'width', componentName: 'Label'}
         }
       ]
     }
