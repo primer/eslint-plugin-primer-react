@@ -3,7 +3,11 @@ const {pick} = require('@styled-system/props')
 const {some, last} = require('lodash')
 
 // Components for which we allow all styled system props
-const excludedComponents = new Set(['Box', 'Text'])
+const excludedComponents = new Set([
+  'Box',
+  'Text',
+  'BaseStyles' // BaseStyles will be deprecated eventually
+])
 
 // Components for which we allow a set of prop names
 const excludedComponentProps = new Map([
