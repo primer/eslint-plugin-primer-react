@@ -1,4 +1,4 @@
-const deprecations = require('@primer/primitives/dist/deprecations/colors')
+const deprecations = require('@primer/primitives/dist/removed/colors')
 const traverse = require('eslint-traverse')
 const {isImportedFrom} = require('../utils/isImportedFrom')
 const {isPrimerComponent} = require('../utils/isPrimerComponent')
