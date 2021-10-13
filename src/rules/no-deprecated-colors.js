@@ -1,7 +1,7 @@
 const deprecations = require('@primer/primitives/dist/removed/colors')
 const traverse = require('eslint-traverse')
-const {isImportedFrom} = require('../utils/isImportedFrom')
-const {isPrimerComponent} = require('../utils/isPrimerComponent')
+const {isImportedFrom} = require('../utils/is-imported-from')
+const {isPrimerComponent} = require('../utils/is-primer-component')
 
 const styledSystemColorProps = ['color', 'bg', 'backgroundColor', 'borderColor', 'textShadow', 'boxShadow']
 
