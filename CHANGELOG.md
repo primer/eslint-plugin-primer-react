@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 0.6.0
+
+### Minor Changes
+
+- [#12](https://github.com/primer/eslint-plugin-primer-react/pull/12) [`df26962`](https://github.com/primer/eslint-plugin-primer-react/commit/df269623f3430066ea6440042da13932e3e35bc4) Thanks [@jfuchs](https://github.com/jfuchs)! - Added a no-system-props rule
+
 ## 0.5.0
 
 ### Minor Changes
