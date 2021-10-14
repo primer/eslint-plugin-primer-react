@@ -1,15 +1,19 @@
 const rule = require('../no-deprecated-colors')
 const {RuleTester} = require('eslint')
 
-const testDeprecations = {
+const deprecatedVars = {
   'text.primary': 'fg.default',
   'bg.primary': 'canvas.default',
-  'auto.green.5': ['success.fg', 'success.emphasis'],
+  'auto.green.5': ['success.fg', 'success.emphasis']
+}
+
+const removedVars = {
   'fade.fg10': null,
   'autocomplete.shadow': 'shadow.medium'
 }
 
-jest.mock('@primer/primitives/dist/removed/colors', () => testDeprecations)
+jest.mock('@primer/primitives/dist/deprecated/colors', () => deprecatedVars)
+jest.mock('@primer/primitives/dist/removed/colors', () => removedVars)
 
 const ruleTester = new RuleTester({
   parserOptions: {
