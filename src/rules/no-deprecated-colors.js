@@ -1,9 +1,11 @@
-const deprecations = require('@primer/primitives/dist/removed/colors')
+const deprecatedVars = require('@primer/primitives/dist/deprecated/colors')
+const removedVars = require('@primer/primitives/dist/removed/colors')
 const traverse = require('eslint-traverse')
 const {isImportedFrom} = require('../utils/is-imported-from')
 const {isPrimerComponent} = require('../utils/is-primer-component')
 
 const styledSystemColorProps = ['color', 'bg', 'backgroundColor', 'borderColor', 'textShadow', 'boxShadow']
+const deprecations = {...deprecatedVars, ...removedVars}
 
 module.exports = {
   meta: {
