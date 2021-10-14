@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 0.6.1
+
+### Patch Changes
+
+- [#15](https://github.com/primer/eslint-plugin-primer-react/pull/15) [`9b96147`](https://github.com/primer/eslint-plugin-primer-react/commit/9b961478993972a584428d13c5bb792635c2c622) Thanks [@colebemis](https://github.com/colebemis)! - The `no-deprecated-colors` now warns about deprecated _and_ removed color variables
+
 ## 0.6.0
 
 ### Minor Changes
