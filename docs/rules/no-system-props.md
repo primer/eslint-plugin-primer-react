@@ -38,3 +38,19 @@ import {Avatar} from 'some-other-library'
 // System props passed to non-Primer components are allowed
 <Avatar mr={2} />
 ```
+
+## Options
+
+- `includeUtilityComponents` (default: `false`)
+
+  By default, `Box` and `Text` are excluded because styled system props are not deprecated in our utility components. If you prefer to avoid styled system props there as well for consistency, you can set `includeUtilityComponents` to `true`.
+
+  ```js
+  /* eslint primer-react/no-system-props: ["warn", {"includeUtilityComponents": true}] */
+  import {Box} from '@primer/components'
+
+  function App() {
+    // Enabling `includeUtilityComponents` will find system prop usage on utility components like this:
+    return <Box width={200} />
+  }
+  ```

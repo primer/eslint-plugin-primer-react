@@ -12,7 +12,7 @@ ESLint rules for Primer React
    npm install --save-dev eslint-plugin-primer-react
 
    # or
-   
+
    yarn add --dev eslint-plugin-primer-react
    ```
 
@@ -30,3 +30,4 @@ ESLint rules for Primer React
 ## Rules
 
 - [no-deprecated-colors](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-colors.md)
+- [no-system-props](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-system-props.md)
