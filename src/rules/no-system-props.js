@@ -3,11 +3,12 @@ const {pick} = require('@styled-system/props')
 const {some, last} = require('lodash')
 
 // Components for which we allow all styled system props
-const excludedComponents = new Set([
-  'Box',
-  'Text',
+const alwaysExcludedComponents = new Set([
   'BaseStyles' // BaseStyles will be deprecated eventually
 ])
+
+// Excluded by default, but optionally included:
+const utilityComponents = new Set(['Box', 'Text'])
 
 // Components for which we allow a set of prop names
 const excludedComponentProps = new Map([
@@ -25,12 +26,27 @@ module.exports = {
   meta: {
     type: 'suggestion',
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        properties: {
+          includeUtilityComponents: {
+            type: 'boolean'
+          }
+        }
+      }
+    ],
     messages: {
       noSystemProps: 'Styled-system props are deprecated ({{ componentName }} called with props: {{ propNames }})'
     }
   },
   create(context) {
+    const includeUtilityComponents = context.options[0] ? context.options[0].includeUtilityComponents : false
+
+    const excludedComponents = new Set([
+      ...alwaysExcludedComponents,
+      ...(includeUtilityComponents ? [] : utilityComponents)
+    ])
+
     return {
       JSXOpeningElement(jsxNode) {
         if (!isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return

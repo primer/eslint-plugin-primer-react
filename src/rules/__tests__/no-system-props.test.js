@@ -120,6 +120,28 @@ ruleTester.run('no-system-props', rule, {
           data: {propNames: 'width', componentName: 'Label'}
         }
       ]
+    },
+    {
+      code: `import {Box} from '@primer/components'; <Box width={200} />`,
+      output: `import {Box} from '@primer/components'; <Box  sx={{width: 200}} />`,
+      options: [{includeUtilityComponents: true}],
+      errors: [
+        {
+          messageId: 'noSystemProps',
+          data: {propNames: 'width', componentName: 'Box'}
+        }
+      ]
+    },
+    {
+      code: `import {Text} from '@primer/components'; <Text width={200} />`,
+      output: `import {Text} from '@primer/components'; <Text  sx={{width: 200}} />`,
+      options: [{includeUtilityComponents: true}],
+      errors: [
+        {
+          messageId: 'noSystemProps',
+          data: {propNames: 'width', componentName: 'Text'}
+        }
+      ]
     }
   ]
 })
