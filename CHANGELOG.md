@@ -1,5 +1,13 @@
 # eslint-plugin-primer-react
 
+## 0.7.0
+
+### Minor Changes
+
+- [#18](https://github.com/primer/eslint-plugin-primer-react/pull/18) [`f0c7a3d`](https://github.com/primer/eslint-plugin-primer-react/commit/f0c7a3d1ab1d60df2c95b86c80d930d6ef15bde1) Thanks [@jfuchs](https://github.com/jfuchs)! - Introduced an option on no-system-props to include utility components (includeUtilityComponents).
+
+* [#20](https://github.com/primer/eslint-plugin-primer-react/pull/20) [`b0824f6`](https://github.com/primer/eslint-plugin-primer-react/commit/b0824f6c7c69cdf7d70d831626be37f606d70f73) Thanks [@jfuchs](https://github.com/jfuchs)! - Updates no-system-props rule to always exclude the 'variant' prop no matter which component.
+
 ## 0.6.1
 
 ### Patch Changes
