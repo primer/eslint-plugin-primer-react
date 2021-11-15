@@ -15,12 +15,12 @@ const excludedComponentProps = new Map([
   ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Avatar', new Set(['size'])],
   ['Dialog', new Set(['width', 'height'])],
-  ['Flash', new Set(['variant'])],
-  ['Label', new Set(['variant'])],
   ['ProgressBar', new Set(['bg'])],
   ['Spinner', new Set(['size'])],
   ['StyledOcticon', new Set(['size'])]
 ])
+
+const alwaysExcludedProps = new Set(['variant'])
 
 module.exports = {
   meta: {
@@ -65,12 +65,12 @@ module.exports = {
         // Create an array of system prop attribute nodes
         let systemProps = Object.values(pick(propsByNameObject))
 
+        let excludedProps = excludedComponentProps.has(jsxNode.name.name)
+          ? new Set([...alwaysExcludedProps, ...excludedComponentProps.get(jsxNode.name.name)])
+          : alwaysExcludedProps
+
         // Filter out our exceptional props
         systemProps = systemProps.filter(prop => {
-          const excludedProps = excludedComponentProps.get(jsxNode.name.name)
-          if (!excludedProps) {
-            return true
-          }
           return !excludedProps.has(prop.name.name)
         })
 
