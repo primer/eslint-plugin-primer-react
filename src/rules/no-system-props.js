@@ -1,6 +1,6 @@
-const { isPrimerComponent } = require('../utils/is-primer-component')
-const { pick } = require('@styled-system/props')
-const { some, last } = require('lodash')
+const {isPrimerComponent} = require('../utils/is-primer-component')
+const {pick} = require('@styled-system/props')
+const {some, last} = require('lodash')
 
 // Components for which we allow all styled system props
 const alwaysExcludedComponents = new Set([
@@ -107,15 +107,15 @@ module.exports = {
                 ...systemProps.map(node => fixer.remove(node)),
                 ...(stylesToAdd.size > 0
                   ? [
-                    existingSxProp
-                      ? // Update an existing sx prop
-                      fixer.insertTextAfter(
-                        last(existingSxProp.value.expression.properties),
-                        `, ${objectEntriesStringFromStylesMap(stylesToAdd)}`
-                      )
-                      : // Insert new sx prop
-                      fixer.insertTextAfter(last(jsxNode.attributes), sxPropTextFromStylesMap(systemPropstylesMap))
-                  ]
+                      existingSxProp
+                        ? // Update an existing sx prop
+                          fixer.insertTextAfter(
+                            last(existingSxProp.value.expression.properties),
+                            `, ${objectEntriesStringFromStylesMap(stylesToAdd)}`
+                          )
+                        : // Insert new sx prop
+                          fixer.insertTextAfter(last(jsxNode.attributes), sxPropTextFromStylesMap(systemPropstylesMap))
+                    ]
                   : [])
               ]
             }
