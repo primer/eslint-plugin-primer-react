@@ -44,7 +44,7 @@ module.exports = {
     }
   },
   create(context) {
-    // If `skipImportCheck` is true, this rule will check for deprecated colors
+    // If `skipImportCheck` is true, this rule will check for deprecated styled system props
     // used in any components (not just ones that are imported from `@primer/components`).
     const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
 
