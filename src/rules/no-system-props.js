@@ -14,6 +14,7 @@ const utilityComponents = new Set(['Box', 'Text'])
 const excludedComponentProps = new Map([
   ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Avatar', new Set(['size'])],
+  ['CircleOcticon', new Set(['size'])]
   ['Dialog', new Set(['width', 'height'])],
   ['ProgressBar', new Set(['bg'])],
   ['Spinner', new Set(['size'])],
