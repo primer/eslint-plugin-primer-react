@@ -118,11 +118,18 @@ module.exports = {
           return
         }
 
-        const [key, ...path] = node.arguments[0].value.split('.')
+        const argument = node.arguments[0]
+        // Skip if the argument is not a Literal (themeGet(props.backgroundColor))
+        // or a string themeGet(2)
+        if (argument.type !== 'Literal' || typeof argument.value !== 'string') {
+          return false
+        }
+
+        const [key, ...path] = argument.value.split('.')
         const name = path.join('.')
 
         if (['colors', 'shadows'].includes(key) && Object.keys(deprecations).includes(name)) {
-          replaceDeprecatedColor(context, node.arguments[0], name, str => [key, str].join('.'))
+          replaceDeprecatedColor(context, argument, name, str => [key, str].join('.'))
         }
       }
     }
