@@ -122,7 +122,7 @@ module.exports = {
         // Skip if the argument is not a Literal (themeGet(props.backgroundColor))
         // or a string themeGet(2)
         if (argument.type !== 'Literal' || typeof argument.value !== 'string') {
-          return false
+          return
         }
 
         const [key, ...path] = argument.value.split('.')
