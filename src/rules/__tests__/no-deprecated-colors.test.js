@@ -31,6 +31,8 @@ ruleTester.run('no-deprecated-colors', rule, {
     `import {Box} from "@primer/components"; <Box color="fg.default">Hello</Box>`,
     `import {hello} from "@primer/components"; hello("colors.text.primary")`,
     `import {themeGet} from "@primer/components"; themeGet("space.text.primary")`,
+    `import {themeGet} from "@primer/components"; themeGet(props.backgroundColorThemeValue)`,
+    `import {themeGet} from "@primer/components"; themeGet(2)`,
     `import {themeGet} from "@other/design-system"; themeGet("colors.text.primary")`,
     `import {get} from "@other/constants"; get("space.text.primary")`,
     `import {Box} from '@primer/components'; <Box sx={styles}>Hello</Box>`,
