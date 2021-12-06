@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 0.7.1
+
+### Patch Changes
+
+- [#22](https://github.com/primer/eslint-plugin-primer-react/pull/22) [`87d0fd6`](https://github.com/primer/eslint-plugin-primer-react/commit/87d0fd6af8a18a2a570c3770571b16fe3b5c3a30) Thanks [@dmarcey](https://github.com/dmarcey)! - Ignore non-literal, non-string arguments to `themeGet` in `no-deprecated-colors` rule
+
 ## 0.7.0
 
 ### Minor Changes
