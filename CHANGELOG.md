@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 0.7.2
+
+### Patch Changes
+
+- [#24](https://github.com/primer/eslint-plugin-primer-react/pull/24) [`e5565ae`](https://github.com/primer/eslint-plugin-primer-react/commit/e5565ae890f55927c0b1dd96d8943efc1e0bbbfa) Thanks [@colebemis](https://github.com/colebemis)! - Replace references to `@primer/components` with `@primer/react`
+
 ## 0.7.1
 
 ### Patch Changes
