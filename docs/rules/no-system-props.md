@@ -14,7 +14,7 @@ This rule disallows the use of any styled-system prop on Primer components, as t
 
 ```jsx
 /* eslint primer-react/no-system-props: "error" */
-import {Button} from '@primer/components'
+import {Button} from '@primer/react'
 
 <Button width={200} />
 <Button width={200} sx={{height: 300}} />
@@ -24,7 +24,7 @@ import {Button} from '@primer/components'
 
 ```jsx
 /* eslint primer-react/no-system-props: "error" */
-import {Box, Button, ProgressBar} from '@primer/components'
+import {Box, Button, ProgressBar} from '@primer/react'
 import {Avatar} from 'some-other-library'
 // Non-system props are allowed
 <Button someOtherProp="foo" />
@@ -47,7 +47,7 @@ import {Avatar} from 'some-other-library'
 
   ```js
   /* eslint primer-react/no-system-props: ["warn", {"includeUtilityComponents": true}] */
-  import {Box} from '@primer/components'
+  import {Box} from '@primer/react'
 
   function App() {
     // Enabling `includeUtilityComponents` will find system prop usage on utility components like this:

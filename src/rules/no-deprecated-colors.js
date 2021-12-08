@@ -28,7 +28,7 @@ module.exports = {
   },
   create(context) {
     // If `skipImportCheck` is true, this rule will check for deprecated colors
-    // used in any components (not just ones that are imported from `@primer/components`).
+    // used in any components (not just ones that are imported from `@primer/react`).
     const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
 
     const checkAllStrings = context.options[0] ? context.options[0].checkAllStrings : false
@@ -43,7 +43,7 @@ module.exports = {
         }
       },
       JSXOpeningElement(node) {
-        // Skip if component was not imported from @primer/components
+        // Skip if component was not imported from @primer/react
         if (!skipImportCheck && !isPrimerComponent(node.name, context.getScope(node))) {
           return
         }
@@ -138,7 +138,7 @@ module.exports = {
 
 function isThemeGet(identifier, scope, skipImportCheck = false) {
   if (!skipImportCheck) {
-    return isImportedFrom(/^@primer\/components/, identifier, scope) && identifier.name === 'themeGet'
+    return isImportedFrom(/^@primer\/react/, identifier, scope) && identifier.name === 'themeGet'
   }
 
   return identifier.name === 'themeGet'
