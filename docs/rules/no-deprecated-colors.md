@@ -12,7 +12,7 @@ This rule disallows references to color variables that are deprecated in [Primer
 
 ```jsx
 /* eslint primer-react/no-deprecated-colors: "error" */
-import {Box, themeGet} from '@primer/components'
+import {Box, themeGet} from '@primer/react'
 import styled from 'styled-components'
 
 const SystemPropExample() = () => <Box color="some.deprecated.color">Incorrect</Box>
@@ -30,7 +30,7 @@ const ThemeGetExample = styled.div`
 
 ```jsx
 /* eslint primer-react/no-deprecated-colors: "error" */
-import {Box, themeGet} from '@primer/components'
+import {Box, themeGet} from '@primer/react'
 import styled from 'styled-components'
 
 const SystemPropExample() = () => <Box color="some.color">Correct</Box>
@@ -48,11 +48,11 @@ const ThemeGetExample = styled.div`
 
 - `skipImportCheck` (default: `false`)
 
-  By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/components`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass color-related props down to Primer React components.
+  By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass color-related props down to Primer React components.
 
   ```js
   /* eslint primer-react/no-deprecated-colors: ["warn", {"skipImportCheck": true}] */
-  import {Box} from '@primer/components'
+  import {Box} from '@primer/react'
 
   function MyBox({color, children}) {
     return <Box color={color}>{children}</Box>
@@ -70,7 +70,7 @@ const ThemeGetExample = styled.div`
 
   ```js
   /* eslint primer-react/no-deprecated-colors: ["warn", {"checkAllStrings": true}] */
-  import {Box} from '@primer/components'
+  import {Box} from '@primer/react'
 
   function ExampleComponent() {
     const styles = {
