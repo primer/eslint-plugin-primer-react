@@ -43,7 +43,7 @@ import {Avatar} from 'some-other-library'
 
 - `skipImportCheck` (default: `false`)
 
-  By default, the `no-system-props` rule will only check for styled system props used in functions and components that are imported from `@primer/components`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass styled system props down to Primer React components.
+  By default, the `no-system-props` rule will only check for styled system props used in functions and components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass styled system props down to Primer React components.
 
 - `includeUtilityComponents` (default: `false`)
 
