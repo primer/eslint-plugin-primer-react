@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 0.7.3
+
+### Patch Changes
+
+- [#27](https://github.com/primer/eslint-plugin-primer-react/pull/27) [`19cbc53`](https://github.com/primer/eslint-plugin-primer-react/commit/19cbc530471f11c4c053ce830e23cb72f36b2c16) Thanks [@colebemis](https://github.com/colebemis)! - `no-system-props`: Ignore `bg` prop on `PointerBox` component
+
 ## 0.7.2
 
 ### Patch Changes
