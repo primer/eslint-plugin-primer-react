@@ -1,5 +1,23 @@
 # eslint-plugin-primer-react
 
+## 0.7.3
+
+### Patch Changes
+
+- [#27](https://github.com/primer/eslint-plugin-primer-react/pull/27) [`19cbc53`](https://github.com/primer/eslint-plugin-primer-react/commit/19cbc530471f11c4c053ce830e23cb72f36b2c16) Thanks [@colebemis](https://github.com/colebemis)! - `no-system-props`: Ignore `bg` prop on `PointerBox` component
+
+## 0.7.2
+
+### Patch Changes
+
+- [#24](https://github.com/primer/eslint-plugin-primer-react/pull/24) [`e5565ae`](https://github.com/primer/eslint-plugin-primer-react/commit/e5565ae890f55927c0b1dd96d8943efc1e0bbbfa) Thanks [@colebemis](https://github.com/colebemis)! - Replace references to `@primer/components` with `@primer/react`
+
+## 0.7.1
+
+### Patch Changes
+
+- [#22](https://github.com/primer/eslint-plugin-primer-react/pull/22) [`87d0fd6`](https://github.com/primer/eslint-plugin-primer-react/commit/87d0fd6af8a18a2a570c3770571b16fe3b5c3a30) Thanks [@dmarcey](https://github.com/dmarcey)! - Ignore non-literal, non-string arguments to `themeGet` in `no-deprecated-colors` rule
+
 ## 0.7.0
 
 ### Minor Changes
@@ -30,7 +48,7 @@
 
   ```js
   /* eslint primer-react/no-deprecated-colors: ["warn", {"checkAllStrings": true}] */
-  import {Box} from '@primer/components'
+  import {Box} from '@primer/react'
 
   function ExampleComponent() {
     const styles = {
@@ -45,7 +63,7 @@
 
 ### Patch Changes
 
-- [#7](https://github.com/primer/eslint-plugin-primer-react/pull/7) [`d9dfb8d`](https://github.com/primer/eslint-plugin-primer-react/commit/d9dfb8de6d6dc42efe606517db7a0dd90d5c5578) Thanks [@colebemis](https://github.com/colebemis)! - Add `skipImportCheck` option. By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/components`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass color-related props down to Primer React components.
+- [#7](https://github.com/primer/eslint-plugin-primer-react/pull/7) [`d9dfb8d`](https://github.com/primer/eslint-plugin-primer-react/commit/d9dfb8de6d6dc42efe606517db7a0dd90d5c5578) Thanks [@colebemis](https://github.com/colebemis)! - Add `skipImportCheck` option. By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass color-related props down to Primer React components.
 
 * [#6](https://github.com/primer/eslint-plugin-primer-react/pull/6) [`dd14594`](https://github.com/primer/eslint-plugin-primer-react/commit/dd14594b05e4d800baa76771f5b911d77352a983) Thanks [@colebemis](https://github.com/colebemis)! - The `no-deprecated-colors` rule can now find deprecated colors in the following cases:
 
