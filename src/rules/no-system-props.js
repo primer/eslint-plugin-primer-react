@@ -18,7 +18,8 @@ const excludedComponentProps = new Map([
   ['Dialog', new Set(['width', 'height'])],
   ['ProgressBar', new Set(['bg'])],
   ['Spinner', new Set(['size'])],
-  ['StyledOcticon', new Set(['size'])]
+  ['StyledOcticon', new Set(['size'])],
+  ['Token', new Set(['size'])]
 ])
 
 const alwaysExcludedProps = new Set(['variant'])
