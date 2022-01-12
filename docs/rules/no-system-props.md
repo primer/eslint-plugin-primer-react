@@ -1,4 +1,4 @@
-# Disallow use of styled-system props (no-system-colors)
+# Disallow use of styled-system props (no-system-props)
 
 🔧 The `--fix` option on the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.
 
@@ -40,6 +40,10 @@ import {Avatar} from 'some-other-library'
 ```
 
 ## Options
+
+- `skipImportCheck` (default: `false`)
+
+  By default, the `no-system-props` rule will only check for styled system props used in functions and components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass styled system props down to Primer React components.
 
 - `includeUtilityComponents` (default: `false`)
 
