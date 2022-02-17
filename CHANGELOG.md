@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 0.7.4
+
+### Patch Changes
+
+- [#31](https://github.com/primer/eslint-plugin-primer-react/pull/31) [`a64413a`](https://github.com/primer/eslint-plugin-primer-react/commit/a64413aef359e8f16ca088f1975c5e2411c5ffb3) Thanks [@colebemis](https://github.com/colebemis)! - `no-system-props`: Always ignore `size` prop
+
 ## 0.7.3
 
 ### Patch Changes
