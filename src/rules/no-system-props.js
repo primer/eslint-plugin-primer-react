@@ -13,15 +13,12 @@ const utilityComponents = new Set(['Box', 'Text'])
 // Components for which we allow a set of prop names
 const excludedComponentProps = new Map([
   ['AnchoredOverlay', new Set(['width', 'height'])],
-  ['Avatar', new Set(['size'])],
   ['Dialog', new Set(['width', 'height'])],
   ['ProgressBar', new Set(['bg'])],
-  ['Spinner', new Set(['size'])],
-  ['StyledOcticon', new Set(['size'])],
   ['PointerBox', new Set(['bg'])]
 ])
 
-const alwaysExcludedProps = new Set(['variant'])
+const alwaysExcludedProps = new Set(['variant', 'size'])
 
 module.exports = {
   meta: {
