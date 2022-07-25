@@ -14,7 +14,7 @@ module.exports = {
   settings: {
     github: {
       components: {
-        Link: { as: { undefined: 'a', 'button': 'button'}},
+        Link: { props: { as: { undefined: 'a', 'button': 'button'}}},
         Button: { default: 'button' },
       }
     }
