@@ -1,5 +1,13 @@
 # eslint-plugin-primer-react
 
+## 1.0.0
+
+### Major Changes
+
+- [#34](https://github.com/primer/eslint-plugin-primer-react/pull/34) [`efd4f67`](https://github.com/primer/eslint-plugin-primer-react/commit/efd4f675d8c24b74e7fd0bcfb4524b42ed3378ea) Thanks [@khiga8](https://github.com/khiga8)! - Provide component mapping for `github/react` preset and add dependencies to `eslint-plugin-github` and `eslint-plugin-jsx-a11y`.
+
+  `eslint` peer dependency is now `^8.0.1`.
+
 ## 0.7.4
 
 ### Patch Changes
