@@ -10,6 +10,7 @@ const deprecations = {...deprecatedVars, ...removedVars}
 module.exports = {
   meta: {
     type: 'suggestion',
+    hasSuggestions: true,
     fixable: 'code',
     schema: [
       {
