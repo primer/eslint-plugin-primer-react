@@ -17,6 +17,12 @@ module.exports = {
         Link: { props: { as: { undefined: 'a', 'a': 'a', 'button': 'button'}}},
         Button: { default: 'button' },
       }
+    },
+    'jsx-a11y': {
+      components: {
+        Button: 'button',
+        IconButton: 'button'
+      }
     }
   }
 }
