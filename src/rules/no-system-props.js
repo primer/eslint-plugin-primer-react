@@ -14,6 +14,7 @@ const utilityComponents = new Set(['Box', 'Text'])
 const excludedComponentProps = new Map([
   ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Dialog', new Set(['width', 'height'])],
+  ['PageLayout', new Set(['padding'])]
   ['ProgressBar', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])]
 ])
