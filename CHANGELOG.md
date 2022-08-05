@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 1.0.1
+
+### Patch Changes
+
+- [#36](https://github.com/primer/eslint-plugin-primer-react/pull/36) [`f03cd7d`](https://github.com/primer/eslint-plugin-primer-react/commit/f03cd7defd45e1587dbbfac55a0290172c3b5af3) Thanks [@khiga8](https://github.com/khiga8)! - Define some component mappings for jsx-a11y
+
 ## 1.0.0
 
 ### Major Changes
