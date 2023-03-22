@@ -1,4 +1,5 @@
 const {isPrimerComponent} = require('../utils/is-primer-component')
+const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 const {pick} = require('@styled-system/props')
 const {some, last} = require('lodash')
 
@@ -12,18 +13,31 @@ const utilityComponents = new Set(['Box', 'Text'])
 
 // Components for which we allow a set of prop names
 const excludedComponentProps = new Map([
+  ['ActionMenu.Overlay', new Set(['width', 'height', 'maxHeight', 'position', 'top', 'right', 'bottom', 'left'])],
+  ['Autocomplete.Overlay', new Set(['width', 'height', 'maxHeight', 'position', 'top', 'right', 'bottom', 'left'])],
   ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Avatar', new Set(['size'])],
   ['AvatarToken', new Set(['size'])],
   ['CircleOcticon', new Set(['size'])],
   ['Dialog', new Set(['width', 'height'])],
   ['IssueLabelToken', new Set(['size'])],
+  ['Overlay', new Set(['width', 'height', 'maxHeight', 'position', 'top', 'right', 'bottom', 'left'])],
   ['ProgressBar', new Set(['bg'])],
   ['Spinner', new Set(['size'])],
+  ['SplitPageLayout.Header', new Set(['padding'])],
+  ['SplitPageLayout.Footer', new Set(['padding'])],
+  ['SplitPageLayout.Pane', new Set(['padding', 'position', 'width'])],
+  ['SplitPageLayout.Content', new Set(['padding', 'width'])],
   ['StyledOcticon', new Set(['size'])],
   ['PointerBox', new Set(['bg'])],
+  ['TextInput', new Set(['size'])],
+  ['TextInputWithTokens', new Set(['size', 'maxHeight'])],
   ['Token', new Set(['size'])],
   ['PageLayout', new Set(['padding'])],
+  ['PageLayout.Header', new Set(['padding'])],
+  ['PageLayout.Footer', new Set(['padding'])],
+  ['PageLayout.Pane', new Set(['padding', 'position', 'width'])],
+  ['PageLayout.Content', new Set(['padding', 'width'])],
   ['ProgressBar', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])]
 ])
@@ -65,7 +79,10 @@ module.exports = {
     return {
       JSXOpeningElement(jsxNode) {
         if (!skipImportCheck && !isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
-        if (excludedComponents.has(jsxNode.name.name)) return
+
+        const componentName = getJSXOpeningElementName(jsxNode)
+
+        if (excludedComponents.has(componentName)) return
 
         // Create an object mapping from prop name to the AST node for that attribute
         const propsByNameObject = jsxNode.attributes.reduce((object, attribute) => {
@@ -80,8 +97,8 @@ module.exports = {
         // Create an array of system prop attribute nodes
         let systemProps = Object.values(pick(propsByNameObject))
 
-        const excludedProps = excludedComponentProps.has(jsxNode.name.name)
-          ? new Set([...alwaysExcludedProps, ...excludedComponentProps.get(jsxNode.name.name)])
+        const excludedProps = excludedComponentProps.has(componentName)
+          ? new Set([...alwaysExcludedProps, ...excludedComponentProps.get(componentName)])
           : alwaysExcludedProps
 
         // Filter out our exceptional props
@@ -94,7 +111,7 @@ module.exports = {
             node: jsxNode,
             messageId: 'noSystemProps',
             data: {
-              componentName: jsxNode.name.name,
+              componentName,
               propNames: systemProps.map(a => a.name.name).join(', ')
             },
             fix(fixer) {
