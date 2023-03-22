@@ -5,11 +5,12 @@ const slotParentToChildMap = {
   PageLayout: ['PageLayout.Header', 'PageLayout.Footer'],
   SplitPageLayout: ['SplitPageLayout.Header', 'SplitPageLayout.Footer'],
   FormControl: ['FormControl.Label', 'FormControl.Caption', 'FormControl.LeadingVisual', 'FormControl.TrailingVisual'],
-  MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label'],
   'ActionList.Item': ['ActionList.LeadingVisual', 'ActionList.TrailingVisual', 'ActionList.Description'],
   'TreeView.Item': ['TreeView.LeadingVisual', 'TreeView.TrailingVisual'],
   RadioGroup: ['RadioGroup.Label', 'RadioGroup.Caption', 'RadioGroup.Validation'],
   CheckboxGroup: ['CheckboxGroup.Label', 'CheckboxGroup.Caption', 'CheckboxGroup.Validation']
+  // Ignore `MarkdownEditor` for now because it's still in drafts
+  // MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label'],
 }
 
 const slotChildToParentMap = Object.entries(slotParentToChildMap).reduce((acc, [parent, children]) => {
