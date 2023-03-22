@@ -20,7 +20,15 @@ const slotChildToParentMap = Object.entries(slotParentToChildMap).reduce((acc, [
 module.exports = {
   meta: {
     type: 'problem',
-    schema: [],
+    schema: [
+      {
+        properties: {
+          skipImportCheck: {
+            type: 'boolean'
+          }
+        }
+      }
+    ],
     messages: {
       directSlotChildren: '{{childName}} must be a direct child of {{parentName}}.'
     }
@@ -30,9 +38,16 @@ module.exports = {
       JSXOpeningElement(jsxNode) {
         const name = getJSXOpeningElementName(jsxNode)
 
+        // If `skipImportCheck` is true, this rule will check for direct slot children
+        // in any components (not just ones that are imported from `@primer/react`).
+        const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
+
         // If component is a Primer component and a slot child,
         // check if it's a direct child of the slot parent
-        if (isPrimerComponent(jsxNode.name, context.getScope(jsxNode)) && slotChildToParentMap[name]) {
+        if (
+          (skipImportCheck || isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) &&
+          slotChildToParentMap[name]
+        ) {
           const JSXElement = jsxNode.parent
           const parent = JSXElement.parent
 

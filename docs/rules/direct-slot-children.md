@@ -37,3 +37,9 @@ const App = () => (
   </PageLayout>
 )
 ```
+
+## Options
+
+- `skipImportCheck` (default: `false`)
+
+  By default, the `direct-children` rule will only check for direct slot children in components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is used for internal linting in the [primer/react](https://github.com/prime/react) repository.
