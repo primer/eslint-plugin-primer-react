@@ -3,6 +3,7 @@ const {last} = require('lodash')
 
 const slotParentToChildMap = {
   PageLayout: ['PageLayout.Header', 'PageLayout.Footer'],
+  SplitPageLayout: ['SplitPageLayout.Header', 'SplitPageLayout.Footer'],
   FormControl: ['FormControl.Label', 'FormControl.Caption', 'FormControl.LeadingVisual', 'FormControl.TrailingVisual'],
   MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label'],
   'ActionList.Item': ['ActionList.LeadingVisual', 'ActionList.TrailingVisual', 'ActionList.Description'],
