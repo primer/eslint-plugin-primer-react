@@ -3,17 +3,25 @@ const {last} = require('lodash')
 
 const slotParentToChildMap = {
   PageLayout: ['PageLayout.Header', 'PageLayout.Footer'],
+  SplitPageLayout: ['SplitPageLayout.Header', 'SplitPageLayout.Footer'],
   FormControl: ['FormControl.Label', 'FormControl.Caption', 'FormControl.LeadingVisual', 'FormControl.TrailingVisual'],
-  MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label'],
   'ActionList.Item': ['ActionList.LeadingVisual', 'ActionList.TrailingVisual', 'ActionList.Description'],
+  'ActionList.LinkItem': ['ActionList.LeadingVisual', 'ActionList.TrailingVisual', 'ActionList.Description'],
+  'NavList.Item': ['NavList.LeadingVisual', 'NavList.TrailingVisual'],
   'TreeView.Item': ['TreeView.LeadingVisual', 'TreeView.TrailingVisual'],
   RadioGroup: ['RadioGroup.Label', 'RadioGroup.Caption', 'RadioGroup.Validation'],
   CheckboxGroup: ['CheckboxGroup.Label', 'CheckboxGroup.Caption', 'CheckboxGroup.Validation']
+  // Ignore `MarkdownEditor` for now because it's still in drafts
+  // MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label'],
 }
 
 const slotChildToParentMap = Object.entries(slotParentToChildMap).reduce((acc, [parent, children]) => {
   for (const child of children) {
-    acc[child] = parent
+    if (acc[child]) {
+      acc[child].push(parent)
+    } else {
+      acc[child] = [parent]
+    }
   }
   return acc
 }, {})
@@ -50,19 +58,24 @@ module.exports = {
           (skipImportCheck || isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) &&
           slotChildToParentMap[name]
         ) {
-          const expectedParentName = slotChildToParentMap[name]
+          const expectedParentNames = slotChildToParentMap[name]
           const parent = last(stack)
-          if (parent !== expectedParentName) {
+          if (!expectedParentNames.includes(parent)) {
             context.report({
               node: jsxNode,
               messageId: 'directSlotChildren',
-              data: {childName: name, parentName: expectedParentName}
+              data: {
+                childName: name,
+                parentName: expectedParentNames.length > 1 ? expectedParentNames.join(' or ') : expectedParentNames[0]
+              }
             })
           }
         }
 
-        // Push the current element onto the stack
-        stack.push(name)
+        // If tag is not self-closing, push it onto the stack
+        if (!jsxNode.selfClosing) {
+          stack.push(name)
+        }
       },
       JSXClosingElement() {
         // Pop the current element off the stack

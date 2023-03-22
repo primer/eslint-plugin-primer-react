@@ -17,14 +17,25 @@ ruleTester.run('direct-slot-children', rule, {
     `import {PageLayout} from '@primer/react'; <PageLayout><div><PageLayout.Pane>Header</PageLayout.Pane></div></PageLayout>`,
     `import {PageLayout} from '@primer/react'; <PageLayout>{true ? <PageLayout.Header>Header</PageLayout.Header> : null}</PageLayout>`,
     `import {PageLayout} from './PageLayout'; <PageLayout.Header>Header</PageLayout.Header>`,
-    {
-      code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`,
-      options: [{skipImportCheck: true}]
-    }
+    `import {FormControl, Radio} from '@primer/react'; <FormControl><Radio value="one" /><FormControl.Label>Choice one</FormControl.Label></FormControl>`,
+    `import {ActionList} from '@primer/react';
+    <ActionList.Item><ActionList.LeadingVisual> <Avatar src="https://github.com/mona.png" /></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.Item>`,
+    `import {ActionList} from '@primer/react';
+    <ActionList.LinkItem><ActionList.LeadingVisual></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.LinkItem>`,
+    {code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`, options: [{skipImportCheck: true}]}
   ],
   invalid: [
     {
       code: `import {PageLayout} from '@primer/react'; <PageLayout.Header>Header</PageLayout.Header>`,
+      errors: [
+        {
+          messageId: 'directSlotChildren',
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
+        }
+      ]
+    },
+    {
+      code: `import {PageLayout} from '@primer/react'; function Header() { return <PageLayout.Header>Header</PageLayout.Header>; }`,
       errors: [
         {
           messageId: 'directSlotChildren',
@@ -75,6 +86,15 @@ ruleTester.run('direct-slot-children', rule, {
         {
           messageId: 'directSlotChildren',
           data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
+        }
+      ]
+    },
+    {
+      code: `import {ActionList} from '@primer/react'; <ActionList.Item><div><ActionList.LeadingVisual>Visual</ActionList.LeadingVisual></div></ActionList.Item>`,
+      errors: [
+        {
+          messageId: 'directSlotChildren',
+          data: {childName: 'ActionList.LeadingVisual', parentName: 'ActionList.Item or ActionList.LinkItem'}
         }
       ]
     }
