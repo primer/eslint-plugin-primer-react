@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 2.0.2
+
+### Patch Changes
+
+- [#45](https://github.com/primer/eslint-plugin-primer-react/pull/45) [`a39e34d`](https://github.com/primer/eslint-plugin-primer-react/commit/a39e34d26e72cc4b64a35627a6c4f700fae93fe2) Thanks [@colebemis](https://github.com/colebemis)! - More `direct-slot-children` fixes:
+  - Fix bug related self-closing JSX tags
+  - Allow slot children to accept multiple parents (ex: `ActionList.Item` or `ActionList.LinkItem`)
+  - Add `SplitPageLayout` and `NavList` to the slot map
+  - Ignore `MarkdownEditor` because it's still a draft
+
 ## 2.0.1
 
 ### Patch Changes
