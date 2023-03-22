@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 2.0.0
+
+### Major Changes
+
+- [#39](https://github.com/primer/eslint-plugin-primer-react/pull/39) [`96a675d`](https://github.com/primer/eslint-plugin-primer-react/commit/96a675d8865450d3be556135947a29181a56551c) Thanks [@colebemis](https://github.com/colebemis)! - Add `direct-slot-children` rule
+
+### Minor Changes
+
+- [#21](https://github.com/primer/eslint-plugin-primer-react/pull/21) [`5f68eb7`](https://github.com/primer/eslint-plugin-primer-react/commit/5f68eb7e222e2a41c527b5036b1308ff293e7a0d) Thanks [@SferaDev](https://github.com/SferaDev)! - `no-system-props`: Add `skipImportCheck` option
+
 ## 1.0.1
 
 ### Patch Changes
