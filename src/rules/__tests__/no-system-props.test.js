@@ -20,7 +20,8 @@ ruleTester.run('no-system-props', rule, {
     `import {ProgressBar} from '@primer/react'; <ProgressBar bg="howdy" />`,
     `import {Button} from '@primer/react'; <Button {...someExpression()} />`,
     `import {Button} from '@primer/react'; <Button variant="large" />`,
-    `import {Button} from '@primer/react'; <Button size="large" />`
+    `import {Button} from '@primer/react'; <Button size="large" />`,
+    `import {ActionMenu} from '@primer/react'; <ActionMenu.Overlay width="large" />`
   ],
   invalid: [
     {
