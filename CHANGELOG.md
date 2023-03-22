@@ -1,5 +1,12 @@
 # eslint-plugin-primer-react
 
+## 2.0.3
+
+### Patch Changes
+
+- [#47](https://github.com/primer/eslint-plugin-primer-react/pull/47) [`9964e4e`](https://github.com/primer/eslint-plugin-primer-react/commit/9964e4e5415c3bbeab78763b7b4d4e29a0bdbb95) Thanks [@colebemis](https://github.com/colebemis)! - - Update the no-system-props rule to properly check subcomponents for system props
+  - Adds valid sucomponent props to the allowlist
+
 ## 2.0.2
 
 ### Patch Changes
