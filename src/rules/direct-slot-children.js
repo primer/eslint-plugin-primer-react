@@ -61,8 +61,10 @@ module.exports = {
           }
         }
 
-        // Push the current element onto the stack
-        stack.push(name)
+        // If tag is not self-closing, push it onto the stack
+        if (!jsxNode.selfClosing) {
+          stack.push(name)
+        }
       },
       JSXClosingElement() {
         // Pop the current element off the stack
