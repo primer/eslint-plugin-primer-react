@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 2.0.1
+
+### Patch Changes
+
+- [#43](https://github.com/primer/eslint-plugin-primer-react/pull/43) [`943e49a`](https://github.com/primer/eslint-plugin-primer-react/commit/943e49a62ada544b73320791858398705ed8208e) Thanks [@colebemis](https://github.com/colebemis)! - `direct-slot-children` fixes
+
 ## 2.0.0
 
 ### Major Changes
