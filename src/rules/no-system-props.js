@@ -13,7 +13,16 @@ const utilityComponents = new Set(['Box', 'Text'])
 // Components for which we allow a set of prop names
 const excludedComponentProps = new Map([
   ['AnchoredOverlay', new Set(['width', 'height'])],
+  ['Avatar', new Set(['size'])],
+  ['AvatarToken', new Set(['size'])],
+  ['CircleOcticon', new Set(['size'])],
   ['Dialog', new Set(['width', 'height'])],
+  ['IssueLabelToken', new Set(['size'])],
+  ['ProgressBar', new Set(['bg'])],
+  ['Spinner', new Set(['size'])],
+  ['StyledOcticon', new Set(['size'])],
+  ['PointerBox', new Set(['bg'])],
+  ['Token', new Set(['size'])],
   ['PageLayout', new Set(['padding'])],
   ['ProgressBar', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])]
@@ -28,6 +37,9 @@ module.exports = {
     schema: [
       {
         properties: {
+          skipImportCheck: {
+            type: 'boolean'
+          },
           includeUtilityComponents: {
             type: 'boolean'
           }
@@ -39,6 +51,10 @@ module.exports = {
     }
   },
   create(context) {
+    // If `skipImportCheck` is true, this rule will check for deprecated styled system props
+    // used in any components (not just ones that are imported from `@primer/components`).
+    const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
+
     const includeUtilityComponents = context.options[0] ? context.options[0].includeUtilityComponents : false
 
     const excludedComponents = new Set([
@@ -48,7 +64,7 @@ module.exports = {
 
     return {
       JSXOpeningElement(jsxNode) {
-        if (!isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
+        if (!skipImportCheck && !isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
         if (excludedComponents.has(jsxNode.name.name)) return
 
         // Create an object mapping from prop name to the AST node for that attribute
@@ -64,7 +80,7 @@ module.exports = {
         // Create an array of system prop attribute nodes
         let systemProps = Object.values(pick(propsByNameObject))
 
-        let excludedProps = excludedComponentProps.has(jsxNode.name.name)
+        const excludedProps = excludedComponentProps.has(jsxNode.name.name)
           ? new Set([...alwaysExcludedProps, ...excludedComponentProps.get(jsxNode.name.name)])
           : alwaysExcludedProps
 
@@ -142,12 +158,12 @@ const excludeSxEntriesFromStyleMap = (stylesMap, sxProp) => {
   if (
     !sxProp.value ||
     sxProp.value.type !== 'JSXExpressionContainer' ||
-    sxProp.value.expression.type != 'ObjectExpression'
+    sxProp.value.expression.type !== 'ObjectExpression'
   ) {
     return stylesMap
   }
   return new Map(
-    [...stylesMap].filter(([key, _value]) => {
+    [...stylesMap].filter(([key]) => {
       return !some(sxProp.value.expression.properties, p => p.type === 'Property' && p.key.name === key)
     })
   )
