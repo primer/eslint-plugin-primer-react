@@ -15,7 +15,11 @@ ruleTester.run('direct-slot-children', rule, {
   valid: [
     `import {PageLayout} from '@primer/react'; <PageLayout><PageLayout.Header>Header</PageLayout.Header><PageLayout.Footer>Footer</PageLayout.Footer></PageLayout>`,
     `import {PageLayout} from '@primer/react'; <PageLayout><div><PageLayout.Pane>Header</PageLayout.Pane></div></PageLayout>`,
-    `import {PageLayout} from 'some-library'; <PageLayout.Header>Header</PageLayout.Header>`
+    `import {PageLayout} from './PageLayout'; <PageLayout.Header>Header</PageLayout.Header>`,
+    {
+      code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`,
+      options: [{skipImportCheck: true}]
+    }
   ],
   invalid: [
     {
@@ -60,6 +64,16 @@ ruleTester.run('direct-slot-children', rule, {
         {
           messageId: 'directSlotChildren',
           data: {childName: 'TreeView.LeadingVisual', parentName: 'TreeView.Item'}
+        }
+      ]
+    },
+    {
+      code: `import {PageLayout} from './PageLayout'; <PageLayout><div><PageLayout.Header>Header</PageLayout.Header></div></PageLayout>`,
+      options: [{skipImportCheck: true}],
+      errors: [
+        {
+          messageId: 'directSlotChildren',
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
         }
       ]
     }
