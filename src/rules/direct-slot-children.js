@@ -6,6 +6,7 @@ const slotParentToChildMap = {
   SplitPageLayout: ['SplitPageLayout.Header', 'SplitPageLayout.Footer'],
   FormControl: ['FormControl.Label', 'FormControl.Caption', 'FormControl.LeadingVisual', 'FormControl.TrailingVisual'],
   'ActionList.Item': ['ActionList.LeadingVisual', 'ActionList.TrailingVisual', 'ActionList.Description'],
+  'ActionList.LinkItem': ['ActionList.LeadingVisual', 'ActionList.TrailingVisual', 'ActionList.Description'],
   'NavList.Item': ['NavList.LeadingVisual', 'NavList.TrailingVisual'],
   'TreeView.Item': ['TreeView.LeadingVisual', 'TreeView.TrailingVisual'],
   RadioGroup: ['RadioGroup.Label', 'RadioGroup.Caption', 'RadioGroup.Validation'],
@@ -16,7 +17,11 @@ const slotParentToChildMap = {
 
 const slotChildToParentMap = Object.entries(slotParentToChildMap).reduce((acc, [parent, children]) => {
   for (const child of children) {
-    acc[child] = parent
+    if (acc[child]) {
+      acc[child].push(parent)
+    } else {
+      acc[child] = [parent]
+    }
   }
   return acc
 }, {})
@@ -53,13 +58,16 @@ module.exports = {
           (skipImportCheck || isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) &&
           slotChildToParentMap[name]
         ) {
-          const expectedParentName = slotChildToParentMap[name]
+          const expectedParentNames = slotChildToParentMap[name]
           const parent = last(stack)
-          if (parent !== expectedParentName) {
+          if (!expectedParentNames.includes(parent)) {
             context.report({
               node: jsxNode,
               messageId: 'directSlotChildren',
-              data: {childName: name, parentName: expectedParentName}
+              data: {
+                childName: name,
+                parentName: expectedParentNames.length > 1 ? expectedParentNames.join(' or ') : expectedParentNames[0]
+              }
             })
           }
         }

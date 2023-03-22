@@ -20,6 +20,8 @@ ruleTester.run('direct-slot-children', rule, {
     `import {FormControl, Radio} from '@primer/react'; <FormControl><Radio value="one" /><FormControl.Label>Choice one</FormControl.Label></FormControl>`,
     `import {ActionList} from '@primer/react';
     <ActionList.Item><ActionList.LeadingVisual> <Avatar src="https://github.com/mona.png" /></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.Item>`,
+    `import {ActionList} from '@primer/react';
+    <ActionList.LinkItem><ActionList.LeadingVisual></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.LinkItem>`,
     {code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`, options: [{skipImportCheck: true}]}
   ],
   invalid: [
@@ -84,6 +86,15 @@ ruleTester.run('direct-slot-children', rule, {
         {
           messageId: 'directSlotChildren',
           data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
+        }
+      ]
+    },
+    {
+      code: `import {ActionList} from '@primer/react'; <ActionList.Item><div><ActionList.LeadingVisual>Visual</ActionList.LeadingVisual></div></ActionList.Item>`,
+      errors: [
+        {
+          messageId: 'directSlotChildren',
+          data: {childName: 'ActionList.LeadingVisual', parentName: 'ActionList.Item or ActionList.LinkItem'}
         }
       ]
     }
