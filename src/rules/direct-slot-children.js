@@ -6,6 +6,7 @@ const slotParentToChildMap = {
   SplitPageLayout: ['SplitPageLayout.Header', 'SplitPageLayout.Footer'],
   FormControl: ['FormControl.Label', 'FormControl.Caption', 'FormControl.LeadingVisual', 'FormControl.TrailingVisual'],
   'ActionList.Item': ['ActionList.LeadingVisual', 'ActionList.TrailingVisual', 'ActionList.Description'],
+  'NavList.Item': ['NavList.LeadingVisual', 'NavList.TrailingVisual'],
   'TreeView.Item': ['TreeView.LeadingVisual', 'TreeView.TrailingVisual'],
   RadioGroup: ['RadioGroup.Label', 'RadioGroup.Caption', 'RadioGroup.Validation'],
   CheckboxGroup: ['CheckboxGroup.Label', 'CheckboxGroup.Caption', 'CheckboxGroup.Validation']
