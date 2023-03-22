@@ -18,10 +18,9 @@ ruleTester.run('direct-slot-children', rule, {
     `import {PageLayout} from '@primer/react'; <PageLayout>{true ? <PageLayout.Header>Header</PageLayout.Header> : null}</PageLayout>`,
     `import {PageLayout} from './PageLayout'; <PageLayout.Header>Header</PageLayout.Header>`,
     `import {FormControl, Radio} from '@primer/react'; <FormControl><Radio value="one" /><FormControl.Label>Choice one</FormControl.Label></FormControl>`,
-    {
-      code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`,
-      options: [{skipImportCheck: true}]
-    }
+    `import {ActionList} from '@primer/react';
+    <ActionList.Item><ActionList.LeadingVisual> <Avatar src="https://github.com/mona.png" /></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.Item>`,
+    {code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`, options: [{skipImportCheck: true}]}
   ],
   invalid: [
     {
