@@ -22,10 +22,13 @@ const excludedComponentProps = new Map([
   ['Spinner', new Set(['size'])],
   ['StyledOcticon', new Set(['size'])],
   ['PointerBox', new Set(['bg'])],
-  ['Token', new Set(['size'])]
+  ['Token', new Set(['size'])],
+  ['PageLayout', new Set(['padding'])],
+  ['ProgressBar', new Set(['bg'])],
+  ['PointerBox', new Set(['bg'])]
 ])
 
-const alwaysExcludedProps = new Set(['variant'])
+const alwaysExcludedProps = new Set(['variant', 'size'])
 
 module.exports = {
   meta: {

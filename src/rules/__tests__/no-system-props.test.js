@@ -19,7 +19,8 @@ ruleTester.run('no-system-props', rule, {
     `import {Box} from '@primer/react'; <Box width={200} />`,
     `import {ProgressBar} from '@primer/react'; <ProgressBar bg="howdy" />`,
     `import {Button} from '@primer/react'; <Button {...someExpression()} />`,
-    `import {Button} from '@primer/react'; <Button variant="large" />`
+    `import {Button} from '@primer/react'; <Button variant="large" />`,
+    `import {Button} from '@primer/react'; <Button size="large" />`,
   ],
   invalid: [
     {
