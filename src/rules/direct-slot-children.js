@@ -1,5 +1,4 @@
 const {isPrimerComponent} = require('../utils/is-primer-component')
-const {last} = require('lodash')
 
 const slotParentToChildMap = {
   PageLayout: ['PageLayout.Header', 'PageLayout.Footer'],
@@ -27,7 +26,6 @@ module.exports = {
     }
   },
   create(context) {
-    const stack = []
     return {
       JSXOpeningElement(jsxNode) {
         const name = getJSXOpeningElementName(jsxNode)
@@ -35,23 +33,18 @@ module.exports = {
         // If component is a Primer component and a slot child,
         // check if it's a direct child of the slot parent
         if (isPrimerComponent(jsxNode.name, context.getScope(jsxNode)) && slotChildToParentMap[name]) {
-          const parentName = slotChildToParentMap[name]
-          const parent = last(stack)
-          if (parent !== parentName) {
+          const JSXElement = jsxNode.parent
+          const parent = JSXElement.parent
+
+          const expectedParentName = slotChildToParentMap[name]
+          if (parent.type !== 'JSXElement' || getJSXOpeningElementName(parent.openingElement) !== expectedParentName) {
             context.report({
               node: jsxNode,
               messageId: 'directSlotChildren',
-              data: {childName: name, parentName}
+              data: {childName: name, parentName: expectedParentName}
             })
           }
         }
-
-        // Push the current element onto the stack
-        stack.push(name)
-      },
-      JSXClosingElement() {
-        // Pop the current element off the stack
-        stack.pop()
       }
     }
   }
