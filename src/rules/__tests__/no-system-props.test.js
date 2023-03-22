@@ -20,7 +20,7 @@ ruleTester.run('no-system-props', rule, {
     `import {ProgressBar} from '@primer/react'; <ProgressBar bg="howdy" />`,
     `import {Button} from '@primer/react'; <Button {...someExpression()} />`,
     `import {Button} from '@primer/react'; <Button variant="large" />`,
-    `import {Button} from '@primer/react'; <Button size="large" />`,
+    `import {Button} from '@primer/react'; <Button size="large" />`
   ],
   invalid: [
     {
@@ -142,6 +142,28 @@ ruleTester.run('no-system-props', rule, {
         {
           messageId: 'noSystemProps',
           data: {propNames: 'width', componentName: 'Text'}
+        }
+      ]
+    },
+    {
+      code: `import {Button} from '../Button'; <Button width={200} />`,
+      options: [{skipImportCheck: true}],
+      output: `import {Button} from '../Button'; <Button  sx={{width: 200}} />`,
+      errors: [
+        {
+          messageId: 'noSystemProps',
+          data: {propNames: 'width', componentName: 'Button'}
+        }
+      ]
+    },
+    {
+      code: `import {Foo} from '../Foo'; <Foo width={200} />`,
+      options: [{skipImportCheck: true}],
+      output: `import {Foo} from '../Foo'; <Foo  sx={{width: 200}} />`,
+      errors: [
+        {
+          messageId: 'noSystemProps',
+          data: {propNames: 'width', componentName: 'Foo'}
         }
       ]
     }
