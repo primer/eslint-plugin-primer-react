@@ -166,6 +166,16 @@ ruleTester.run('no-system-props', rule, {
           data: {propNames: 'width', componentName: 'Foo'}
         }
       ]
+    },
+    {
+      code: `import {Button} from '@primer/react'; <Button.Counter width={200} />`,
+      output: `import {Button} from '@primer/react'; <Button.Counter  sx={{width: 200}} />`,
+      errors: [
+        {
+          messageId: 'noSystemProps',
+          data: {propNames: 'width', componentName: 'Button.Counter'}
+        }
+      ]
     }
   ]
 })

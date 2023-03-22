@@ -1,4 +1,5 @@
 const {isPrimerComponent} = require('../utils/is-primer-component')
+const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 const {pick} = require('@styled-system/props')
 const {some, last} = require('lodash')
 
@@ -65,7 +66,10 @@ module.exports = {
     return {
       JSXOpeningElement(jsxNode) {
         if (!skipImportCheck && !isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
-        if (excludedComponents.has(jsxNode.name.name)) return
+
+        const componentName = getJSXOpeningElementName(jsxNode)
+
+        if (excludedComponents.has(componentName)) return
 
         // Create an object mapping from prop name to the AST node for that attribute
         const propsByNameObject = jsxNode.attributes.reduce((object, attribute) => {
@@ -80,8 +84,8 @@ module.exports = {
         // Create an array of system prop attribute nodes
         let systemProps = Object.values(pick(propsByNameObject))
 
-        const excludedProps = excludedComponentProps.has(jsxNode.name.name)
-          ? new Set([...alwaysExcludedProps, ...excludedComponentProps.get(jsxNode.name.name)])
+        const excludedProps = excludedComponentProps.has(componentName)
+          ? new Set([...alwaysExcludedProps, ...excludedComponentProps.get(componentName)])
           : alwaysExcludedProps
 
         // Filter out our exceptional props
@@ -94,7 +98,7 @@ module.exports = {
             node: jsxNode,
             messageId: 'noSystemProps',
             data: {
-              componentName: jsxNode.name.name,
+              componentName,
               propNames: systemProps.map(a => a.name.name).join(', ')
             },
             fix(fixer) {
