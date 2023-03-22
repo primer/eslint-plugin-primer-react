@@ -34,6 +34,15 @@ ruleTester.run('direct-slot-children', rule, {
       ]
     },
     {
+      code: `import {PageLayout} from '@primer/react'; function Header() { return <PageLayout.Header>Header</PageLayout.Header>; }`,
+      errors: [
+        {
+          messageId: 'directSlotChildren',
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
+        }
+      ]
+    },
+    {
       code: `import {PageLayout} from '@primer/react/drafts'; <PageLayout.Header>Header</PageLayout.Header>`,
       errors: [
         {
