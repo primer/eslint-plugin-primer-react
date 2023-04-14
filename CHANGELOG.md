@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 3.0.0
+
+### Major Changes
+
+- [#49](https://github.com/primer/eslint-plugin-primer-react/pull/49) [`ad22b85`](https://github.com/primer/eslint-plugin-primer-react/commit/ad22b85367ec3143dfaf73e4057cbe41410b5dcb) Thanks [@colebemis](https://github.com/colebemis)! - `direct-slot-children`: Add checks for `MarkdownEditor` slot children
+
 ## 2.0.3
 
 ### Patch Changes
