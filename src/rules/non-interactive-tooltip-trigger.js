@@ -1,6 +1,6 @@
 const {isPrimerComponent} = require('../utils/is-primer-component')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const {getJSXOpeningElementAttribute} = require('../utils/get-attribute')
+const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
 
 isInteractive = child => {
   const childName = getJSXOpeningElementName(child.openingElement)
