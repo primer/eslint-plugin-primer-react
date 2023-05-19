@@ -84,9 +84,9 @@ module.exports = {
       nonInteractiveTrigger:
         'The `Tooltip` component expects a single React element that contains interactive content. Consider using a `<button>` or equivalent interactive element instead.',
       anchorTagWithoutHref:
-        'Anchor tags without an href attribute are not be considered interactive, therefore can not be used as a trigger for a tooltip.',
+        'Anchor tags without an href attribute are not interactive, therefore they cannot be used as a trigger for a tooltip. Please add an href attribute or use an alternative interactive element instead',
       hiddenInput:
-        'Hidden inputs are not be considered interactive, therefore can not be used as a trigger for a tooltip.',
+        'Hidden inputs are not interactive and cannot be used as a trigger for a tooltip. Please use an alternate input type or use a different interactive element instead',
       singleChild: 'The `Tooltip` component expects a single React element as a child.'
     }
   },
