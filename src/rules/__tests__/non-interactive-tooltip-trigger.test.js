@@ -22,7 +22,8 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
   ],
   invalid: [
     {
-      code: `import {Tooltip} from '@primer/react';<Tooltip type="description" text="supportive text" direction="e"><button>save</button><button>cancel</button></Tooltip>`,
+      code: `import {Tooltip} from '@primer/react';<Tooltip type="description" text="supportive text" direction="e"><button>button1</button><button>button2</button></Tooltip>
+      `,
       errors: [
         {
           messageId: 'singleChild'
@@ -62,7 +63,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       ]
     },
     {
-      code: `import {Tooltip, Button} from '@primer/react';<Tooltip aria-label="Supplementary text" direction="e"><heading><span>Save</span></heading></Tooltip>`,
+      code: `import {Tooltip, Button} from '@primer/react';<Tooltip aria-label="Supplementary text" direction="e"><header><span>Save</span></header></Tooltip>`,
       errors: [
         {
           messageId: 'nonInteractiveTrigger'
@@ -73,7 +74,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       code: `import {Tooltip, Button} from '@primer/react';<Tooltip aria-label="Supplementary text" direction="e"><h1><a>Save</a></h1></Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveTrigger'
+          messageId: 'anchorTagWithoutHref'
         }
       ]
     }

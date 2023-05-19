@@ -2,12 +2,12 @@ const {isPrimerComponent} = require('../utils/is-primer-component')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
 
-isInteractive = child => {
+const isInteractive = child => {
   const childName = getJSXOpeningElementName(child.openingElement)
-  return ['button', 'summary', 'select', 'textarea', 'a', 'input', 'iconbutton'].includes(childName.toLowerCase())
+  return ['button', 'summary', 'select', 'textarea', 'iconbutton', 'a', 'input'].includes(childName.toLowerCase())
 }
 
-isInteractiveAnchor = child => {
+const isInteractiveAnchor = child => {
   const hasHref = getJSXOpeningElementAttribute(child.openingElement, 'href')
   if (!hasHref) return false
   const href = getJSXOpeningElementAttribute(child.openingElement, 'href').value.value
@@ -15,52 +15,94 @@ isInteractiveAnchor = child => {
   return isAnchorInteractive
 }
 
-isInteractiveInput = child => {
+const isInteractiveInput = child => {
   const hasHiddenType =
     getJSXOpeningElementAttribute(child.openingElement, 'type') &&
     getJSXOpeningElementAttribute(child.openingElement, 'type').value.value === 'hidden'
   return !hasHiddenType
 }
 
+const getAllChildren = node => {
+  if (Array.isArray(node.children)) {
+    return node.children
+      .filter(child => {
+        return child.type === 'JSXElement'
+      })
+      .flatMap(child => {
+        return [child, ...getAllChildren(child)]
+      })
+  }
+  return []
+}
+
+const checks = [
+  {
+    id: 'anchorTagWithoutHref',
+    filter: jsxElement => {
+      return getJSXOpeningElementName(jsxElement.openingElement) === 'a'
+    },
+    check: isInteractiveAnchor
+  },
+  {
+    id: 'hiddenInput',
+    filter: jsxElement => {
+      return getJSXOpeningElementName(jsxElement.openingElement) === 'input'
+    },
+    check: isInteractiveInput
+  },
+  {
+    id: 'nonInteractiveTrigger',
+    filter: jsxElement => {
+      // filter elements that is not a or input
+      return !(
+        getJSXOpeningElementName(jsxElement.openingElement) === 'a' ||
+        getJSXOpeningElementName(jsxElement.openingElement) === 'input'
+      )
+    },
+    check: isInteractive
+  }
+]
+
 const checkTriggerElement = jsxNode => {
-  let messageId = ''
-  const child = jsxNode.children
-  const childName = getJSXOpeningElementName(child.openingElement)
-
-  // First check specific requirements for anchor
-  if (childName === 'a' && !isInteractiveAnchor(child)) {
-    messageId = 'anchorTagWithoutHref'
-    return {messageId, node: jsxNode}
-  }
-  // Then check specific requirements input
-  if (childName === 'input' && !isInteractiveInput(child)) {
-    messageId = 'hiddenInput'
-    return {messageId, node: jsxNode}
-  }
-  // Then check if the child is interactive
-  if (!isInteractive(child)) {
-    // If child is not interactive, check if there are any grandchildren that is interactive
-    const hasJsxGrands =
-      child.children.length > 0 && child.children.filter(gChild => gChild.type === 'JSXElement').length > 0 //.some(gChild => isInteractive(gChild))
-
-    if (!hasJsxGrands) {
-      messageId = 'nonInteractiveTrigger'
-    } else {
-      const hasInteractiveGrands = child.children // is there any way I can access all child nodes? :/
-        .filter(gChild => gChild.type === 'JSXElement')
-        .some(gChild => {
-          const gChildName = getJSXOpeningElementName(gChild.openingElement)
-          // TODO: How can I check all child nodes?
-          return checkTriggerElement(gChild).messageId === ''
-        })
-      if (!hasInteractiveGrands) messageId = 'nonInteractiveTrigger'
+  const elements = [...getAllChildren(jsxNode)]
+  const hasInteractiveElement = elements.find(element => {
+    if (getJSXOpeningElementName(element.openingElement) === 'a') {
+      return isInteractiveAnchor(element)
     }
+    if (getJSXOpeningElementName(element.openingElement) === 'input') {
+      return isInteractiveInput(element)
+    } else {
+      return isInteractive(element)
+    }
+  })
 
-    return {messageId, node: jsxNode}
+  // If the tooltip has interactive elements, return.
+  if (hasInteractiveElement) return
+
+  const errors = new Set()
+
+  for (const element of elements) {
+    for (const check of checks) {
+      if (!check.filter(element)) {
+        continue
+      }
+
+      if (!check.check(element)) {
+        errors.add(check.id)
+      }
+    }
+  }
+  // check the specificity of the errors. If there are multiple errors, only return the most specific one.
+  if (errors.size > 1) {
+    if (errors.has('anchorTagWithoutHref')) {
+      errors.delete('nonInteractiveTrigger')
+    }
+    if (errors.has('hiddenInput')) {
+      errors.delete('nonInteractiveTrigger')
+    }
   }
 
-  // All good the element is interactive
-  return {messageId, node: jsxNode}
+  return errors
 }
 
 module.exports = {
@@ -95,14 +137,14 @@ module.exports = {
     const {options} = context
     return {
       JSXElement(jsxNode) {
-        // If `skipImportCheck` is true, this rule will check for direct slot children
-        // in any components (not just ones that are imported from `@primer/react`).
+        // If `skipImportCheck` is true, this rule will check for non-interactive element in any components (not just ones that are imported from `@primer/react`).
         const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
-
         const name = getJSXOpeningElementName(jsxNode.openingElement)
-
-        if (name === 'Tooltip' && jsxNode.children) {
-          // Check if there is a single child
+        if (
+          (skipImportCheck || isPrimerComponent(jsxNode.openingElement.name, context.getScope(jsxNode))) &&
+          name === 'Tooltip' &&
+          jsxNode.children
+        ) {
           if (jsxNode.children.length > 1) {
             context.report({
               node: jsxNode,
@@ -110,13 +152,15 @@ module.exports = {
             })
           } else {
             // Check if the child is interactive
-            const {node, messageId} = checkTriggerElement(jsxNode)
+            const errors = checkTriggerElement(jsxNode)
 
-            if (messageId !== '') {
-              context.report({
-                node,
-                messageId
-              })
+            if (errors) {
+              for (const [key, value] of errors.entries()) {
+                context.report({
+                  node: jsxNode,
+                  messageId: value
+                })
+              }
             }
           }
         }
