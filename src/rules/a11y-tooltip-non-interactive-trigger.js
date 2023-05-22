@@ -4,7 +4,16 @@ const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-elemen
 
 const isInteractive = child => {
   const childName = getJSXOpeningElementName(child.openingElement)
-  return ['button', 'summary', 'select', 'textarea', 'iconbutton', 'a', 'input'].includes(childName.toLowerCase())
+  return ['button', 'summary', 'select', 'textarea', 'a', 'input', 'link', 'iconbutton', 'textinput'].includes(
+    childName.toLowerCase()
+  )
+}
+
+const isAnchorTag = el => {
+  return (
+    getJSXOpeningElementName(el.openingElement) === 'a' ||
+    getJSXOpeningElementName(el.openingElement).toLowerCase() === 'link'
+  )
 }
 
 const isInteractiveAnchor = child => {
@@ -15,11 +24,22 @@ const isInteractiveAnchor = child => {
   return isAnchorInteractive
 }
 
+const isInputTag = el => {
+  return (
+    getJSXOpeningElementName(el.openingElement) === 'input' ||
+    getJSXOpeningElementName(el.openingElement).toLowerCase() === 'textinput'
+  )
+}
+
 const isInteractiveInput = child => {
   const hasHiddenType =
     getJSXOpeningElementAttribute(child.openingElement, 'type') &&
     getJSXOpeningElementAttribute(child.openingElement, 'type').value.value === 'hidden'
   return !hasHiddenType
+}
+
+const isOtherThanAnchorOrInput = el => {
+  return !isAnchorTag(el) && !isInputTag(el)
 }
 
 const getAllChildren = node => {
@@ -38,27 +58,17 @@ const getAllChildren = node => {
 const checks = [
   {
     id: 'anchorTagWithoutHref',
-    filter: jsxElement => {
-      return getJSXOpeningElementName(jsxElement.openingElement) === 'a'
-    },
+    filter: jsxElement => isAnchorTag(jsxElement),
     check: isInteractiveAnchor
   },
   {
     id: 'hiddenInput',
-    filter: jsxElement => {
-      return getJSXOpeningElementName(jsxElement.openingElement) === 'input'
-    },
+    filter: jsxElement => isInputTag(jsxElement),
     check: isInteractiveInput
   },
   {
     id: 'nonInteractiveTrigger',
-    filter: jsxElement => {
-      // filter elements that is not a or input
-      return !(
-        getJSXOpeningElementName(jsxElement.openingElement) === 'a' ||
-        getJSXOpeningElementName(jsxElement.openingElement) === 'input'
-      )
-    },
+    filter: jsxElement => isOtherThanAnchorOrInput(jsxElement),
     check: isInteractive
   }
 ]
@@ -66,10 +76,16 @@ const checks = [
 const checkTriggerElement = jsxNode => {
   const elements = [...getAllChildren(jsxNode)]
   const hasInteractiveElement = elements.find(element => {
-    if (getJSXOpeningElementName(element.openingElement) === 'a') {
+    if (
+      getJSXOpeningElementName(element.openingElement) === 'a' ||
+      getJSXOpeningElementName(element.openingElement) === 'Link'
+    ) {
       return isInteractiveAnchor(element)
     }
-    if (getJSXOpeningElementName(element.openingElement) === 'input') {
+    if (
+      getJSXOpeningElementName(element.openingElement) === 'input' ||
+      getJSXOpeningElementName(element.openingElement) === 'TextInput'
+    ) {
       return isInteractiveInput(element)
     } else {
       return isInteractive(element)
@@ -133,8 +149,6 @@ module.exports = {
     }
   },
   create(context) {
-    const stack = []
-    const {options} = context
     return {
       JSXElement(jsxNode) {
         // If `skipImportCheck` is true, this rule will check for non-interactive element in any components (not just ones that are imported from `@primer/react`).
@@ -145,7 +159,7 @@ module.exports = {
           name === 'Tooltip' &&
           jsxNode.children
         ) {
-          if (jsxNode.children.length > 1) {
+          if (jsxNode.children.filter(child => child.type === 'JSXElement').length > 1) {
             context.report({
               node: jsxNode,
               messageId: 'singleChild'
