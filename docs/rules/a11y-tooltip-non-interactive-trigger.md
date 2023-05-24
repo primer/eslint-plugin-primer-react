@@ -1,5 +1,3 @@
-<!-- Write a readme for the non interactive trigger rule -->
-
 ## Rule Details
 
 This rule enforces to use interactive elements as tooltip triggers. Interactive elements can be Primer `Button`, `IconButton` and `Link` components or native elements like `button`, `a` with an `href` attribute, `select`, `textarea`, `summary` and `input` (that is not a `hidden` type).
