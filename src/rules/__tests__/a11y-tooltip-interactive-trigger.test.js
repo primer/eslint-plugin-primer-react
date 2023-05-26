@@ -1,4 +1,4 @@
-const rule = require('../a11y-tooltip-non-interactive-trigger')
+const rule = require('../a11y-tooltip-interactive-trigger')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({

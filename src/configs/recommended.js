@@ -11,7 +11,7 @@ module.exports = {
     'primer-react/direct-slot-children': 'error',
     'primer-react/no-deprecated-colors': 'warn',
     'primer-react/no-system-props': 'warn',
-    'primer-react/a11y-tooltip-non-interactive-trigger': 'error'
+    'primer-react/a11y-tooltip-interactive-trigger': 'error'
   },
   settings: {
     github: {

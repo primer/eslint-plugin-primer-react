@@ -32,4 +32,4 @@ ESLint rules for Primer React
 - [direct-slot-children](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/direct-slot-children.md)
 - [no-deprecated-colors](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-colors.md)
 - [no-system-props](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-system-props.md)
-- [a11y-tooltip-non-interactive-trigger](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-tooltip-non-interactive-trigger.md)
+- [a11y-tooltip-interactive-trigger](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-tooltip-interactive-trigger.md)

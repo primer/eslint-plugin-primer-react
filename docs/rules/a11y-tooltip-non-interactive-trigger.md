@@ -5,7 +5,7 @@ This rule enforces to use interactive elements as tooltip triggers. Interactive 
 👎 Examples of **incorrect** code for this rule:
 
 ```jsx
-/* eslint primer-react/a11y-tooltip-non-interactive-trigger: "error" */
+/* eslint primer-react/a11y-tooltip-interactive-trigger: "error" */
 import {Tooltip} from '@primer/react'
 
 const App = () => (
@@ -18,7 +18,7 @@ const App = () => (
 👍 Examples of **correct** code for this rule:
 
 ```jsx
-/* eslint primer-react/a11y-tooltip-non-interactive-trigger: "error" */
+/* eslint primer-react/a11y-tooltip-interactive-trigger: "error" */
 import {Tooltip, Button} from '@primer/react'
 
 const App = () => (
@@ -38,4 +38,4 @@ const App = () => (
 
 - `skipImportCheck` (default: `false`)
 
-  By default, the `a11y-tooltip-non-interactive-trigger` rule will only check for interactive elements in components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is used for internal linting in the [primer/react](https://github.com/prime/react) repository.
+  By default, the `a11y-tooltip-interactive-trigger` rule will only check for interactive elements in components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is used for internal linting in the [primer/react](https://github.com/prime/react) repository.
