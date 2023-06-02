@@ -6,5 +6,5 @@ updates:
       interval: weekly
     open-pull-requests-limit: 99
     allow: 
-      - "eslint-plugin-github"
-      - "eslint-plugin-jsx-a11y"
+      - dependency-name: "eslint-plugin-github"
+      - dependency-name: "eslint-plugin-jsx-a11y"
