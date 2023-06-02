@@ -7,3 +7,4 @@ updates:
     open-pull-requests-limit: 99
     allow: 
       - "eslint-plugin-github"
+      - "eslint-plugin-jsx-a11y"
