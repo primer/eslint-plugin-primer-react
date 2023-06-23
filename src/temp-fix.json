@@ -1,0 +1,6 @@
+{
+  "--color-fg-default": "fg.default",
+  "--color-fg-muted": "fg.muted",
+  "--color-fg-subtle": "fg.subtle",
+  "--color-fg-onEmphasis": "fg.onEmphasis"
+}

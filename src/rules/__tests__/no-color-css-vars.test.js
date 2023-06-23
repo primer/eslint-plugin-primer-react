@@ -1,4 +1,4 @@
-const rule = require('../no-css-vars')
+const rule = require('../no-color-css-vars')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
@@ -27,15 +27,15 @@ const ruleTester = new RuleTester({
 ></Box> */
 }
 
-ruleTester.run('no-deprecated-colors', rule, {
-  valid: [`{color: 'text.primary'}`],
+ruleTester.run('no-color-css-vars', rule, {
+  valid: [`{color: 'fg.default'}`],
   invalid: [
     {
-      code: `{color: 'var(--color-text-primary)'}`,
-      output: `{color: "text-primary"}`,
+      code: `{color: 'var(--color-fg-default)'}`,
+      output: `{color: 'fg.default'}`,
       errors: [
         {
-          message: 'Oops'
+          message: 'Replace var(--color-fg-default) with fg.default'
         }
       ]
     }
