@@ -1,4 +1,4 @@
-const cssVars = require('../temp-fix.json')
+const cssVars = require('../utils/css-var-map.json')
 
 module.exports = {
   meta: {
