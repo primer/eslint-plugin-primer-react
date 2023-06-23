@@ -24,28 +24,52 @@ module.exports = {
     ]
   },
   create(context) {
+    const styledSystemProps = [
+      'bg',
+      'backgroundColor',
+      'color',
+      'borderColor',
+      'borderTopColor',
+      'borderRightColor',
+      'borderBottomColor',
+      'borderLeftColor',
+      'border',
+      'boxShadow',
+      'caretColor'
+    ]
+
     return {
-      Literal(node) {
-        const stringValue = node.value
-
-        if (typeof stringValue !== 'string') {
-          return
+      JSXAttribute(node) {
+        if (node.name.name === 'sx') {
+          node.value.expression.properties.forEach(property => {
+            if (property.value.type === 'Literal' && typeof property.value.value === 'string') {
+              checkStringLiteral(property.value, context)
+            }
+          })
+        } else if (
+          styledSystemProps.includes(node.name.name) &&
+          node.value.type === 'Literal' &&
+          typeof node.value.value === 'string'
+        ) {
+          checkStringLiteral(node.value, context)
         }
-
-        Object.keys(cssVars).forEach(cssVar => {
-          if (stringValue.includes(`var(${cssVar}`)) {
-            const fixedString = stringValue.replace(`var(${cssVar})`, cssVars[cssVar])
-
-            context.report({
-              node,
-              message: `Replace var(${cssVar}) with ${cssVars[cssVar]}`,
-              fix: function(fixer) {
-                return fixer.replaceText(node, `'${fixedString}'`)
-              }
-            })
-          }
-        })
       }
+    }
+
+    function checkStringLiteral(node, context) {
+      Object.keys(cssVars).forEach(cssVar => {
+        if (node.value.includes(`var(${cssVar}`)) {
+          const fixedString = node.value.replace(`var(${cssVar})`, cssVars[cssVar])
+
+          context.report({
+            node,
+            message: `Replace var(${cssVar}) with ${cssVars[cssVar]}`,
+            fix: function(fixer) {
+              return fixer.replaceText(node, `'${fixedString}'`)
+            }
+          })
+        }
+      })
     }
   }
 }

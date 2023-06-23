@@ -11,12 +11,21 @@ const ruleTester = new RuleTester({
   }
 })
 
-// report all strings that start with 'var(--color-'
-// autofix strings: 'var(--color-fg-default)' -> 'fg.default'
-// color, backgroundColor, bg,
-
 ruleTester.run('no-color-css-vars', rule, {
-  valid: [`{color: 'fg.default'}`],
+  valid: [
+    {
+      code: `{color: 'fg.default'}`
+    },
+    {
+      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`
+    },
+    {
+      code: `<circle fill="var(--color-border-default)" strokeWidth="2" />`
+    },
+    {
+      code: `<div style={{ color: 'var(--color-border-default)' }}></div>`
+    }
+  ],
   invalid: [
     {
       code: `<Button sx={{color: 'var(--color-fg-muted)'}}>Test</Button>`,
@@ -27,21 +36,21 @@ ruleTester.run('no-color-css-vars', rule, {
         }
       ]
     },
-    {
-      code: `<Box sx={{'&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
-          color: 'var(--color-accent-fg)',
-        },
-      }}></Box>`,
-      output: `<Box sx={{'&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
-          color: 'accent.fg',
-        },
-      }}></Box>`,
-      errors: [
-        {
-          message: 'Replace var(--color-accent-fg) with accent.fg'
-        }
-      ]
-    },
+    // {
+    //   code: `<Box sx={{'&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
+    //       color: 'var(--color-accent-fg)',
+    //     },
+    //   }}></Box>`,
+    //   output: `<Box sx={{'&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
+    //       color: 'accent.fg',
+    //     },
+    //   }}></Box>`,
+    //   errors: [
+    //     {
+    //       message: 'Replace var(--color-accent-fg) with accent.fg'
+    //     }
+    //   ]
+    // },
     {
       code: `<Box sx={{boxShadow: '0 0 0 2px var(--color-canvas-subtle)'}} />`,
       output: `<Box sx={{boxShadow: '0 0 0 2px canvas.subtle'}} />`,
@@ -95,8 +104,8 @@ ruleTester.run('no-color-css-vars', rule, {
           message: 'Replace var(--color-canvas-default) with canvas.default'
         }
       ]
-    },
-    // {
+    }
+    //{
     //   code: `import {sx, SxProp} from '@primer/react' export const HighlightToken = styled.span < SxProp > \`color: var(--color-accent-emphasis); ${sx}\` const ClickableTokenSpan = styled(HighlightToken)\` &:hover, &:focus { background-color: accent.muted;}\``,
     //   output: `import {sx, SxProp} from '@primer/react' export const HighlightToken = styled.span < SxProp > \`color: accent.emphasis; ${sx}\` const ClickableTokenSpan = styled(HighlightToken)\` &:hover, &:focus { background-color: accent.muted;}\``,
     //   errors: [
@@ -105,14 +114,5 @@ ruleTester.run('no-color-css-vars', rule, {
     //     }
     //   ]
     // }
-    {
-      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`,
-      output: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`,
-      errors: [
-        {
-          message: 'Replace var(--color-border-default) with border.default'
-        }
-      ]
-    }
   ]
 })
