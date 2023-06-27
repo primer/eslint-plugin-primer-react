@@ -137,6 +137,22 @@ ruleTester.run('no-color-css-vars', rule, {
     //       message: 'Replace var(--color-accent-emphasis) with accent.emphasis'
     //     }
     //   ]
+    // },
+
+    // {
+    //   code: `
+    //     const styles = { color: 'var(--color-fg-muted)' }
+    //     export const Fixture = <Button sx={styles}>Test</Button>
+    //   `,
+    //   output: `
+    //     const styles = { color: 'fg.muted' }
+    //     export const Fixture = <Button sx={styles}>Test</Button>
+    //   `,
+    //   errors: [
+    //     {
+    //       message: 'Replace var(--color-fg-muted) with fg.muted'
+    //     }
+    //   ]
     // }
   ]
 })
