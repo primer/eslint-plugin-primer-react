@@ -111,9 +111,27 @@ ruleTester.run('no-color-css-vars', rule, {
         }
       ]
     }
-    //{
-    //   code: `import {sx, SxProp} from '@primer/react' export const HighlightToken = styled.span < SxProp > \`color: var(--color-accent-emphasis); ${sx}\` const ClickableTokenSpan = styled(HighlightToken)\` &:hover, &:focus { background-color: accent.muted;}\``,
-    //   output: `import {sx, SxProp} from '@primer/react' export const HighlightToken = styled.span < SxProp > \`color: accent.emphasis; ${sx}\` const ClickableTokenSpan = styled(HighlightToken)\` &:hover, &:focus { background-color: accent.muted;}\``,
+    // {
+    //   code: `
+    //     import {sx, SxProp} from '@primer/react'
+    //     export const HighlightToken = styled.span<SxProp>\`
+    //       color: var(--color-accent-emphasis);
+    //       \${sx}
+    //     \`
+    //     const ClickableTokenSpan = styled(HighlightToken)\`
+    //       &:hover, &:focus { background-color: accent.muted;}
+    //     \`
+    //   `,
+    //   output: `
+    //     import {sx, SxProp} from '@primer/react'
+    //     export const HighlightToken = styled.span<SxProp>\`
+    //       color: accent.emphasis;
+    //       \${sx}
+    //     \`
+    //     const ClickableTokenSpan = styled(HighlightToken)\`
+    //       &:hover, &:focus { background-color: accent.muted;}
+    //     \`
+    //   `,
     //   errors: [
     //     {
     //       message: 'Replace var(--color-accent-emphasis) with accent.emphasis'
