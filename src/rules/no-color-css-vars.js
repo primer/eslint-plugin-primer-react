@@ -41,31 +41,31 @@ module.exports = {
     return {
       JSXAttribute(node) {
         if (node.name.name === 'sx') {
-          node.value.expression.properties.forEach(property => {
-            if (property.value.type === 'Literal' && typeof property.value.value === 'string') {
-              checkStringLiteral(property.value, context)
-            }
-          })
+          const rawText = context.getSourceCode().getText(node.value)
+          checkForVariables(node.value, rawText)
         } else if (
           styledSystemProps.includes(node.name.name) &&
           node.value.type === 'Literal' &&
           typeof node.value.value === 'string'
         ) {
-          checkStringLiteral(node.value, context)
+          checkForVariables(node.value, node.value.value)
         }
       }
     }
 
-    function checkStringLiteral(node, context) {
+    function checkForVariables(node, rawText) {
+      // performance optimisation: exit early
+      if (!rawText.includes('var')) return
+
       Object.keys(cssVars).forEach(cssVar => {
-        if (node.value.includes(`var(${cssVar}`)) {
-          const fixedString = node.value.replace(`var(${cssVar})`, cssVars[cssVar])
+        if (rawText.includes(`var(${cssVar}`)) {
+          const fixedString = rawText.replace(`var(${cssVar})`, cssVars[cssVar])
 
           context.report({
             node,
             message: `Replace var(${cssVar}) with ${cssVars[cssVar]}`,
             fix: function(fixer) {
-              return fixer.replaceText(node, `'${fixedString}'`)
+              return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
             }
           })
         }

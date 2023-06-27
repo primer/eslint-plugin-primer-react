@@ -36,21 +36,27 @@ ruleTester.run('no-color-css-vars', rule, {
         }
       ]
     },
-    // {
-    //   code: `<Box sx={{'&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
-    //       color: 'var(--color-accent-fg)',
-    //     },
-    //   }}></Box>`,
-    //   output: `<Box sx={{'&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
-    //       color: 'accent.fg',
-    //     },
-    //   }}></Box>`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-accent-fg) with accent.fg'
-    //     }
-    //   ]
-    // },
+    {
+      code: `
+        <Box sx={{
+          '&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
+            color: 'var(--color-accent-fg)'
+          }
+        }}>
+        </Box>`,
+      output: `
+        <Box sx={{
+          '&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
+            color: 'accent.fg'
+          }
+        }}>
+        </Box>`,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-fg) with accent.fg'
+        }
+      ]
+    },
     {
       code: `<Box sx={{boxShadow: '0 0 0 2px var(--color-canvas-subtle)'}} />`,
       output: `<Box sx={{boxShadow: '0 0 0 2px canvas.subtle'}} />`,
@@ -88,8 +94,8 @@ ruleTester.run('no-color-css-vars', rule, {
       ]
     },
     {
-      code: `<Box backgroundColor='var(--color-canvas-default)' />`,
-      output: `<Box backgroundColor='canvas.default' />`,
+      code: `<Box backgroundColor="var(--color-canvas-default)" />`,
+      output: `<Box backgroundColor="canvas.default" />`,
       errors: [
         {
           message: 'Replace var(--color-canvas-default) with canvas.default'
@@ -97,8 +103,8 @@ ruleTester.run('no-color-css-vars', rule, {
       ]
     },
     {
-      code: `<Box bg='var(--color-canvas-default)' />`,
-      output: `<Box bg='canvas.default' />`,
+      code: `<Box bg="var(--color-canvas-default)" />`,
+      output: `<Box bg="canvas.default" />`,
       errors: [
         {
           message: 'Replace var(--color-canvas-default) with canvas.default'
