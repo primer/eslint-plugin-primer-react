@@ -23,6 +23,7 @@ module.exports = {
       }
     ]
   },
+  /** @param {import('eslint').Rule.RuleContext} context */
   create(context) {
     const styledSystemProps = [
       'bg',
@@ -39,10 +40,29 @@ module.exports = {
     ]
 
     return {
+      /** @param {import('eslint').Rule.Node} node */
       JSXAttribute(node) {
         if (node.name.name === 'sx') {
-          const rawText = context.getSourceCode().getText(node.value)
-          checkForVariables(node.value, rawText)
+          if (node.value.expression.type === 'ObjectExpression') {
+            // example: sx={{ color: 'fg.default' }} or sx={{ ':hover': {color: 'fg.default'} }}
+            const rawText = context.sourceCode.getText(node.value)
+            checkForVariables(node.value, rawText)
+          } else if (node.value.expression.type === 'Identifier') {
+            // example: sx={baseStyles}
+            const variableScope = context.sourceCode.getScope(node.value.expression)
+            const variable = variableScope.set.get(node.value.expression.name)
+
+            // if variable is not defined in scope, give up (could be imported from different file)
+            if (!variable) return
+
+            const variableDeclarator = variable.identifiers[0].parent
+            const rawText = context.sourceCode.getText(variableDeclarator)
+            checkForVariables(variableDeclarator, rawText)
+          } else {
+            // worth a try!
+            const rawText = context.sourceCode.getText(node.value)
+            checkForVariables(node.value, rawText)
+          }
         } else if (
           styledSystemProps.includes(node.name.name) &&
           node.value.type === 'Literal' &&

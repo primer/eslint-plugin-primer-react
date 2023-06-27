@@ -110,8 +110,41 @@ ruleTester.run('no-color-css-vars', rule, {
           message: 'Replace var(--color-canvas-default) with canvas.default'
         }
       ]
+    },
+    {
+      name: 'variable in scope',
+      code: `
+        const baseStyles = { color: 'var(--color-fg-muted)' }
+        export const Fixture = <Button sx={baseStyles}>Test</Button>
+      `,
+      output: `
+        const baseStyles = { color: 'fg.muted' }
+        export const Fixture = <Button sx={baseStyles}>Test</Button>
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-muted) with fg.muted'
+        }
+      ]
+    },
+    {
+      name: 'merge in sx',
+      code: `
+        import {merge} from '@primer/react'
+        export const Fixture = props => <Button sx={merge({color: 'var(--color-fg-muted)'}, props.sx)}>Test</Button>
+      `,
+      output: `
+        import {merge} from '@primer/react'
+        export const Fixture = props => <Button sx={merge({color: 'fg.muted'}, props.sx)}>Test</Button>
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-muted) with fg.muted'
+        }
+      ]
     }
     // {
+    //   name: 'variable in styled.component',
     //   code: `
     //     import {sx, SxProp} from '@primer/react'
     //     export const HighlightToken = styled.span<SxProp>\`
@@ -138,15 +171,31 @@ ruleTester.run('no-color-css-vars', rule, {
     //     }
     //   ]
     // },
-
     // {
+    //   name: 'MemberExpression in sx: not handled',
     //   code: `
-    //     const styles = { color: 'var(--color-fg-muted)' }
-    //     export const Fixture = <Button sx={styles}>Test</Button>
+    //     const colors = { muted: 'var(--color-fg-muted)' }
+    //     export const Fixture = <Button sx={colors.muted}>Test</Button>
     //   `,
     //   output: `
-    //     const styles = { color: 'fg.muted' }
-    //     export const Fixture = <Button sx={styles}>Test</Button>
+    //     const colors = { muted: 'fg.muted' }
+    //     export const Fixture = <Button sx={colors.muted}>Test</Button>
+    //   `,
+    //   errors: [
+    //     {
+    //       message: 'Replace var(--color-fg-muted) with fg.muted'
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'CallExpression in sx: not handled',
+    //   code: `
+    //     const getColors = () => 'var(--color-fg-muted)'
+    //     export const Fixture = <Button sx={getColors()}>Test</Button>
+    //   `,
+    //   output: `
+    //     const getColors = () => 'fg.muted'
+    //     export const Fixture = <Button sx={getColors()}>Test</Button>
     //   `,
     //   errors: [
     //     {
