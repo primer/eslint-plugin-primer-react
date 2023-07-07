@@ -14,12 +14,6 @@ module.exports = {
     'primer-react/a11y-tooltip-interactive-trigger': 'error'
   },
   settings: {
-    github: {
-      components: {
-        Link: {props: {as: {undefined: 'a', a: 'a', button: 'button'}}},
-        Button: {default: 'button'}
-      }
-    },
     'jsx-a11y': {
       components: {
         Button: 'button',
