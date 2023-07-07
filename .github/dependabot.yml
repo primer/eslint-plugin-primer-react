@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 99
+    allow: 
+      - dependency-name: "eslint-plugin-github"
+      - dependency-name: "eslint-plugin-jsx-a11y"
