@@ -4,21 +4,21 @@ const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-elemen
 
 const validHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
-const isHeading = elem => getJSXOpeningElementName(elem) === 'Heading'
-const isUsingAs = elem => {
-    const asUsage = getJSXOpeningElementAttribute(elem, 'as');
+const isHeadingComponent = elem => getJSXOpeningElementName(elem) === 'Heading'
+const isUsingAsProp = elem => {
+    const componentAs = getJSXOpeningElementAttribute(elem, 'as');
 
-    if (!asUsage) return;
+    if (!componentAs) return;
 
-    return asUsage.value;
+    return componentAs.value;
 }
 
-const isValidAs = value => validHeadings.includes(value.toLowerCase());
+const isValidAsUsage = value => validHeadings.includes(value.toLowerCase());
 const isInvalid = elem => {
-    const elemAs = isUsingAs(elem);
+    const elemAs = isUsingAsProp(elem);
 
     if (!elemAs) return 'nonExplicitHeadingLevel'; 
-    if(!isValidAs(elemAs.value)) return 'invalidAsValue';
+    if(!isValidAsUsage(elemAs.value)) return 'invalidAsValue';
 
     return false;
 }
@@ -36,15 +36,14 @@ module.exports = {
             }
           ],
           messages: {
-            nonExplicitHeadingLevel: "Heading must have an explicit heading level applied through `as` prop.",
-            invalidAsValue: "Usage of `as` must only be used for headings (h1-h6)."
+            nonExplicitHeadingLevel: "Heading must have an explicit heading level applied through the `as` prop.",
+            invalidAsValue: "Usage of `as` must only be used for heading elements (h1-h6)."
           }
     },
     create: function(context) {
         return {
-            // callback functions
             JSXOpeningElement(jsxNode) {
-                if (isPrimerComponent(jsxNode.name, context.getScope(jsxNode)) && isHeading(jsxNode)) {
+                if (isPrimerComponent(jsxNode.name, context.getScope(jsxNode)) && isHeadingComponent(jsxNode)) {
                     const error = isInvalid(jsxNode);
 
                     if (error) {

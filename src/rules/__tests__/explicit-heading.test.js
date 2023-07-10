@@ -25,28 +25,17 @@ ruleTester.run('explicit-heading', rule, {
 ],
 invalid: [    
   {
-    code: `
-    import {Heading} from '@primer/react';
-
-    <Heading>Heading without "as"</Heading>
-    `,
-    errors: [
-      {
-        messageId: 'nonExplicitHeadingLevel'
-      }
-    ]
+    code: 
+    `import {Heading} from '@primer/react';
+    <Heading>Heading without "as"</Heading>`,
+    errors: [{ messageId: 'nonExplicitHeadingLevel' }]
   },
   {
-    code: `
-    import {Heading} from '@primer/react';
-
+    code: 
+    `import {Heading} from '@primer/react';
     <Heading as="span">Heading component used as "span"</Heading>
     `,
-    errors: [
-      {
-        messageId: 'invalidAsValue'
-      }
-    ]
+    errors: [{ messageId: 'invalidAsValue' }]
   },
 ]
 })
