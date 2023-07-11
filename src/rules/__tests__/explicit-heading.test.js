@@ -20,7 +20,7 @@ ruleTester.run('explicit-heading', rule, {
   <Heading as="h2">Heading level 2</Heading>
   `,
   `import {Heading} from '@primer/react';
-  <Heading as="H3">Heading level 2</Heading>
+  <Heading as="H3">Heading level 3</Heading>
   `,
 ],
 invalid: [    
