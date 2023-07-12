@@ -34,4 +34,4 @@ import {Heading} from '@primer/react';
 
 - `skipImportCheck` (default: `false`)
 
-  By default, the `explicit-heading` rule will only check for `<Heading>` components imported directly from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`.
+  By default, the `a11y-explicit-heading` rule will only check for `<Heading>` components imported directly from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`.

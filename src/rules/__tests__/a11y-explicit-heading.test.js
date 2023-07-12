@@ -1,4 +1,4 @@
-const rule = require('../explicit-heading')
+const rule = require('../a11y-explicit-heading')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
@@ -11,7 +11,7 @@ const ruleTester = new RuleTester({
   }
 })
 
-ruleTester.run('explicit-heading', rule, {
+ruleTester.run('a11y-explicit-heading', rule, {
   valid: [
   `import {Heading} from '@primer/react';
   <Heading as="h1">Heading level 1</Heading>

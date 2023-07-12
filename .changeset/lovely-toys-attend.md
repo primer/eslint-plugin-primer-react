@@ -2,4 +2,4 @@
 'eslint-plugin-primer-react': major
 ---
 
-Add `explicit-heading` rule
+Add `a11y-explicit-heading` rule
