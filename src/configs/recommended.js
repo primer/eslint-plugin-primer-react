@@ -17,7 +17,8 @@ module.exports = {
     'jsx-a11y': {
       components: {
         Button: 'button',
-        IconButton: 'button'
+        IconButton: 'button',
+        Link: 'a'
       }
     }
   }
