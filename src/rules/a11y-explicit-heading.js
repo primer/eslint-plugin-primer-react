@@ -20,7 +20,7 @@ const isInvalid = elem => {
   const elemAs = isUsingAsProp(elem)
 
   if (!elemAs) return 'nonExplicitHeadingLevel'
-  if (elemAs?.value && !isValidAsUsage(elemAs.value)) return 'invalidAsValue'
+  if (elemAs.value && !isValidAsUsage(elemAs.value)) return 'invalidAsValue'
 
   return false
 }
