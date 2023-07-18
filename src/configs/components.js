@@ -14,15 +14,7 @@ const components = {
         Option: 'option', 
         self: 'select',
      },
-    UnderlineNav: {
-      Link: 'a',
-      self: 'nav',
-    },
     TabNav: {
-        Link: 'a',
-        self: 'nav',
-    },
-      SubNav: {
         Link: 'a',
         self: 'nav',
     },
