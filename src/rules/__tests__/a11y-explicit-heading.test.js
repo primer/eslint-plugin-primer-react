@@ -22,6 +22,19 @@ ruleTester.run('a11y-explicit-heading', rule, {
   `import {Heading} from '@primer/react';
   <Heading as="H3">Heading level 3</Heading>
   `,
+  `import {Heading} from '@primer/react';
+  const args = {};
+  <Heading {...args}>A heading with spread props</Heading>
+  `,
+  `import {Heading} from '@primer/react';
+  const as = 'h3';
+  <Heading as={as}>Heading as passed prop</Heading>
+  `,
+  `import {Heading} from '@primer/react';
+  const args = {};
+  <Heading as="h2" {...args}>Heading level 2</Heading>
+  `,
+  
 ],
 invalid: [    
   {
