@@ -27,6 +27,10 @@ const isInvalid = elem => {
 
 module.exports = {
   meta: {
+    docs: {
+      description: 'Heading component must have explicit heading level, and specific `as` usage.',
+      url: require('../url')(module),
+    },
     schema: [
       {
         properties: {
