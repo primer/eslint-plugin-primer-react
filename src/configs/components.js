@@ -45,4 +45,4 @@ const flattenComponents = (componentObj) => {
 }
 
 
-exports.components = flattenComponents(components);
+module.exports = flattenComponents(components);
