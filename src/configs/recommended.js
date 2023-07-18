@@ -15,11 +15,7 @@ module.exports = {
   },
   settings: {
     'jsx-a11y': {
-      components: {
-        Button: 'button',
-        IconButton: 'button',
-        Link: 'a'
-      }
+      components: require('./components')
     }
   }
 }
