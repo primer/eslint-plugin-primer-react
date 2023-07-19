@@ -1,9 +1,10 @@
-const components = {
+const flattenComponents = require('../utils/flatten-components');
+
+const components = flattenComponents({
     Button: 'button',
     IconButton: 'button',
     Link: 'a',
     Spinner: 'svg',
-    Octicon: 'svg',
     ToggleSwitch: 'button',
     Radio: 'input',
     TextInput: {
@@ -18,23 +19,6 @@ const components = {
         Link: 'a',
         self: 'nav',
     },
-}
+})
 
-const flattenComponents = (componentObj) => {
-    let result = {};
-
-    Object.keys(componentObj).forEach((key) => {
-        if (typeof componentObj[key] === 'object') {
-            const test = Object.keys(componentObj[key]).forEach((item) => {
-                result = { ...result, [`${key}${item !== 'self' ? `.${item}` : ''}`]: componentObj[key][item] };        
-            });
-        } else {
-            result = {...result, [key]: componentObj[key]}
-        }
-    });
-
-    return result;
-}
-
-
-module.exports = flattenComponents(components);
+module.exports = components;

@@ -35,7 +35,7 @@
   "prettier": "@github/prettier-config",
   "dependencies": {
     "@styled-system/props": "^5.1.5",
-    "eslint-plugin-github": "^4.9.1",
+    "eslint-plugin-github": "^4.9.2",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-traverse": "^1.0.0",
     "lodash": "^4.17.21",
