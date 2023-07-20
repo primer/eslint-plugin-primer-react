@@ -7,6 +7,8 @@ const components = flattenComponents({
     Spinner: 'svg',
     ToggleSwitch: 'button',
     Radio: 'input',
+    Checkbox: 'input',
+    Text: 'span',
     TextInput: {
         Action: 'button',
         self: 'input',
