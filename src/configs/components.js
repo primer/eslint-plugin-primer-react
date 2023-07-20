@@ -1,4 +1,4 @@
-const flattenComponents = require('../utils/flatten-components');
+const { flattenComponents } = require('../utils/flatten-components');
 
 const components = flattenComponents({
     Button: 'button',

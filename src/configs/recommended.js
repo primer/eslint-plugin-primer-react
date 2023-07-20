@@ -1,3 +1,5 @@
+const components = require('./components');
+
 module.exports = {
   parserOptions: {
     sourceType: 'module',
@@ -15,8 +17,11 @@ module.exports = {
     'primer-react/a11y-explicit-heading': 'error'
   },
   settings: {
+    github: {
+      components: components
+    },
     'jsx-a11y': {
-      components: require('./components')
+      components: components
     }
   }
 }
