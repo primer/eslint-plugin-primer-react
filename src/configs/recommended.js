@@ -1,3 +1,5 @@
+const components = require('./components');
+
 module.exports = {
   parserOptions: {
     sourceType: 'module',
@@ -16,16 +18,10 @@ module.exports = {
   },
   settings: {
     github: {
-      components: {
-        Link: {props: {as: {undefined: 'a', a: 'a', button: 'button'}}},
-        Button: {default: 'button'}
-      }
+      components: components
     },
     'jsx-a11y': {
-      components: {
-        Button: 'button',
-        IconButton: 'button'
-      }
+      components: components
     }
   }
 }

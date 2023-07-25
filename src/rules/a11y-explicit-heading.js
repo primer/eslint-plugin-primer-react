@@ -15,16 +15,22 @@ const isUsingAsProp = elem => {
 
 const isValidAsUsage = value => validHeadings.includes(value.toLowerCase())
 const isInvalid = elem => {
+  if (elem.attributes.length === 1 && elem.attributes[0].type === 'JSXSpreadAttribute') return;
+
   const elemAs = isUsingAsProp(elem)
 
   if (!elemAs) return 'nonExplicitHeadingLevel'
-  if (!isValidAsUsage(elemAs.value)) return 'invalidAsValue'
+  if (elemAs.value && !isValidAsUsage(elemAs.value)) return 'invalidAsValue'
 
   return false
 }
 
 module.exports = {
   meta: {
+    docs: {
+      description: 'Heading component must have explicit heading level, and specific `as` usage.',
+      url: require('../url')(module),
+    },
     schema: [
       {
         properties: {

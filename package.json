@@ -24,7 +24,7 @@
     "@changesets/changelog-github": "^0.4.0",
     "@changesets/cli": "^2.16.0",
     "@github/prettier-config": "0.0.4",
-    "@primer/primitives": "^5.1.0",
+    "@primer/primitives": "^7.11.14",
     "eslint": "^8.0.1",
     "jest": "^27.0.6"
   },
@@ -35,8 +35,8 @@
   "prettier": "@github/prettier-config",
   "dependencies": {
     "@styled-system/props": "^5.1.5",
-    "eslint-plugin-github": "^4.3.7",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-github": "^4.9.2",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-traverse": "^1.0.0",
     "lodash": "^4.17.21",
     "styled-system": "^5.1.5"
