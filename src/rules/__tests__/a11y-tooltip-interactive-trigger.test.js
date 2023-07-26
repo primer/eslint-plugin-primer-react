@@ -140,6 +140,42 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       code: `
       import {Tooltip, Button} from '@primer/react';
       <Tooltip aria-label="Supplementary text" direction="e">
+        <Button disabled>Save</Button>
+      </Tooltip>`,
+      errors: [
+        {
+          messageId: 'disabledButton'
+        }
+      ]
+    },
+    {
+      code: `
+      import {Tooltip, Button} from '@primer/react';
+      <Tooltip aria-label="Supplementary text" direction="e">
+        <IconButton disabled>Save</IconButton>
+      </Tooltip>`,
+      errors: [
+        {
+          messageId: 'disabledButton'
+        }
+      ]
+    },
+    {
+      code: `
+      import {Tooltip, Button} from '@primer/react';
+      <Tooltip aria-label="Supplementary text" direction="e">
+        <button disabled>Save</button>
+      </Tooltip>`,
+      errors: [
+        {
+          messageId: 'disabledButton'
+        }
+      ]
+    },
+    {
+      code: `
+      import {Tooltip, Button} from '@primer/react';
+      <Tooltip aria-label="Supplementary text" direction="e">
         <header>
           <span>Save</span>
         </header>

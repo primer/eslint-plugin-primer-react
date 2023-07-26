@@ -10,10 +10,8 @@ const isInteractive = child => {
 }
 
 const isAnchorTag = el => {
-  return (
-    getJSXOpeningElementName(el.openingElement) === 'a' ||
-    getJSXOpeningElementName(el.openingElement).toLowerCase() === 'link'
-  )
+  const openingEl = getJSXOpeningElementName(el.openingElement)
+  return openingEl === 'a' || openingEl.toLowerCase() === 'link'
 }
 
 const isInteractiveAnchor = child => {
@@ -25,10 +23,8 @@ const isInteractiveAnchor = child => {
 }
 
 const isInputTag = el => {
-  return (
-    getJSXOpeningElementName(el.openingElement) === 'input' ||
-    getJSXOpeningElementName(el.openingElement).toLowerCase() === 'textinput'
-  )
+  const openingEl = getJSXOpeningElementName(el.openingElement)
+  return openingEl === 'input' || openingEl.toLowerCase() === 'textinput'
 }
 
 const isInteractiveInput = child => {
@@ -38,8 +34,19 @@ const isInteractiveInput = child => {
   return !hasHiddenType
 }
 
-const isOtherThanAnchorOrInput = el => {
-  return !isAnchorTag(el) && !isInputTag(el)
+const isButton = el => {
+  const openingEl = getJSXOpeningElementName(el.openingElement)
+  return openingEl.toLowerCase() === 'button' || openingEl.toLowerCase() === 'iconbutton'
+}
+
+const isNonDisabledButton = child => {
+  const hasDisabled = getJSXOpeningElementAttribute(child.openingElement, 'disabled')
+  return !hasDisabled
+}
+
+const isRegularEl = el => {
+  // Elements that are not anchor, input, or button
+  return !isAnchorTag(el) && !isInputTag(el) && !isButton(el)
 }
 
 const getAllChildren = node => {
@@ -67,8 +74,13 @@ const checks = [
     check: isInteractiveInput
   },
   {
+    id: 'disabledButton',
+    filter: jsxElement => isButton(jsxElement),
+    check: isNonDisabledButton
+  },
+  {
     id: 'nonInteractiveTrigger',
-    filter: jsxElement => isOtherThanAnchorOrInput(jsxElement),
+    filter: jsxElement => isRegularEl(jsxElement),
     check: isInteractive
   }
 ]
@@ -76,17 +88,15 @@ const checks = [
 const checkTriggerElement = jsxNode => {
   const elements = [...getAllChildren(jsxNode)]
   const hasInteractiveElement = elements.find(element => {
-    if (
-      getJSXOpeningElementName(element.openingElement) === 'a' ||
-      getJSXOpeningElementName(element.openingElement) === 'Link'
-    ) {
+    const openingEl = getJSXOpeningElementName(element.openingElement)
+    if (openingEl === 'a' || openingEl === 'Link') {
       return isInteractiveAnchor(element)
     }
-    if (
-      getJSXOpeningElementName(element.openingElement) === 'input' ||
-      getJSXOpeningElementName(element.openingElement) === 'TextInput'
-    ) {
+    if (openingEl === 'input' || openingEl === 'TextInput') {
       return isInteractiveInput(element)
+    }
+    if (openingEl.toLowerCase() === 'button' || openingEl === 'IconButton') {
+      return isNonDisabledButton(element)
     } else {
       return isInteractive(element)
     }
@@ -110,10 +120,7 @@ const checkTriggerElement = jsxNode => {
   }
   // check the specificity of the errors. If there are multiple errors, only return the most specific one.
   if (errors.size > 1) {
-    if (errors.has('anchorTagWithoutHref')) {
-      errors.delete('nonInteractiveTrigger')
-    }
-    if (errors.has('hiddenInput')) {
+    if (errors.has('anchorTagWithoutHref') || errors.has('hiddenInput') || errors.has('disabledButton')) {
       errors.delete('nonInteractiveTrigger')
     }
   }
@@ -140,6 +147,8 @@ module.exports = {
         'Anchor tags without an href attribute are not interactive, therefore they cannot be used as a trigger for a tooltip. Please add an href attribute or use an alternative interactive element instead',
       hiddenInput:
         'Hidden inputs are not interactive and cannot be used as a trigger for a tooltip. Please use an alternate input type or use a different interactive element instead',
+      disabledButton:
+        'Disabled buttons are not interactive and cannot be used as a trigger for a tooltip. Please use a non-disabled butto or use a different interactive element instead',
       singleChild: 'The `Tooltip` component expects a single React element as a child.'
     }
   },
