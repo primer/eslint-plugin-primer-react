@@ -133,7 +133,7 @@ module.exports = {
     ],
     messages: {
       nonInteractiveTrigger:
-        'The `Tooltip` component expects a single React element that contains interactive content. Consider using a `<button>` or equivalent interactive element instead.',
+        'Tooltips should only be applied to interactive elements that are not disabled. Consider using a `<button>` or equivalent interactive element instead.',
       nonInteractiveLink:
         'Anchor tags without an href attribute are not interactive, therefore they cannot be used as a trigger for a tooltip. Please add an href attribute or use an alternative interactive element instead',
       nonInteractiveInput:
