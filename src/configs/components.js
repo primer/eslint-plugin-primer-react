@@ -3,7 +3,6 @@ const { flattenComponents } = require('../utils/flatten-components');
 const components = flattenComponents({
     Button: 'button',
     IconButton: 'button',
-    Link: 'a',
     Spinner: 'svg',
     ToggleSwitch: 'button',
     Radio: 'input',
@@ -18,7 +17,6 @@ const components = flattenComponents({
         self: 'select',
      },
     TabNav: {
-        Link: 'a',
         self: 'nav',
     },
 })
