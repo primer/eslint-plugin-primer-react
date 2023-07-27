@@ -96,7 +96,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'anchorTagWithoutHref'
+          messageId: 'nonInteractiveLink'
         }
       ]
     },
@@ -108,7 +108,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'anchorTagWithoutHref'
+          messageId: 'nonInteractiveLink'
         }
       ]
     },
@@ -120,7 +120,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'hiddenInput'
+          messageId: 'nonInteractiveInput'
         }
       ]
     },
@@ -132,7 +132,43 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'hiddenInput'
+          messageId: 'nonInteractiveInput'
+        }
+      ]
+    },
+    {
+      code: `
+      import {Tooltip, Button} from '@primer/react';
+      <Tooltip aria-label="Supplementary text" direction="e">
+        <Button disabled>Save</Button>
+      </Tooltip>`,
+      errors: [
+        {
+          messageId: 'nonInteractiveTrigger'
+        }
+      ]
+    },
+    {
+      code: `
+      import {Tooltip, Button} from '@primer/react';
+      <Tooltip aria-label="Supplementary text" direction="e">
+        <IconButton disabled>Save</IconButton>
+      </Tooltip>`,
+      errors: [
+        {
+          messageId: 'nonInteractiveTrigger'
+        }
+      ]
+    },
+    {
+      code: `
+      import {Tooltip, Button} from '@primer/react';
+      <Tooltip aria-label="Supplementary text" direction="e">
+        <input disabled>Save</input>
+      </Tooltip>`,
+      errors: [
+        {
+          messageId: 'nonInteractiveInput'
         }
       ]
     },
@@ -159,7 +195,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'anchorTagWithoutHref'
+          messageId: 'nonInteractiveLink'
         }
       ]
     }
