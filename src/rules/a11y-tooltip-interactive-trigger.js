@@ -1,3 +1,4 @@
+const {getPropValue, propName} = require('jsx-ast-utils')
 const {isPrimerComponent} = require('../utils/is-primer-component')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
@@ -21,11 +22,21 @@ const isAnchorTag = el => {
   return openingEl === 'a' || openingEl.toLowerCase() === 'link'
 }
 
+const isJSXValue = (attributes) => {
+  const node = attributes.find(attribute => propName(attribute) === 'href');
+  const isJSXExpression = node.value.type === 'JSXExpressionContainer' && node 
+    && typeof getPropValue(node) === 'string';
+
+  return isJSXExpression
+}
+
 const isInteractiveAnchor = child => {
   const hasHref = getJSXOpeningElementAttribute(child.openingElement, 'href')
   if (!hasHref) return false
   const href = getJSXOpeningElementAttribute(child.openingElement, 'href').value.value
-  const isAnchorInteractive = typeof href === 'string' && href !== ''
+  const hasJSXValue = isJSXValue(child.openingElement.attributes);
+  const isAnchorInteractive = (typeof href === 'string' && href !== '' || hasJSXValue)
+
   return isAnchorInteractive
 }
 

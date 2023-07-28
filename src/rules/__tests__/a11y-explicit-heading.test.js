@@ -34,6 +34,15 @@ ruleTester.run('a11y-explicit-heading', rule, {
   const args = {};
   <Heading as="h2" {...args}>Heading level 2</Heading>
   `,
+  `
+  import {Heading} from '@primer/react';
+  <Heading
+    {...someProps}
+    as="h3"
+  >
+    Passed spread props
+  </Heading>
+  `
   
 ],
 invalid: [    
