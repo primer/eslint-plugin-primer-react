@@ -12,7 +12,8 @@ const slotParentToChildMap = {
   'TreeView.Item': ['TreeView.LeadingVisual', 'TreeView.TrailingVisual'],
   RadioGroup: ['RadioGroup.Label', 'RadioGroup.Caption', 'RadioGroup.Validation'],
   CheckboxGroup: ['CheckboxGroup.Label', 'CheckboxGroup.Caption', 'CheckboxGroup.Validation'],
-  MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label']
+  MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label'],
+  'MarkdownEditor.Footer': ['MarkdownEditor.Actions', 'MarkdownEditor.FooterButton']
 }
 
 const slotChildToParentMap = Object.entries(slotParentToChildMap).reduce((acc, [parent, children]) => {
