@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 4.0.1
+
+### Patch Changes
+
+- [#74](https://github.com/primer/eslint-plugin-primer-react/pull/74) [`c07df5c`](https://github.com/primer/eslint-plugin-primer-react/commit/c07df5c067e2a980bcd373d1c992a2123ef70c5c) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Adds support for `MarkdownEditor.Footer` in `direct-slot-children` rule
+
 ## 4.0.0
 
 ### Major Changes
