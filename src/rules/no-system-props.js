@@ -18,6 +18,7 @@ const excludedComponentProps = new Map([
   ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Avatar', new Set(['size'])],
   ['AvatarToken', new Set(['size'])],
+  ['Blankslate', new Set(['border'])],
   ['CircleOcticon', new Set(['size'])],
   ['Dialog', new Set(['width', 'height'])],
   ['IssueLabelToken', new Set(['size'])],
