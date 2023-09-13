@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 4.0.2
+
+### Patch Changes
+
+- [#76](https://github.com/primer/eslint-plugin-primer-react/pull/76) [`1750256`](https://github.com/primer/eslint-plugin-primer-react/commit/17502566745fcc7ebcebef730c1c7c60be276f06) Thanks [@joshblack](https://github.com/joshblack)! - Update the no-system-props rule to exclude the `border` prop for the `Blankslate` component from `@primer/react`.
+
 ## 4.0.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-primer-react",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "ESLint rules for Primer React",
   "main": "src/index.js",
   "scripts": {
