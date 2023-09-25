@@ -1,4 +1,4 @@
-const cssVars = require('../utils/css-var-map.json')
+const cssVars = require('../utils/css-variable-map.json')
 
 module.exports = {
   meta: {
@@ -77,15 +77,34 @@ module.exports = {
       // performance optimisation: exit early
       if (!rawText.includes('var')) return
 
-      Object.keys(cssVars).forEach(cssVar => {
-        if (rawText.includes(`var(${cssVar}`)) {
-          const fixedString = rawText.replace(`var(${cssVar})`, cssVars[cssVar])
+      // Object.keys(cssVars).forEach(cssVar => {
+      //   if (rawText.includes(`var(${cssVar}`)) {
+      //     const fixedString = rawText.replace(`var(${cssVar})`, cssVars[cssVar])
 
-          context.report({
-            node,
-            message: `Replace var(${cssVar}) with ${cssVars[cssVar]}`,
-            fix: function(fixer) {
-              return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
+      //     context.report({
+      //       node,
+      //       message: `Replace var(${cssVar}) with ${cssVars[cssVar]}`,
+      //       fix: function(fixer) {
+      //         return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
+      //       }
+      //     })
+      //   }
+      // })
+
+      console.log('Rule is being executed')
+      Object.keys(cssVars).forEach(cssVar => {
+        if (Array.isArray(cssVars[cssVar])) {
+          cssVars[cssVar].forEach(cssVarObject => {
+            const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
+            if (cssVarObject.props.some(prop => rawText.includes(prop)) && regex.test(rawText)) {
+              const fixedString = rawText.replace(regex, `var(${cssVarObject.replacement}, var(${cssVar}))`)
+              context.report({
+                node,
+                message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
+                fix: function(fixer) {
+                  return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
+                }
+              })
             }
           })
         }
