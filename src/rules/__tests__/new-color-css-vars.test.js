@@ -1,4 +1,4 @@
-const rule = require('../no-color-css-vars')
+const rule = require('../new-color-css-vars')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
@@ -124,68 +124,24 @@ ruleTester.run('no-color-css-vars', rule, {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))'
         }
       ]
+    },
+    {
+      name: 'variable in styled.component',
+      code: `
+        import {sx, SxProp} from '@primer/react'
+        export const HighlightToken = styled.span\`
+          color: var(--color-accent-emphasis);
+          \${sx}
+        \`
+        const ClickableTokenSpan = styled(HighlightToken)\`
+          &:hover, &:focus { background-color: accent.muted;}
+        \`
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))'
+        }
+      ]
     }
-    // broken tests start below
-    // {
-    //   name: 'variable in styled.component',
-    //   code: `
-    //     import {sx, SxProp} from '@primer/react'
-    //     export const HighlightToken = styled.span<SxProp>\`
-    //       color: var(--color-accent-emphasis);
-    //       \${sx}
-    //     \`
-    //     const ClickableTokenSpan = styled(HighlightToken)\`
-    //       &:hover, &:focus { background-color: accent.muted;}
-    //     \`
-    //   `,
-    //   output: `
-    //     import {sx, SxProp} from '@primer/react'
-    //     export const HighlightToken = styled.span<SxProp>\`
-    //       color: var(--bgColor-accent-emphasis, var(--color-accent-emphasis));
-    //       \${sx}
-    //     \`
-    //     const ClickableTokenSpan = styled(HighlightToken)\`
-    //       &:hover, &:focus { background-color: accent.muted;}
-    //     \`
-    //   `,
-    //   errors: [
-    //     {
-    //       message:
-    //         'Replace var(--color-accent-emphasis) with var(--bgColor-accent-emphasis, var(--color-accent-emphasis))'
-    //     }
-    //   ]
-    // }
-    // {
-    //   name: 'MemberExpression in sx: not handled',
-    //   code: `
-    //     const colors = { muted: 'var(--color-fg-muted)' }
-    //     export const Fixture = <Button sx={colors.muted}>Test</Button>
-    //   `,
-    //   output: `
-    //     const colors = { muted: 'var(--fgColor-muted, var(--color-fg-muted))' }
-    //     export const Fixture = <Button sx={colors.muted}>Test</Button>
-    //   `,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-    //     }
-    //   ]
-    // }
-    //   {
-    //     name: 'CallExpression in sx: not handled',
-    //     code: `
-    //       const getColors = () => 'var(--color-fg-muted)'
-    //       export const Fixture = <Button sx={getColors()}>Test</Button>
-    //     `,
-    //     output: `
-    //       const getColors = () => 'var(--fgColor-muted, var(--color-fg-muted))'
-    //       export const Fixture = <Button sx={getColors()}>Test</Button>
-    //     `,
-    //     errors: [
-    //       {
-    //         message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-    //       }
-    //     ]
-    //   }
   ]
 })
