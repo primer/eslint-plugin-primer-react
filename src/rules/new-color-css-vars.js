@@ -125,22 +125,19 @@ module.exports = {
       Object.keys(cssVars).forEach(cssVar => {
         if (Array.isArray(cssVars[cssVar])) {
           cssVars[cssVar].forEach(cssVarObject => {
-            cssVarObject.props.forEach(prop => {
-              const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
-              if (rawText.includes(prop) && regex.test(rawText)) {
-                const fixedString = rawText.replace(regex, `var(${cssVarObject.replacement}, var(${cssVar}))`)
-                if (!rawText.includes(fixedString)) {
-                  // Check if the autofix has already been applied
-                  context.report({
-                    node,
-                    message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
-                    fix: function(fixer) {
-                      return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
-                    }
-                  })
-                }
+            const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
+            if (cssVarObject.props.some(prop => rawText.includes(prop)) && regex.test(rawText)) {
+              const fixedString = rawText.replace(regex, `var(${cssVarObject.replacement}, var(${cssVar}))`)
+              if (!rawText.includes(fixedString)) {
+                context.report({
+                  node,
+                  message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
+                  fix: function(fixer) {
+                    return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
+                  }
+                })
               }
-            })
+            }
           })
         }
       })
