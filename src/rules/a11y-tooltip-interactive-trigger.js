@@ -1,41 +1,55 @@
+const {getPropValue, propName} = require('jsx-ast-utils')
 const {isPrimerComponent} = require('../utils/is-primer-component')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
 
 const isInteractive = child => {
   const childName = getJSXOpeningElementName(child.openingElement)
-  return ['button', 'summary', 'select', 'textarea', 'a', 'input', 'link', 'iconbutton', 'textinput'].includes(
-    childName.toLowerCase()
+  return (
+    ['button', 'summary', 'select', 'textarea', 'a', 'input', 'link', 'iconbutton', 'textinput'].includes(
+      childName.toLowerCase()
+    ) && !hasDisabledAttr(child)
   )
 }
 
+const hasDisabledAttr = child => {
+  const hasDisabledAttr = getJSXOpeningElementAttribute(child.openingElement, 'disabled')
+  return hasDisabledAttr
+}
+
 const isAnchorTag = el => {
-  return (
-    getJSXOpeningElementName(el.openingElement) === 'a' ||
-    getJSXOpeningElementName(el.openingElement).toLowerCase() === 'link'
-  )
+  const openingEl = getJSXOpeningElementName(el.openingElement)
+  return openingEl === 'a' || openingEl.toLowerCase() === 'link'
+}
+
+const isJSXValue = (attributes) => {
+  const node = attributes.find(attribute => propName(attribute) === 'href');
+  const isJSXExpression = node.value.type === 'JSXExpressionContainer' && node 
+    && typeof getPropValue(node) === 'string';
+
+  return isJSXExpression
 }
 
 const isInteractiveAnchor = child => {
   const hasHref = getJSXOpeningElementAttribute(child.openingElement, 'href')
   if (!hasHref) return false
   const href = getJSXOpeningElementAttribute(child.openingElement, 'href').value.value
-  const isAnchorInteractive = typeof href === 'string' && href !== ''
+  const hasJSXValue = isJSXValue(child.openingElement.attributes);
+  const isAnchorInteractive = (typeof href === 'string' && href !== '' || hasJSXValue)
+
   return isAnchorInteractive
 }
 
 const isInputTag = el => {
-  return (
-    getJSXOpeningElementName(el.openingElement) === 'input' ||
-    getJSXOpeningElementName(el.openingElement).toLowerCase() === 'textinput'
-  )
+  const openingEl = getJSXOpeningElementName(el.openingElement)
+  return openingEl === 'input' || openingEl.toLowerCase() === 'textinput'
 }
 
 const isInteractiveInput = child => {
   const hasHiddenType =
     getJSXOpeningElementAttribute(child.openingElement, 'type') &&
     getJSXOpeningElementAttribute(child.openingElement, 'type').value.value === 'hidden'
-  return !hasHiddenType
+  return !hasHiddenType && !hasDisabledAttr(child)
 }
 
 const isOtherThanAnchorOrInput = el => {
@@ -57,12 +71,12 @@ const getAllChildren = node => {
 
 const checks = [
   {
-    id: 'anchorTagWithoutHref',
+    id: 'nonInteractiveLink',
     filter: jsxElement => isAnchorTag(jsxElement),
     check: isInteractiveAnchor
   },
   {
-    id: 'hiddenInput',
+    id: 'nonInteractiveInput',
     filter: jsxElement => isInputTag(jsxElement),
     check: isInteractiveInput
   },
@@ -76,16 +90,11 @@ const checks = [
 const checkTriggerElement = jsxNode => {
   const elements = [...getAllChildren(jsxNode)]
   const hasInteractiveElement = elements.find(element => {
-    if (
-      getJSXOpeningElementName(element.openingElement) === 'a' ||
-      getJSXOpeningElementName(element.openingElement) === 'Link'
-    ) {
+    const openingEl = getJSXOpeningElementName(element.openingElement)
+    if (openingEl === 'a' || openingEl === 'Link') {
       return isInteractiveAnchor(element)
     }
-    if (
-      getJSXOpeningElementName(element.openingElement) === 'input' ||
-      getJSXOpeningElementName(element.openingElement) === 'TextInput'
-    ) {
+    if (openingEl === 'input' || openingEl === 'TextInput') {
       return isInteractiveInput(element)
     } else {
       return isInteractive(element)
@@ -110,10 +119,10 @@ const checkTriggerElement = jsxNode => {
   }
   // check the specificity of the errors. If there are multiple errors, only return the most specific one.
   if (errors.size > 1) {
-    if (errors.has('anchorTagWithoutHref')) {
+    if (errors.has('nonInteractiveLink')) {
       errors.delete('nonInteractiveTrigger')
     }
-    if (errors.has('hiddenInput')) {
+    if (errors.has('nonInteractiveInput')) {
       errors.delete('nonInteractiveTrigger')
     }
   }
@@ -135,11 +144,11 @@ module.exports = {
     ],
     messages: {
       nonInteractiveTrigger:
-        'The `Tooltip` component expects a single React element that contains interactive content. Consider using a `<button>` or equivalent interactive element instead.',
-      anchorTagWithoutHref:
+        'Tooltips should only be applied to interactive elements that are not disabled. Consider using a `<button>` or equivalent interactive element instead.',
+      nonInteractiveLink:
         'Anchor tags without an href attribute are not interactive, therefore they cannot be used as a trigger for a tooltip. Please add an href attribute or use an alternative interactive element instead',
-      hiddenInput:
-        'Hidden inputs are not interactive and cannot be used as a trigger for a tooltip. Please use an alternate input type or use a different interactive element instead',
+      nonInteractiveInput:
+        'Hidden or disabled inputs are not interactive and cannot be used as a trigger for a tooltip. Please use an alternate input type or use a different interactive element instead',
       singleChild: 'The `Tooltip` component expects a single React element as a child.'
     }
   },

@@ -22,6 +22,8 @@ ruleTester.run('direct-slot-children', rule, {
     <ActionList.Item><ActionList.LeadingVisual> <Avatar src="https://github.com/mona.png" /></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.Item>`,
     `import {ActionList} from '@primer/react';
     <ActionList.LinkItem><ActionList.LeadingVisual></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.LinkItem>`,
+    `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><MarkdownEditor.Footer><MarkdownEditor.Actions></MarkdownEditor.Actions></MarkdownEditor.Footer></MarkdownEditor>`,
+    `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><MarkdownEditor.Footer><MarkdownEditor.FooterButton></MarkdownEditor.FooterButton></MarkdownEditor.Footer></MarkdownEditor>`,
     {code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`, options: [{skipImportCheck: true}]}
   ],
   invalid: [
@@ -95,6 +97,24 @@ ruleTester.run('direct-slot-children', rule, {
         {
           messageId: 'directSlotChildren',
           data: {childName: 'ActionList.LeadingVisual', parentName: 'ActionList.Item or ActionList.LinkItem'}
+        }
+      ]
+    },
+    {
+      code: `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><div><MarkdownEditor.Actions></MarkdownEditor.Actions></div></MarkdownEditor>`,
+      errors: [
+        {
+          messageId: 'directSlotChildren',
+          data: {childName: 'MarkdownEditor.Actions', parentName: 'MarkdownEditor or MarkdownEditor.Footer'}
+        }
+      ]
+    },
+    {
+      code: `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><MarkdownEditor.FooterButton></MarkdownEditor.FooterButton></MarkdownEditor>`,
+      errors: [
+        {
+          messageId: 'directSlotChildren',
+          data: {childName: 'MarkdownEditor.FooterButton', parentName: 'MarkdownEditor.Footer'}
         }
       ]
     }

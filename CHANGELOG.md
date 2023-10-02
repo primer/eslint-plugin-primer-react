@@ -1,5 +1,38 @@
 # eslint-plugin-primer-react
 
+## 4.0.2
+
+### Patch Changes
+
+- [#76](https://github.com/primer/eslint-plugin-primer-react/pull/76) [`1750256`](https://github.com/primer/eslint-plugin-primer-react/commit/17502566745fcc7ebcebef730c1c7c60be276f06) Thanks [@joshblack](https://github.com/joshblack)! - Update the no-system-props rule to exclude the `border` prop for the `Blankslate` component from `@primer/react`.
+
+## 4.0.1
+
+### Patch Changes
+
+- [#74](https://github.com/primer/eslint-plugin-primer-react/pull/74) [`c07df5c`](https://github.com/primer/eslint-plugin-primer-react/commit/c07df5c067e2a980bcd373d1c992a2123ef70c5c) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Adds support for `MarkdownEditor.Footer` in `direct-slot-children` rule
+
+## 4.0.0
+
+### Major Changes
+
+- [#51](https://github.com/primer/eslint-plugin-primer-react/pull/51) [`a65aa32`](https://github.com/primer/eslint-plugin-primer-react/commit/a65aa32c612c7fe952ec47bb3d926cf8adae9fab) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Add `a11y-tooltip-interactive-trigger`
+
+* [#66](https://github.com/primer/eslint-plugin-primer-react/pull/66) [`d1df609`](https://github.com/primer/eslint-plugin-primer-react/commit/d1df609b260505ee9dea1740bc96a3187355d727) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Add `a11y-explicit-heading` rule
+
+### Minor Changes
+
+- [#67](https://github.com/primer/eslint-plugin-primer-react/pull/67) [`4dfdb47`](https://github.com/primer/eslint-plugin-primer-react/commit/4dfdb47b40e7f187573b8203830541b86cc7a953) Thanks [@TylerJDev](https://github.com/TylerJDev)! - \* Updates component mapping, adds `components.js`
+  - Bumps `eslint-plugin-github` and `eslint-plugin-jsx-a11y`
+  - Fixes bug in `a11y-explicit-heading` when using spread props, or variable for `as`
+
+### Patch Changes
+
+- [#72](https://github.com/primer/eslint-plugin-primer-react/pull/72) [`522b9cc`](https://github.com/primer/eslint-plugin-primer-react/commit/522b9ccbcfb26d18f2ea8b2514a6a7975480aaa7) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Removes `Link`, `Spinner` and `TabNav.Link` from component mapping
+
+* [#73](https://github.com/primer/eslint-plugin-primer-react/pull/73) [`974d9e8`](https://github.com/primer/eslint-plugin-primer-react/commit/974d9e85c7460a05eb0345086b340b650700d24d) Thanks [@TylerJDev](https://github.com/TylerJDev)! - \* Fixes `nonInteractiveLink` rule for links that pass values through JSX rather than a string
+  - Adds optional chaining to `getJSXOpeningElementAttribute` to avoid error when no `name` is present
+
 ## 3.0.0
 
 ### Major Changes

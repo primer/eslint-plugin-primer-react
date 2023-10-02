@@ -1,3 +1,5 @@
+const components = require('./components');
+
 module.exports = {
   parserOptions: {
     sourceType: 'module',
@@ -12,20 +14,15 @@ module.exports = {
     'primer-react/no-deprecated-colors': 'warn',
     'primer-react/no-system-props': 'warn',
     'primer-react/a11y-tooltip-interactive-trigger': 'error',
-    'primer-react/new-color-css-vars': 'error'
+    'primer-react/new-color-css-vars': 'error',
+    'primer-react/a11y-explicit-heading': 'error'
   },
   settings: {
     github: {
-      components: {
-        Link: {props: {as: {undefined: 'a', a: 'a', button: 'button'}}},
-        Button: {default: 'button'}
-      }
+      components: components
     },
     'jsx-a11y': {
-      components: {
-        Button: 'button',
-        IconButton: 'button'
-      }
+      components: components
     }
   }
 }
