@@ -6,7 +6,7 @@ module.exports = {
     hasSuggestions: true,
     fixable: 'code',
     docs: {
-      description: 'Disallow the use of CSS color variables in React'
+      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop'
     },
     schema: [
       {
@@ -65,55 +65,11 @@ module.exports = {
           }
         } else if (
           styledSystemProps.includes(node.name.name) &&
+          node.value &&
           node.value.type === 'Literal' &&
           typeof node.value.value === 'string'
         ) {
           checkForVariables(node.value, node.value.value)
-        }
-      },
-      TaggedTemplateExpression(node) {
-        if (node.tag.type !== 'MemberExpression') {
-          return
-        }
-
-        if (node.tag.object.name !== 'styled') {
-          return
-        }
-
-        const DECLARATION_REGEX = /(.+): (var\(--color-.+\));/
-
-        // const StyledComponent = styled.div`
-        //   color: var(--color-fg-example);
-        //   background: var(--color-bg-example);
-        // `;
-        for (const templateElement of node.quasi.quasis) {
-          const rawValue = templateElement.value.raw
-          const match = rawValue.match(DECLARATION_REGEX)
-          if (!match) {
-            continue
-          }
-
-          const property = match[1].trim()
-          const value = match[2].trim()
-
-          for (const [cssVar, replacements] of Object.entries(cssVars)) {
-            const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
-
-            for (const {props, replacement} of replacements) {
-              if (!props.includes(property)) {
-                continue
-              }
-
-              if (!regex.test(value)) {
-                continue
-              }
-
-              context.report({
-                node,
-                message: `Replace var(${cssVar}) with var(${replacement}, var(${cssVar}))`
-              })
-            }
-          }
         }
       }
     }
@@ -126,7 +82,11 @@ module.exports = {
         if (Array.isArray(cssVars[cssVar])) {
           cssVars[cssVar].forEach(cssVarObject => {
             const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
-            if (cssVarObject.props.some(prop => rawText.includes(prop)) && regex.test(rawText)) {
+            if (
+              cssVarObject.props.some(prop => rawText.includes(prop)) &&
+              regex.test(rawText) &&
+              !rawText.includes(cssVarObject.replacement)
+            ) {
               const fixedString = rawText.replace(regex, `var(${cssVarObject.replacement}, var(${cssVar}))`)
               if (!rawText.includes(fixedString)) {
                 context.report({

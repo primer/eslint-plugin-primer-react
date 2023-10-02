@@ -24,6 +24,9 @@ ruleTester.run('no-color-css-vars', rule, {
     },
     {
       code: `<div style={{ color: 'var(--color-border-default)' }}></div>`
+    },
+    {
+      code: `<Blankslate border></Blankslate>`
     }
   ],
   invalid: [
@@ -122,24 +125,6 @@ ruleTester.run('no-color-css-vars', rule, {
       errors: [
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))'
-        }
-      ]
-    },
-    {
-      name: 'variable in styled.component',
-      code: `
-        import {sx, SxProp} from '@primer/react'
-        export const HighlightToken = styled.span\`
-          color: var(--color-accent-emphasis);
-          \${sx}
-        \`
-        const ClickableTokenSpan = styled(HighlightToken)\`
-          &:hover, &:focus { background-color: accent.muted;}
-        \`
-      `,
-      errors: [
-        {
-          message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))'
         }
       ]
     }
