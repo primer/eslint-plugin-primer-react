@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 4.0.3
+
+### Patch Changes
+
+- [#81](https://github.com/primer/eslint-plugin-primer-react/pull/81) [`821ef4d`](https://github.com/primer/eslint-plugin-primer-react/commit/821ef4d2a1b87f2418cb9c48bed37b793361b282) Thanks [@langermank](https://github.com/langermank)! - New rule: `new-color-css-vars` to find/replace legacy CSS color vars in sx prop
+
 ## 4.0.2
 
 ### Patch Changes
