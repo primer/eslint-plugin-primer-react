@@ -1,7 +1,7 @@
 function flattenComponents(componentObj) {
   let result = {}
 
-  for (const key in Object.keys(componentObj)) {
+  for (const key of Object.keys(componentObj)) {
     if (typeof componentObj[key] === 'object') {
       for (const item of Object.keys(componentObj[key])) {
         result = {...result, [`${key}${item !== 'self' ? `.${item}` : ''}`]: componentObj[key][item]}
