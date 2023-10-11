@@ -22,10 +22,9 @@ const isAnchorTag = el => {
   return openingEl === 'a' || openingEl.toLowerCase() === 'link'
 }
 
-const isJSXValue = (attributes) => {
-  const node = attributes.find(attribute => propName(attribute) === 'href');
-  const isJSXExpression = node.value.type === 'JSXExpressionContainer' && node 
-    && typeof getPropValue(node) === 'string';
+const isJSXValue = attributes => {
+  const node = attributes.find(attribute => propName(attribute) === 'href')
+  const isJSXExpression = node.value.type === 'JSXExpressionContainer' && node && typeof getPropValue(node) === 'string'
 
   return isJSXExpression
 }
@@ -34,8 +33,8 @@ const isInteractiveAnchor = child => {
   const hasHref = getJSXOpeningElementAttribute(child.openingElement, 'href')
   if (!hasHref) return false
   const href = getJSXOpeningElementAttribute(child.openingElement, 'href').value.value
-  const hasJSXValue = isJSXValue(child.openingElement.attributes);
-  const isAnchorInteractive = (typeof href === 'string' && href !== '' || hasJSXValue)
+  const hasJSXValue = isJSXValue(child.openingElement.attributes)
+  const isAnchorInteractive = (typeof href === 'string' && href !== '') || hasJSXValue
 
   return isAnchorInteractive
 }
@@ -173,7 +172,7 @@ module.exports = {
             const errors = checkTriggerElement(jsxNode)
 
             if (errors) {
-              for (const [key, value] of errors.entries()) {
+              for (const [_key, value] of errors.entries()) {
                 context.report({
                   node: jsxNode,
                   messageId: value

@@ -78,9 +78,9 @@ module.exports = {
       // performance optimisation: exit early
       if (!rawText.includes('var')) return
 
-      Object.keys(cssVars).forEach(cssVar => {
+      for (const cssVar of Object.keys(cssVars)) {
         if (Array.isArray(cssVars[cssVar])) {
-          cssVars[cssVar].forEach(cssVarObject => {
+          for (const cssVarObject of cssVars[cssVar]) {
             const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
             if (
               cssVarObject.props.some(prop => rawText.includes(prop)) &&
@@ -92,15 +92,15 @@ module.exports = {
                 context.report({
                   node,
                   message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
-                  fix: function(fixer) {
+                  fix(fixer) {
                     return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
                   }
                 })
               }
             }
-          })
+          }
         }
-      })
+      }
     }
   }
 }
