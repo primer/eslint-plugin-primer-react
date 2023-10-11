@@ -4,8 +4,9 @@
   "description": "ESLint rules for Primer React",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
-    "release": "changeset publish"
+    "lint": "eslint .",
+    "release": "changeset publish",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,25 +21,28 @@
     "url": "https://github.com/primer/eslint-plugin-primer-react/issues"
   },
   "homepage": "https://github.com/primer/eslint-plugin-primer-react#readme",
+  "peerDependencies": {
+    "@primer/primitives": ">=4.6.2",
+    "eslint": "^8.42.0"
+  },
+  "dependencies": {
+    "@styled-system/props": "^5.1.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-traverse": "^1.0.0",
+    "lodash": "^4.17.21",
+    "styled-system": "^5.1.5"
+  },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.0",
     "@changesets/cli": "^2.16.0",
     "@github/prettier-config": "0.0.4",
     "@primer/primitives": "^7.14.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
     "eslint": "^8.42.0",
+    "eslint-plugin-github": "^4.10.1",
+    "eslint-plugin-prettier": "^5.0.1",
     "jest": "^27.0.6"
   },
-  "peerDependencies": {
-    "@primer/primitives": ">=4.6.2",
-    "eslint": "^8.42.0"
-  },
-  "prettier": "@github/prettier-config",
-  "dependencies": {
-    "@styled-system/props": "^5.1.5",
-    "eslint-plugin-github": "^4.9.2",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-traverse": "^1.0.0",
-    "lodash": "^4.17.21",
-    "styled-system": "^5.1.5"
-  }
+  "prettier": "@github/prettier-config"
 }
