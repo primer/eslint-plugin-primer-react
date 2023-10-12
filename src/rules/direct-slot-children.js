@@ -13,7 +13,7 @@ const slotParentToChildMap = {
   RadioGroup: ['RadioGroup.Label', 'RadioGroup.Caption', 'RadioGroup.Validation'],
   CheckboxGroup: ['CheckboxGroup.Label', 'CheckboxGroup.Caption', 'CheckboxGroup.Validation'],
   MarkdownEditor: ['MarkdownEditor.Toolbar', 'MarkdownEditor.Actions', 'MarkdownEditor.Label'],
-  'MarkdownEditor.Footer': ['MarkdownEditor.Actions', 'MarkdownEditor.FooterButton']
+  'MarkdownEditor.Footer': ['MarkdownEditor.Actions', 'MarkdownEditor.FooterButton'],
 }
 
 const slotChildToParentMap = Object.entries(slotParentToChildMap).reduce((acc, [parent, children]) => {
@@ -34,14 +34,14 @@ module.exports = {
       {
         properties: {
           skipImportCheck: {
-            type: 'boolean'
-          }
-        }
-      }
+            type: 'boolean',
+          },
+        },
+      },
     ],
     messages: {
-      directSlotChildren: '{{childName}} must be a direct child of {{parentName}}.'
-    }
+      directSlotChildren: '{{childName}} must be a direct child of {{parentName}}.',
+    },
   },
   create(context) {
     const stack = []
@@ -67,8 +67,8 @@ module.exports = {
               messageId: 'directSlotChildren',
               data: {
                 childName: name,
-                parentName: expectedParentNames.length > 1 ? expectedParentNames.join(' or ') : expectedParentNames[0]
-              }
+                parentName: expectedParentNames.length > 1 ? expectedParentNames.join(' or ') : expectedParentNames[0],
+              },
             })
           }
         }
@@ -81,7 +81,7 @@ module.exports = {
       JSXClosingElement() {
         // Pop the current element off the stack
         stack.pop()
-      }
+      },
     }
-  }
+  },
 }

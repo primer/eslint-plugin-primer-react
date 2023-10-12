@@ -84,7 +84,7 @@ const ThemeGetExample = styled.div`
   function ExampleComponent() {
     const styles = {
       // Enabling `checkAllStrings` will find deprecated colors used like this:
-      color: 'text.primary'
+      color: 'text.primary',
     }
     return <Box sx={styles}>Hello</Box>
   }

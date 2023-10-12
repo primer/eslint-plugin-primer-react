@@ -6,11 +6,11 @@
 module.exports = {
   extends: ['eslint:recommended', 'plugin:github/recommended'],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
   },
   env: {
     commonjs: true,
-    node: true
+    node: true,
   },
   rules: {
     'import/no-commonjs': 'off',
@@ -18,22 +18,22 @@ module.exports = {
     'no-unused-vars': [
       'error',
       {
-        varsIgnorePattern: '^_'
-      }
-    ]
+        varsIgnorePattern: '^_',
+      },
+    ],
   },
   overrides: [
     {
       files: ['**/*.test.js'],
       env: {
-        jest: true
-      }
+        jest: true,
+      },
     },
     {
       files: ['.eslintrc.js'],
       rules: {
-        'filenames/match-regex': 'off'
-      }
-    }
-  ]
+        'filenames/match-regex': 'off',
+      },
+    },
+  ],
 }

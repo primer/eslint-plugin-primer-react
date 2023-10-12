@@ -9,15 +9,15 @@ const components = flattenComponents({
   Text: 'span',
   TextInput: {
     Action: 'button',
-    self: 'input'
+    self: 'input',
   },
   Select: {
     Option: 'option',
-    self: 'select'
+    self: 'select',
   },
   TabNav: {
-    self: 'nav'
-  }
+    self: 'nav',
+  },
 })
 
 module.exports = components
