@@ -14,7 +14,9 @@ enforces `as` usage to only be used for headings.
 ```jsx
 import {Heading} from '@primer/react'
 
-;<Heading>Heading without explicit heading level</Heading>
+function ExampleComponent() {
+  return <Heading>Heading without explicit heading level</Heading>
+}
 ```
 
 `as` must only be for headings (`h1`-`h6`)
@@ -22,7 +24,9 @@ import {Heading} from '@primer/react'
 ```jsx
 import {Heading} from '@primer/react'
 
-;<Heading as="span">Heading component used as "span"</Heading>
+function ExampleComponent() {
+  return <Heading as="span">Heading component used as "span"</Heading>
+}
 ```
 
 👍 Examples of **correct** code for this rule:
@@ -30,7 +34,9 @@ import {Heading} from '@primer/react'
 ```jsx
 import {Heading} from '@primer/react'
 
-;<Heading as="h2">Heading level 2</Heading>
+function ExampleComponent() {
+  return <Heading as="h2">Heading level 2</Heading>
+}
 ```
 
 ## Options
