@@ -1,6 +1,6 @@
 const {flattenComponents} = require('../flatten-components')
 
-const mockComponents = function(passedObj) {
+const mockComponents = passedObj => {
   return {
     Button: 'button',
     Link: 'a',
@@ -14,8 +14,8 @@ const mockComponents = function(passedObj) {
   }
 }
 
-describe('getElementType', function() {
-  it('flattens passed object 1-level deep', function() {
+describe('getElementType', function () {
+  it('flattens passed object 1-level deep', function () {
     const result = flattenComponents(mockComponents())
 
     const expectedResult = {
@@ -30,7 +30,7 @@ describe('getElementType', function() {
     expect(result).toEqual(expectedResult)
   })
 
-  it('ignores objects nested deeper than 1-level', function() {
+  it('ignores objects nested deeper than 1-level', function () {
     const result = flattenComponents(
       mockComponents({
         Select: {

@@ -58,7 +58,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       <Link href={avatar.avatarLink} underline={true}>
         User avatar
       </Link>
-    </Tooltip>` ,
+    </Tooltip>`,
     `
     import {Tooltip, Link} from '@primer/react';
     <Tooltip aria-label="product" direction="e">

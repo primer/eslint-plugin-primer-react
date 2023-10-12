@@ -1,6 +1,8 @@
 # Enforce direct parent-child relationship of slot components (direct-slot-children)
 
-Some Primer React components use a slots pattern under the hood to render subcomponents in specific places. For example, the `PageLayout` component renders `PageLayout.Header` in the header area, and `PageLayout.Footer` in the footer area. These subcomponents must be direct children of the parent component, and cannot be nested inside other components.
+Some Primer React components use a slots pattern under the hood to render subcomponents in specific places. For example,
+the `PageLayout` component renders `PageLayout.Header` in the header area, and `PageLayout.Footer` in the footer area.
+These subcomponents must be direct children of the parent component, and cannot be nested inside other components.
 
 ## Rule details
 
@@ -42,5 +44,6 @@ const App = () => (
 
 - `skipImportCheck` (default: `false`)
 
-  By default, the `direct-slot-children` rule will only check for direct slot children in components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is used for internal linting in the [primer/react](https://github.com/prime/react) repository.
-
+  By default, the `direct-slot-children` rule will only check for direct slot children in components that are imported
+  from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is used for internal
+  linting in the [primer/react](https://github.com/prime/react) repository.
