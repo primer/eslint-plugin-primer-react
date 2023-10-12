@@ -1,4 +1,4 @@
-const components = require('./components');
+const components = require('./components')
 
 module.exports = {
   parserOptions: {
@@ -19,10 +19,10 @@ module.exports = {
   },
   settings: {
     github: {
-      components: components
+      components
     },
     'jsx-a11y': {
-      components: components
+      components
     }
   }
 }
