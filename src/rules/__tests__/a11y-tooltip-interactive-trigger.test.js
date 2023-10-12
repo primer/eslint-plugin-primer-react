@@ -6,9 +6,9 @@ const ruleTester = new RuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
-  }
+      jsx: true,
+    },
+  },
 })
 
 ruleTester.run('non-interactive-tooltip-trigger', rule, {
@@ -66,7 +66,7 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
         Product
       </Link>
     </Tooltip>
-    `
+    `,
   ],
   invalid: [
     {
@@ -74,9 +74,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       `,
       errors: [
         {
-          messageId: 'singleChild'
-        }
-      ]
+          messageId: 'singleChild',
+        },
+      ],
     },
     {
       code: `
@@ -87,9 +87,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       `,
       errors: [
         {
-          messageId: 'nonInteractiveTrigger'
-        }
-      ]
+          messageId: 'nonInteractiveTrigger',
+        },
+      ],
     },
     {
       code: `
@@ -99,9 +99,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveTrigger'
-        }
-      ]
+          messageId: 'nonInteractiveTrigger',
+        },
+      ],
     },
     {
       code: `
@@ -111,9 +111,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveLink'
-        }
-      ]
+          messageId: 'nonInteractiveLink',
+        },
+      ],
     },
     {
       code: `
@@ -123,9 +123,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveLink'
-        }
-      ]
+          messageId: 'nonInteractiveLink',
+        },
+      ],
     },
     {
       code: `
@@ -135,9 +135,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveInput'
-        }
-      ]
+          messageId: 'nonInteractiveInput',
+        },
+      ],
     },
     {
       code: `
@@ -147,9 +147,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveInput'
-        }
-      ]
+          messageId: 'nonInteractiveInput',
+        },
+      ],
     },
     {
       code: `
@@ -159,9 +159,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveTrigger'
-        }
-      ]
+          messageId: 'nonInteractiveTrigger',
+        },
+      ],
     },
     {
       code: `
@@ -171,9 +171,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveTrigger'
-        }
-      ]
+          messageId: 'nonInteractiveTrigger',
+        },
+      ],
     },
     {
       code: `
@@ -183,9 +183,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveInput'
-        }
-      ]
+          messageId: 'nonInteractiveInput',
+        },
+      ],
     },
     {
       code: `
@@ -197,9 +197,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveTrigger'
-        }
-      ]
+          messageId: 'nonInteractiveTrigger',
+        },
+      ],
     },
     {
       code: `import {Tooltip, Button} from '@primer/react';
@@ -210,9 +210,9 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Tooltip>`,
       errors: [
         {
-          messageId: 'nonInteractiveLink'
-        }
-      ]
-    }
-  ]
+          messageId: 'nonInteractiveLink',
+        },
+      ],
+    },
+  ],
 })

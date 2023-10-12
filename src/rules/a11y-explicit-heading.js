@@ -29,21 +29,21 @@ module.exports = {
   meta: {
     docs: {
       description: 'Heading component must have explicit heading level, and specific `as` usage.',
-      url: require('../url')(module)
+      url: require('../url')(module),
     },
     schema: [
       {
         properties: {
           skipImportCheck: {
-            type: 'boolean'
-          }
-        }
-      }
+            type: 'boolean',
+          },
+        },
+      },
     ],
     messages: {
       nonExplicitHeadingLevel: 'Heading must have an explicit heading level applied through the `as` prop.',
-      invalidAsValue: 'Usage of `as` must only be used for heading elements (h1-h6).'
-    }
+      invalidAsValue: 'Usage of `as` must only be used for heading elements (h1-h6).',
+    },
   },
   create(context) {
     return {
@@ -59,11 +59,11 @@ module.exports = {
           if (error) {
             context.report({
               node: jsxNode,
-              messageId: error
+              messageId: error,
             })
           }
         }
-      }
+      },
     }
-  }
+  },
 }

@@ -6,9 +6,9 @@ const ruleTester = new RuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
-  }
+      jsx: true,
+    },
+  },
 })
 
 ruleTester.run('a11y-explicit-heading', rule, {
@@ -42,19 +42,19 @@ ruleTester.run('a11y-explicit-heading', rule, {
   >
     Passed spread props
   </Heading>
-  `
+  `,
   ],
   invalid: [
     {
       code: `import {Heading} from '@primer/react';
     <Heading>Heading without "as"</Heading>`,
-      errors: [{messageId: 'nonExplicitHeadingLevel'}]
+      errors: [{messageId: 'nonExplicitHeadingLevel'}],
     },
     {
       code: `import {Heading} from '@primer/react';
     <Heading as="span">Heading component used as "span"</Heading>
     `,
-      errors: [{messageId: 'invalidAsValue'}]
-    }
-  ]
+      errors: [{messageId: 'invalidAsValue'}],
+    },
+  ],
 })

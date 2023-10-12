@@ -6,9 +6,9 @@ const ruleTester = new RuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
-  }
+      jsx: true,
+    },
+  },
 })
 
 ruleTester.run('direct-slot-children', rule, {
@@ -24,7 +24,7 @@ ruleTester.run('direct-slot-children', rule, {
     <ActionList.LinkItem><ActionList.LeadingVisual></ActionList.LeadingVisual>mona<ActionList.Description>Monalisa Octocat</ActionList.Description></ActionList.LinkItem>`,
     `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><MarkdownEditor.Footer><MarkdownEditor.Actions></MarkdownEditor.Actions></MarkdownEditor.Footer></MarkdownEditor>`,
     `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><MarkdownEditor.Footer><MarkdownEditor.FooterButton></MarkdownEditor.FooterButton></MarkdownEditor.Footer></MarkdownEditor>`,
-    {code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`, options: [{skipImportCheck: true}]}
+    {code: `import {Foo} from './Foo'; <Foo><div><Foo.Bar></Foo.Bar></div></Foo>`, options: [{skipImportCheck: true}]},
   ],
   invalid: [
     {
@@ -32,54 +32,54 @@ ruleTester.run('direct-slot-children', rule, {
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
-        }
-      ]
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'},
+        },
+      ],
     },
     {
       code: `import {PageLayout} from '@primer/react'; function Header() { return <PageLayout.Header>Header</PageLayout.Header>; }`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
-        }
-      ]
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'},
+        },
+      ],
     },
     {
       code: `import {PageLayout} from '@primer/react/drafts'; <PageLayout.Header>Header</PageLayout.Header>`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
-        }
-      ]
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'},
+        },
+      ],
     },
     {
       code: `import {PageLayout} from '@primer/react'; <div><PageLayout.Header>Header</PageLayout.Header></div>`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
-        }
-      ]
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'},
+        },
+      ],
     },
     {
       code: `import {PageLayout} from '@primer/react'; <PageLayout><div><PageLayout.Header>Header</PageLayout.Header></div></PageLayout>`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
-        }
-      ]
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'},
+        },
+      ],
     },
     {
       code: `import {TreeView} from '@primer/react'; <TreeView><TreeView.Item><div><TreeView.LeadingVisual>Visual</TreeView.LeadingVisual></div></TreeView.Item></TreeView>`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'TreeView.LeadingVisual', parentName: 'TreeView.Item'}
-        }
-      ]
+          data: {childName: 'TreeView.LeadingVisual', parentName: 'TreeView.Item'},
+        },
+      ],
     },
     {
       code: `import {PageLayout} from './PageLayout'; <PageLayout><div><PageLayout.Header>Header</PageLayout.Header></div></PageLayout>`,
@@ -87,36 +87,36 @@ ruleTester.run('direct-slot-children', rule, {
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'}
-        }
-      ]
+          data: {childName: 'PageLayout.Header', parentName: 'PageLayout'},
+        },
+      ],
     },
     {
       code: `import {ActionList} from '@primer/react'; <ActionList.Item><div><ActionList.LeadingVisual>Visual</ActionList.LeadingVisual></div></ActionList.Item>`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'ActionList.LeadingVisual', parentName: 'ActionList.Item or ActionList.LinkItem'}
-        }
-      ]
+          data: {childName: 'ActionList.LeadingVisual', parentName: 'ActionList.Item or ActionList.LinkItem'},
+        },
+      ],
     },
     {
       code: `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><div><MarkdownEditor.Actions></MarkdownEditor.Actions></div></MarkdownEditor>`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'MarkdownEditor.Actions', parentName: 'MarkdownEditor or MarkdownEditor.Footer'}
-        }
-      ]
+          data: {childName: 'MarkdownEditor.Actions', parentName: 'MarkdownEditor or MarkdownEditor.Footer'},
+        },
+      ],
     },
     {
       code: `import {MarkdownEditor} from '@primer/react'; <MarkdownEditor><MarkdownEditor.FooterButton></MarkdownEditor.FooterButton></MarkdownEditor>`,
       errors: [
         {
           messageId: 'directSlotChildren',
-          data: {childName: 'MarkdownEditor.FooterButton', parentName: 'MarkdownEditor.Footer'}
-        }
-      ]
-    }
-  ]
+          data: {childName: 'MarkdownEditor.FooterButton', parentName: 'MarkdownEditor.Footer'},
+        },
+      ],
+    },
+  ],
 })

@@ -17,15 +17,15 @@ module.exports = {
         type: 'object',
         properties: {
           skipImportCheck: {
-            type: 'boolean'
+            type: 'boolean',
           },
           checkAllStrings: {
-            type: 'boolean'
-          }
+            type: 'boolean',
+          },
         },
-        additionalProperties: false
-      }
-    ]
+        additionalProperties: false,
+      },
+    ],
   },
   create(context) {
     // If `skipImportCheck` is true, this rule will check for deprecated colors
@@ -89,7 +89,7 @@ module.exports = {
                         path.node,
                         name,
                         str => [param, key, str].join('.'),
-                        str => str
+                        str => str,
                       )
                     }
 
@@ -132,9 +132,9 @@ module.exports = {
         if (['colors', 'shadows'].includes(key) && Object.keys(deprecations).includes(name)) {
           replaceDeprecatedColor(context, argument, name, str => [key, str].join('.'))
         }
-      }
+      },
     }
-  }
+  },
 }
 
 function isThemeGet(identifier, scope, skipImportCheck = false) {
@@ -156,7 +156,7 @@ function replaceDeprecatedColor(
   node,
   deprecatedName,
   transformName = str => str,
-  transformReplacementValue = str => JSON.stringify(str)
+  transformReplacementValue = str => JSON.stringify(str),
 ) {
   const replacement = deprecations[deprecatedName]
 
@@ -165,8 +165,8 @@ function replaceDeprecatedColor(
     context.report({
       node,
       message: `"${transformName(
-        deprecatedName
-      )}" is deprecated. Go to https://primer.style/primitives or reach out in the #primer channel on Slack to find a suitable replacement.`
+        deprecatedName,
+      )}" is deprecated. Go to https://primer.style/primitives or reach out in the #primer channel on Slack to find a suitable replacement.`,
     })
   } else if (Array.isArray(replacement)) {
     // Multiple possible replacements
@@ -177,8 +177,8 @@ function replaceDeprecatedColor(
         desc: `Use "${transformName(replacementValue)}" instead.`,
         fix(fixer) {
           return fixer.replaceText(node, transformReplacementValue(transformName(replacementValue)))
-        }
-      }))
+        },
+      })),
     })
   } else {
     // One replacement
@@ -187,7 +187,7 @@ function replaceDeprecatedColor(
       message: `"${transformName(deprecatedName)}" is deprecated. Use "${transformName(replacement)}" instead.`,
       fix(fixer) {
         return fixer.replaceText(node, transformReplacementValue(transformName(replacement)))
-      }
+      },
     })
   }
 }
