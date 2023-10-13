@@ -15,7 +15,7 @@ const isUsingAsProp = elem => {
 
 const isValidAsUsage = value => validHeadings.includes(value.toLowerCase())
 const isInvalid = elem => {
-  if (elem.attributes.length === 1 && elem.attributes[0].type === 'JSXSpreadAttribute') return;
+  if (elem.attributes.length === 1 && elem.attributes[0].type === 'JSXSpreadAttribute') return
 
   const elemAs = isUsingAsProp(elem)
 
@@ -35,32 +35,35 @@ module.exports = {
       {
         properties: {
           skipImportCheck: {
-            type: 'boolean'
-          }
-        }
-      }
+            type: 'boolean',
+          },
+        },
+      },
     ],
     messages: {
       nonExplicitHeadingLevel: 'Heading must have an explicit heading level applied through the `as` prop.',
-      invalidAsValue: 'Usage of `as` must only be used for heading elements (h1-h6).'
-    }
+      invalidAsValue: 'Usage of `as` must only be used for heading elements (h1-h6).',
+    },
   },
-  create: function(context) {
+  create(context) {
     return {
       JSXOpeningElement(jsxNode) {
         const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
 
-        if ((skipImportCheck || isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) && isHeadingComponent(jsxNode)) {
+        if (
+          (skipImportCheck || isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) &&
+          isHeadingComponent(jsxNode)
+        ) {
           const error = isInvalid(jsxNode)
 
           if (error) {
             context.report({
               node: jsxNode,
-              messageId: error
+              messageId: error,
             })
           }
         }
-      }
+      },
     }
-  }
+  },
 }

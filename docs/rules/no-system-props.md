@@ -1,12 +1,15 @@
 # Disallow use of styled-system props (no-system-props)
 
-🔧 The `--fix` option on the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.
+🔧 The `--fix` option on the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface#fixing-problems) can
+automatically fix some of the problems reported by this rule.
 
-[Styled-system](https://styled-system.com/table) props are deprecated in Primer components (excluding utility components).
+[Styled-system](https://styled-system.com/table) props are deprecated in Primer components (excluding utility
+components).
 
 ## Rule details
 
-This rule disallows the use of any styled-system prop on Primer components, as the `sx` prop is now the prefered way to apply additional styling.
+This rule disallows the use of any styled-system prop on Primer components, as the `sx` prop is now the prefered way to
+apply additional styling.
 
 \*The two non-deprecated utility components (`Box` and `Text`) are allowed to use system props.
 
@@ -43,11 +46,15 @@ import {Avatar} from 'some-other-library'
 
 - `skipImportCheck` (default: `false`)
 
-  By default, the `no-system-props` rule will only check for styled system props used in functions and components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass styled system props down to Primer React components.
+  By default, the `no-system-props` rule will only check for styled system props used in functions and components that
+  are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is
+  useful for linting custom components that pass styled system props down to Primer React components.
 
 - `includeUtilityComponents` (default: `false`)
 
-  By default, `Box` and `Text` are excluded because styled system props are not deprecated in our utility components. If you prefer to avoid styled system props there as well for consistency, you can set `includeUtilityComponents` to `true`.
+  By default, `Box` and `Text` are excluded because styled system props are not deprecated in our utility components. If
+  you prefer to avoid styled system props there as well for consistency, you can set `includeUtilityComponents` to
+  `true`.
 
   ```js
   /* eslint primer-react/no-system-props: ["warn", {"includeUtilityComponents": true}] */

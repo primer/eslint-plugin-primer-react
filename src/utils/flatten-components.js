@@ -1,17 +1,17 @@
 function flattenComponents(componentObj) {
-    let result = {};
+  let result = {}
 
-    Object.keys(componentObj).forEach((key) => {
-        if (typeof componentObj[key] === 'object') {
-            const test = Object.keys(componentObj[key]).forEach((item) => {
-                result = { ...result, [`${key}${item !== 'self' ? `.${item}` : ''}`]: componentObj[key][item] };        
-            });
-        } else {
-            result = {...result, [key]: componentObj[key]}
-        }
-    });
+  for (const key of Object.keys(componentObj)) {
+    if (typeof componentObj[key] === 'object') {
+      for (const item of Object.keys(componentObj[key])) {
+        result = {...result, [`${key}${item !== 'self' ? `.${item}` : ''}`]: componentObj[key][item]}
+      }
+    } else {
+      result = {...result, [key]: componentObj[key]}
+    }
+  }
 
-    return result;
+  return result
 }
 
 exports.flattenComponents = flattenComponents

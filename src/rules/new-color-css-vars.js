@@ -6,22 +6,22 @@ module.exports = {
     hasSuggestions: true,
     fixable: 'code',
     docs: {
-      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop'
+      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop',
     },
     schema: [
       {
         type: 'object',
         properties: {
           skipImportCheck: {
-            type: 'boolean'
+            type: 'boolean',
           },
           checkAllStrings: {
-            type: 'boolean'
-          }
+            type: 'boolean',
+          },
         },
-        additionalProperties: false
-      }
-    ]
+        additionalProperties: false,
+      },
+    ],
   },
   /** @param {import('eslint').Rule.RuleContext} context */
   create(context) {
@@ -36,7 +36,7 @@ module.exports = {
       'borderLeftColor',
       'border',
       'boxShadow',
-      'caretColor'
+      'caretColor',
     ]
 
     return {
@@ -71,16 +71,16 @@ module.exports = {
         ) {
           checkForVariables(node.value, node.value.value)
         }
-      }
+      },
     }
 
     function checkForVariables(node, rawText) {
       // performance optimisation: exit early
       if (!rawText.includes('var')) return
 
-      Object.keys(cssVars).forEach(cssVar => {
+      for (const cssVar of Object.keys(cssVars)) {
         if (Array.isArray(cssVars[cssVar])) {
-          cssVars[cssVar].forEach(cssVarObject => {
+          for (const cssVarObject of cssVars[cssVar]) {
             const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
             if (
               cssVarObject.props.some(prop => rawText.includes(prop)) &&
@@ -92,15 +92,15 @@ module.exports = {
                 context.report({
                   node,
                   message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
-                  fix: function(fixer) {
+                  fix(fixer) {
                     return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
-                  }
+                  },
                 })
               }
             }
-          })
+          }
         }
-      })
+      }
     }
-  }
+  },
 }

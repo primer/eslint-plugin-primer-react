@@ -1,6 +1,6 @@
 const {flattenComponents} = require('../flatten-components')
 
-const mockComponents = function(passedObj) {
+const mockComponents = passedObj => {
   return {
     Button: 'button',
     Link: 'a',
@@ -8,14 +8,14 @@ const mockComponents = function(passedObj) {
     Radio: 'input',
     TextInput: {
       Action: 'button',
-      self: 'input'
+      self: 'input',
     },
-    ...passedObj
+    ...passedObj,
   }
 }
 
-describe('getElementType', function() {
-  it('flattens passed object 1-level deep', function() {
+describe('getElementType', function () {
+  it('flattens passed object 1-level deep', function () {
     const result = flattenComponents(mockComponents())
 
     const expectedResult = {
@@ -24,23 +24,23 @@ describe('getElementType', function() {
       Spinner: 'svg',
       Radio: 'input',
       TextInput: 'input',
-      'TextInput.Action': 'button'
+      'TextInput.Action': 'button',
     }
 
     expect(result).toEqual(expectedResult)
   })
 
-  it('ignores objects nested deeper than 1-level', function() {
+  it('ignores objects nested deeper than 1-level', function () {
     const result = flattenComponents(
       mockComponents({
         Select: {
           Items: {
-            self: 'div'
+            self: 'div',
           },
           Option: 'option',
-          self: 'select'
-        }
-      })
+          self: 'select',
+        },
+      }),
     )
 
     const expectedResult = {
@@ -51,10 +51,10 @@ describe('getElementType', function() {
       TextInput: 'input',
       'TextInput.Action': 'button',
       'Select.Items': {
-        self: 'div'
+        self: 'div',
       },
       Select: 'select',
-      'Select.Option': 'option'
+      'Select.Option': 'option',
     }
 
     expect(result).toEqual(expectedResult)

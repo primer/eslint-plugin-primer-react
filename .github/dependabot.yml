@@ -1,10 +1,16 @@
 version: 2
 updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - 'dependencies'
+      - 'skip changeset'
   - package-ecosystem: npm
-    directory: "/"
+    directory: '/'
     schedule:
       interval: weekly
-    open-pull-requests-limit: 99
-    allow: 
-      - dependency-name: "eslint-plugin-github"
-      - dependency-name: "eslint-plugin-jsx-a11y"
+    labels:
+      - 'dependencies'
+      - 'skip changeset'
