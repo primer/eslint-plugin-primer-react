@@ -8,9 +8,9 @@ const mockComponents = passedObj => {
     Radio: 'input',
     TextInput: {
       Action: 'button',
-      self: 'input'
+      self: 'input',
     },
-    ...passedObj
+    ...passedObj,
   }
 }
 
@@ -24,7 +24,7 @@ describe('getElementType', function () {
       Spinner: 'svg',
       Radio: 'input',
       TextInput: 'input',
-      'TextInput.Action': 'button'
+      'TextInput.Action': 'button',
     }
 
     expect(result).toEqual(expectedResult)
@@ -35,12 +35,12 @@ describe('getElementType', function () {
       mockComponents({
         Select: {
           Items: {
-            self: 'div'
+            self: 'div',
           },
           Option: 'option',
-          self: 'select'
-        }
-      })
+          self: 'select',
+        },
+      }),
     )
 
     const expectedResult = {
@@ -51,10 +51,10 @@ describe('getElementType', function () {
       TextInput: 'input',
       'TextInput.Action': 'button',
       'Select.Items': {
-        self: 'div'
+        self: 'div',
       },
       Select: 'select',
-      'Select.Option': 'option'
+      'Select.Option': 'option',
     }
 
     expect(result).toEqual(expectedResult)

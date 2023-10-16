@@ -6,28 +6,28 @@ const ruleTester = new RuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
-  }
+      jsx: true,
+    },
+  },
 })
 
 ruleTester.run('no-color-css-vars', rule, {
   valid: [
     {
-      code: `{color: 'fg.default'}`
+      code: `{color: 'fg.default'}`,
     },
     {
-      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`
+      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`,
     },
     {
-      code: `<circle fill="var(--color-border-default)" strokeWidth="2" />`
+      code: `<circle fill="var(--color-border-default)" strokeWidth="2" />`,
     },
     {
-      code: `<div style={{ color: 'var(--color-border-default)' }}></div>`
+      code: `<div style={{ color: 'var(--color-border-default)' }}></div>`,
     },
     {
-      code: `<Blankslate border></Blankslate>`
-    }
+      code: `<Blankslate border></Blankslate>`,
+    },
   ],
   invalid: [
     {
@@ -35,9 +35,9 @@ ruleTester.run('no-color-css-vars', rule, {
       output: `<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>`,
       errors: [
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-        }
-      ]
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
+      ],
     },
     {
       code: `
@@ -56,36 +56,36 @@ ruleTester.run('no-color-css-vars', rule, {
         </Box>`,
       errors: [
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))'
-        }
-      ]
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+      ],
     },
     {
       code: `<Box sx={{boxShadow: '0 0 0 2px var(--color-canvas-subtle)'}} />`,
       output: `<Box sx={{boxShadow: '0 0 0 2px var(--bgColor-muted, var(--color-canvas-subtle))'}} />`,
       errors: [
         {
-          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))'
-        }
-      ]
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
+        },
+      ],
     },
     {
       code: `<Box sx={{border: 'solid 2px var(--color-border-default)'}} />`,
       output: `<Box sx={{border: 'solid 2px var(--borderColor-default, var(--color-border-default))'}} />`,
       errors: [
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))'
-        }
-      ]
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+      ],
     },
     {
       code: `<Box sx={{backgroundColor: 'var(--color-canvas-default)'}} />`,
       output: `<Box sx={{backgroundColor: 'var(--bgColor-default, var(--color-canvas-default))'}} />`,
       errors: [
         {
-          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))'
-        }
-      ]
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+        },
+      ],
     },
     {
       name: 'variable in scope',
@@ -99,9 +99,9 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-        }
-      ]
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
+      ],
     },
     {
       name: 'merge in sx',
@@ -115,18 +115,18 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-        }
-      ]
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
+      ],
     },
     {
       code: `<Box sx={{borderColor: 'var(--color-border-default)'}} />`,
       output: `<Box sx={{borderColor: 'var(--borderColor-default, var(--color-border-default))'}} />`,
       errors: [
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))'
-        }
-      ]
-    }
-  ]
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+      ],
+    },
+  ],
 })

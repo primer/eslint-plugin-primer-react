@@ -5,7 +5,7 @@ const {some, last} = require('lodash')
 
 // Components for which we allow all styled system props
 const alwaysExcludedComponents = new Set([
-  'BaseStyles' // BaseStyles will be deprecated eventually
+  'BaseStyles', // BaseStyles will be deprecated eventually
 ])
 
 // Excluded by default, but optionally included:
@@ -40,7 +40,7 @@ const excludedComponentProps = new Map([
   ['PageLayout.Pane', new Set(['padding', 'position', 'width'])],
   ['PageLayout.Content', new Set(['padding', 'width'])],
   ['ProgressBar', new Set(['bg'])],
-  ['PointerBox', new Set(['bg'])]
+  ['PointerBox', new Set(['bg'])],
 ])
 
 const alwaysExcludedProps = new Set(['variant', 'size'])
@@ -53,17 +53,17 @@ module.exports = {
       {
         properties: {
           skipImportCheck: {
-            type: 'boolean'
+            type: 'boolean',
           },
           includeUtilityComponents: {
-            type: 'boolean'
-          }
-        }
-      }
+            type: 'boolean',
+          },
+        },
+      },
     ],
     messages: {
-      noSystemProps: 'Styled-system props are deprecated ({{ componentName }} called with props: {{ propNames }})'
-    }
+      noSystemProps: 'Styled-system props are deprecated ({{ componentName }} called with props: {{ propNames }})',
+    },
   },
   create(context) {
     // If `skipImportCheck` is true, this rule will check for deprecated styled system props
@@ -74,7 +74,7 @@ module.exports = {
 
     const excludedComponents = new Set([
       ...alwaysExcludedComponents,
-      ...(includeUtilityComponents ? [] : utilityComponents)
+      ...(includeUtilityComponents ? [] : utilityComponents),
     ])
 
     return {
@@ -113,11 +113,11 @@ module.exports = {
             messageId: 'noSystemProps',
             data: {
               componentName,
-              propNames: systemProps.map(a => a.name.name).join(', ')
+              propNames: systemProps.map(a => a.name.name).join(', '),
             },
             fix(fixer) {
               const existingSxProp = jsxNode.attributes.find(
-                attribute => attribute.type === 'JSXAttribute' && attribute.name.name === 'sx'
+                attribute => attribute.type === 'JSXAttribute' && attribute.name.name === 'sx',
               )
               const systemPropstylesMap = stylesMapFromPropNodes(systemProps, context)
               if (existingSxProp && existingSxProp.value.expression.type !== 'ObjectExpression') {
@@ -137,19 +137,19 @@ module.exports = {
                         ? // Update an existing sx prop
                           fixer.insertTextAfter(
                             last(existingSxProp.value.expression.properties),
-                            `, ${objectEntriesStringFromStylesMap(stylesToAdd)}`
+                            `, ${objectEntriesStringFromStylesMap(stylesToAdd)}`,
                           )
                         : // Insert new sx prop
-                          fixer.insertTextAfter(last(jsxNode.attributes), sxPropTextFromStylesMap(systemPropstylesMap))
+                          fixer.insertTextAfter(last(jsxNode.attributes), sxPropTextFromStylesMap(systemPropstylesMap)),
                     ]
-                  : [])
+                  : []),
               ]
-            }
+            },
           })
         }
-      }
+      },
     }
-  }
+  },
 }
 
 const sxPropTextFromStylesMap = styles => {
@@ -165,8 +165,8 @@ const stylesMapFromPropNodes = (systemProps, context) => {
   return new Map(
     systemProps.map(a => [
       a.name.name,
-      a.value === null ? 'true' : a.value.raw || context.getSourceCode().getText(a.value.expression)
-    ])
+      a.value === null ? 'true' : a.value.raw || context.getSourceCode().getText(a.value.expression),
+    ]),
   )
 }
 
@@ -183,6 +183,6 @@ const excludeSxEntriesFromStyleMap = (stylesMap, sxProp) => {
   return new Map(
     [...stylesMap].filter(([key]) => {
       return !some(sxProp.value.expression.properties, p => p.type === 'Property' && p.key.name === key)
-    })
+    }),
   )
 }

@@ -6,22 +6,22 @@ module.exports = {
     hasSuggestions: true,
     fixable: 'code',
     docs: {
-      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop'
+      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop',
     },
     schema: [
       {
         type: 'object',
         properties: {
           skipImportCheck: {
-            type: 'boolean'
+            type: 'boolean',
           },
           checkAllStrings: {
-            type: 'boolean'
-          }
+            type: 'boolean',
+          },
         },
-        additionalProperties: false
-      }
-    ]
+        additionalProperties: false,
+      },
+    ],
   },
   /** @param {import('eslint').Rule.RuleContext} context */
   create(context) {
@@ -36,7 +36,7 @@ module.exports = {
       'borderLeftColor',
       'border',
       'boxShadow',
-      'caretColor'
+      'caretColor',
     ]
 
     return {
@@ -71,7 +71,7 @@ module.exports = {
         ) {
           checkForVariables(node.value, node.value.value)
         }
-      }
+      },
     }
 
     function checkForVariables(node, rawText) {
@@ -94,7 +94,7 @@ module.exports = {
                   message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
                   fix(fixer) {
                     return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
-                  }
+                  },
                 })
               }
             }
@@ -102,5 +102,5 @@ module.exports = {
         }
       }
     }
-  }
+  },
 }

@@ -7,7 +7,7 @@ const isInteractive = child => {
   const childName = getJSXOpeningElementName(child.openingElement)
   return (
     ['button', 'summary', 'select', 'textarea', 'a', 'input', 'link', 'iconbutton', 'textinput'].includes(
-      childName.toLowerCase()
+      childName.toLowerCase(),
     ) && !hasDisabledAttr(child)
   )
 }
@@ -72,18 +72,18 @@ const checks = [
   {
     id: 'nonInteractiveLink',
     filter: jsxElement => isAnchorTag(jsxElement),
-    check: isInteractiveAnchor
+    check: isInteractiveAnchor,
   },
   {
     id: 'nonInteractiveInput',
     filter: jsxElement => isInputTag(jsxElement),
-    check: isInteractiveInput
+    check: isInteractiveInput,
   },
   {
     id: 'nonInteractiveTrigger',
     filter: jsxElement => isOtherThanAnchorOrInput(jsxElement),
-    check: isInteractive
-  }
+    check: isInteractive,
+  },
 ]
 
 const checkTriggerElement = jsxNode => {
@@ -136,10 +136,10 @@ module.exports = {
       {
         properties: {
           skipImportCheck: {
-            type: 'boolean'
-          }
-        }
-      }
+            type: 'boolean',
+          },
+        },
+      },
     ],
     messages: {
       nonInteractiveTrigger:
@@ -148,8 +148,8 @@ module.exports = {
         'Anchor tags without an href attribute are not interactive, therefore they cannot be used as a trigger for a tooltip. Please add an href attribute or use an alternative interactive element instead',
       nonInteractiveInput:
         'Hidden or disabled inputs are not interactive and cannot be used as a trigger for a tooltip. Please use an alternate input type or use a different interactive element instead',
-      singleChild: 'The `Tooltip` component expects a single React element as a child.'
-    }
+      singleChild: 'The `Tooltip` component expects a single React element as a child.',
+    },
   },
   create(context) {
     return {
@@ -165,7 +165,7 @@ module.exports = {
           if (jsxNode.children.filter(child => child.type === 'JSXElement').length > 1) {
             context.report({
               node: jsxNode,
-              messageId: 'singleChild'
+              messageId: 'singleChild',
             })
           } else {
             // Check if the child is interactive
@@ -175,13 +175,13 @@ module.exports = {
               for (const [_key, value] of errors.entries()) {
                 context.report({
                   node: jsxNode,
-                  messageId: value
+                  messageId: value,
                 })
               }
             }
           }
         }
-      }
+      },
     }
-  }
+  },
 }
