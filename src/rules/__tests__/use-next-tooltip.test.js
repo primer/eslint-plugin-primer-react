@@ -6,9 +6,9 @@ const ruleTester = new RuleTester({
     ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
-  }
+      jsx: true,
+    },
+  },
 })
 
 ruleTester.run('use-next-tooltip', rule, {
@@ -17,16 +17,16 @@ ruleTester.run('use-next-tooltip', rule, {
     `import {UnderlineNav, Button} from '@primer/react';
    import {Tooltip} from '@primer/react/next';`,
     `import {UnderlineNav, Button} from '@primer/react';
-   import {Tooltip, SelectPanel} from '@primer/react/next';`
+   import {Tooltip, SelectPanel} from '@primer/react/next';`,
   ],
   invalid: [
     {
       code: `import {Tooltip} from '@primer/react'`,
-      errors: [{messageId: 'useNextTooltip'}]
+      errors: [{messageId: 'useNextTooltip'}],
     },
     {
       code: `import {Tooltip, Button} from '@primer/react'`,
-      errors: [{messageId: 'useNextTooltip'}]
-    }
-  ]
+      errors: [{messageId: 'useNextTooltip'}],
+    },
+  ],
 })

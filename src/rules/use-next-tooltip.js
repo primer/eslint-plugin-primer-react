@@ -6,13 +6,13 @@ module.exports = {
     docs: {
       description: 'recommends the use of @primer/react/next Tooltip component',
       category: 'Best Practices',
-      recommended: true
+      recommended: true,
     },
     fixable: null,
     schema: [],
     messages: {
-      useNextTooltip: 'Please use @primer/react/next Tooltip component that has accessibility improvements'
-    }
+      useNextTooltip: 'Please use @primer/react/next Tooltip component that has accessibility improvements',
+    },
   },
   create(context) {
     return {
@@ -21,16 +21,16 @@ module.exports = {
           return
         }
         const hasTooltip = node.specifiers.some(
-          specifier => specifier.imported && specifier.imported.name === 'Tooltip'
+          specifier => specifier.imported && specifier.imported.name === 'Tooltip',
         )
         if (!hasTooltip) {
           return
         }
         context.report({
           node,
-          messageId: 'useNextTooltip'
+          messageId: 'useNextTooltip',
         })
-      }
+      },
     }
-  }
+  },
 }
