@@ -6,6 +6,7 @@ on:
 jobs:
   add-to-inbox:
     if: ${{ github.repository == 'primer/eslint-plugin-primer-react' }}
+    runs-on: ubuntu-latest
     env:
       ISSUE_URL: ${{ github.event.issue.html_url }}
       PROJECT_ID: 4503
