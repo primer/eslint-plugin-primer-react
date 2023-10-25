@@ -6,22 +6,22 @@ module.exports = {
     hasSuggestions: true,
     fixable: 'code',
     docs: {
-      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop',
+      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop'
     },
     schema: [
       {
         type: 'object',
         properties: {
           skipImportCheck: {
-            type: 'boolean',
+            type: 'boolean'
           },
           checkAllStrings: {
-            type: 'boolean',
-          },
+            type: 'boolean'
+          }
         },
-        additionalProperties: false,
-      },
-    ],
+        additionalProperties: false
+      }
+    ]
   },
   /** @param {import('eslint').Rule.RuleContext} context */
   create(context) {
@@ -36,7 +36,7 @@ module.exports = {
       'borderLeftColor',
       'border',
       'boxShadow',
-      'caretColor',
+      'caretColor'
     ]
 
     return {
@@ -72,6 +72,51 @@ module.exports = {
           checkForVariables(node.value, node.value.value)
         }
       },
+      TaggedTemplateExpression(node) {
+        if (node.tag.type !== 'MemberExpression') {
+          return
+        }
+
+        if (node.tag.object.name !== 'styled') {
+          return
+        }
+
+        const DECLARATION_REGEX = /(.+): (var\(--color-.+\));/
+
+        // const StyledComponent = styled.div`
+        //   color: var(--color-fg-example);
+        //   background: var(--color-bg-example);
+        // `;
+        for (const templateElement of node.quasi.quasis) {
+          const rawValue = templateElement.value.raw
+          const match = rawValue.match(DECLARATION_REGEX)
+          if (!match) {
+            continue
+          }
+
+          const property = match[1].trim()
+          const value = match[2].trim()
+
+          for (const [cssVar, replacements] of Object.entries(cssVars)) {
+            const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
+
+            for (const {props, replacement} of replacements) {
+              if (!props.includes(property)) {
+                continue
+              }
+
+              if (!regex.test(value)) {
+                continue
+              }
+
+              context.report({
+                node,
+                message: `Replace var(${cssVar}) with var(${replacement}, var(${cssVar}))`
+              })
+            }
+          }
+        }
+      }
     }
 
     function checkForVariables(node, rawText) {
@@ -82,6 +127,7 @@ module.exports = {
         if (Array.isArray(cssVars[cssVar])) {
           for (const cssVarObject of cssVars[cssVar]) {
             const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
+            // if (cssVarObject.props.some(prop => rawText.includes(prop)) && regex.test(rawText)) {
             if (
               cssVarObject.props.some(prop => rawText.includes(prop)) &&
               regex.test(rawText) &&
@@ -94,7 +140,7 @@ module.exports = {
                   message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
                   fix(fixer) {
                     return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
-                  },
+                  }
                 })
               }
             }
@@ -102,5 +148,5 @@ module.exports = {
         }
       }
     }
-  },
+  }
 }
