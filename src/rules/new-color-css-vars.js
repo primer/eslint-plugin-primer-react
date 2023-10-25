@@ -39,68 +39,50 @@ module.exports = {
       'caretColor',
     ]
 
-    return {
-      /** @param {import('eslint').Rule.Node} node */
-      JSXAttribute(node) {
-        if (node.name.name === 'sx') {
-          if (node.value.expression.type === 'ObjectExpression') {
-            // example: sx={{ color: 'fg.default' }} or sx={{ ':hover': {color: 'fg.default'} }}
-            const rawText = context.sourceCode.getText(node.value)
-            checkForVariables(node.value, rawText)
-          } else if (node.value.expression.type === 'Identifier') {
-            // example: sx={baseStyles}
-            const variableScope = context.sourceCode.getScope(node.value.expression)
-            const variable = variableScope.set.get(node.value.expression.name)
-
-            // if variable is not defined in scope, give up (could be imported from different file)
-            if (!variable) return
-
-            const variableDeclarator = variable.identifiers[0].parent
-            const rawText = context.sourceCode.getText(variableDeclarator)
-            checkForVariables(variableDeclarator, rawText)
-          } else {
-            // worth a try!
-            const rawText = context.sourceCode.getText(node.value)
-            checkForVariables(node.value, rawText)
-          }
-        } else if (
-          styledSystemProps.includes(node.name.name) &&
-          node.value &&
-          node.value.type === 'Literal' &&
-          typeof node.value.value === 'string'
-        ) {
-          checkForVariables(node.value, node.value.value)
-        }
-      },
-    }
-
-    function checkForVariables(node, rawText) {
+    function checkForVariables(node, valueNode) {
       // performance optimisation: exit early
-      if (!rawText.includes('var')) return
+      if (valueNode.type !== 'Literal') return
+      const rawText = valueNode.value
+      if (!rawText.includes('var(')) return
 
-      for (const cssVar of Object.keys(cssVars)) {
-        if (Array.isArray(cssVars[cssVar])) {
-          for (const cssVarObject of cssVars[cssVar]) {
-            const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
-            if (
-              cssVarObject.props.some(prop => rawText.includes(prop)) &&
-              regex.test(rawText) &&
-              !rawText.includes(cssVarObject.replacement)
-            ) {
-              const fixedString = rawText.replace(regex, `var(${cssVarObject.replacement}, var(${cssVar}))`)
-              if (!rawText.includes(fixedString)) {
-                context.report({
-                  node,
-                  message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
-                  fix(fixer) {
-                    return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
-                  },
-                })
-              }
-            }
-          }
+      const propertyName = node.key.name
+
+      const varRegex = /var\([^\)]+\)/g
+
+      const match = rawText.match(varRegex)
+      if (!match) return
+      const vars = match.flatMap(match =>
+        match
+          .slice(4, -1)
+          .trim()
+          .split(/\s*,\s*/g),
+      )
+
+      for (const cssVar of vars) {
+        const cssVarObject = cssVars[cssVar]
+        const varObjectForProp = cssVarObject?.find(prop => prop.props.includes(propertyName))
+        if (varObjectForProp?.replacement) {
+          context.report({
+            node: valueNode,
+            message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
+            fix(fixer) {
+              const fixedString = rawText.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
+              return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
+            },
+          })
         }
       }
+    }
+
+    return {
+      ['JSXAttribute[name.name=sx] ObjectExpression Property']: function (node) {
+        if (node.value.type === 'Literal') {
+          checkForVariables(node, node.value)
+        } else if (node.value.type === 'ConditionalExpression') {
+          checkForVariables(node, node.value.consequent)
+          checkForVariables(node, node.value.alternate)
+        }
+      },
     }
   },
 }

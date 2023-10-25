@@ -1482,7 +1482,7 @@
       "replacement": "--fgColor-attention"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "boxShadow"],
       "replacement": "--bgColor-attention-emphasis"
     }
   ],
