@@ -6,6 +6,7 @@ on:
 jobs:
   add-to-inbox:
     if: ${{ github.repository == 'primer/eslint-plugin-primer-react' }}
+    runs-on: ubuntu-latest
     env:
       ISSUE_URL: ${{ github.event.issue.html_url }}
       PROJECT_ID: 4503
@@ -25,6 +26,7 @@ jobs:
         with:
           app-id: ${{ vars.PRIMER_ISSUE_TRIAGE_APP_ID_FOR_GITHUB }}
           private-key: ${{ secrets.PRIMER_ISSUE_TRIAGE_APP_PRIVATE_KEY_FOR_GITHUB }}
+          owner: github
       - name: Add issue to project
         run: gh project item-add $PROJECT_ID --url $ISSUE_URL --owner github
         env:
