@@ -13,7 +13,7 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('use-next-tooltip', rule, {
   valid: [
-    `import {Tooltip} from '@primer/react/next'`,
+    `import {Tooltip} from '@primer/react/next';`,
     `import {UnderlineNav, Button} from '@primer/react';
    import {Tooltip} from '@primer/react/next';`,
     `import {UnderlineNav, Button} from '@primer/react';
@@ -21,12 +21,19 @@ ruleTester.run('use-next-tooltip', rule, {
   ],
   invalid: [
     {
-      code: `import {Tooltip} from '@primer/react'`,
+      code: `import {Tooltip} from '@primer/react';`,
       errors: [{messageId: 'useNextTooltip'}],
+      output: `import {Tooltip} from '@primer/react/next';`,
     },
     {
-      code: `import {Tooltip, Button} from '@primer/react'`,
+      code: `import {Tooltip, Button} from '@primer/react';`,
       errors: [{messageId: 'useNextTooltip'}],
+      output: `import {Button} from '@primer/react';\nimport {Tooltip} from '@primer/react/next';`,
+    },
+    {
+      code: `import {ActionList, ActionMenu, Tooltip, Button} from '@primer/react';`,
+      errors: [{messageId: 'useNextTooltip'}],
+      output: `import {ActionList, ActionMenu, Button} from '@primer/react';\nimport {Tooltip} from '@primer/react/next';`,
     },
   ],
 })

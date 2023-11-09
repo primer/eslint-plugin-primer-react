@@ -8,7 +8,7 @@ module.exports = {
       category: 'Best Practices',
       recommended: true,
     },
-    fixable: null,
+    fixable: true,
     schema: [],
     messages: {
       useNextTooltip: 'Please use @primer/react/next Tooltip component that has accessibility improvements',
@@ -23,12 +23,36 @@ module.exports = {
         const hasTooltip = node.specifiers.some(
           specifier => specifier.imported && specifier.imported.name === 'Tooltip',
         )
+
+        const hasOtherImports = node.specifiers.some(
+          specifier => specifier.imported && specifier.imported.name !== 'Tooltip',
+        )
         if (!hasTooltip) {
           return
         }
         context.report({
           node,
           messageId: 'useNextTooltip',
+          fix(fixer) {
+            // If Tooltip is the only import, replace the whole import statement
+            if (!hasOtherImports) {
+              return fixer.replaceText(node.source, `'@primer/react/next'`)
+            } else {
+              // Otherwise, remove Tooltip from the import statement and add a new import statement with the correct path
+              const tooltipSpecifier = node.specifiers.find(
+                specifier => specifier.imported && specifier.imported.name === 'Tooltip',
+              )
+              return [
+                // remove tooltip specifier and the space and comma after it
+                fixer.removeRange([tooltipSpecifier.range[0], tooltipSpecifier.range[1] + 2]),
+                // fixer.remove(tooltipSpecifier),
+                fixer.insertTextAfterRange(
+                  [node.range[1], node.range[1]],
+                  `\nimport {Tooltip} from '@primer/react/next';`,
+                ),
+              ]
+            }
+          },
         })
       },
     }
