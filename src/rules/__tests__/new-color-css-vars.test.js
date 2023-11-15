@@ -13,21 +13,21 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('no-color-css-vars', rule, {
   valid: [
-    // {
-    //   code: `{color: 'fg.default'}`
-    // },
-    // {
-    //   code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`
-    // },
-    // {
-    //   code: `<circle fill="var(--color-border-default)" strokeWidth="2" />`
-    // },
-    // {
-    //   code: `<div style={{ color: 'var(--color-border-default)' }}></div>`
-    // },
-    // {
-    //   code: `<Blankslate border></Blankslate>`
-    // }
+    {
+      code: `{color: 'fg.default'}`,
+    },
+    {
+      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`,
+    },
+    {
+      code: `<circle fill="var(--color-border-default)" strokeWidth="2" />`,
+    },
+    {
+      code: `<div style={{ color: 'var(--color-border-default)' }}></div>`,
+    },
+    {
+      code: `<Blankslate border></Blankslate>`,
+    },
   ],
   invalid: [
     // {
@@ -142,9 +142,9 @@ ruleTester.run('no-color-css-vars', rule, {
     //   `,
     //   errors: [
     //     {
-    //       message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))'
-    //     }
-    //   ]
+    //       message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))',
+    //     },
+    //   ],
     // },
     {
       name: 'new-1',
@@ -158,26 +158,13 @@ ruleTester.run('no-color-css-vars', rule, {
                 boxShadow: subtle
                   ? 'inset 2px 0 0 var(--color-fg-subtle)'
                   : 'inset 2px 0 0 var(--color-attention-fg)',
+                color: 'var(--fgColor-default)',
+                bg: 'var(--color-canvas-default)'
               }}
             />
           )
         }
       `,
-      // output: `
-      //   import {Box} from '@primer/react'
-
-      //   function someComponent({subtle}: {subtle?: boolean}) {
-      //     return (
-      //       <Box
-      //         sx={{
-      //           boxShadow: subtle
-      //             ? 'inset 2px 0 0 var(--fgColor-muted, var(--borderColor-neutral-emphasis, var(--color-fg-subtle)))'
-      //             : 'inset 2px 0 0 var(--fgColor-attention, var(--bgColor-attention-emphasis, var(--color-attention-fg)))',
-      //         }}
-      //       />
-      //     )
-      // }
-      // `,
       output: `
         import {Box} from '@primer/react'
 
@@ -188,6 +175,8 @@ ruleTester.run('no-color-css-vars', rule, {
                 boxShadow: subtle
                   ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
                   : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+                color: 'var(--fgColor-default)',
+                bg: 'var(--bgColor-default, var(--color-canvas-default))'
               }}
             />
           )
@@ -200,6 +189,9 @@ ruleTester.run('no-color-css-vars', rule, {
         {
           message:
             'Replace var(--color-attention-fg) with var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+        },
+        {
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
         },
       ],
     },
