@@ -40,6 +40,16 @@ module.exports = {
     ]
 
     return {
+      // backgroundColor: 'var(--some-css-var)'
+      StringLiteral(node) {
+        // If the node contains var(--stupid-old-var), replace with var(--fancy-new-var)
+      },
+
+      // backgroundColor: `var(--some-css-var)`
+      TemplateLiteral(node) {
+        //
+      },
+
       /** @param {import('eslint').Rule.Node} node */
       JSXAttribute(node) {
         if (node.name.name === 'sx') {
@@ -71,52 +81,52 @@ module.exports = {
         ) {
           checkForVariables(node.value, node.value.value)
         }
-      },
-      TaggedTemplateExpression(node) {
-        if (node.tag.type !== 'MemberExpression') {
-          return
-        }
-
-        if (node.tag.object.name !== 'styled') {
-          return
-        }
-
-        const DECLARATION_REGEX = /(.+): (var\(--color-.+\));/
-
-        // const StyledComponent = styled.div`
-        //   color: var(--color-fg-example);
-        //   background: var(--color-bg-example);
-        // `;
-        for (const templateElement of node.quasi.quasis) {
-          const rawValue = templateElement.value.raw
-          const match = rawValue.match(DECLARATION_REGEX)
-          if (!match) {
-            continue
-          }
-
-          const property = match[1].trim()
-          const value = match[2].trim()
-
-          for (const [cssVar, replacements] of Object.entries(cssVars)) {
-            const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
-
-            for (const {props, replacement} of replacements) {
-              if (!props.includes(property)) {
-                continue
-              }
-
-              if (!regex.test(value)) {
-                continue
-              }
-
-              context.report({
-                node,
-                message: `Replace var(${cssVar}) with var(${replacement}, var(${cssVar}))`
-              })
-            }
-          }
-        }
       }
+      // TaggedTemplateExpression(node) {
+      //   if (node.tag.type !== 'MemberExpression') {
+      //     return
+      //   }
+
+      //   if (node.tag.object.name !== 'styled') {
+      //     return
+      //   }
+
+      //   const DECLARATION_REGEX = /(.+): (var\(--color-.+\));/
+
+      //   // const StyledComponent = styled.div`
+      //   //   color: var(--color-fg-example);
+      //   //   background: var(--color-bg-example);
+      //   // `;
+      //   for (const templateElement of node.quasi.quasis) {
+      //     const rawValue = templateElement.value.raw
+      //     const match = rawValue.match(DECLARATION_REGEX)
+      //     if (!match) {
+      //       continue
+      //     }
+
+      //     const property = match[1].trim()
+      //     const value = match[2].trim()
+
+      //     for (const [cssVar, replacements] of Object.entries(cssVars)) {
+      //       const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
+
+      //       for (const {props, replacement} of replacements) {
+      //         if (!props.includes(property)) {
+      //           continue
+      //         }
+
+      //         if (!regex.test(value)) {
+      //           continue
+      //         }
+
+      //         context.report({
+      //           node,
+      //           message: `Replace var(${cssVar}) with var(${replacement}, var(${cssVar}))`
+      //         })
+      //       }
+      //     }
+      //   }
+      // }
     }
 
     function checkForVariables(node, rawText) {

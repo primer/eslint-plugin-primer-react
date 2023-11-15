@@ -1478,11 +1478,11 @@
   ],
   "--color-attention-fg": [
     {
-      "props": ["color", "fill", "caretColor"],
+      "props": ["color", "fill", "caretColor", "boxShadow"],
       "replacement": "--fgColor-attention"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "boxShadow"],
       "replacement": "--bgColor-attention-emphasis"
     }
   ],
