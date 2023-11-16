@@ -23,9 +23,6 @@ ruleTester.run('no-color-css-vars', rule, {
       code: `<circle fill="var(--color-border-default)" strokeWidth="2" />`,
     },
     {
-      code: `<div style={{ color: 'var(--color-border-default)' }}></div>`,
-    },
-    {
       code: `<Blankslate border></Blankslate>`,
     },
     {
@@ -34,7 +31,7 @@ ruleTester.run('no-color-css-vars', rule, {
   ],
   invalid: [
     {
-      name: 'simple variable',
+      name: 'sx: simple variable',
       code: `<Button sx={{color: 'var(--color-fg-muted)'}}>Test</Button>`,
       output: `<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>`,
       errors: [
@@ -44,7 +41,17 @@ ruleTester.run('no-color-css-vars', rule, {
       ],
     },
     {
-      name: 'nested variable',
+      name: 'style: simple variable',
+      code: `<div style={{ border: 'var(--color-border-default)' }}></div>`,
+      output: `<div style={{ border: 'var(--borderColor-default, var(--color-border-default))' }}></div>`,
+      errors: [
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+      ],
+    },
+    {
+      name: 'sx: nested variable',
       code: `
         <Box sx={{
           '&:hover button, &:focus [data-component="copy-link"] button': {
@@ -153,7 +160,7 @@ ruleTester.run('no-color-css-vars', rule, {
     //   ],
     // },
     {
-      name: 'conditional variable',
+      name: 'sx: conditional variable',
       code: `
         import {Box} from '@primer/react'
 

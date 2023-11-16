@@ -73,6 +73,14 @@ module.exports = {
           reportOutdatedVariables(node, node.value.alternate, context)
         }
       },
+      ['JSXAttribute[name.name=style] ObjectExpression Property']: function (node) {
+        if (node.value.type === 'Literal') {
+          reportOutdatedVariables(node, node.value, context)
+        } else if (node.value.type === 'ConditionalExpression') {
+          reportOutdatedVariables(node, node.value.consequent, context)
+          reportOutdatedVariables(node, node.value.alternate, context)
+        }
+      },
     }
   },
 }
