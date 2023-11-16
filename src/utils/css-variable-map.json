@@ -1210,7 +1210,6 @@
         "outline",
         "fill"
       ],
-      "attributes": ["stroke", "fill"],
       "replacement": "--borderColor-default"
     }
   ],
@@ -1223,7 +1222,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "backgroundColor",
         "bg",
         "outline",

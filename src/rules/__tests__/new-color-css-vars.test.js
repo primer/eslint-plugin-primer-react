@@ -35,9 +35,12 @@ ruleTester.run('no-color-css-vars', rule, {
   invalid: [
     {
       name: 'attribute: simple variable',
-      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`,
-      output: `<circle stroke="var(--borderColor-default, var(--color-border-default))" strokeWidth="2" />`,
+      code: `<circle stroke="var(--color-border-default)" fill="var(--color-border-default)" strokeWidth="2" />`,
+      output: `<circle stroke="var(--borderColor-default, var(--color-border-default))" fill="var(--borderColor-default, var(--color-border-default))" strokeWidth="2" />`,
       errors: [
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
         },
