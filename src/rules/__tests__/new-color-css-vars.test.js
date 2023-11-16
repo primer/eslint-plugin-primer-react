@@ -17,10 +17,13 @@ ruleTester.run('no-color-css-vars', rule, {
       code: `{color: 'fg.default'}`,
     },
     {
-      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`,
+      code: `<circle style={{color: '#444'}} strokeWidth="2" />`,
     },
     {
-      code: `<circle fill="var(--color-border-default)" strokeWidth="2" />`,
+      code: `<circle stroke="var(--borderColor-default)" strokeWidth="2" />`,
+    },
+    {
+      code: `<circle fill="red" strokeWidth="2" />`,
     },
     {
       code: `<Blankslate border></Blankslate>`,
@@ -31,9 +34,29 @@ ruleTester.run('no-color-css-vars', rule, {
   ],
   invalid: [
     {
+      name: 'attribute: simple variable',
+      code: `<circle stroke="var(--color-border-default)" strokeWidth="2" />`,
+      output: `<circle stroke="var(--borderColor-default, var(--color-border-default))" strokeWidth="2" />`,
+      errors: [
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+      ],
+    },
+    {
+      name: 'attribute: conditional variable',
+      code: `<circle stroke={test ? "var(--color-border-default)" : "red"} strokeWidth="2" />`,
+      output: `<circle stroke={test ? "var(--borderColor-default, var(--color-border-default))" : "red"} strokeWidth="2" />`,
+      errors: [
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+      ],
+    },
+    {
       name: 'sx: simple variable',
       code: `<Button sx={{color: 'var(--color-fg-muted)'}}>Test</Button>`,
-      output: `<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>`,
+      output: `<Button sx={{color: "var(--fgColor-muted, var(--color-fg-muted))"}}>Test</Button>`,
       errors: [
         {
           message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
@@ -43,7 +66,7 @@ ruleTester.run('no-color-css-vars', rule, {
     {
       name: 'style: simple variable',
       code: `<div style={{ border: 'var(--color-border-default)' }}></div>`,
-      output: `<div style={{ border: 'var(--borderColor-default, var(--color-border-default))' }}></div>`,
+      output: `<div style={{ border: "var(--borderColor-default, var(--color-border-default))" }}></div>`,
       errors: [
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
@@ -62,7 +85,7 @@ ruleTester.run('no-color-css-vars', rule, {
       output: `
         <Box sx={{
           '&:hover button, &:focus [data-component="copy-link"] button': {
-            color: 'var(--fgColor-accent, var(--color-accent-fg))'
+            color: "var(--fgColor-accent, var(--color-accent-fg))"
           }
         }}>
         </Box>`,
@@ -84,7 +107,7 @@ ruleTester.run('no-color-css-vars', rule, {
       output: `
         <Box style={{
           '&:hover button, &:focus [data-component="copy-link"] button': {
-            color: 'var(--fgColor-accent, var(--color-accent-fg))'
+            color: "var(--fgColor-accent, var(--color-accent-fg))"
           }
         }}>
         </Box>`,
@@ -207,10 +230,10 @@ ruleTester.run('no-color-css-vars', rule, {
             <Box
               sx={{
                 boxShadow: subtle
-                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
-                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+                  ? "inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))"
+                  : "inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))",
                 color: 'var(--fgColor-default)',
-                bg: 'var(--bgColor-default, var(--color-canvas-default))'
+                bg: "var(--bgColor-default, var(--color-canvas-default))"
               }}
             />
           )
@@ -256,10 +279,10 @@ ruleTester.run('no-color-css-vars', rule, {
             <Box
               style={{
                 boxShadow: subtle
-                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
-                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+                  ? "inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))"
+                  : "inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))",
                 color: 'var(--fgColor-default)',
-                bg: 'var(--bgColor-default, var(--color-canvas-default))'
+                bg: "var(--bgColor-default, var(--color-canvas-default))"
               }}
             />
           )

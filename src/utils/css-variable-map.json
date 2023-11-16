@@ -1210,6 +1210,7 @@
         "outline",
         "fill"
       ],
+      "attributes": ["stroke", "fill"],
       "replacement": "--borderColor-default"
     }
   ],
