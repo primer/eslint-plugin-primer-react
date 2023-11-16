@@ -31,6 +31,13 @@ ruleTester.run('no-color-css-vars', rule, {
     {
       code: `<div sx={{lineHeight: 1}}></div>`,
     },
+    {
+      name: 'variable with number',
+      code: `
+        const size = 2
+        export const Fixture = <Button padding={size}>Test</Button>
+      `,
+    },
   ],
   invalid: [
     {
@@ -147,38 +154,54 @@ ruleTester.run('no-color-css-vars', rule, {
     //     }
     //   ]
     // },
-    // {
-    //   name: 'variable in scope',
-    //   code: `
-    //     const baseStyles = { color: 'var(--color-fg-muted)' }
-    //     export const Fixture = <Button sx={baseStyles}>Test</Button>
-    //   `,
-    //   output: `
-    //     const baseStyles = { color: 'var(--fgColor-muted, var(--color-fg-muted))' }
-    //     export const Fixture = <Button sx={baseStyles}>Test</Button>
-    //   `,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-    //     }
-    //   ]
-    // },
-    // {
-    //   name: 'merge in sx',
-    //   code: `
-    //     import {merge} from '@primer/react'
-    //     export const Fixture = props => <Button sx={merge({color: 'var(--color-fg-muted)'}, props.sx)}>Test</Button>
-    //   `,
-    //   output: `
-    //     import {merge} from '@primer/react'
-    //     export const Fixture = props => <Button sx={merge({color: 'var(--fgColor-muted, var(--color-fg-muted))'}, props.sx)}>Test</Button>
-    //   `,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-    //     }
-    //   ]
-    // },
+    {
+      name: 'value variable in scope',
+      code: `
+        const bg = 'var(--color-canvas-subtle)'
+        export const Fixture = <Button bg={bg}>Test</Button>
+      `,
+      output: `
+        const bg = "var(--bgColor-muted, var(--color-canvas-subtle))"
+        export const Fixture = <Button bg={bg}>Test</Button>
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
+        },
+      ],
+    },
+    {
+      name: 'variable object in scope',
+      code: `
+        const baseStyles = { color: 'var(--color-fg-muted)' }
+        export const Fixture = <Button sx={baseStyles}>Test</Button>
+      `,
+      output: `
+        const baseStyles = { color: "var(--fgColor-muted, var(--color-fg-muted))" }
+        export const Fixture = <Button sx={baseStyles}>Test</Button>
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
+      ],
+    },
+    {
+      name: 'merge in sx',
+      code: `
+        import {merge} from '@primer/react'
+        export const Fixture = props => <Button sx={merge({color: 'var(--color-fg-muted)'}, props.sx)}>Test</Button>
+      `,
+      output: `
+        import {merge} from '@primer/react'
+        export const Fixture = props => <Button sx={merge({color: "var(--fgColor-muted, var(--color-fg-muted))"}, props.sx)}>Test</Button>
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
+      ],
+    },
     // {
     //   code: `<Box sx={{borderColor: 'var(--color-border-default)'}} />`,
     //   output: `<Box sx={{borderColor: 'var(--borderColor-default, var(--color-border-default))'}} />`,

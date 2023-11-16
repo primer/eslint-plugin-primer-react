@@ -22,18 +22,52 @@ const reportError = (propertyName, valueNode, context) => {
   )
 
   for (const cssVar of vars) {
-    const cssVarObject = cssVars[cssVar]
-    const varObjectForProp = cssVarObject?.find(prop => prop.props.includes(propertyName))
-    if (varObjectForProp?.replacement) {
-      context.report({
-        node: valueNode,
-        message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
-        fix(fixer) {
-          const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
-          return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `"${fixedString}"` : fixedString)
-        },
-      })
-    }
+    // get the array of objects for the variable name (e.g. --color-fg-primary)
+    const cssVarObjects = cssVars[cssVar]
+    // get the object that contains the property name or the first one (default)
+    const varObjectForProp = propertyName
+      ? cssVarObjects?.find(prop => prop.props.includes(propertyName))
+      : cssVarObjects?.[0]
+    // return if no repalcement exists
+    if (!varObjectForProp?.replacement) return
+    // report the error
+    context.report({
+      node: valueNode,
+      message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
+      fix(fixer) {
+        const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
+        return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `"${fixedString}"` : fixedString)
+      },
+    })
+  }
+}
+
+const reportOnObject = (node, context) => {
+  const propertyName = node.key.name
+  if (node.value?.type === 'Literal') {
+    reportError(propertyName, node.value, context)
+  } else if (node.value?.type === 'ConditionalExpression') {
+    reportError(propertyName, node.value.consequent, context)
+    reportError(propertyName, node.value.alternate, context)
+  }
+}
+
+const reportOnProperty = (node, context) => {
+  const propertyName = node.name.name
+  if (node.value?.type === 'Literal') {
+    reportError(propertyName, node.value, context)
+  } else if (node.value?.type === 'JSXExpressionContainer' && node.value.expression?.type === 'ConditionalExpression') {
+    reportError(propertyName, node.value.expression.consequent, context)
+    reportError(propertyName, node.value.expression.alternate, context)
+  }
+}
+
+const reportOnValue = (node, context) => {
+  if (node?.type === 'Literal') {
+    reportError(undefined, node, context)
+  } else if (node?.type === 'JSXExpressionContainer' && node.expression?.type === 'ConditionalExpression') {
+    reportError(undefined, node.value.expression.consequent, context)
+    reportError(undefined, node.value.expression.alternate, context)
   }
 }
 
@@ -63,25 +97,15 @@ module.exports = {
   /** @param {import('eslint').Rule.RuleContext} context */
   create(context) {
     return {
-      ['JSXAttribute[name.name=sx] ObjectExpression Property, JSXAttribute[name.name=style] ObjectExpression Property']:
-        function (node) {
-          const propertyName = node.key.name
-          if (node.value?.type === 'Literal') {
-            reportError(propertyName, node.value, context)
-          } else if (node.value?.type === 'ConditionalExpression') {
-            reportError(propertyName, node.value.consequent, context)
-            reportError(propertyName, node.value.alternate, context)
-          }
-        },
-      ['JSXAttribute[name.name!=sx][name.name!=style]']: function (node) {
-        const propertyName = node.name.name
-        if (node.value?.type === 'Literal') {
-          reportError(propertyName, node.value, context)
-        } else if (node.value?.type === 'JSXExpressionContainer') {
-          reportError(propertyName, node.value.expression.consequent, context)
-          reportError(propertyName, node.value.expression.alternate, context)
-        }
-      },
+      // sx OR style property on elements
+      ['JSXAttribute:matches([name.name=sx], [name.name=style]) ObjectExpression Property']: node =>
+        reportOnObject(node, context),
+      // variable that is an object
+      ['VariableDeclarator > ObjectExpression Property']: node => reportOnObject(node, context),
+      // property on element like stroke or fill
+      ['JSXAttribute[name.name!=sx][name.name!=style]']: node => reportOnProperty(node, context),
+      // variable that is a value
+      ['VariableDeclarator > Literal']: node => reportOnValue(node, context),
     }
   },
 }
