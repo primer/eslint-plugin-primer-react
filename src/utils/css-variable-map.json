@@ -1157,7 +1157,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow",
         "fill",
         "stroke"
@@ -1222,7 +1221,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "backgroundColor",
         "bg",
         "outline",
@@ -1482,7 +1480,7 @@
       "replacement": "--fgColor-attention"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "boxShadow"],
       "replacement": "--bgColor-attention-emphasis"
     }
   ],
@@ -1517,7 +1515,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-attention-muted"
@@ -1552,7 +1549,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-severe-emphasis"
@@ -1571,7 +1567,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-severe-muted"
@@ -1606,7 +1601,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow",
         "outline"
       ],
@@ -1626,7 +1620,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-danger-muted"
@@ -1665,7 +1658,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-open-emphasis"
@@ -1684,7 +1676,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-open-muted"
@@ -1719,7 +1710,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-closed-emphasis"
@@ -1738,7 +1728,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-closed-muted"
@@ -1773,7 +1762,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-done-emphasis"
@@ -1792,7 +1780,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-done-muted"
@@ -1831,7 +1818,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-sponsors-emphasis"
@@ -1850,7 +1836,6 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
-
         "boxShadow"
       ],
       "replacement": "--borderColor-sponsors-muted"
