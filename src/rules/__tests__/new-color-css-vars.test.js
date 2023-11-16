@@ -29,40 +29,43 @@ ruleTester.run('no-color-css-vars', rule, {
       code: `<Blankslate border></Blankslate>`,
     },
     {
-      code: `<div sx={{lineHeight: 1, }}></div>`,
+      code: `<div sx={{lineHeight: 1}}></div>`,
     },
   ],
   invalid: [
-    // {
-    //   code: `<Button sx={{color: 'var(--color-fg-muted)'}}>Test</Button>`,
-    //   output: `<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))'
-    //     }
-    //   ]
-    // },
-    // {
-    //   code: `
-    //     <Box sx={{
-    //       '&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
-    //         color: 'var(--color-accent-fg)'
-    //       }
-    //     }}>
-    //     </Box>`,
-    //   output: `
-    //     <Box sx={{
-    //       '&:hover [data-component="copy-link"] button, &:focus [data-component="copy-link"] button': {
-    //         color: 'var(--fgColor-accent, var(--color-accent-fg))'
-    //       }
-    //     }}>
-    //     </Box>`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))'
-    //     }
-    //   ]
-    // },
+    {
+      name: 'simple variable',
+      code: `<Button sx={{color: 'var(--color-fg-muted)'}}>Test</Button>`,
+      output: `<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>`,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
+      ],
+    },
+    {
+      name: 'nested variable',
+      code: `
+        <Box sx={{
+          '&:hover button, &:focus [data-component="copy-link"] button': {
+            color: 'var(--color-accent-fg)'
+          }
+        }}>
+        </Box>`,
+      output: `
+        <Box sx={{
+          '&:hover button, &:focus [data-component="copy-link"] button': {
+            color: 'var(--fgColor-accent, var(--color-accent-fg))'
+          }
+        }}>
+        </Box>`,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+      ],
+    },
+
     // {
     //   code: `<Box sx={{boxShadow: '0 0 0 2px var(--color-canvas-subtle)'}} />`,
     //   output: `<Box sx={{boxShadow: '0 0 0 2px var(--bgColor-muted, var(--color-canvas-subtle))'}} />`,
@@ -150,7 +153,7 @@ ruleTester.run('no-color-css-vars', rule, {
     //   ],
     // },
     {
-      name: 'new-1',
+      name: 'conditional variable',
       code: `
         import {Box} from '@primer/react'
 
