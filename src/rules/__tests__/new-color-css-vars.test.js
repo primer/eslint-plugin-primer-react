@@ -72,7 +72,28 @@ ruleTester.run('no-color-css-vars', rule, {
         },
       ],
     },
-
+    {
+      name: 'style: nested variable',
+      code: `
+        <Box style={{
+          '&:hover button, &:focus [data-component="copy-link"] button': {
+            color: 'var(--color-accent-fg)'
+          }
+        }}>
+        </Box>`,
+      output: `
+        <Box style={{
+          '&:hover button, &:focus [data-component="copy-link"] button': {
+            color: 'var(--fgColor-accent, var(--color-accent-fg))'
+          }
+        }}>
+        </Box>`,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+      ],
+    },
     // {
     //   code: `<Box sx={{boxShadow: '0 0 0 2px var(--color-canvas-subtle)'}} />`,
     //   output: `<Box sx={{boxShadow: '0 0 0 2px var(--bgColor-muted, var(--color-canvas-subtle))'}} />`,
@@ -185,6 +206,55 @@ ruleTester.run('no-color-css-vars', rule, {
           return (
             <Box
               sx={{
+                boxShadow: subtle
+                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
+                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+                color: 'var(--fgColor-default)',
+                bg: 'var(--bgColor-default, var(--color-canvas-default))'
+              }}
+            />
+          )
+        }
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-subtle) with var(--borderColor-neutral-emphasis, var(--color-fg-subtle))',
+        },
+        {
+          message:
+            'Replace var(--color-attention-fg) with var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+        },
+        {
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+        },
+      ],
+    },
+    {
+      name: 'style: conditional variable',
+      code: `
+        import {Box} from '@primer/react'
+
+        function someComponent({subtle}) {
+          return (
+            <Box
+              style={{
+                boxShadow: subtle
+                  ? 'inset 2px 0 0 var(--color-fg-subtle)'
+                  : 'inset 2px 0 0 var(--color-attention-fg)',
+                color: 'var(--fgColor-default)',
+                bg: 'var(--color-canvas-default)'
+              }}
+            />
+          )
+        }
+      `,
+      output: `
+        import {Box} from '@primer/react'
+
+        function someComponent({subtle}) {
+          return (
+            <Box
+              style={{
                 boxShadow: subtle
                   ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
                   : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
