@@ -127,33 +127,6 @@ ruleTester.run('no-color-css-vars', rule, {
         },
       ],
     },
-    // {
-    //   code: `<Box sx={{boxShadow: '0 0 0 2px var(--color-canvas-subtle)'}} />`,
-    //   output: `<Box sx={{boxShadow: '0 0 0 2px var(--bgColor-muted, var(--color-canvas-subtle))'}} />`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))'
-    //     }
-    //   ]
-    // },
-    // {
-    //   code: `<Box sx={{border: 'solid 2px var(--color-border-default)'}} />`,
-    //   output: `<Box sx={{border: 'solid 2px var(--borderColor-default, var(--color-border-default))'}} />`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))'
-    //     }
-    //   ]
-    // },
-    // {
-    //   code: `<Box sx={{backgroundColor: 'var(--color-canvas-default)'}} />`,
-    //   output: `<Box sx={{backgroundColor: 'var(--bgColor-default, var(--color-canvas-default))'}} />`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))'
-    //     }
-    //   ]
-    // },
     {
       name: 'value variable in scope',
       code: `
@@ -211,24 +184,24 @@ ruleTester.run('no-color-css-vars', rule, {
     //     }
     //   ]
     // },
-    // {
-    //   name: 'variable in styled.component',
-    //   code: `
-    //     import {sx, SxProp} from '@primer/react'
-    //     export const HighlightToken = styled.span\`
-    //       color: var(--color-accent-emphasis);
-    //       \${sx}
-    //     \`
-    //     const ClickableTokenSpan = styled(HighlightToken)\`
-    //       &:hover, &:focus { background-color: accent.muted;}
-    //     \`
-    //   `,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))',
-    //     },
-    //   ],
-    // },
+    {
+      name: 'variable in styled.component',
+      code: `
+        import {sx, SxProp} from '@primer/react'
+        export const HighlightToken = styled.span\`
+          color: var(--color-accent-emphasis);
+          \${sx}
+        \`
+        const ClickableTokenSpan = styled(HighlightToken)\`
+          &:hover, &:focus { background-color: accent.muted;}
+        \`
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))',
+        },
+      ],
+    },
     {
       name: 'sx: conditional variable',
       code: `

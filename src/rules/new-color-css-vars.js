@@ -71,6 +71,17 @@ const reportOnValue = (node, context) => {
   }
 }
 
+// const reportOnTemplateElement = (node, context) => {
+// console.log(cssToObj(node.value.cooked))
+// console.log(node)
+// if (node?.type === 'Literal') {
+//   reportError(undefined, node, context)
+// } else if (node?.type === 'JSXExpressionContainer' && node.expression?.type === 'ConditionalExpression') {
+//   reportError(undefined, node.value.expression.consequent, context)
+//   reportError(undefined, node.value.expression.alternate, context)
+// }
+// }
+
 module.exports = {
   meta: {
     type: 'suggestion',
@@ -106,6 +117,8 @@ module.exports = {
       ['JSXAttribute[name.name!=sx][name.name!=style]']: node => reportOnProperty(node, context),
       // variable that is a value
       ['VariableDeclarator > Literal']: node => reportOnValue(node, context),
+      // variable that is a value
+      // ['VariableDeclarator TemplateElement']: node => reportOnTemplateElement(node, context),
     }
   },
 }
