@@ -28,6 +28,9 @@ ruleTester.run('no-color-css-vars', rule, {
     {
       code: `<Blankslate border></Blankslate>`,
     },
+    {
+      code: `<div sx={{lineHeight: 1, }}></div>`,
+    },
   ],
   invalid: [
     // {

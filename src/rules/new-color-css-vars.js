@@ -3,14 +3,18 @@ const cssVars = require('../utils/css-variable-map.json')
 const reportOutdatedVariables = (node, valueNode, context) => {
   // performance optimisation: exit early
   if (valueNode.type !== 'Literal') return
-  const rawText = valueNode.value
-  if (!rawText.includes('var(')) return
-
+  // get property value
+  const propertyValue = valueNode.value
+  // return if value is not a string
+  if (typeof propertyValue !== 'string') return
+  // return if value does not include variable
+  if (!propertyValue.includes('var(')) return
+  // get property name
   const propertyName = node.key.name
 
   const varRegex = /var\([^)]+\)/g
 
-  const match = rawText.match(varRegex)
+  const match = propertyValue.match(varRegex)
   if (!match) return
   const vars = match.flatMap(match =>
     match
@@ -27,7 +31,7 @@ const reportOutdatedVariables = (node, valueNode, context) => {
         node: valueNode,
         message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
         fix(fixer) {
-          const fixedString = rawText.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
+          const fixedString = propertyValue.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
           return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
         },
       })
