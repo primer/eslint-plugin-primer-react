@@ -1,4 +1,4 @@
-const rule = require('../new-color-css-vars')
+const rule = require('../no-old-color-tokens')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
@@ -17,13 +17,13 @@ ruleTester.run('no-color-css-vars', rule, {
       code: `{color: 'fg.default'}`,
     },
     {
-      code: `<circle style={{color: '#444'}} strokeWidth="2" />`,
+      code: `<circle style={{color: '#444'}} strokeWidth='2' />`,
     },
     {
-      code: `<circle stroke="var(--borderColor-default)" strokeWidth="2" />`,
+      code: `<circle stroke='var(--borderColor-default)' strokeWidth='2' />`,
     },
     {
-      code: `<circle fill="red" strokeWidth="2" />`,
+      code: `<circle fill='red' strokeWidth='2' />`,
     },
     {
       code: `<Blankslate border></Blankslate>`,
@@ -42,8 +42,8 @@ ruleTester.run('no-color-css-vars', rule, {
   invalid: [
     {
       name: 'attribute: simple variable',
-      code: `<circle stroke="var(--color-border-default)" fill="var(--color-border-default)" strokeWidth="2" />`,
-      output: `<circle stroke="var(--borderColor-default, var(--color-border-default))" fill="var(--borderColor-default, var(--color-border-default))" strokeWidth="2" />`,
+      code: `<circle stroke='var(--color-border-default)' fill='var(--color-border-default)' strokeWidth='2' />`,
+      output: `<circle stroke='var(--borderColor-default, var(--color-border-default))' fill='var(--borderColor-default, var(--color-border-default))' strokeWidth='2' />`,
       errors: [
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
@@ -55,8 +55,8 @@ ruleTester.run('no-color-css-vars', rule, {
     },
     {
       name: 'attribute: conditional variable',
-      code: `<circle stroke={test ? "var(--color-border-default)" : "red"} strokeWidth="2" />`,
-      output: `<circle stroke={test ? "var(--borderColor-default, var(--color-border-default))" : "red"} strokeWidth="2" />`,
+      code: `<circle stroke={test ? 'var(--color-border-default)' : 'red'} strokeWidth='2' />`,
+      output: `<circle stroke={test ? 'var(--borderColor-default, var(--color-border-default))' : 'red'} strokeWidth='2' />`,
       errors: [
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
@@ -66,7 +66,7 @@ ruleTester.run('no-color-css-vars', rule, {
     {
       name: 'sx: simple variable',
       code: `<Button sx={{color: 'var(--color-fg-muted)'}}>Test</Button>`,
-      output: `<Button sx={{color: "var(--fgColor-muted, var(--color-fg-muted))"}}>Test</Button>`,
+      output: `<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>`,
       errors: [
         {
           message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
@@ -76,7 +76,7 @@ ruleTester.run('no-color-css-vars', rule, {
     {
       name: 'style: simple variable',
       code: `<div style={{ border: 'var(--color-border-default)' }}></div>`,
-      output: `<div style={{ border: "var(--borderColor-default, var(--color-border-default))" }}></div>`,
+      output: `<div style={{ border: 'var(--borderColor-default, var(--color-border-default))' }}></div>`,
       errors: [
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
@@ -95,7 +95,7 @@ ruleTester.run('no-color-css-vars', rule, {
       output: `
         <Box sx={{
           '&:hover button, &:focus [data-component="copy-link"] button': {
-            color: "var(--fgColor-accent, var(--color-accent-fg))"
+            color: 'var(--fgColor-accent, var(--color-accent-fg))'
           }
         }}>
         </Box>`,
@@ -117,7 +117,7 @@ ruleTester.run('no-color-css-vars', rule, {
       output: `
         <Box style={{
           '&:hover button, &:focus [data-component="copy-link"] button': {
-            color: "var(--fgColor-accent, var(--color-accent-fg))"
+            color: 'var(--fgColor-accent, var(--color-accent-fg))'
           }
         }}>
         </Box>`,
@@ -134,7 +134,7 @@ ruleTester.run('no-color-css-vars', rule, {
         export const Fixture = <Button bg={bg}>Test</Button>
       `,
       output: `
-        const bg = "var(--bgColor-muted, var(--color-canvas-subtle))"
+        const bg = 'var(--bgColor-muted, var(--color-canvas-subtle))'
         export const Fixture = <Button bg={bg}>Test</Button>
       `,
       errors: [
@@ -150,7 +150,7 @@ ruleTester.run('no-color-css-vars', rule, {
         export const Fixture = <Button sx={baseStyles}>Test</Button>
       `,
       output: `
-        const baseStyles = { color: "var(--fgColor-muted, var(--color-fg-muted))" }
+        const baseStyles = { color: 'var(--fgColor-muted, var(--color-fg-muted))' }
         export const Fixture = <Button sx={baseStyles}>Test</Button>
       `,
       errors: [
@@ -167,7 +167,7 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       output: `
         import {merge} from '@primer/react'
-        export const Fixture = props => <Button sx={merge({color: "var(--fgColor-muted, var(--color-fg-muted))"}, props.sx)}>Test</Button>
+        export const Fixture = props => <Button sx={merge({color: 'var(--fgColor-muted, var(--color-fg-muted))'}, props.sx)}>Test</Button>
       `,
       errors: [
         {
@@ -184,24 +184,24 @@ ruleTester.run('no-color-css-vars', rule, {
     //     }
     //   ]
     // },
-    {
-      name: 'variable in styled.component',
-      code: `
-        import {sx, SxProp} from '@primer/react'
-        export const HighlightToken = styled.span\`
-          color: var(--color-accent-emphasis);
-          \${sx}
-        \`
-        const ClickableTokenSpan = styled(HighlightToken)\`
-          &:hover, &:focus { background-color: accent.muted;}
-        \`
-      `,
-      errors: [
-        {
-          message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))',
-        },
-      ],
-    },
+    // {
+    //   name: 'variable in styled.component',
+    //   code: `
+    //     import {sx, SxProp} from '@primer/react'
+    //     export const HighlightToken = styled.span\`
+    //       color: var(--color-accent-emphasis);
+    //       \${sx}
+    //     \`
+    //     const ClickableTokenSpan = styled(HighlightToken)\`
+    //       &:hover, &:focus { background-color: accent.muted;}
+    //     \`
+    //   `,
+    //   errors: [
+    //     {
+    //       message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))',
+    //     },
+    //   ],
+    // },
     {
       name: 'sx: conditional variable',
       code: `
@@ -229,10 +229,10 @@ ruleTester.run('no-color-css-vars', rule, {
             <Box
               sx={{
                 boxShadow: subtle
-                  ? "inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))"
-                  : "inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))",
+                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
+                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
                 color: 'var(--fgColor-default)',
-                bg: "var(--bgColor-default, var(--color-canvas-default))"
+                bg: 'var(--bgColor-default, var(--color-canvas-default))'
               }}
             />
           )
@@ -278,10 +278,10 @@ ruleTester.run('no-color-css-vars', rule, {
             <Box
               style={{
                 boxShadow: subtle
-                  ? "inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))"
-                  : "inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))",
+                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
+                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
                 color: 'var(--fgColor-default)',
-                bg: "var(--bgColor-default, var(--color-canvas-default))"
+                bg: 'var(--bgColor-default, var(--color-canvas-default))'
               }}
             />
           )

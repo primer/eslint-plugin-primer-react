@@ -36,7 +36,7 @@ const reportError = (propertyName, valueNode, context) => {
       message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
       fix(fixer) {
         const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
-        return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `"${fixedString}"` : fixedString)
+        return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
       },
     })
   }
@@ -72,14 +72,14 @@ const reportOnValue = (node, context) => {
 }
 
 // const reportOnTemplateElement = (node, context) => {
-// console.log(cssToObj(node.value.cooked))
-// console.log(node)
-// if (node?.type === 'Literal') {
-//   reportError(undefined, node, context)
-// } else if (node?.type === 'JSXExpressionContainer' && node.expression?.type === 'ConditionalExpression') {
-//   reportError(undefined, node.value.expression.consequent, context)
-//   reportError(undefined, node.value.expression.alternate, context)
-// }
+//   console.log(cssToObj(node.value.cooked))
+//   console.log(node)
+//   if (node?.type === 'Literal') {
+//     reportError(undefined, node, context)
+//   } else if (node?.type === 'JSXExpressionContainer' && node.expression?.type === 'ConditionalExpression') {
+//     reportError(undefined, node.value.expression.consequent, context)
+//     reportError(undefined, node.value.expression.alternate, context)
+//   }
 // }
 
 module.exports = {
