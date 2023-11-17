@@ -184,24 +184,52 @@ ruleTester.run('no-color-css-vars', rule, {
     //     }
     //   ]
     // },
-    // {
-    //   name: 'variable in styled.component',
-    //   code: `
-    //     import {sx, SxProp} from '@primer/react'
-    //     export const HighlightToken = styled.span\`
-    //       color: var(--color-accent-emphasis);
-    //       \${sx}
-    //     \`
-    //     const ClickableTokenSpan = styled(HighlightToken)\`
-    //       &:hover, &:focus { background-color: accent.muted;}
-    //     \`
-    //   `,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-accent-emphasis) with var(--fgColor-accent, var(--color-accent-emphasis))',
-    //     },
-    //   ],
-    // },
+    {
+      name: 'variable in styled.component',
+      code: `
+        import {sx, SxProp} from '@primer/react'
+        export const HighlightToken = styled.span\`
+          color: var(--color-accent-emphasis);
+          background-color: var(--color-canvas-default);
+          \${sx}
+        \`
+        const ClickableTokenSpan = styled(HighlightToken)\`
+          &:hover, &:focus { background-color: accent.muted;}
+        \`
+      `,
+      errors: [
+        {
+          message:
+            'Replace var(--color-accent-emphasis) with var(--bgColor-accent-emphasis, var(--color-accent-emphasis))',
+        },
+        {
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+        },
+      ],
+    },
+    {
+      name: 'variable in styled.component with conditional',
+      code: `
+        import {sx, SxProp} from '@primer/react'
+        export const HighlightToken = styled.span\`
+          color: \\\${danger ? var(--color-danger-emphasis) : var(--color-accent-emphasis)};
+          \${sx}
+        \`
+        const ClickableTokenSpan = styled(HighlightToken)\`
+          &:hover, &:focus { background-color: accent.muted;}
+        \`
+      `,
+      errors: [
+        {
+          message:
+            'Replace var(--color-danger-emphasis) with var(--bgColor-danger-emphasis, var(--color-danger-emphasis))',
+        },
+        {
+          message:
+            'Replace var(--color-accent-emphasis) with var(--bgColor-accent-emphasis, var(--color-accent-emphasis))',
+        },
+      ],
+    },
     {
       name: 'sx: conditional variable',
       code: `

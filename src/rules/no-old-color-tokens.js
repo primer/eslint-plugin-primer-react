@@ -1,10 +1,10 @@
 const cssVars = require('../utils/css-variable-map.json')
 
-const reportError = (propertyName, valueNode, context) => {
+const reportError = (propertyName, valueNode, context, suggestFix = true) => {
   // performance optimisation: exit early
-  if (valueNode.type !== 'Literal') return
+  if (valueNode.type !== 'Literal' && valueNode.type !== 'TemplateElement') return
   // get property value
-  const value = valueNode.value
+  const value = valueNode.type === 'Literal' ? valueNode.value : valueNode.value.cooked
   // return if value is not a string
   if (typeof value !== 'string') return
   // return if value does not include variable
@@ -34,10 +34,12 @@ const reportError = (propertyName, valueNode, context) => {
     context.report({
       node: valueNode,
       message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
-      fix(fixer) {
-        const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
-        return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
-      },
+      fix: suggestFix
+        ? fixer => {
+            const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
+            return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
+          }
+        : undefined,
     })
   }
 }
@@ -71,16 +73,22 @@ const reportOnValue = (node, context) => {
   }
 }
 
-// const reportOnTemplateElement = (node, context) => {
-//   console.log(cssToObj(node.value.cooked))
-//   console.log(node)
-//   if (node?.type === 'Literal') {
-//     reportError(undefined, node, context)
-//   } else if (node?.type === 'JSXExpressionContainer' && node.expression?.type === 'ConditionalExpression') {
-//     reportError(undefined, node.value.expression.consequent, context)
-//     reportError(undefined, node.value.expression.alternate, context)
-//   }
-// }
+const reportOnTemplateElement = (node, context) => {
+  // const regexPropAndValue = /\s*{?([A-Za-z-]+):\s*(var\([^;,)]+,?\s*(?:var\([^)]+\)|[^)]+)?\));/g
+  // const varRegex = /var\([^)]+\)/g
+  // // find all variables in the string
+  // const allVars = [...node.value.cooked.matchAll(varRegex)]
+  // const matches = [...node.value.cooked.matchAll(regexPropAndValue)]
+  // possible error in regex match jsut report with default suggestion
+  // if (matches.length !== allVars.length) {
+  reportError(undefined, node, context, false)
+  // }
+  // console.log(matches)
+  // // report all props and values
+  // for (const [, propertyName, variable] of matches) {
+  //   reportError(propertyName, node.value, context)
+  // }
+}
 
 module.exports = {
   meta: {
@@ -118,7 +126,7 @@ module.exports = {
       // variable that is a value
       ['VariableDeclarator > Literal']: node => reportOnValue(node, context),
       // variable that is a value
-      // ['VariableDeclarator TemplateElement']: node => reportOnTemplateElement(node, context),
+      ['VariableDeclarator TemplateElement']: node => reportOnTemplateElement(node, context),
     }
   },
 }
