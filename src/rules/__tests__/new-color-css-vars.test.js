@@ -1,4 +1,4 @@
-const rule = require('../no-old-color-tokens')
+const rule = require('../new-color-css-vars')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({

@@ -74,20 +74,7 @@ const reportOnValue = (node, context) => {
 }
 
 const reportOnTemplateElement = (node, context) => {
-  // const regexPropAndValue = /\s*{?([A-Za-z-]+):\s*(var\([^;,)]+,?\s*(?:var\([^)]+\)|[^)]+)?\));/g
-  // const varRegex = /var\([^)]+\)/g
-  // // find all variables in the string
-  // const allVars = [...node.value.cooked.matchAll(varRegex)]
-  // const matches = [...node.value.cooked.matchAll(regexPropAndValue)]
-  // possible error in regex match jsut report with default suggestion
-  // if (matches.length !== allVars.length) {
   reportError(undefined, node, context, false)
-  // }
-  // console.log(matches)
-  // // report all props and values
-  // for (const [, propertyName, variable] of matches) {
-  //   reportError(propertyName, node.value, context)
-  // }
 }
 
 module.exports = {
