@@ -257,6 +257,8 @@ ruleTester.run('no-color-css-vars', rule, {
                 bg: 'var(--color-canvas-default)',
                 borderLeft: '1px solid var(--color-border-default)',
                 borderRight: '1px solid var(--color-border-default)',
+                borderTop: '2px solid var(--color-border-default)',
+                borderBottom: '2px solid var(--color-border-default)',
               }}
             />
           )
@@ -276,6 +278,8 @@ ruleTester.run('no-color-css-vars', rule, {
                 bg: 'var(--bgColor-default, var(--color-canvas-default))',
                 borderLeft: '1px solid var(--borderColor-default, var(--color-border-default))',
                 borderRight: '1px solid var(--borderColor-default, var(--color-border-default))',
+                borderTop: '2px solid var(--borderColor-default, var(--color-border-default))',
+                borderBottom: '2px solid var(--borderColor-default, var(--color-border-default))',
               }}
             />
           )
@@ -291,6 +295,12 @@ ruleTester.run('no-color-css-vars', rule, {
         },
         {
           message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+        },
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
         },
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',

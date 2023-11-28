@@ -104,7 +104,7 @@ module.exports = {
   create(context) {
     return {
       // sx OR style property on elements
-      ['JSXAttribute:matches([name.name=sx], [name.name=style], [name.name$=Sx]) ObjectExpression Property']: node =>
+      ['JSXAttribute:matches([name.name=sx], [name.name=style]) ObjectExpression Property']: node =>
         reportOnObject(node, context),
       // variable that is an object
       [':matches(VariableDeclarator, ReturnStatement, ConditionalExpression) > ObjectExpression Property']: node =>
