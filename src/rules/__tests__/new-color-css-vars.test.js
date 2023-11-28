@@ -490,5 +490,109 @@ ruleTester.run('no-color-css-vars', rule, {
         },
       ],
     },
+    {
+      name: 'fn with => return',
+      code: `
+      const filterInputWrapperStyles = (fullyRounded = false) => ({
+        display: 'flex',
+        pl: 1,
+        width: '100%',
+        ...(fullyRounded
+          ? {
+              borderRadius: '5px',
+              color: 'var(--color-accent-fg)',
+            }
+          : {
+              borderTopRightRadius: '5px',
+              borderBottomRightRadius: '5px',
+              color: 'var(--color-accent-fg)',
+            }),
+        overflow: 'hidden',
+        ':has(input:focus-visible)': {
+          boxShadow: 'inset 0 0 0 1px var(--color-accent-emphasis)',
+        },
+      })
+      `,
+      output: `
+      const filterInputWrapperStyles = (fullyRounded = false) => ({
+        display: 'flex',
+        pl: 1,
+        width: '100%',
+        ...(fullyRounded
+          ? {
+              borderRadius: '5px',
+              color: 'var(--fgColor-accent, var(--color-accent-fg))',
+            }
+          : {
+              borderTopRightRadius: '5px',
+              borderBottomRightRadius: '5px',
+              color: 'var(--fgColor-accent, var(--color-accent-fg))',
+            }),
+        overflow: 'hidden',
+        ':has(input:focus-visible)': {
+          boxShadow: 'inset 0 0 0 1px var(--borderColor-accent-emphasis, var(--color-accent-emphasis))',
+        },
+      })
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+        {
+          message:
+            'Replace var(--color-accent-emphasis) with var(--borderColor-accent-emphasis, var(--color-accent-emphasis))',
+        },
+      ],
+    },
+    {
+      name: 'switch case',
+      code: `
+      const getBorderStyling = (modification) => {
+        const borderStyle = '3px solid'
+
+        switch (modification) {
+          case 'ADDED':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-success-fg)'}
+          case 'REMOVED':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-danger-fg)'}
+          case 'EDITED':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-severe-fg)'}
+          case 'UNCHANGED':
+            return {}
+        }
+      }
+      `,
+      output: `
+      const getBorderStyling = (modification) => {
+        const borderStyle = '3px solid'
+
+        switch (modification) {
+          case 'ADDED':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-success-fg)'}
+          case 'REMOVED':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-danger-fg)'}
+          case 'EDITED':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-severe-fg)'}
+          case 'UNCHANGED':
+            return {}
+        }
+      }
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+        {
+          message:
+            'Replace var(--color-accent-emphasis) with var(--borderColor-accent-emphasis, var(--color-accent-emphasis))',
+        },
+      ],
+    },
   ],
 })

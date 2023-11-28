@@ -107,8 +107,8 @@ module.exports = {
       ['JSXAttribute:matches([name.name=sx], [name.name=style]) ObjectExpression Property']: node =>
         reportOnObject(node, context),
       // variable that is an object
-      [':matches(VariableDeclarator, ReturnStatement, ConditionalExpression) > ObjectExpression Property']: node =>
-        reportOnObject(node, context),
+      [':matches(VariableDeclarator, ReturnStatement, ConditionalExpression, ArrowFunctionExpression) > ObjectExpression Property, :matches(VariableDeclarator, ReturnStatement, ConditionalExpression, ArrowFunctionExpression) > ObjectExpression Property > ObjectExpression Property']:
+        node => reportOnObject(node, context),
       // property on element like stroke or fill
       ['JSXAttribute[name.name!=sx][name.name!=style]']: node => reportOnProperty(node, context),
       // variable that is a value
