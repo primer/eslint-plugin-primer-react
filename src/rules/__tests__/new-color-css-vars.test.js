@@ -131,11 +131,31 @@ ruleTester.run('no-color-css-vars', rule, {
       name: 'value variable in scope',
       code: `
         const bg = 'var(--color-canvas-subtle)'
-        export const Fixture = <Button bg={bg}>Test</Button>
+        const sx = disabled ? {color: 'var(--color-primer-fg-disabled)'} : undefined
+        export const Fixture = <Button bg={bg} sx={sx}>Test</Button>
       `,
       output: `
         const bg = 'var(--bgColor-muted, var(--color-canvas-subtle))'
-        export const Fixture = <Button bg={bg}>Test</Button>
+        const sx = disabled ? {color: 'var(--fgColor-disabled, var(--color-primer-fg-disabled))'} : undefined
+        export const Fixture = <Button bg={bg} sx={sx}>Test</Button>
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
+        },
+        {
+          message:
+            'Replace var(--color-primer-fg-disabled) with var(--fgColor-disabled, var(--color-primer-fg-disabled))',
+        },
+      ],
+    },
+    {
+      name: 'conditional with !important',
+      code: `
+        const extraSx = focused ? {backgroundColor: 'var(--color-canvas-subtle) !important'} : {}
+      `,
+      output: `
+        const extraSx = focused ? {backgroundColor: 'var(--bgColor-muted, var(--color-canvas-subtle)) !important'} : {}
       `,
       errors: [
         {
@@ -175,15 +195,6 @@ ruleTester.run('no-color-css-vars', rule, {
         },
       ],
     },
-    // {
-    //   code: `<Box sx={{borderColor: 'var(--color-border-default)'}} />`,
-    //   output: `<Box sx={{borderColor: 'var(--borderColor-default, var(--color-border-default))'}} />`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))'
-    //     }
-    //   ]
-    // },
     {
       name: 'variable in styled.component',
       code: `
@@ -243,7 +254,9 @@ ruleTester.run('no-color-css-vars', rule, {
                   ? 'inset 2px 0 0 var(--color-fg-subtle)'
                   : 'inset 2px 0 0 var(--color-attention-fg)',
                 color: 'var(--fgColor-default)',
-                bg: 'var(--color-canvas-default)'
+                bg: 'var(--color-canvas-default)',
+                borderLeft: '1px solid var(--color-border-default)',
+                borderRight: '1px solid var(--color-border-default)',
               }}
             />
           )
@@ -260,7 +273,9 @@ ruleTester.run('no-color-css-vars', rule, {
                   ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
                   : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
                 color: 'var(--fgColor-default)',
-                bg: 'var(--bgColor-default, var(--color-canvas-default))'
+                bg: 'var(--bgColor-default, var(--color-canvas-default))',
+                borderLeft: '1px solid var(--borderColor-default, var(--color-border-default))',
+                borderRight: '1px solid var(--borderColor-default, var(--color-border-default))',
               }}
             />
           )
@@ -276,6 +291,12 @@ ruleTester.run('no-color-css-vars', rule, {
         },
         {
           message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+        },
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
         },
       ],
     },
@@ -328,45 +349,136 @@ ruleTester.run('no-color-css-vars', rule, {
         },
       ],
     },
-    // {
-    //   code: `<Box sx={{outline: '2px solid var(--color-accent-fg)'}}>Test</Box>`,
-    //   // output: `<Box sx={{outline: '2px solid var(--fgColor-accent, var(--borderColor-accent-emphasis, var(--focus-outlineColor, var(--color-accent-fg))))'}}>Test</Box>`,
-    //   output: `<Box sx={{outline: '2px solid var(--focus-outlineColor, var(--color-accent-fg))'}}>Test</Box>`,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-accent-fg) with var(--focus-outlineColor, var(--color-accent-fg))'
-    //     }
-    //   ]
-    // },
-    // {
-    //   code: `
-    //     <Box sx={{
-    //       color: 'var(--color-fg-subtle)',
-    //       '&:hover': {
-    //         color: 'var(--color-accent-fg)',
-    //       }
-    //     }}>Test</Box>
-    //   `,
-    //   // output: `
-    //   //   <Box sx={{
-    //   //     color: 'var(--fgColor-muted, var(--color-fg-subtle))',
-    //   //     '&:hover': {
-    //   //       color: 'var(--fgColor-accent, var(--color-accent-fg))',
-    //   //   }}>Test</Box>
-    //   // `,
-    //   output: `
-    //     <Box sx={{
-    //       color: 'var(--fgColor-muted, var(--color-fg-subtle))',
-    //       '&:hover': {
-    //         color: 'var(--fgColor-accent, var(--borderColor-accent-emphasis, var(--bgColor-accent-emphasis, var(--color-accent-fg))))',
-    //       }
-    //     }}>Test</Box>
-    //   `,
-    //   errors: [
-    //     {
-    //       message: 'Replace var(--color-accent-fg) with var(--focus-outlineColor, var(--color-accent-fg))'
-    //     }
-    //   ]
-    // }
+    {
+      name: 'typescript object with nested cssObject',
+      code: `
+        const Styles = {
+          table: {
+            width: '100%',
+            lineHeight: '100%',
+          },
+          thead: {
+            background: 'var(--color-canvas-subtle)',
+            borderBottom: '1px solid',
+            borderColor: 'var(--color-border-default)',
+          },
+        }
+      `,
+      output: `
+        const Styles = {
+          table: {
+            width: '100%',
+            lineHeight: '100%',
+          },
+          thead: {
+            background: 'var(--bgColor-muted, var(--color-canvas-subtle))',
+            borderBottom: '1px solid',
+            borderColor: 'var(--borderColor-default, var(--color-border-default))',
+          },
+        }
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
+        },
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+      ],
+    },
+    {
+      name: 'inline sx',
+      code: `<Box sx={{outline: '2px solid var(--color-accent-fg)'}}>Test</Box>`,
+      output: `<Box sx={{outline: '2px solid var(--focus-outlineColor, var(--color-accent-fg))'}}>Test</Box>`,
+      errors: [
+        {
+          message: 'Replace var(--color-accent-fg) with var(--focus-outlineColor, var(--color-accent-fg))',
+        },
+      ],
+    },
+    {
+      name: 'inline sx with nesting',
+      code: `
+        <Box sx={{
+          color: 'var(--color-fg-subtle)',
+          '&:hover': {
+            color: 'var(--color-accent-fg)',
+          }
+        }}>Test</Box>
+      `,
+      output: `
+        <Box sx={{
+          color: 'var(--fgColor-muted, var(--color-fg-subtle))',
+          '&:hover': {
+            color: 'var(--fgColor-accent, var(--color-accent-fg))',
+          }
+        }}>Test</Box>
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-subtle) with var(--fgColor-muted, var(--color-fg-subtle))',
+        },
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+      ],
+    },
+    {
+      name: 'inside return statement',
+      code: `
+      const fn = () => {
+        const th = {
+          padding: '8px 12px',
+        }
+
+        return {
+          button: {
+            border: 0,
+            padding: 0,
+            background: 'transparent',
+            color: isSelected ? 'var(--color-fg-default)' : 'var(--color-fg-muted)',
+            fontSize: '12px',
+            fontWeight: '600',
+            display: 'flex',
+            gap: '8px',
+            flexDirection: isRightAligned ? 'row-reverse' : 'row',
+            justifyContent: 'flex-start',
+          },
+          th,
+        }
+      }
+      `,
+      output: `
+      const fn = () => {
+        const th = {
+          padding: '8px 12px',
+        }
+
+        return {
+          button: {
+            border: 0,
+            padding: 0,
+            background: 'transparent',
+            color: isSelected ? 'var(--fgColor-default, var(--color-fg-default))' : 'var(--fgColor-muted, var(--color-fg-muted))',
+            fontSize: '12px',
+            fontWeight: '600',
+            display: 'flex',
+            gap: '8px',
+            flexDirection: isRightAligned ? 'row-reverse' : 'row',
+            justifyContent: 'flex-start',
+          },
+          th,
+        }
+      }
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-fg-default) with var(--fgColor-default, var(--color-fg-default))',
+        },
+        {
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
+      ],
+    },
   ],
 })

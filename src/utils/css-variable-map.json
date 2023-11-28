@@ -1,7 +1,7 @@
 {
   "--color-page-header-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--page-header-bgColor"
     }
   ],
@@ -19,19 +19,19 @@
   ],
   "--color-diff-blob-addition-num-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffBlob-addition-bgColor-num"
     }
   ],
   "--color-diff-blob-addition-line-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffBlob-addition-bgColor-line"
     }
   ],
   "--color-diff-blob-addition-word-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffBlob-addition-bgColor-word"
     }
   ],
@@ -49,25 +49,25 @@
   ],
   "--color-diff-blob-deletion-num-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffBlob-deletion-bgColor-num"
     }
   ],
   "--color-diff-blob-deletion-line-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffBlob-deletion-bgColor-line"
     }
   ],
   "--color-diff-blob-deletion-word-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffBlob-deletion-bgColor-word"
     }
   ],
   "--color-diff-blob-hunk-num-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffBlob-hunk-bgColor-num"
     }
   ],
@@ -81,13 +81,13 @@
   "--color-diffstat-addition-border": [],
   "--color-diffstat-addition-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--diffStat-addition-bgColor"
     }
   ],
   "--color-search-keyword-hl": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--highlight-neutral-bgColor"
     }
   ],
@@ -99,13 +99,13 @@
   ],
   "--color-codemirror-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--codeMirror-bgColor"
     }
   ],
   "--color-codemirror-gutters-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--codeMirror-gutters-bgColor"
     }
   ],
@@ -135,13 +135,13 @@
   ],
   "--color-codemirror-selection-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--codeMirror-selection-bgColor"
     }
   ],
   "--color-codemirror-activeline-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--codeMirror-activeline-bgColor"
     }
   ],
@@ -153,7 +153,7 @@
   ],
   "--color-codemirror-lines-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--codeMirror-lines-bgColor"
     }
   ],
@@ -213,7 +213,7 @@
   ],
   "--color-header-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--header-bgColor"
     }
   ],
@@ -226,9 +226,12 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg",
+        "background",
         "color"
       ],
       "replacement": "--header-borderColor-divider"
@@ -255,6 +258,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -264,7 +269,7 @@
   ],
   "--color-avatar-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--avatar-bgColor"
     }
   ],
@@ -277,9 +282,12 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg",
+        "background",
         "boxShadow"
       ],
       "replacement": "--avatar-borderColor"
@@ -287,13 +295,13 @@
   ],
   "--color-avatar-stack-fade": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--avatarStack-fade-bgColor-default"
     }
   ],
   "--color-avatar-stack-fade-more": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--avatarStack-fade-bgColor-muted"
     }
   ],
@@ -306,6 +314,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -322,6 +332,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -338,6 +350,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -347,43 +361,43 @@
   ],
   "--color-select-menu-tap-highlight": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-bgColor-active"
     }
   ],
   "--color-select-menu-tap-focus-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--selectMenu-bgColor-active"
     }
   ],
   "--color-sidenav-selected-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--sideNav-bgColor-selected"
     }
   ],
   "--color-menu-bg-active": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--menu-bgColor-active"
     }
   ],
   "--color-input-disabled-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-bgColor-disabled"
     }
   ],
   "--color-timeline-badge-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--timelineBadge-bgColor"
     }
   ],
   "--color-btn-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-default-bgColor-rest"
     }
   ],
@@ -396,6 +410,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -405,7 +421,7 @@
   ],
   "--color-btn-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-default-bgColor-hover"
     }
   ],
@@ -418,6 +434,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -427,7 +445,7 @@
   ],
   "--color-btn-active-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-default-bgColor-active"
     }
   ],
@@ -440,6 +458,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -449,13 +469,13 @@
   ],
   "--color-btn-selected-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-default-bgColor-selected"
     }
   ],
   "--color-btn-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-default-bgColor-rest"
     }
   ],
@@ -467,7 +487,7 @@
   ],
   "--color-btn-primary-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-primary-bgColor-rest"
     }
   ],
@@ -480,6 +500,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -489,7 +511,7 @@
   ],
   "--color-btn-primary-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-primary-bgColor-hover"
     }
   ],
@@ -502,6 +524,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -511,7 +535,7 @@
   ],
   "--color-btn-primary-selected-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-primary-bgColor-active"
     }
   ],
@@ -523,7 +547,7 @@
   ],
   "--color-btn-primary-disabled-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-primary-bgColor-disabled"
     }
   ],
@@ -536,6 +560,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -551,7 +577,7 @@
   ],
   "--color-btn-primary-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-primary-bgColor-rest"
     }
   ],
@@ -569,7 +595,7 @@
   ],
   "--color-btn-outline-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-outline-bgColor-hover"
     }
   ],
@@ -582,6 +608,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -591,7 +619,7 @@
   ],
   "--color-btn-outline-hover-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-outline-bgColor-hover"
     }
   ],
@@ -603,7 +631,7 @@
   ],
   "--color-btn-outline-selected-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-outline-bgColor-active"
     }
   ],
@@ -616,6 +644,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -631,19 +661,19 @@
   ],
   "--color-btn-outline-disabled-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-outline-bgColor-disabled"
     }
   ],
   "--color-btn-outline-disabled-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-outline-bgColor-disabled"
     }
   ],
   "--color-btn-outline-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-outline-bgColor-rest"
     }
   ],
@@ -661,7 +691,7 @@
   ],
   "--color-btn-danger-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-danger-bgColor-hover"
     }
   ],
@@ -674,6 +704,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -683,7 +715,7 @@
   ],
   "--color-btn-danger-hover-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-danger-bgColor-hover"
     }
   ],
@@ -695,7 +727,7 @@
   ],
   "--color-btn-danger-selected-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-danger-bgColor-active"
     }
   ],
@@ -708,6 +740,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -723,19 +757,19 @@
   ],
   "--color-btn-danger-disabled-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--button-danger-bgColor-disabled"
     }
   ],
   "--color-btn-danger-disabled-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-danger-bgColor-disabled"
     }
   ],
   "--color-btn-danger-counter-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--buttonCounter-danger-bgColor-rest"
     }
   ],
@@ -766,6 +800,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -782,6 +818,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -791,7 +829,7 @@
   ],
   "--color-action-list-item-default-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-transparent-bgColor-hover"
     }
   ],
@@ -804,6 +842,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -813,7 +853,7 @@
   ],
   "--color-action-list-item-default-active-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-transparent-bgColor-active"
     }
   ],
@@ -826,6 +866,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -835,19 +877,19 @@
   ],
   "--color-action-list-item-default-selected-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-transparent-bgColor-selected"
     }
   ],
   "--color-action-list-item-danger-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-danger-bgColor-hover"
     }
   ],
   "--color-action-list-item-danger-active-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-danger-bgColor-active"
     }
   ],
@@ -859,25 +901,25 @@
   ],
   "--color-switch-track-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlTrack-bgColor-rest"
     }
   ],
   "--color-switch-track-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlTrack-bgColor-hover"
     }
   ],
   "--color-switch-track-active-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlTrack-bgColor-active"
     }
   ],
   "--color-switch-track-disabled-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlTrack-bgColor-disabled"
     }
   ],
@@ -902,6 +944,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -911,19 +955,19 @@
   ],
   "--color-switch-track-checked-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-checked-bgColor-rest"
     }
   ],
   "--color-switch-track-checked-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-checked-bgColor-hover"
     }
   ],
   "--color-switch-track-checked-active-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-checked-bgColor-active"
     }
   ],
@@ -948,6 +992,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-transparent"
@@ -955,13 +1001,13 @@
   ],
   "--color-switch-knob-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlKnob-bgColor-rest"
     }
   ],
   "--color-switch-knob-disabled-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlKnob-bgColor-disabled"
     }
   ],
@@ -974,6 +1020,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -983,13 +1031,13 @@
   ],
   "--color-switch-knob-checked-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlKnob-bgColor-checked"
     }
   ],
   "--color-switch-knob-checked-disabled-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlKnob-bgColor-disabled"
     }
   ],
@@ -1002,6 +1050,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -1011,25 +1061,25 @@
   ],
   "--color-segmented-control-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlTrack-bgColor-rest"
     }
   ],
   "--color-segmented-control-button-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlKnob-bgColor-rest"
     }
   ],
   "--color-segmented-control-button-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlTrack-bgColor-hover"
     }
   ],
   "--color-segmented-control-button-active-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--controlTrack-bgColor-active"
     }
   ],
@@ -1042,6 +1092,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -1051,13 +1103,13 @@
   ],
   "--color-tree-view-item-chevron-hover-bg": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--control-transparent-bgColor-hover"
     }
   ],
   "--color-tree-view-item-directory-fill": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--treeViewItem-leadingVisual-bgColor-rest"
     }
   ],
@@ -1074,6 +1126,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-transparent"
@@ -1085,7 +1139,7 @@
       "replacement": "--fgColor-default"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--fgColor-default"
     }
   ],
@@ -1095,7 +1149,7 @@
       "replacement": "--fgColor-muted"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-neutral-emphasis"
     },
     {
@@ -1106,6 +1160,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-neutral-emphasis"
@@ -1124,6 +1180,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-neutral-emphasis"
@@ -1141,6 +1199,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--fgColor-onEmphasis"
@@ -1151,12 +1211,15 @@
       "props": [
         "backgroundColor",
         "bg",
+        "background",
         "border",
         "borderColor",
         "borderTopColor",
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "fill",
         "stroke"
@@ -1166,13 +1229,13 @@
   ],
   "--color-canvas-overlay": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--overlay-bgColor"
     }
   ],
   "--color-canvas-inset": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-inset"
     }
   ],
@@ -1181,6 +1244,7 @@
       "props": [
         "backgroundColor",
         "bg",
+        "background",
         "fill",
         "border",
         "borderColor",
@@ -1188,6 +1252,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--bgColor-muted"
@@ -1202,8 +1268,11 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "backgroundColor",
         "bg",
+        "background",
         "boxShadow",
         "stroke",
         "outline",
@@ -1221,8 +1290,11 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "backgroundColor",
         "bg",
+        "background",
         "outline",
         "boxShadow",
         "stroke"
@@ -1239,9 +1311,12 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg",
+        "background",
         "outline"
       ],
       "replacement": "--borderColor-muted"
@@ -1252,12 +1327,15 @@
       "props": [
         "backgroundColor",
         "bg",
+        "background",
         "border",
         "borderColor",
         "borderTopColor",
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "color",
         "stroke"
@@ -1267,7 +1345,7 @@
   ],
   "--color-neutral-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-neutral-emphasis"
     },
     {
@@ -1278,6 +1356,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "boxShadow"
       ],
@@ -1297,19 +1377,21 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "boxShadow"
       ],
       "replacement": "--borderColor-neutral-muted"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-neutral-muted"
     }
   ],
   "--color-neutral-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-neutral-muted"
     },
     {
@@ -1320,6 +1402,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "boxShadow"
       ],
@@ -1339,13 +1423,15 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "boxShadow"
       ],
       "replacement": "--borderColor-accent-emphasis"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-accent-emphasis"
     },
     {
@@ -1355,7 +1441,7 @@
   ],
   "--color-accent-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-accent-emphasis"
     },
     {
@@ -1366,6 +1452,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "boxShadow"
       ],
@@ -1389,19 +1477,21 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "boxShadow"
       ],
       "replacement": "--borderColor-accent-muted"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-accent-muted"
     }
   ],
   "--color-accent-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-accent-muted"
     },
     {
@@ -1412,6 +1502,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "boxShadow"
       ],
@@ -1424,13 +1516,13 @@
       "replacement": "--fgColor-success"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-success-emphasis"
     }
   ],
   "--color-success-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-success-emphasis"
     },
     {
@@ -1441,6 +1533,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-success-emphasis"
@@ -1459,18 +1553,20 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-success-muted"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-success-muted"
     }
   ],
   "--color-success-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-success-muted"
     }
   ],
@@ -1486,7 +1582,7 @@
   ],
   "--color-attention-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-attention-emphasis"
     },
     {
@@ -1497,6 +1593,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-attention-emphasis"
@@ -1515,6 +1613,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-attention-muted"
@@ -1522,7 +1622,7 @@
   ],
   "--color-attention-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-attention-muted"
     }
   ],
@@ -1532,13 +1632,13 @@
       "replacement": "--fgColor-severe"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-severe-emphasis"
     }
   ],
   "--color-severe-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-severe-emphasis"
     },
     {
@@ -1549,6 +1649,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-severe-emphasis"
@@ -1567,6 +1669,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-severe-muted"
@@ -1574,7 +1678,7 @@
   ],
   "--color-severe-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-severe-muted"
     }
   ],
@@ -1584,13 +1688,13 @@
       "replacement": "--fgColor-danger"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-danger-emphasis"
     }
   ],
   "--color-danger-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-danger-emphasis"
     },
     {
@@ -1601,6 +1705,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "outline"
       ],
@@ -1620,18 +1726,20 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-danger-muted"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-danger-muted"
     }
   ],
   "--color-danger-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-danger-muted"
     }
   ],
@@ -1641,13 +1749,13 @@
       "replacement": "--fgColor-open"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-open-emphasis"
     }
   ],
   "--color-open-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-open-emphasis"
     },
     {
@@ -1658,6 +1766,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-open-emphasis"
@@ -1676,6 +1786,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-open-muted"
@@ -1683,7 +1795,7 @@
   ],
   "--color-open-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-open-muted"
     }
   ],
@@ -1693,13 +1805,13 @@
       "replacement": "--fgColor-closed"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-closed-emphasis"
     }
   ],
   "--color-closed-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-closed-emphasis"
     },
     {
@@ -1710,6 +1822,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-closed-emphasis"
@@ -1728,6 +1842,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-closed-muted"
@@ -1735,7 +1851,7 @@
   ],
   "--color-closed-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-closed-muted"
     }
   ],
@@ -1745,13 +1861,13 @@
       "replacement": "--fgColor-done"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-done-emphasis"
     }
   ],
   "--color-done-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-done-emphasis"
     },
     {
@@ -1762,6 +1878,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-done-emphasis"
@@ -1780,18 +1898,20 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-done-muted"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-done-muted"
     }
   ],
   "--color-done-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-done-muted"
     }
   ],
@@ -1801,13 +1921,13 @@
       "replacement": "--fgColor-sponsors"
     },
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-sponsors-emphasis"
     }
   ],
   "--color-sponsors-emphasis": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-sponsors-emphasis"
     },
     {
@@ -1818,6 +1938,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-sponsors-emphasis"
@@ -1836,6 +1958,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow"
       ],
       "replacement": "--borderColor-sponsors-muted"
@@ -1843,7 +1967,7 @@
   ],
   "--color-sponsors-subtle": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--bgColor-sponsors-muted"
     }
   ],
@@ -1855,7 +1979,7 @@
   ],
   "--color-primer-canvas-backdrop": [
     {
-      "props": ["backgroundColor", "bg"],
+      "props": ["backgroundColor", "bg", "background"],
       "replacement": "--overlay-backdrop-bgColor"
     }
   ],
@@ -1868,6 +1992,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
@@ -1884,6 +2010,8 @@
         "borderRightColor",
         "borderBottomColor",
         "borderLeftColor",
+        "borderLeft",
+        "borderRight",
         "boxShadow",
         "backgroundColor",
         "bg"
