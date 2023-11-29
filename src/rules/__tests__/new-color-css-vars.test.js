@@ -560,6 +560,14 @@ ruleTester.run('no-color-css-vars', rule, {
             return {borderLeft: borderStyle, borderColor: 'var(--color-danger-fg)'}
           case 'EDITED':
             return {borderLeft: borderStyle, borderColor: 'var(--color-severe-fg)'}
+          case 'accent':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-accent-fg)'}
+          case 'done':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-done-fg)'}
+          case 'closed':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-closed-fg)'}
+          case 'sponsors':
+            return {borderLeft: borderStyle, borderColor: 'var(--color-sponsors-fg)'}
           case 'UNCHANGED':
             return {}
         }
@@ -571,11 +579,19 @@ ruleTester.run('no-color-css-vars', rule, {
 
         switch (modification) {
           case 'ADDED':
-            return {borderLeft: borderStyle, borderColor: 'var(--color-success-fg)'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-success-emphasis, var(--color-success-fg))'}
           case 'REMOVED':
-            return {borderLeft: borderStyle, borderColor: 'var(--color-danger-fg)'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-danger-emphasis, var(--color-danger-fg))'}
           case 'EDITED':
-            return {borderLeft: borderStyle, borderColor: 'var(--color-severe-fg)'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-severe-emphasis, var(--color-severe-fg))'}
+          case 'accent':
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-accent-emphasis, var(--color-accent-fg))'}
+          case 'done':
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-done-emphasis, var(--color-done-fg))'}
+          case 'closed':
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-closed-emphasis, var(--color-closed-fg))'}
+          case 'sponsors':
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-sponsors-emphasis, var(--color-sponsors-fg))'}
           case 'UNCHANGED':
             return {}
         }
@@ -583,14 +599,26 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-success-fg) with var(--borderColor-success-emphasis, var(--color-success-fg))',
         },
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-danger-fg) with var(--borderColor-danger-emphasis, var(--color-danger-fg))',
+        },
+        {
+          message: 'Replace var(--color-severe-fg) with var(--borderColor-severe-emphasis, var(--color-severe-fg))',
+        },
+        {
+          message: 'Replace var(--color-accent-fg) with var(--borderColor-accent-emphasis, var(--color-accent-fg))',
+        },
+        {
+          message: 'Replace var(--color-done-fg) with var(--borderColor-done-emphasis, var(--color-done-fg))',
+        },
+        {
+          message: 'Replace var(--color-closed-fg) with var(--borderColor-closed-emphasis, var(--color-closed-fg))',
         },
         {
           message:
-            'Replace var(--color-accent-emphasis) with var(--borderColor-accent-emphasis, var(--color-accent-emphasis))',
+            'Replace var(--color-sponsors-fg) with var(--borderColor-sponsors-emphasis, var(--color-sponsors-fg))',
         },
       ],
     },
