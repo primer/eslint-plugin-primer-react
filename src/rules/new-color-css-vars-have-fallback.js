@@ -1,4 +1,4 @@
-const cssVars = require('../utils/new-css-vars-map')
+const cssVars = require('../utils/new-color-css-vars-map')
 
 const reportError = (propertyName, valueNode, context) => {
   // performance optimisation: exit early
