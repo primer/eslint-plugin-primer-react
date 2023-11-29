@@ -22,15 +22,8 @@ const reportError = (propertyName, valueNode, context) => {
       .split(/\s*,\s*/g),
   )
   for (const cssVar of vars) {
-    console.log(cssVars?.find(item => item === cssVar))
     // return if no repalcement exists
-    if (
-      !cssVars?.find(item => {
-        console.log(cssVar, item, item === cssVar)
-        return item === cssVar
-      })
-    )
-      return
+    if (!cssVars?.includes(cssVar)) return
     // report the error
     context.report({
       node: valueNode,
