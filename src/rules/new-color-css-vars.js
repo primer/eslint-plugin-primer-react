@@ -28,7 +28,7 @@ const reportError = (propertyName, valueNode, context, suggestFix = true) => {
     const varObjectForProp = propertyName
       ? cssVarObjects?.find(prop => prop.props.includes(propertyName))
       : cssVarObjects?.[0]
-    // return if no repalcement exists
+    // return if no replacement exists
     if (!varObjectForProp?.replacement) return
     // report the error
     context.report({
