@@ -1,5 +1,82 @@
 const cssVars = require('../utils/css-variable-map.json')
 
+const reportError = (propertyName, valueNode, context, suggestFix = true) => {
+  // performance optimisation: exit early
+  if (valueNode.type !== 'Literal' && valueNode.type !== 'TemplateElement') return
+  // get property value
+  const value = valueNode.type === 'Literal' ? valueNode.value : valueNode.value.cooked
+  // return if value is not a string
+  if (typeof value !== 'string') return
+  // return if value does not include variable
+  if (!value.includes('var(')) return
+
+  const varRegex = /var\([^)]+\)/g
+
+  const match = value.match(varRegex)
+  if (!match) return
+  const vars = match.flatMap(match =>
+    match
+      .slice(4, -1)
+      .trim()
+      .split(/\s*,\s*/g),
+  )
+
+  for (const cssVar of vars) {
+    // get the array of objects for the variable name (e.g. --color-fg-primary)
+    const cssVarObjects = cssVars[cssVar]
+    // get the object that contains the property name or the first one (default)
+    const varObjectForProp = propertyName
+      ? cssVarObjects?.find(prop => prop.props.includes(propertyName))
+      : cssVarObjects?.[0]
+    // return if no replacement exists
+    if (!varObjectForProp?.replacement) return
+    // report the error
+    context.report({
+      node: valueNode,
+      message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
+      fix: suggestFix
+        ? fixer => {
+            const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
+            return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
+          }
+        : undefined,
+    })
+  }
+}
+
+const reportOnObject = (node, context) => {
+  const propertyName = node.key.name
+  if (node.value?.type === 'Literal') {
+    reportError(propertyName, node.value, context)
+  } else if (node.value?.type === 'ConditionalExpression') {
+    reportError(propertyName, node.value.consequent, context)
+    reportError(propertyName, node.value.alternate, context)
+  }
+}
+
+const reportOnProperty = (node, context) => {
+  const propertyName = node.name.name
+  if (node.value?.type === 'Literal') {
+    reportError(propertyName, node.value, context)
+  } else if (node.value?.type === 'JSXExpressionContainer' && node.value.expression?.type === 'ConditionalExpression') {
+    reportError(propertyName, node.value.expression.consequent, context)
+    reportError(propertyName, node.value.expression.alternate, context)
+  }
+}
+
+const reportOnValue = (node, context) => {
+  if (node?.type === 'Literal') {
+    reportError(undefined, node, context)
+  } else if (node?.type === 'JSXExpressionContainer' && node.expression?.type === 'ConditionalExpression') {
+    reportError(undefined, node.value.expression.consequent, context)
+    reportError(undefined, node.value.expression.alternate, context)
+  }
+}
+
+const reportOnTemplateElement = (node, context) => {
+  reportError(undefined, node, context, false)
+}
+
 module.exports = {
   meta: {
     type: 'suggestion',
@@ -25,82 +102,19 @@ module.exports = {
   },
   /** @param {import('eslint').Rule.RuleContext} context */
   create(context) {
-    const styledSystemProps = [
-      'bg',
-      'backgroundColor',
-      'color',
-      'borderColor',
-      'borderTopColor',
-      'borderRightColor',
-      'borderBottomColor',
-      'borderLeftColor',
-      'border',
-      'boxShadow',
-      'caretColor',
-    ]
-
     return {
-      /** @param {import('eslint').Rule.Node} node */
-      JSXAttribute(node) {
-        if (node.name.name === 'sx') {
-          if (node.value.expression.type === 'ObjectExpression') {
-            // example: sx={{ color: 'fg.default' }} or sx={{ ':hover': {color: 'fg.default'} }}
-            const rawText = context.sourceCode.getText(node.value)
-            checkForVariables(node.value, rawText)
-          } else if (node.value.expression.type === 'Identifier') {
-            // example: sx={baseStyles}
-            const variableScope = context.sourceCode.getScope(node.value.expression)
-            const variable = variableScope.set.get(node.value.expression.name)
-
-            // if variable is not defined in scope, give up (could be imported from different file)
-            if (!variable) return
-
-            const variableDeclarator = variable.identifiers[0].parent
-            const rawText = context.sourceCode.getText(variableDeclarator)
-            checkForVariables(variableDeclarator, rawText)
-          } else {
-            // worth a try!
-            const rawText = context.sourceCode.getText(node.value)
-            checkForVariables(node.value, rawText)
-          }
-        } else if (
-          styledSystemProps.includes(node.name.name) &&
-          node.value &&
-          node.value.type === 'Literal' &&
-          typeof node.value.value === 'string'
-        ) {
-          checkForVariables(node.value, node.value.value)
-        }
-      },
-    }
-
-    function checkForVariables(node, rawText) {
-      // performance optimisation: exit early
-      if (!rawText.includes('var')) return
-
-      for (const cssVar of Object.keys(cssVars)) {
-        if (Array.isArray(cssVars[cssVar])) {
-          for (const cssVarObject of cssVars[cssVar]) {
-            const regex = new RegExp(`var\\(${cssVar}\\)`, 'g')
-            if (
-              cssVarObject.props.some(prop => rawText.includes(prop)) &&
-              regex.test(rawText) &&
-              !rawText.includes(cssVarObject.replacement)
-            ) {
-              const fixedString = rawText.replace(regex, `var(${cssVarObject.replacement}, var(${cssVar}))`)
-              if (!rawText.includes(fixedString)) {
-                context.report({
-                  node,
-                  message: `Replace var(${cssVar}) with var(${cssVarObject.replacement}, var(${cssVar}))`,
-                  fix(fixer) {
-                    return fixer.replaceText(node, node.type === 'Literal' ? `"${fixedString}"` : fixedString)
-                  },
-                })
-              }
-            }
-          }
-        }
-      }
+      // sx OR style property on elements
+      ['JSXAttribute:matches([name.name=sx], [name.name=style]) ObjectExpression Property']: node =>
+        reportOnObject(node, context),
+      // variable that is an object
+      [':matches(VariableDeclarator, ReturnStatement, ConditionalExpression, ArrowFunctionExpression, CallExpression) > ObjectExpression Property, :matches(VariableDeclarator, ReturnStatement, ConditionalExpression, ArrowFunctionExpression, CallExpression) > ObjectExpression Property > ObjectExpression Property']:
+        node => reportOnObject(node, context),
+      // property on element like stroke or fill
+      ['JSXAttribute[name.name!=sx][name.name!=style]']: node => reportOnProperty(node, context),
+      // variable that is a value
+      [':matches(VariableDeclarator, ReturnStatement) > Literal']: node => reportOnValue(node, context),
+      // variable that is a value
+      ['VariableDeclarator TemplateElement']: node => reportOnTemplateElement(node, context),
     }
   },
 }
