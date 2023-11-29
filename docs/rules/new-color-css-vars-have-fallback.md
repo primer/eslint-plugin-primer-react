@@ -7,11 +7,7 @@ This rule is temporary as we begin testing v8 color tokens behind a feature flag
 This rule refers to a JSON file that lists all the new color tokens
 
 ```json
-[
-  "--fgColor-default",
-  "--fgColor-muted",
-  "--fgColor-onEmphasis"
-]
+["--fgColor-default", "--fgColor-muted", "--fgColor-onEmphasis"]
 ```
 
 If it finds that one of these tokens is used without a fallback, it will throw an error.
