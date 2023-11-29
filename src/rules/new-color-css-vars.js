@@ -112,7 +112,7 @@ module.exports = {
       // property on element like stroke or fill
       ['JSXAttribute[name.name!=sx][name.name!=style]']: node => reportOnProperty(node, context),
       // variable that is a value
-      ['VariableDeclarator > Literal']: node => reportOnValue(node, context),
+      [':matches(VariableDeclarator, ReturnStatement) > Literal']: node => reportOnValue(node, context),
       // variable that is a value
       ['VariableDeclarator TemplateElement']: node => reportOnTemplateElement(node, context),
     }

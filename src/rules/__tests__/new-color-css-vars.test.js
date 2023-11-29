@@ -599,7 +599,7 @@ ruleTester.run('no-color-css-vars', rule, {
         },
 
         '.cm-tooltip.cm-tooltip-autocomplete > ul': {
-          fontFamily: \"SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace\",
+          fontFamily: "SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace",
           fontSize: '12px',
           backgroundColor: 'var(--bgColor-default, var(--color-canvas-default))',
           border: '1px solid var(--borderColor-default, var(--color-border-default))',
