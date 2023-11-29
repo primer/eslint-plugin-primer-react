@@ -6,9 +6,9 @@ module.exports = {
     'a11y-tooltip-interactive-trigger': require('./rules/a11y-tooltip-interactive-trigger'),
     'new-color-css-vars': require('./rules/new-color-css-vars'),
     'a11y-explicit-heading': require('./rules/a11y-explicit-heading'),
-    'new-color-css-vars-have-fallback': require('./rules/new-color-css-vars-have-fallback')
+    'new-color-css-vars-have-fallback': require('./rules/new-color-css-vars-have-fallback'),
   },
   configs: {
-    recommended: require('./configs/recommended')
-  }
+    recommended: require('./configs/recommended'),
+  },
 }

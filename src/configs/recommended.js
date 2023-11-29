@@ -17,7 +17,7 @@ module.exports = {
     'primer-react/new-color-css-vars': 'error',
     'primer-react/a11y-explicit-heading': 'error',
     'primer-react/new-color-vars-have-fallback': 'error',
-    'primer-react/new-color-css-vars-have-fallback': 'error'
+    'primer-react/new-color-css-vars-have-fallback': 'error',
   },
   settings: {
     github: {
