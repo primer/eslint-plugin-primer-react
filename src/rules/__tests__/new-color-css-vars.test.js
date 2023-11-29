@@ -42,9 +42,12 @@ ruleTester.run('no-color-css-vars', rule, {
   invalid: [
     {
       name: 'attribute: simple variable',
-      code: `<circle stroke='var(--color-border-default)' fill='var(--color-border-default)' strokeWidth='2' />`,
-      output: `<circle stroke='var(--borderColor-default, var(--color-border-default))' fill='var(--borderColor-default, var(--color-border-default))' strokeWidth='2' />`,
+      code: `<circle stroke={isSuccess ? 'var(--color-done-fg)' : 'var(--color-border-default)'} fill='var(--color-border-default)' strokeWidth='2' />`,
+      output: `<circle stroke={isSuccess ? 'var(--fgColor-done, var(--color-done-fg))' : 'var(--borderColor-default, var(--color-border-default))'} fill='var(--borderColor-default, var(--color-border-default))' strokeWidth='2' />`,
       errors: [
+        {
+          message: 'Replace var(--color-done-fg) with var(--fgColor-done, var(--color-done-fg))',
+        },
         {
           message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
         },
@@ -130,16 +133,34 @@ ruleTester.run('no-color-css-vars', rule, {
     {
       name: 'value variable in scope',
       code: `
+        const highlightedStyle = props.highlighted
+        ? {
+            borderRadius: '50%',
+            boxShadow: \`0px 0px 0px 2px var(--color-accent-fg), 0px 0px 0px 4px var(--color-accent-subtle)\`,
+          }
+        : {}
         const bg = 'var(--color-canvas-subtle)'
         const sx = disabled ? {color: 'var(--color-primer-fg-disabled)'} : undefined
         export const Fixture = <Button bg={bg} sx={sx}>Test</Button>
       `,
       output: `
+        const highlightedStyle = props.highlighted
+        ? {
+            borderRadius: '50%',
+            boxShadow: \`0px 0px 0px 2px var(--color-accent-fg), 0px 0px 0px 4px var(--color-accent-subtle)\`,
+          }
+        : {}
         const bg = 'var(--bgColor-muted, var(--color-canvas-subtle))'
         const sx = disabled ? {color: 'var(--fgColor-disabled, var(--color-primer-fg-disabled))'} : undefined
         export const Fixture = <Button bg={bg} sx={sx}>Test</Button>
       `,
       errors: [
+        {
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+        },
+        {
+          message: 'Replace var(--color-accent-subtle) with var(--bgColor-accent-muted, var(--color-accent-subtle))',
+        },
         {
           message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
         },
@@ -190,6 +211,9 @@ ruleTester.run('no-color-css-vars', rule, {
         export const Fixture = props => <Button sx={merge({color: 'var(--fgColor-muted, var(--color-fg-muted))'}, props.sx)}>Test</Button>
       `,
       errors: [
+        {
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+        },
         {
           message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
         },
@@ -544,6 +568,56 @@ ruleTester.run('no-color-css-vars', rule, {
         {
           message:
             'Replace var(--color-accent-emphasis) with var(--borderColor-accent-emphasis, var(--color-accent-emphasis))',
+        },
+      ],
+    },
+    {
+      name: 'function called with argument',
+      code: `
+      export const autocompleteTheme = EditorView.baseTheme({
+        '.cm-tooltip.cm-tooltip-autocomplete': {
+          border: 0,
+          backgroundColor: 'transparent',
+        },
+
+        '.cm-tooltip.cm-tooltip-autocomplete > ul': {
+          fontFamily: "SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace",
+          fontSize: '12px',
+          backgroundColor: 'var(--color-canvas-default)',
+          border: '1px solid var(--color-border-default)',
+          borderRadius: 'var(--borderRadius-medium)',
+          boxShadow: 'var(--color-shadow-medium)',
+          minWidth: 'auto',
+        }
+      })
+      `,
+      output: `
+      export const autocompleteTheme = EditorView.baseTheme({
+        '.cm-tooltip.cm-tooltip-autocomplete': {
+          border: 0,
+          backgroundColor: 'transparent',
+        },
+
+        '.cm-tooltip.cm-tooltip-autocomplete > ul': {
+          fontFamily: \"SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace\",
+          fontSize: '12px',
+          backgroundColor: 'var(--bgColor-default, var(--color-canvas-default))',
+          border: '1px solid var(--borderColor-default, var(--color-border-default))',
+          borderRadius: 'var(--borderRadius-medium)',
+          boxShadow: 'var(--shadow-resting-medium, var(--color-shadow-medium))',
+          minWidth: 'auto',
+        }
+      })
+      `,
+      errors: [
+        {
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+        },
+        {
+          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+        },
+        {
+          message: 'Replace var(--color-shadow-medium) with var(--shadow-resting-medium, var(--color-shadow-medium))',
         },
       ],
     },
