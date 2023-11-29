@@ -1,4 +1,4 @@
-const rule = require('../new-css-vars-have-fallback')
+const rule = require('../new-color-css-vars-have-fallback')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
@@ -11,7 +11,7 @@ const ruleTester = new RuleTester({
   },
 })
 
-ruleTester.run('no-color-css-vars', rule, {
+ruleTester.run('new-color-css-vars-have-fallback', rule, {
   valid: [
     {
       code: `<circle stroke="var(--fgColor-muted, var(--color-fg-muted))" strokeWidth="2" />`,
