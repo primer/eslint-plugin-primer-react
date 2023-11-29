@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 4.0.4
+
+### Patch Changes
+
+- [#122](https://github.com/primer/eslint-plugin-primer-react/pull/122) [`3bc226a`](https://github.com/primer/eslint-plugin-primer-react/commit/3bc226ad0786f9a7a21ce92a63cbba17b8a5b763) Thanks [@lukasoppermann](https://github.com/lukasoppermann)! - New rule: new-color-css-vars-have-fallback: checks that if a new color var is used, it has a fallback value
+
 ## 4.0.3
 
 ### Patch Changes
@@ -151,7 +157,7 @@
   function ExampleComponent() {
     const styles = {
       // Enabling `checkAllStrings` will find deprecated colors used like this:
-      color: 'text.primary'
+      color: 'text.primary',
     }
     return <Box sx={styles}>Hello</Box>
   }
