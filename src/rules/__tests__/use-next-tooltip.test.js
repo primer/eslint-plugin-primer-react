@@ -26,14 +26,17 @@ ruleTester.run('use-next-tooltip', rule, {
       output: `import {Tooltip} from '@primer/react/next';`,
     },
     {
-      code: `import {Tooltip, Button} from '@primer/react';`,
-      errors: [{messageId: 'useNextTooltip'}],
-      output: `import {Button} from '@primer/react';\nimport {Tooltip} from '@primer/react/next';`,
+      code: `import {Tooltip, Button} from '@primer/react';\n<Tooltip aria-label="tooltip text"><Button>Button</Button></Tooltip>`,
+      errors: [{messageId: 'useNextTooltip'}, {messageId: 'useTextProp'}],
+      output: `import {Button} from '@primer/react';\nimport {Tooltip} from '@primer/react/next';\n<Tooltip text="tooltip text"><Button>Button</Button></Tooltip>`,
     },
     {
-      code: `import {ActionList, ActionMenu, Tooltip, Button} from '@primer/react';`,
-      errors: [{messageId: 'useNextTooltip'}],
-      output: `import {ActionList, ActionMenu, Button} from '@primer/react';\nimport {Tooltip} from '@primer/react/next';`,
+      code: `import {ActionList, ActionMenu, Tooltip, Button} from '@primer/react';\n<Tooltip aria-label="tooltip text"><Button>Button</Button></Tooltip>`,
+      errors: [
+        {messageId: 'useNextTooltip', line: 1},
+        {messageId: 'useTextProp', line: 2},
+      ],
+      output: `import {ActionList, ActionMenu, Button} from '@primer/react';\nimport {Tooltip} from '@primer/react/next';\n<Tooltip text="tooltip text"><Button>Button</Button></Tooltip>`,
     },
   ],
 })

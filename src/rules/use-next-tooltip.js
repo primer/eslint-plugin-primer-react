@@ -1,4 +1,5 @@
 'use strict'
+const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
 
 module.exports = {
   meta: {
@@ -12,6 +13,7 @@ module.exports = {
     schema: [],
     messages: {
       useNextTooltip: 'Please use @primer/react/next Tooltip component that has accessibility improvements',
+      useTextProp: 'Please use the text prop instead of aria-label',
     },
   },
   create(context) {
@@ -54,6 +56,17 @@ module.exports = {
             }
           },
         })
+      },
+      JSXAttribute(node) {
+        if (node.name.name === 'aria-label') {
+          context.report({
+            node,
+            messageId: 'useTextProp',
+            fix(fixer) {
+              return fixer.replaceText(node.name, 'text')
+            },
+          })
+        }
       },
     }
   },
