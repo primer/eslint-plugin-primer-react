@@ -1,5 +1,4 @@
 'use strict'
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
 
 module.exports = {
   meta: {
