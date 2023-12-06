@@ -1,6 +1,6 @@
-const cssVars = require('../utils/css-variable-map.json')
+const cssVars = require('../utils/new-color-css-vars-map')
 
-const reportError = (propertyName, valueNode, context, suggestFix = true) => {
+const reportError = (propertyName, valueNode, context) => {
   // performance optimisation: exit early
   if (valueNode.type !== 'Literal' && valueNode.type !== 'TemplateElement') return
   // get property value
@@ -10,9 +10,10 @@ const reportError = (propertyName, valueNode, context, suggestFix = true) => {
   // return if value does not include variable
   if (!value.includes('var(')) return
 
-  const varRegex = /var\([^)]+\)/g
+  const varRegex = /var\([^(),)]+\)/g
 
   const match = value.match(varRegex)
+  // return if no matches
   if (!match) return
   const vars = match.flatMap(match =>
     match
@@ -20,26 +21,13 @@ const reportError = (propertyName, valueNode, context, suggestFix = true) => {
       .trim()
       .split(/\s*,\s*/g),
   )
-
   for (const cssVar of vars) {
-    // get the array of objects for the variable name (e.g. --color-fg-primary)
-    const cssVarObjects = cssVars[cssVar]
-    // get the object that contains the property name or the first one (default)
-    const varObjectForProp = propertyName
-      ? cssVarObjects?.find(prop => prop.props.includes(propertyName))
-      : cssVarObjects?.[0]
-    // return if no replacement exists
-    if (!varObjectForProp?.replacement) return
+    // return if no repalcement exists
+    if (!cssVars?.includes(cssVar)) return
     // report the error
     context.report({
       node: valueNode,
-      message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
-      fix: suggestFix
-        ? fixer => {
-            const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
-            return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
-          }
-        : undefined,
+      message: `Expected a fallback value for CSS variable ${cssVar}. New color variables fallbacks, check primer.style/primitives to find the correct value.`,
     })
   }
 }
@@ -74,31 +62,12 @@ const reportOnValue = (node, context) => {
 }
 
 const reportOnTemplateElement = (node, context) => {
-  reportError(undefined, node, context, false)
+  reportError(undefined, node, context)
 }
 
 module.exports = {
   meta: {
     type: 'suggestion',
-    hasSuggestions: true,
-    fixable: 'code',
-    docs: {
-      description: 'Upgrade legacy CSS variables to Primitives v8 in sx prop',
-    },
-    schema: [
-      {
-        type: 'object',
-        properties: {
-          skipImportCheck: {
-            type: 'boolean',
-          },
-          checkAllStrings: {
-            type: 'boolean',
-          },
-        },
-        additionalProperties: false,
-      },
-    ],
   },
   /** @param {import('eslint').Rule.RuleContext} context */
   create(context) {
@@ -106,15 +75,13 @@ module.exports = {
       // sx OR style property on elements
       ['JSXAttribute:matches([name.name=sx], [name.name=style]) ObjectExpression Property']: node =>
         reportOnObject(node, context),
-      // variable that is an object
-      [':matches(VariableDeclarator, ReturnStatement, ConditionalExpression, ArrowFunctionExpression, CallExpression) > ObjectExpression Property, :matches(VariableDeclarator, ReturnStatement, ConditionalExpression, ArrowFunctionExpression, CallExpression) > ObjectExpression Property > ObjectExpression Property']:
-        node => reportOnObject(node, context),
       // property on element like stroke or fill
       ['JSXAttribute[name.name!=sx][name.name!=style]']: node => reportOnProperty(node, context),
       // variable that is a value
       [':matches(VariableDeclarator, ReturnStatement) > Literal']: node => reportOnValue(node, context),
       // variable that is a value
-      ['VariableDeclarator TemplateElement']: node => reportOnTemplateElement(node, context),
+      [':matches(VariableDeclarator, ReturnStatement) > TemplateElement']: node =>
+        reportOnTemplateElement(node, context),
     }
   },
 }
