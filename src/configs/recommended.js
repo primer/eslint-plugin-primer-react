@@ -17,6 +17,7 @@ module.exports = {
     'primer-react/new-color-css-vars': 'error',
     'primer-react/a11y-explicit-heading': 'error',
     'primer-react/new-color-css-vars-have-fallback': 'error',
+    'primer-react/use-next-tooltip': 'error',
   },
   settings: {
     github: {

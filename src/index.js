@@ -7,6 +7,7 @@ module.exports = {
     'new-color-css-vars': require('./rules/new-color-css-vars'),
     'a11y-explicit-heading': require('./rules/a11y-explicit-heading'),
     'new-color-css-vars-have-fallback': require('./rules/new-color-css-vars-have-fallback'),
+    'use-next-tooltip': require('./rules/use-next-tooltip'),
   },
   configs: {
     recommended: require('./configs/recommended'),
