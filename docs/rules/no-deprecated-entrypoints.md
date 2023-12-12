@@ -7,10 +7,10 @@ This rule enforces the usage of non-deprecated entrypoints from `@primer/react`.
 👎 Examples of **incorrect** code for this rule
 
 ```jsx
-import {ExampleComponent} from '@primer/react/drafts'
+import {DataTable} from '@primer/react/drafts'
 
 function ExampleComponent() {
-  return <SSRProvider>...</SSRProvider>
+  return <DataTable>{/* ... */}</DataTable>
 }
 ```
 
@@ -20,6 +20,6 @@ function ExampleComponent() {
 import {ExampleComponent} from '@primer/react/experimental'
 
 function ExampleComponent() {
-  return <Button>...</Button>
+  return <DataTable>{/* ... */}</DataTable>
 }
 ```
