@@ -19,6 +19,7 @@ const excludedComponentProps = new Map([
   ['Avatar', new Set(['size'])],
   ['AvatarToken', new Set(['size'])],
   ['Blankslate', new Set(['border'])],
+  ['Button', new Set(['alignContent'])],
   ['CircleOcticon', new Set(['size'])],
   ['Dialog', new Set(['width', 'height'])],
   ['IssueLabelToken', new Set(['size'])],
