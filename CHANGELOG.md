@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 4.1.0
+
+### Minor Changes
+
+- [#129](https://github.com/primer/eslint-plugin-primer-react/pull/129) [`eb04624`](https://github.com/primer/eslint-plugin-primer-react/commit/eb046249daaa9ab72d9ca4bbfba30fd494a79e23) Thanks [@joshblack](https://github.com/joshblack)! - Add no-deprecated-entrypoints rule to lint against deprecated import usage in @primer/react
+
+### Patch Changes
+
+- [#133](https://github.com/primer/eslint-plugin-primer-react/pull/133) [`5cc9630`](https://github.com/primer/eslint-plugin-primer-react/commit/5cc96305bfa884cf9f447d1e033bc2f5c9e110b7) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: Add alignContent to allowed props for Button
+
 ## 4.0.4
 
 ### Patch Changes
