@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 4.1.1
+
+### Patch Changes
+
+- [#145](https://github.com/primer/eslint-plugin-primer-react/pull/145) [`0369cb8`](https://github.com/primer/eslint-plugin-primer-react/commit/0369cb857dd49945ac7929444ffacb2ecc02a2ed) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: Add `position` as allowed prop for `Dialog`
+
 ## 4.1.0
 
 ### Minor Changes
