@@ -21,7 +21,7 @@ const excludedComponentProps = new Map([
   ['Blankslate', new Set(['border'])],
   ['Button', new Set(['alignContent'])],
   ['CircleOcticon', new Set(['size'])],
-  ['Dialog', new Set(['width', 'height'])],
+  ['Dialog', new Set(['width', 'height', 'position'])],
   ['IssueLabelToken', new Set(['size'])],
   ['Overlay', new Set(['width', 'height', 'maxHeight', 'position', 'top', 'right', 'bottom', 'left'])],
   ['ProgressBar', new Set(['bg'])],
