@@ -55,12 +55,9 @@ module.exports = {
     schema: [
       {
         properties: {
-          skipImportCheck: {
-            type: 'boolean',
-          },
-          includeUtilityComponents: {
-            type: 'boolean',
-          },
+          skipImportCheck: {type: 'boolean'},
+          includeUtilityComponents: {type: 'boolean'},
+          ignoreNames: {type: 'array'},
         },
       },
     ],
@@ -72,8 +69,8 @@ module.exports = {
     // If `skipImportCheck` is true, this rule will check for deprecated styled system props
     // used in any components (not just ones that are imported from `@primer/react`).
     const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
-
     const includeUtilityComponents = context.options[0] ? context.options[0].includeUtilityComponents : false
+    const ignoreNames = context.options[0] ? context.options[0].ignoreNames || [] : []
 
     const excludedComponents = new Set([
       ...alwaysExcludedComponents,
@@ -92,6 +89,7 @@ module.exports = {
         }
 
         const componentName = getJSXOpeningElementName(jsxNode)
+        if (ignoreNames.length && ignoreNames.includes(componentName)) return
 
         if (excludedComponents.has(componentName)) return
 
