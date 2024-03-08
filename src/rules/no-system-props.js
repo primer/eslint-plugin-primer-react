@@ -45,6 +45,7 @@ const excludedComponentProps = new Map([
   ['ProgressBar', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])],
   ['Truncate', new Set(['maxWidth'])],
+  ['SelectPanel', new Set(['width', 'maxHeight'])],
 ])
 
 const alwaysExcludedProps = new Set(['variant', 'size'])
