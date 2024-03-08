@@ -1,5 +1,13 @@
 # eslint-plugin-primer-react
 
+## 4.1.2
+
+### Patch Changes
+
+- [#148](https://github.com/primer/eslint-plugin-primer-react/pull/148) [`523e169`](https://github.com/primer/eslint-plugin-primer-react/commit/523e169a3c6c801750d451e875c83f52e383c772) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: skip html elements
+
+- [#149](https://github.com/primer/eslint-plugin-primer-react/pull/149) [`ca14bb6`](https://github.com/primer/eslint-plugin-primer-react/commit/ca14bb695ad296903bfe7598b4eb81291796245a) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: allow maxWidth prop for Truncate
+
 ## 4.1.1
 
 ### Patch Changes
