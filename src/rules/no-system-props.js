@@ -1,4 +1,5 @@
 const {isPrimerComponent} = require('../utils/is-primer-component')
+const {isHTMLElement} = require('../utils/is-html-element')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 const {pick} = require('@styled-system/props')
 const {some, last} = require('lodash')
@@ -42,6 +43,7 @@ const excludedComponentProps = new Map([
   ['PageLayout.Content', new Set(['padding', 'width'])],
   ['ProgressBar', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])],
+  ['Truncate', new Set(['maxWidth'])],
 ])
 
 const alwaysExcludedProps = new Set(['variant', 'size'])
@@ -80,7 +82,14 @@ module.exports = {
 
     return {
       JSXOpeningElement(jsxNode) {
-        if (!skipImportCheck && !isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
+        if (skipImportCheck) {
+          // if we skip checking if component is imported from primer,
+          // we need to atleast skip html elements
+          if (isHTMLElement(jsxNode)) return
+        } else {
+          // skip if component is not imported from primer/react
+          if (!isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
+        }
 
         const componentName = getJSXOpeningElementName(jsxNode)
 
