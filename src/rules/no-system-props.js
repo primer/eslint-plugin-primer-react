@@ -32,6 +32,7 @@ const excludedComponentProps = new Map([
   ['SplitPageLayout.Pane', new Set(['padding', 'position', 'width'])],
   ['SplitPageLayout.Content', new Set(['padding', 'width'])],
   ['StyledOcticon', new Set(['size'])],
+  ['Octicon', new Set(['size', 'color'])],
   ['PointerBox', new Set(['bg'])],
   ['TextInput', new Set(['size'])],
   ['TextInputWithTokens', new Set(['size', 'maxHeight'])],
