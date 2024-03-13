@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 4.1.3
+
+### Patch Changes
+
+- [#152](https://github.com/primer/eslint-plugin-primer-react/pull/152) [`7baeb96`](https://github.com/primer/eslint-plugin-primer-react/commit/7baeb9684cc5f84847f004fee282a3362517d7d0) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: Add option to ignore specific component names
+
 ## 4.1.2
 
 ### Patch Changes
