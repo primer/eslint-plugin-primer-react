@@ -29,22 +29,20 @@ module.exports = {
           return
         }
         const title = getJSXOpeningElementAttribute(node, 'title')
+
         if (title !== undefined) {
-          console.log('hello', title.name.name, title.value.value)
           context.report({
             node,
             messageId: 'titlePropDeprecated',
             fix(fixer) {
               const groupTitle = title.value.value
-              // const sourceCode = context.sourceCode
-              // const start = title.range[0]
-              // const end = sourceCode.getTokenAfter(title).range[1]
+              const start = title.range[0]
+              const end = title.range[1]
               return [
-                // fixer.removeRange([start, end]),
-                fixer.remove(title),
+                fixer.removeRange([start - 1, end]), // remove the space before the title as well
                 fixer.insertTextAfterRange(
                   [node.range[1], node.range[1]],
-                  `\n<ActionList.GroupHeading>${groupTitle}</ActionList.GroupHeading>;`,
+                  `<ActionList.GroupHeading>${groupTitle}</ActionList.GroupHeading>`,
                 ),
               ]
             },

@@ -64,32 +64,27 @@ ruleTester.run('no-deprecated-props', rule, {
   ],
   invalid: [
     {
-      code: `
-        import {ActionList} from '@primer/react';
-        <ActionList>
-            <ActionList.Group title="Group heading 1">
-                <ActionList.Item>Item</ActionList.Item>
-            </ActionList.Group>
-            <ActionList.Group title="Group heading 2">
-                <ActionList.Item>Item 2</ActionList.Item>
-            </ActionList.Group>
-        </ActionList>`,
-      output: `
-        import {ActionList} from '@primer/react';
-        <ActionList>
-            <ActionList.Group>
-                <ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading>
-                <ActionList.Item>Item</ActionList.Item>
-            </ActionList.Group>
-            <ActionList.Group>
-                <ActionList.GroupHeading>Group heading 2</ActionList.GroupHeading>
-                <ActionList.Item>Item 2</ActionList.Item>
-            </ActionList.Group>
-        </ActionList>`,
+      code: `<ActionList.Group title="Group heading 1"></ActionList.Group>`,
+      output: `<ActionList.Group><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
       errors: [
         {
           messageId: 'titlePropDeprecated',
         },
+      ],
+    },
+    {
+      code: `<ActionList.Group title="Group heading 1" sx={{padding: 2}}></ActionList.Group>`,
+      output: `<ActionList.Group sx={{padding: 2}}><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
+      errors: [
+        {
+          messageId: 'titlePropDeprecated',
+        },
+      ],
+    },
+    {
+      code: `<ActionList.Group variant="filled" title="Group heading 1"></ActionList.Group>`,
+      output: `<ActionList.Group variant="filled"><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
+      errors: [
         {
           messageId: 'titlePropDeprecated',
         },
