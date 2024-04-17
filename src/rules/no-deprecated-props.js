@@ -29,13 +29,22 @@ module.exports = {
           return
         }
         const title = getJSXOpeningElementAttribute(node, 'title')
-
+        let groupTitle = ''
         if (title !== undefined) {
           context.report({
             node,
             messageId: 'titlePropDeprecated',
             fix(fixer) {
-              const groupTitle = title.value.value
+              // Group title is a string literal i.e. title="title"
+              if (title.value.type === 'Literal') {
+                groupTitle = title.value.value
+                // Group title is a JSX expression i.e. title={title}
+              } else if (title.value.type === 'JSXExpressionContainer') {
+                groupTitle = context.sourceCode.getText(title.value)
+              } else {
+                // we don't provide fix for cases where the title prop is not a string literal or JSX expression
+                return []
+              }
               const start = title.range[0]
               const end = title.range[1]
               return [

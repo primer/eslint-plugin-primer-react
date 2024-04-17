@@ -91,8 +91,8 @@ ruleTester.run('no-deprecated-props', rule, {
       ],
     },
     {
-      code: `<ActionList.Group title={title}></ActionList.Group>`,
-      output: `<ActionList.Group><ActionList.GroupHeading>{title}</ActionList.GroupHeading></ActionList.Group>`,
+      code: `<ActionList.Group title={titleVariable}></ActionList.Group>`,
+      output: `<ActionList.Group><ActionList.GroupHeading>{titleVariable}</ActionList.GroupHeading></ActionList.Group>`,
       errors: [
         {
           messageId: 'titlePropDeprecated',
@@ -101,7 +101,7 @@ ruleTester.run('no-deprecated-props', rule, {
     },
     {
       code: `<ActionList.Group title={'Title'}></ActionList.Group>`,
-      output: `<ActionList.Group><ActionList.GroupHeading>Title</ActionList.GroupHeading></ActionList.Group>`,
+      output: `<ActionList.Group><ActionList.GroupHeading>{'Title'}</ActionList.GroupHeading></ActionList.Group>`,
       errors: [
         {
           messageId: 'titlePropDeprecated',
@@ -110,7 +110,7 @@ ruleTester.run('no-deprecated-props', rule, {
     },
     {
       code: `<ActionList.Group title={condition ? 'Title' : undefined}></ActionList.Group>`,
-      output: `<ActionList.Group><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
+      output: `<ActionList.Group><ActionList.GroupHeading>{condition ? 'Title' : undefined}</ActionList.GroupHeading></ActionList.Group>`,
       errors: [
         {
           messageId: 'titlePropDeprecated',
