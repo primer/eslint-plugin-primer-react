@@ -37,3 +37,4 @@ ESLint rules for Primer React
 - [a11y-tooltip-interactive-trigger](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-tooltip-interactive-trigger.md)
 - [a11y-explicit-heading](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-explicit-heading.md)
 - [new-css-color-vars](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/new-css-color-vars.md)
+- [no-deprecated-props](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-props.md)
