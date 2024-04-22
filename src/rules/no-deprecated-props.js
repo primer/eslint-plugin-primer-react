@@ -2,20 +2,19 @@
 const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 
-const url = require('../url')
-
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
 module.exports = {
   meta: {
-    type: 'problem',
+    type: 'suggestion',
     docs: {
-      description: 'Avoid using deprecated props from @primer/react',
+      description:
+        'Avoid using deprecated `title` prop on `ActionList.Group` component. Use `ActionList.GroupHeading` instead.',
       recommended: true,
-      url: url(module),
+      url: 'https://primer.style/components/action-list/react/beta#actionlistgroupheading',
     },
-    fixable: true,
+    fixable: 'code',
     schema: [],
     messages: {
       titlePropDeprecated: 'The `title` prop is deprecated. Please use `ActionList.GroupHeading` instead.',
