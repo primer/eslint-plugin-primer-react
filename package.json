@@ -41,7 +41,7 @@
     "@changesets/cli": "^2.16.0",
     "@github/markdownlint-github": "^0.6.0",
     "@github/prettier-config": "0.0.6",
-    "@primer/primitives": "^7.14.0",
+    "@primer/primitives": "^8.1.0",
     "eslint": "^8.42.0",
     "eslint-plugin-prettier": "^5.0.1",
     "jest": "^29.7.0",
