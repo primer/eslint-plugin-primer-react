@@ -179,7 +179,7 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted))',
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted)',
         },
       ],
     },
