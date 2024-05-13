@@ -43,46 +43,46 @@ ruleTester.run('no-color-css-vars', rule, {
     {
       name: 'attribute: simple variable',
       code: `<circle stroke={isSuccess ? 'var(--color-done-fg)' : 'var(--color-border-default)'} fill='var(--color-border-default)' strokeWidth='2' />`,
-      output: `<circle stroke={isSuccess ? 'var(--fgColor-done, var(--color-done-fg))' : 'var(--borderColor-default, var(--color-border-default))'} fill='var(--borderColor-default, var(--color-border-default))' strokeWidth='2' />`,
+      output: `<circle stroke={isSuccess ? 'var(--fgColor-done)' : 'var(--borderColor-default)'} fill='var(--borderColor-default)' strokeWidth='2' />`,
       errors: [
         {
-          message: 'Replace var(--color-done-fg) with var(--fgColor-done, var(--color-done-fg))',
+          message: 'Replace var(--color-done-fg) with var(--fgColor-done)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
       ],
     },
     {
       name: 'attribute: conditional variable',
       code: `<circle stroke={test ? 'var(--color-border-default)' : 'red'} strokeWidth='2' />`,
-      output: `<circle stroke={test ? 'var(--borderColor-default, var(--color-border-default))' : 'red'} strokeWidth='2' />`,
+      output: `<circle stroke={test ? 'var(--borderColor-default)' : 'red'} strokeWidth='2' />`,
       errors: [
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
       ],
     },
     {
       name: 'sx: simple variable',
       code: `<Button sx={{color: 'var(--color-fg-muted)'}}>Test</Button>`,
-      output: `<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>`,
+      output: `<Button sx={{color: 'var(--fgColor-muted)'}}>Test</Button>`,
       errors: [
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted)',
         },
       ],
     },
     {
       name: 'style: simple variable',
       code: `<div style={{ border: 'var(--color-border-default)' }}></div>`,
-      output: `<div style={{ border: 'var(--borderColor-default, var(--color-border-default))' }}></div>`,
+      output: `<div style={{ border: 'var(--borderColor-default)' }}></div>`,
       errors: [
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
       ],
     },
@@ -98,13 +98,13 @@ ruleTester.run('no-color-css-vars', rule, {
       output: `
         <Box sx={{
           '&:hover button, &:focus [data-component="copy-link"] button': {
-            color: 'var(--fgColor-accent, var(--color-accent-fg))'
+            color: 'var(--fgColor-accent)'
           }
         }}>
         </Box>`,
       errors: [
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent)',
         },
       ],
     },
@@ -120,13 +120,13 @@ ruleTester.run('no-color-css-vars', rule, {
       output: `
         <Box style={{
           '&:hover button, &:focus [data-component="copy-link"] button': {
-            color: 'var(--fgColor-accent, var(--color-accent-fg))'
+            color: 'var(--fgColor-accent)'
           }
         }}>
         </Box>`,
       errors: [
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent)',
         },
       ],
     },
@@ -150,23 +150,22 @@ ruleTester.run('no-color-css-vars', rule, {
             boxShadow: \`0px 0px 0px 2px var(--color-accent-fg), 0px 0px 0px 4px var(--color-accent-subtle)\`,
           }
         : {}
-        const bg = 'var(--bgColor-muted, var(--color-canvas-subtle))'
-        const sx = disabled ? {color: 'var(--fgColor-disabled, var(--color-primer-fg-disabled))'} : undefined
+        const bg = 'var(--bgColor-muted)'
+        const sx = disabled ? {color: 'var(--fgColor-disabled)'} : undefined
         export const Fixture = <Button bg={bg} sx={sx}>Test</Button>
       `,
       errors: [
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent)',
         },
         {
-          message: 'Replace var(--color-accent-subtle) with var(--bgColor-accent-muted, var(--color-accent-subtle))',
+          message: 'Replace var(--color-accent-subtle) with var(--bgColor-accent-muted)',
         },
         {
-          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted)',
         },
         {
-          message:
-            'Replace var(--color-primer-fg-disabled) with var(--fgColor-disabled, var(--color-primer-fg-disabled))',
+          message: 'Replace var(--color-primer-fg-disabled) with var(--fgColor-disabled)',
         },
       ],
     },
@@ -176,11 +175,11 @@ ruleTester.run('no-color-css-vars', rule, {
         const extraSx = focused ? {backgroundColor: 'var(--color-canvas-subtle) !important'} : {}
       `,
       output: `
-        const extraSx = focused ? {backgroundColor: 'var(--bgColor-muted, var(--color-canvas-subtle)) !important'} : {}
+        const extraSx = focused ? {backgroundColor: 'var(--bgColor-muted) !important'} : {}
       `,
       errors: [
         {
-          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted))',
         },
       ],
     },
@@ -191,12 +190,12 @@ ruleTester.run('no-color-css-vars', rule, {
         export const Fixture = <Button sx={baseStyles}>Test</Button>
       `,
       output: `
-        const baseStyles = { color: 'var(--fgColor-muted, var(--color-fg-muted))' }
+        const baseStyles = { color: 'var(--fgColor-muted)' }
         export const Fixture = <Button sx={baseStyles}>Test</Button>
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted)',
         },
       ],
     },
@@ -208,14 +207,14 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       output: `
         import {merge} from '@primer/react'
-        export const Fixture = props => <Button sx={merge({color: 'var(--fgColor-muted, var(--color-fg-muted))'}, props.sx)}>Test</Button>
+        export const Fixture = props => <Button sx={merge({color: 'var(--fgColor-muted)'}, props.sx)}>Test</Button>
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted)',
         },
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted)',
         },
       ],
     },
@@ -234,11 +233,10 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message:
-            'Replace var(--color-accent-emphasis) with var(--bgColor-accent-emphasis, var(--color-accent-emphasis))',
+          message: 'Replace var(--color-accent-emphasis) with var(--bgColor-accent-emphasis)',
         },
         {
-          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default)',
         },
       ],
     },
@@ -256,12 +254,10 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message:
-            'Replace var(--color-danger-emphasis) with var(--bgColor-danger-emphasis, var(--color-danger-emphasis))',
+          message: 'Replace var(--color-danger-emphasis) with var(--bgColor-danger-emphasis)',
         },
         {
-          message:
-            'Replace var(--color-accent-emphasis) with var(--bgColor-accent-emphasis, var(--color-accent-emphasis))',
+          message: 'Replace var(--color-accent-emphasis) with var(--bgColor-accent-emphasis)',
         },
       ],
     },
@@ -296,14 +292,14 @@ ruleTester.run('no-color-css-vars', rule, {
             <Box
               sx={{
                 boxShadow: subtle
-                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
-                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis)'
+                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis)',
                 color: 'var(--fgColor-default)',
-                bg: 'var(--bgColor-default, var(--color-canvas-default))',
-                borderLeft: '1px solid var(--borderColor-default, var(--color-border-default))',
-                borderRight: '1px solid var(--borderColor-default, var(--color-border-default))',
-                borderTop: '2px solid var(--borderColor-default, var(--color-border-default))',
-                borderBottom: '2px solid var(--borderColor-default, var(--color-border-default))',
+                bg: 'var(--bgColor-default)',
+                borderLeft: '1px solid var(--borderColor-default)',
+                borderRight: '1px solid var(--borderColor-default)',
+                borderTop: '2px solid var(--borderColor-default)',
+                borderBottom: '2px solid var(--borderColor-default)',
               }}
             />
           )
@@ -311,26 +307,25 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-subtle) with var(--borderColor-neutral-emphasis, var(--color-fg-subtle))',
+          message: 'Replace var(--color-fg-subtle) with var(--borderColor-neutral-emphasis)',
         },
         {
-          message:
-            'Replace var(--color-attention-fg) with var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+          message: 'Replace var(--color-attention-fg) with var(--bgColor-attention-emphasis)',
         },
         {
-          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
       ],
     },
@@ -361,10 +356,10 @@ ruleTester.run('no-color-css-vars', rule, {
             <Box
               style={{
                 boxShadow: subtle
-                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis, var(--color-fg-subtle))'
-                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+                  ? 'inset 2px 0 0 var(--borderColor-neutral-emphasis)'
+                  : 'inset 2px 0 0 var(--bgColor-attention-emphasis)',
                 color: 'var(--fgColor-default)',
-                bg: 'var(--bgColor-default, var(--color-canvas-default))'
+                bg: 'var(--bgColor-default)'
               }}
             />
           )
@@ -372,14 +367,13 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-subtle) with var(--borderColor-neutral-emphasis, var(--color-fg-subtle))',
+          message: 'Replace var(--color-fg-subtle) with var(--borderColor-neutral-emphasis)',
         },
         {
-          message:
-            'Replace var(--color-attention-fg) with var(--bgColor-attention-emphasis, var(--color-attention-fg))',
+          message: 'Replace var(--color-attention-fg) with var(--bgColor-attention-emphasis)',
         },
         {
-          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default)',
         },
       ],
     },
@@ -405,28 +399,28 @@ ruleTester.run('no-color-css-vars', rule, {
             lineHeight: '100%',
           },
           thead: {
-            background: 'var(--bgColor-muted, var(--color-canvas-subtle))',
+            background: 'var(--bgColor-muted)',
             borderBottom: '1px solid',
-            borderColor: 'var(--borderColor-default, var(--color-border-default))',
+            borderColor: 'var(--borderColor-default)',
           },
         }
       `,
       errors: [
         {
-          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted, var(--color-canvas-subtle))',
+          message: 'Replace var(--color-canvas-subtle) with var(--bgColor-muted)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
       ],
     },
     {
       name: 'inline sx',
       code: `<Box sx={{outline: '2px solid var(--color-accent-fg)'}}>Test</Box>`,
-      output: `<Box sx={{outline: '2px solid var(--focus-outlineColor, var(--color-accent-fg))'}}>Test</Box>`,
+      output: `<Box sx={{outline: '2px solid var(--focus-outlineColor)'}}>Test</Box>`,
       errors: [
         {
-          message: 'Replace var(--color-accent-fg) with var(--focus-outlineColor, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--focus-outlineColor)',
         },
       ],
     },
@@ -442,18 +436,18 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       output: `
         <Box sx={{
-          color: 'var(--fgColor-muted, var(--color-fg-subtle))',
+          color: 'var(--fgColor-muted)',
           '&:hover': {
-            color: 'var(--fgColor-accent, var(--color-accent-fg))',
+            color: 'var(--fgColor-accent)',
           }
         }}>Test</Box>
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-subtle) with var(--fgColor-muted, var(--color-fg-subtle))',
+          message: 'Replace var(--color-fg-subtle) with var(--fgColor-muted)',
         },
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent)',
         },
       ],
     },
@@ -493,7 +487,7 @@ ruleTester.run('no-color-css-vars', rule, {
             border: 0,
             padding: 0,
             background: 'transparent',
-            color: isSelected ? 'var(--fgColor-default, var(--color-fg-default))' : 'var(--fgColor-muted, var(--color-fg-muted))',
+            color: isSelected ? 'var(--fgColor-default)' : 'var(--fgColor-muted)',
             fontSize: '12px',
             fontWeight: '600',
             display: 'flex',
@@ -507,10 +501,10 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-fg-default) with var(--fgColor-default, var(--color-fg-default))',
+          message: 'Replace var(--color-fg-default) with var(--fgColor-default)',
         },
         {
-          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted, var(--color-fg-muted))',
+          message: 'Replace var(--color-fg-muted) with var(--fgColor-muted)',
         },
       ],
     },
@@ -545,29 +539,28 @@ ruleTester.run('no-color-css-vars', rule, {
         ...(fullyRounded
           ? {
               borderRadius: '5px',
-              color: 'var(--fgColor-accent, var(--color-accent-fg))',
+              color: 'var(--fgColor-accent)',
             }
           : {
               borderTopRightRadius: '5px',
               borderBottomRightRadius: '5px',
-              color: 'var(--fgColor-accent, var(--color-accent-fg))',
+              color: 'var(--fgColor-accent)',
             }),
         overflow: 'hidden',
         ':has(input:focus-visible)': {
-          boxShadow: 'inset 0 0 0 1px var(--borderColor-accent-emphasis, var(--color-accent-emphasis))',
+          boxShadow: 'inset 0 0 0 1px var(--borderColor-accent-emphasis)',
         },
       })
       `,
       errors: [
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent)',
         },
         {
-          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--fgColor-accent)',
         },
         {
-          message:
-            'Replace var(--color-accent-emphasis) with var(--borderColor-accent-emphasis, var(--color-accent-emphasis))',
+          message: 'Replace var(--color-accent-emphasis) with var(--borderColor-accent-emphasis)',
         },
       ],
     },
@@ -601,23 +594,23 @@ ruleTester.run('no-color-css-vars', rule, {
         '.cm-tooltip.cm-tooltip-autocomplete > ul': {
           fontFamily: "SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace",
           fontSize: '12px',
-          backgroundColor: 'var(--bgColor-default, var(--color-canvas-default))',
-          border: '1px solid var(--borderColor-default, var(--color-border-default))',
+          backgroundColor: 'var(--bgColor-default)',
+          border: '1px solid var(--borderColor-default)',
           borderRadius: 'var(--borderRadius-medium)',
-          boxShadow: 'var(--shadow-resting-medium, var(--color-shadow-medium))',
+          boxShadow: 'var(--shadow-resting-medium)',
           minWidth: 'auto',
         }
       })
       `,
       errors: [
         {
-          message: 'Replace var(--color-canvas-default) with var(--bgColor-default, var(--color-canvas-default))',
+          message: 'Replace var(--color-canvas-default) with var(--bgColor-default)',
         },
         {
-          message: 'Replace var(--color-border-default) with var(--borderColor-default, var(--color-border-default))',
+          message: 'Replace var(--color-border-default) with var(--borderColor-default)',
         },
         {
-          message: 'Replace var(--color-shadow-medium) with var(--shadow-resting-medium, var(--color-shadow-medium))',
+          message: 'Replace var(--color-shadow-medium) with var(--shadow-resting-medium)',
         },
       ],
     },
@@ -653,19 +646,19 @@ ruleTester.run('no-color-css-vars', rule, {
 
         switch (modification) {
           case 'ADDED':
-            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-success-emphasis, var(--color-success-fg))'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-success-emphasis)'}
           case 'REMOVED':
-            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-danger-emphasis, var(--color-danger-fg))'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-danger-emphasis)'}
           case 'EDITED':
-            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-severe-emphasis, var(--color-severe-fg))'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-severe-emphasis)'}
           case 'accent':
-            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-accent-emphasis, var(--color-accent-fg))'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-accent-emphasis)'}
           case 'done':
-            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-done-emphasis, var(--color-done-fg))'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-done-emphasis)'}
           case 'closed':
-            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-closed-emphasis, var(--color-closed-fg))'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-closed-emphasis)'}
           case 'sponsors':
-            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-sponsors-emphasis, var(--color-sponsors-fg))'}
+            return {borderLeft: borderStyle, borderColor: 'var(--borderColor-sponsors-emphasis)'}
           case 'UNCHANGED':
             return {}
         }
@@ -673,26 +666,25 @@ ruleTester.run('no-color-css-vars', rule, {
       `,
       errors: [
         {
-          message: 'Replace var(--color-success-fg) with var(--borderColor-success-emphasis, var(--color-success-fg))',
+          message: 'Replace var(--color-success-fg) with var(--borderColor-success-emphasis)',
         },
         {
-          message: 'Replace var(--color-danger-fg) with var(--borderColor-danger-emphasis, var(--color-danger-fg))',
+          message: 'Replace var(--color-danger-fg) with var(--borderColor-danger-emphasis)',
         },
         {
-          message: 'Replace var(--color-severe-fg) with var(--borderColor-severe-emphasis, var(--color-severe-fg))',
+          message: 'Replace var(--color-severe-fg) with var(--borderColor-severe-emphasis)',
         },
         {
-          message: 'Replace var(--color-accent-fg) with var(--borderColor-accent-emphasis, var(--color-accent-fg))',
+          message: 'Replace var(--color-accent-fg) with var(--borderColor-accent-emphasis)',
         },
         {
-          message: 'Replace var(--color-done-fg) with var(--borderColor-done-emphasis, var(--color-done-fg))',
+          message: 'Replace var(--color-done-fg) with var(--borderColor-done-emphasis)',
         },
         {
-          message: 'Replace var(--color-closed-fg) with var(--borderColor-closed-emphasis, var(--color-closed-fg))',
+          message: 'Replace var(--color-closed-fg) with var(--borderColor-closed-emphasis)',
         },
         {
-          message:
-            'Replace var(--color-sponsors-fg) with var(--borderColor-sponsors-emphasis, var(--color-sponsors-fg))',
+          message: 'Replace var(--color-sponsors-fg) with var(--borderColor-sponsors-emphasis)',
         },
       ],
     },
