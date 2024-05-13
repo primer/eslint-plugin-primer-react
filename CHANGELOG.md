@@ -1,5 +1,17 @@
 # eslint-plugin-primer-react
 
+## 4.2.0
+
+### Minor Changes
+
+- [#156](https://github.com/primer/eslint-plugin-primer-react/pull/156) [`15cfbb4`](https://github.com/primer/eslint-plugin-primer-react/commit/15cfbb4a261c44418404249cc33e279bce25b2b7) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Add no-deprecated-props rule
+
+### Patch Changes
+
+- [#166](https://github.com/primer/eslint-plugin-primer-react/pull/166) [`4c3d9b4`](https://github.com/primer/eslint-plugin-primer-react/commit/4c3d9b4e761733ac52f4d624a94996a4379c37ca) Thanks [@chadfawcett](https://github.com/chadfawcett)! - Move eslint-plugin-github to dependencies
+
+- [#152](https://github.com/primer/eslint-plugin-primer-react/pull/152) [`7baeb96`](https://github.com/primer/eslint-plugin-primer-react/commit/7baeb9684cc5f84847f004fee282a3362517d7d0) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: Add option to ignore specific component names
+
 ## 4.1.2
 
 ### Patch Changes
