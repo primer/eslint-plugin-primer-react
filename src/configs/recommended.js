@@ -15,7 +15,6 @@ module.exports = {
     'primer-react/a11y-tooltip-interactive-trigger': 'error',
     'primer-react/new-color-css-vars': 'error',
     'primer-react/a11y-explicit-heading': 'error',
-    'primer-react/new-color-css-vars-have-fallback': 'error',
     'primer-react/no-deprecated-props': 'warn',
   },
   settings: {

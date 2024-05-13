@@ -2,7 +2,7 @@
 
 CSS variables are allowed within the `sx` prop in Primer React components. However, the legacy color CSS variables are
 deprecated in favor of the new CSS variables introduced in Primitives v8. This rule will warn you if you are using the
-deprecated color CSS variables in the `sx` prop, and autofix it including a fallback to the old value.
+deprecated color CSS variables in the `sx` prop, and autofix it.
 
 ## Rule Details
 
@@ -36,5 +36,5 @@ one based on the property. We only check `sx` because `stylelint` is used to lin
 👍 Examples of **correct** code for this rule:
 
 ```jsx
-<Button sx={{color: 'var(--fgColor-muted, var(--color-fg-muted))'}}>Test</Button>
+<Button sx={{color: 'var(--fgColor-muted)'}}>Test</Button>
 ```

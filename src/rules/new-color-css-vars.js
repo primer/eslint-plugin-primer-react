@@ -33,10 +33,10 @@ const reportError = (propertyName, valueNode, context, suggestFix = true) => {
     // report the error
     context.report({
       node: valueNode,
-      message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement}, var(${cssVar}))`,
+      message: `Replace var(${cssVar}) with var(${varObjectForProp.replacement})`,
       fix: suggestFix
         ? fixer => {
-            const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}, var(${cssVar})`)
+            const fixedString = value.replaceAll(cssVar, `${varObjectForProp.replacement}`)
             return fixer.replaceText(valueNode, valueNode.type === 'Literal' ? `'${fixedString}'` : fixedString)
           }
         : undefined,
