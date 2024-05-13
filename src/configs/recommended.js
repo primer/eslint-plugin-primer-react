@@ -1,4 +1,4 @@
-const components = require('./components')
+const {jsxA11yMapping, gihubMapping} = require('./components')
 
 module.exports = {
   parserOptions: {
@@ -19,10 +19,10 @@ module.exports = {
   },
   settings: {
     github: {
-      components,
+      gihubMapping,
     },
     'jsx-a11y': {
-      components,
+      jsxA11yMapping,
     },
   },
 }
