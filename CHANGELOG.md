@@ -1,5 +1,41 @@
 # eslint-plugin-primer-react
 
+## 5.0.0
+
+### Major Changes
+
+- [#174](https://github.com/primer/eslint-plugin-primer-react/pull/174) [`d9832b8`](https://github.com/primer/eslint-plugin-primer-react/commit/d9832b850cbcf808ddcdfd3efbbab7d2bf913ccd) Thanks [@langermank](https://github.com/langermank)! - - Remove `no-deprecated-colors` plugin
+
+  - Remove dependency on `primer/primitives`
+
+- [#172](https://github.com/primer/eslint-plugin-primer-react/pull/172) [`8e24d66`](https://github.com/primer/eslint-plugin-primer-react/commit/8e24d660065b3c690a14d826580c793d7b305068) Thanks [@langermank](https://github.com/langermank)! - [Breaking] Remove `new-color-css-vars-have-fallback`
+
+## 4.2.0
+
+### Minor Changes
+
+- [#156](https://github.com/primer/eslint-plugin-primer-react/pull/156) [`15cfbb4`](https://github.com/primer/eslint-plugin-primer-react/commit/15cfbb4a261c44418404249cc33e279bce25b2b7) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Add no-deprecated-props rule
+
+### Patch Changes
+
+- [#166](https://github.com/primer/eslint-plugin-primer-react/pull/166) [`4c3d9b4`](https://github.com/primer/eslint-plugin-primer-react/commit/4c3d9b4e761733ac52f4d624a94996a4379c37ca) Thanks [@chadfawcett](https://github.com/chadfawcett)! - Move eslint-plugin-github to dependencies
+
+- [#152](https://github.com/primer/eslint-plugin-primer-react/pull/152) [`7baeb96`](https://github.com/primer/eslint-plugin-primer-react/commit/7baeb9684cc5f84847f004fee282a3362517d7d0) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: Add option to ignore specific component names
+
+## 4.1.2
+
+### Patch Changes
+
+- [#148](https://github.com/primer/eslint-plugin-primer-react/pull/148) [`523e169`](https://github.com/primer/eslint-plugin-primer-react/commit/523e169a3c6c801750d451e875c83f52e383c772) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: skip html elements
+
+- [#149](https://github.com/primer/eslint-plugin-primer-react/pull/149) [`ca14bb6`](https://github.com/primer/eslint-plugin-primer-react/commit/ca14bb695ad296903bfe7598b4eb81291796245a) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: allow maxWidth prop for Truncate
+
+## 4.1.1
+
+### Patch Changes
+
+- [#145](https://github.com/primer/eslint-plugin-primer-react/pull/145) [`0369cb8`](https://github.com/primer/eslint-plugin-primer-react/commit/0369cb857dd49945ac7929444ffacb2ecc02a2ed) Thanks [@siddharthkp](https://github.com/siddharthkp)! - no-system-props: Add `position` as allowed prop for `Dialog`
+
 ## 4.1.0
 
 ### Minor Changes

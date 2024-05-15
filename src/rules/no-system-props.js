@@ -1,4 +1,5 @@
 const {isPrimerComponent} = require('../utils/is-primer-component')
+const {isHTMLElement} = require('../utils/is-html-element')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 const {pick} = require('@styled-system/props')
 const {some, last} = require('lodash')
@@ -21,7 +22,7 @@ const excludedComponentProps = new Map([
   ['Blankslate', new Set(['border'])],
   ['Button', new Set(['alignContent'])],
   ['CircleOcticon', new Set(['size'])],
-  ['Dialog', new Set(['width', 'height'])],
+  ['Dialog', new Set(['width', 'height', 'position'])],
   ['IssueLabelToken', new Set(['size'])],
   ['Overlay', new Set(['width', 'height', 'maxHeight', 'position', 'top', 'right', 'bottom', 'left'])],
   ['ProgressBar', new Set(['bg'])],
@@ -31,6 +32,7 @@ const excludedComponentProps = new Map([
   ['SplitPageLayout.Pane', new Set(['padding', 'position', 'width'])],
   ['SplitPageLayout.Content', new Set(['padding', 'width'])],
   ['StyledOcticon', new Set(['size'])],
+  ['Octicon', new Set(['size', 'color'])],
   ['PointerBox', new Set(['bg'])],
   ['TextInput', new Set(['size'])],
   ['TextInputWithTokens', new Set(['size', 'maxHeight'])],
@@ -42,6 +44,7 @@ const excludedComponentProps = new Map([
   ['PageLayout.Content', new Set(['padding', 'width'])],
   ['ProgressBar', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])],
+  ['Truncate', new Set(['maxWidth'])],
 ])
 
 const alwaysExcludedProps = new Set(['variant', 'size'])
@@ -53,12 +56,9 @@ module.exports = {
     schema: [
       {
         properties: {
-          skipImportCheck: {
-            type: 'boolean',
-          },
-          includeUtilityComponents: {
-            type: 'boolean',
-          },
+          skipImportCheck: {type: 'boolean'},
+          includeUtilityComponents: {type: 'boolean'},
+          ignoreNames: {type: 'array'},
         },
       },
     ],
@@ -70,8 +70,8 @@ module.exports = {
     // If `skipImportCheck` is true, this rule will check for deprecated styled system props
     // used in any components (not just ones that are imported from `@primer/react`).
     const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
-
     const includeUtilityComponents = context.options[0] ? context.options[0].includeUtilityComponents : false
+    const ignoreNames = context.options[0] ? context.options[0].ignoreNames || [] : []
 
     const excludedComponents = new Set([
       ...alwaysExcludedComponents,
@@ -80,9 +80,17 @@ module.exports = {
 
     return {
       JSXOpeningElement(jsxNode) {
-        if (!skipImportCheck && !isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
+        if (skipImportCheck) {
+          // if we skip checking if component is imported from primer,
+          // we need to atleast skip html elements
+          if (isHTMLElement(jsxNode)) return
+        } else {
+          // skip if component is not imported from primer/react
+          if (!isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
+        }
 
         const componentName = getJSXOpeningElementName(jsxNode)
+        if (ignoreNames.length && ignoreNames.includes(componentName)) return
 
         if (excludedComponents.has(componentName)) return
 
