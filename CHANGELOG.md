@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 5.1.0
+
+### Minor Changes
+
+- [#178](https://github.com/primer/eslint-plugin-primer-react/pull/178) [`49150da`](https://github.com/primer/eslint-plugin-primer-react/commit/49150da106f0ff9a52faac8d559b78449c672391) Thanks [@khiga8](https://github.com/khiga8)! - Map `Box` to `div` and pass it into `eslint-plugin-github`.
+
 ## 5.0.0
 
 ### Major Changes
