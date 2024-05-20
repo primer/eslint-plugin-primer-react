@@ -30,11 +30,14 @@ module.exports = {
           let siblings = node.parent.children
           if (siblings.length > 0) {
             siblings = siblings.filter(childNode => {
-              return !(
-                (childNode.type === 'JSXExpressionContainer' &&
+              return (
+                !(childNode.type === 'JSXText' && /^\s+$/.test(childNode.value)) &&
+                !(
+                  childNode.type === 'JSXExpressionContainer' &&
                   childNode.expression.type === 'Literal' &&
-                  /^\s+$/.test(childNode.expression.raw)) ||
-                (childNode.type === 'Literal' && /^\s+$/.test(childNode.raw))
+                  /^\s+$/.test(childNode.expression.value)
+                ) &&
+                !(childNode.type === 'Literal' && /^\s+$/.test(childNode.value))
               )
             })
             const index = siblings.findIndex(childNode => {

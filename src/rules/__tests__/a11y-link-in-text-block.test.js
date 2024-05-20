@@ -13,6 +13,13 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('a11y-link-in-text-block', rule, {
   valid: [
+    `import {Text, Link} from '@primer/react';
+    <Something>
+      <Link href='blah'>
+        blah
+      </Link>
+    </Something>
+    `,
     `import {Link} from '@primer/react';
      <p>bla blah <Link inline={true}>Link level 1</Link></p>;
   `,
