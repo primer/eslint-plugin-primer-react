@@ -15,7 +15,7 @@ module.exports = {
       },
     ],
     messages: {
-      linkInTextBlock: 'Heading must have an explicit heading level applied through the `as` prop.',
+      linkInTextBlock: '<Link> that are used within a text block should have the inline prop.',
     },
   },
   create(context) {
@@ -23,7 +23,15 @@ module.exports = {
       JSXElement(node) {
         const name = getJSXOpeningElementName(node.openingElement)
         if (isPrimerComponent(node.openingElement.name, context.getScope(node)) && name === 'Link') {
-          const siblings = node.parent.children
+          let siblings = node.parent.children
+          siblings = siblings.filter(childNode => {
+            return !(
+              (childNode.type === 'JSXExpressionContainer' &&
+                childNode.expression.type === 'Literal' &&
+                /^\s+$/.test(childNode.expression.raw)) ||
+              (childNode.type === 'Literal' && /^\s+$/.test(childNode.raw))
+            )
+          })
           if (siblings.length > 0) {
             const index = siblings.findIndex(childNode => {
               return childNode.range === node.range

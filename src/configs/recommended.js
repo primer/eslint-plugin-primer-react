@@ -16,6 +16,7 @@ module.exports = {
     'primer-react/new-color-css-vars': 'error',
     'primer-react/a11y-explicit-heading': 'error',
     'primer-react/no-deprecated-props': 'warn',
+    'primer-react/a11y-link-in-text-block': 'error',
   },
   settings: {
     github: {
