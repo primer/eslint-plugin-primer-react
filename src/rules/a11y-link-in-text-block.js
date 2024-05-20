@@ -30,10 +30,7 @@ module.exports = {
             })
             const prevSibling = siblings[index - 1]
             const nextSibling = siblings[index + 1]
-            if (
-              (prevSibling && prevSibling.type === 'JSXText') ||
-              (nextSibling && nextSibling.type === 'JSXText')
-            ) {
+            if ((prevSibling && prevSibling.type === 'JSXText') || (nextSibling && nextSibling.type === 'JSXText')) {
               const inlineAttribute = getJSXOpeningElementAttribute(node.openingElement, 'inline')
               if (inlineAttribute) {
                 if (!inlineAttribute.value) {
