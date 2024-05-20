@@ -22,17 +22,21 @@ module.exports = {
     return {
       JSXElement(node) {
         const name = getJSXOpeningElementName(node.openingElement)
-        if (isPrimerComponent(node.openingElement.name, context.getScope(node)) && name === 'Link') {
+        if (
+          isPrimerComponent(node.openingElement.name, context.getScope(node)) &&
+          name === 'Link' &&
+          node.parent.children
+        ) {
           let siblings = node.parent.children
-          siblings = siblings.filter(childNode => {
-            return !(
-              (childNode.type === 'JSXExpressionContainer' &&
-                childNode.expression.type === 'Literal' &&
-                /^\s+$/.test(childNode.expression.raw)) ||
-              (childNode.type === 'Literal' && /^\s+$/.test(childNode.raw))
-            )
-          })
           if (siblings.length > 0) {
+            siblings = siblings.filter(childNode => {
+              return !(
+                (childNode.type === 'JSXExpressionContainer' &&
+                  childNode.expression.type === 'Literal' &&
+                  /^\s+$/.test(childNode.expression.raw)) ||
+                (childNode.type === 'Literal' && /^\s+$/.test(childNode.raw))
+              )
+            })
             const index = siblings.findIndex(childNode => {
               return childNode.range === node.range
             })

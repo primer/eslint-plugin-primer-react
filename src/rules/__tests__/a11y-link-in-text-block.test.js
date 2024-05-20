@@ -22,6 +22,9 @@ ruleTester.run('a11y-link-in-text-block', rule, {
     `import {Link} from '@primer/react';
     <><span>something</span><Link inline={true}>Link level 1</Link></>;
   `,
+    `import {Link} from '@primer/react';
+   <Link>Link level 1</Link>;
+`,
   ],
   invalid: [
     {
