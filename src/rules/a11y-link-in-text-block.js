@@ -63,10 +63,13 @@ module.exports = {
                 sxAttribute?.value?.expression &&
                 sxAttribute.value.expression.type === 'ObjectExpression' &&
                 sxAttribute.value.expression.properties &&
-                sxAttribute.value.expression.properties.length > 0 &&
-                sxAttribute.value.expression.properties[0].key.name === 'fontWeight'
-              )
-                return
+                sxAttribute.value.expression.properties.length > 0
+              ) {
+                const fontWeightProperty = sxAttribute.value.expression.properties.filter(property => {
+                  return property.key.name === 'fontWeight'
+                })
+                if (fontWeightProperty.length > 0) return
+              }
               if (inlineAttribute) {
                 if (!inlineAttribute.value) {
                   return
