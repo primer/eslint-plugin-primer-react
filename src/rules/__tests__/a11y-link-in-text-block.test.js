@@ -33,38 +33,41 @@ ruleTester.run('a11y-link-in-text-block', rule, {
    <Link>Link level 1</Link>;
 `,
     `import {Heading, Link} from '@primer/react';
-    <Heading>
-      <Link>Link level 1</Link>
-    </Heading>,
+      <Heading>
+        <Link>Link level 1</Link>
+      </Heading>
 `,
     `import {Heading, Link} from '@primer/react';
     <Heading as="h2">
-    <Link href={somePath}>
-      Breadcrumb
-    </Link>
-    &nbsp;/ Create a thing
-  </Heading>
+      <Link href={somePath}>
+        Breadcrumb
+      </Link>
+      Create a thing
+    </Heading>
 `,
     `import {Link} from '@primer/react';
+    <div>
     <h2>
     <Link href={somePath}>
       Breadcrumb
     </Link>
     </h2>
-    &nbsp;/ Create a thing
-  </Heading>
+    Create a thing
+    </div>
 `,
     `import {Link} from '@primer/react';
+    <div>
     <Link href={somePath}>
       <SomeAvatar></SomeAvatar>
     </Link>
-    last edited{' '}
+    last edited
+    </div>
 `,
     `import {Link} from '@primer/react';
     <span>
-    by{' '}
+    by
     <Link href="something" sx={{fontWeight: 'bold'}}>
-      {listing.owner_login}
+      Blah blah
     </Link>
     </span>
 `,

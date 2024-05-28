@@ -28,6 +28,9 @@ module.exports = {
           node.parent.children
         ) {
           let siblings = node.parent.children
+          const parentName = node.parent.openingElement?.name?.name
+          const parentsToSkip = ['Heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+          if (parentsToSkip.includes(parentName)) return
           if (siblings.length > 0) {
             siblings = siblings.filter(childNode => {
               return (
@@ -46,7 +49,24 @@ module.exports = {
             const prevSibling = siblings[index - 1]
             const nextSibling = siblings[index + 1]
             if ((prevSibling && prevSibling.type === 'JSXText') || (nextSibling && nextSibling.type === 'JSXText')) {
+              const sxAttribute = getJSXOpeningElementAttribute(node.openingElement, 'sx')
               const inlineAttribute = getJSXOpeningElementAttribute(node.openingElement, 'inline')
+
+              // Skip is Link child is a JSX element.
+              const jsxElementChildren = node.children.filter(child => {
+                return child.type === 'JSXElement'
+              })
+              if (jsxElementChildren.length > 0) return
+              // Skip if fontWeight is set via the sx prop since that may be sufficient.
+              if (
+                sxAttribute &&
+                sxAttribute?.value?.expression &&
+                sxAttribute.value.expression.type === 'ObjectExpression' &&
+                sxAttribute.value.expression.properties &&
+                sxAttribute.value.expression.properties.length > 0 &&
+                sxAttribute.value.expression.properties[0].key.name === 'fontWeight'
+              )
+                return
               if (inlineAttribute) {
                 if (!inlineAttribute.value) {
                   return
