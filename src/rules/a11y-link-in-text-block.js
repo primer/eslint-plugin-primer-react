@@ -30,6 +30,7 @@ module.exports = {
         ) {
           let siblings = node.parent.children
           const parentName = node.parent.openingElement?.name?.name
+          // Skip if Link is nested inside of a heading.
           const parentsToSkip = ['Heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
           if (parentsToSkip.includes(parentName)) return
           if (siblings.length > 0) {
@@ -53,19 +54,20 @@ module.exports = {
             const prevSiblingIsText = prevSibling && prevSibling.type === 'JSXText'
             const nextSiblingIsText = nextSibling && nextSibling.type === 'JSXText'
             if (prevSiblingIsText || nextSiblingIsText) {
-              // If the only text adjacent to the link is a period, then skip it.
+              // Skip if the only text adjacent to the link is a period, then skip it.
               if (!prevSiblingIsText && /^\s*.+\s*$/.test(nextSibling.value)) {
                 return
               }
               const sxAttribute = getJSXOpeningElementAttribute(node.openingElement, 'sx')
               const inlineAttribute = getJSXOpeningElementAttribute(node.openingElement, 'inline')
 
-              // Skip is Link child is a JSX element.
+              // Skip if Link child is a JSX element.
               const jsxElementChildren = node.children.filter(child => {
                 return child.type === 'JSXElement'
               })
               if (jsxElementChildren.length > 0) return
-              // Skip if fontWeight is set via the sx prop since that may be sufficient.
+
+              // Skip if fontWeight is set via the sx prop.
               if (
                 sxAttribute &&
                 sxAttribute?.value?.expression &&
