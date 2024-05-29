@@ -78,6 +78,8 @@ module.exports = {
       ...(includeUtilityComponents ? [] : utilityComponents),
     ])
 
+    const sourceCode = context.sourceCode ?? context.getSourceCode()
+
     return {
       JSXOpeningElement(jsxNode) {
         if (skipImportCheck) {
@@ -86,7 +88,7 @@ module.exports = {
           if (isHTMLElement(jsxNode)) return
         } else {
           // skip if component is not imported from primer/react
-          if (!isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) return
+          if (!isPrimerComponent(jsxNode.name, sourceCode.getScope(jsxNode))) return
         }
 
         const componentName = getJSXOpeningElementName(jsxNode)
