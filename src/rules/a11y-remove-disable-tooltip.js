@@ -17,7 +17,7 @@ module.exports = {
     schema: [],
     messages: {
       removeDisableTooltipProp:
-        'Please remove `unsafeDisableTooltip` prop from `IconButton` component to enable the tooltip and help making icon button more accessible.',
+        'Please remove `unsafeDisableTooltip` prop from `IconButton` component to enable the tooltip and help make icon button more accessible.',
     },
   },
   create(context) {
