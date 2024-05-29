@@ -48,7 +48,14 @@ module.exports = {
             })
             const prevSibling = siblings[index - 1]
             const nextSibling = siblings[index + 1]
-            if ((prevSibling && prevSibling.type === 'JSXText') || (nextSibling && nextSibling.type === 'JSXText')) {
+
+            const prevSiblingIsText = prevSibling && prevSibling.type === 'JSXText'
+            const nextSiblingIsText = nextSibling && nextSibling.type === 'JSXText'
+            if (prevSiblingIsText || nextSiblingIsText) {
+              // If the only text adjacent to the link is a period, then skip it.
+              if (!prevSiblingIsText && /^\s*.+\s*$/.test(nextSibling.value)) {
+                return
+              }
               const sxAttribute = getJSXOpeningElementAttribute(node.openingElement, 'sx')
               const inlineAttribute = getJSXOpeningElementAttribute(node.openingElement, 'inline')
 
