@@ -108,6 +108,12 @@ ruleTester.run('a11y-link-in-text-block', rule, {
     },
     {
       code: `import {Link} from '@primer/react';
+      <p><Link>Link level 1</Link> something something</p>
+    `,
+      errors: [{messageId: 'linkInTextBlock'}],
+    },
+    {
+      code: `import {Link} from '@primer/react';
       <p>bla blah<Link inline={false}>Link level 1</Link></p>
     `,
       errors: [{messageId: 'linkInTextBlock'}],

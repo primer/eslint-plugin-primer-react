@@ -55,7 +55,7 @@ module.exports = {
             const nextSiblingIsText = nextSibling && nextSibling.type === 'JSXText'
             if (prevSiblingIsText || nextSiblingIsText) {
               // Skip if the only text adjacent to the link is a period, then skip it.
-              if (!prevSiblingIsText && /^\s*.+\s*$/.test(nextSibling.value)) {
+              if (!prevSiblingIsText && /^\s*\.+\s*$/.test(nextSibling.value)) {
                 return
               }
               const sxAttribute = getJSXOpeningElementAttribute(node.openingElement, 'sx')
