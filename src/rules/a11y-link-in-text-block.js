@@ -19,11 +19,12 @@ module.exports = {
     },
   },
   create(context) {
+    const sourceCode = context.sourceCode ?? context.getSourceCode()
     return {
       JSXElement(node) {
         const name = getJSXOpeningElementName(node.openingElement)
         if (
-          isPrimerComponent(node.openingElement.name, context.getScope(node)) &&
+          isPrimerComponent(node.openingElement.name, sourceCode.getScope(node)) &&
           name === 'Link' &&
           node.parent.children
         ) {
