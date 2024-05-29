@@ -62,7 +62,11 @@ This rule will skip `Link`s containing JSX elements to minimize potential false 
 function ExampleComponent() {
   return (
     <SomeComponent>
-      <Link><SomeAvatar />@monalisa</Link> commented on your account.
+      <Link>
+        <SomeAvatar />
+        @monalisa
+      </Link>{' '}
+      commented on your account.
     </SomeComponent>
   )
 }
@@ -74,8 +78,7 @@ This rule will skip `Link`s nested inside of a `Heading`.
 function ExampleComponent() {
   return (
     <Heading>
-      <Link>Previous location</Link>
-      / Current location
+      <Link>Previous location</Link>/ Current location
     </Heading>
   )
 }
