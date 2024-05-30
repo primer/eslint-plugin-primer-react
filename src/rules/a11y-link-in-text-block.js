@@ -15,7 +15,7 @@ module.exports = {
       },
     ],
     messages: {
-      linkInTextBlock: '<Link> that are used within a text block should have the inline prop.',
+      linkInTextBlock: '<Link>s that are used within a text block should have the inline prop.',
     },
   },
   create(context) {
@@ -67,7 +67,7 @@ module.exports = {
               })
               if (jsxElementChildren.length > 0) return
 
-              // Skip if fontWeight is set via the sx prop.
+              // Skip if fontWeight or fontFamily is set via the sx prop since these may technically be considered sufficiently distinguishing styles that don't use color.
               if (
                 sxAttribute &&
                 sxAttribute?.value?.expression &&
