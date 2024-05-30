@@ -98,6 +98,15 @@ ruleTester.run('a11y-link-in-text-block', rule, {
     .
     </Box>
 `,
+    `import {Link} from '@primer/react';
+<Heading sx={{fontSize: 1, mb: 3}} as="h3">
+          In addition,{' '}
+          <Link href="https://github.com/pricing" target="_blank">
+            GitHub Team
+          </Link>{' '}
+          includes:
+        </Heading>
+`,
   ],
   invalid: [
     {
@@ -130,6 +139,13 @@ ruleTester.run('a11y-link-in-text-block', rule, {
       code: `import {Link} from '@primer/react';
       <>blah blah blah{' '}
       <Link>Link level 1</Link></>;
+    `,
+      errors: [{messageId: 'linkInTextBlock'}],
+    },
+    {
+      code: `import {Link} from '@primer/react';
+      <>blah blah blah{' '}
+      <Link underline>Link level 1</Link></>;
     `,
       errors: [{messageId: 'linkInTextBlock'}],
     },
