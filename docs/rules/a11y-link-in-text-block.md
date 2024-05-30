@@ -12,10 +12,10 @@ This rule will not catch all instances of link in text block due to the limitati
 
 The edge cases that the linter skips to avoid false positives will include:
 
-* `<Link sx={{fontWeight:...}}>` or `<Link sx={{fontFamily:...}}>` because these technically may provide sufficient distinguishing styling.
-* `<Link>` where the only adjacent text is a period, since that can't really be considered a text block.
-* `<Link>` where the children is a JSX component, rather than a string literal, because then it might be an icon link rather than a text link.
-* `<Link>` that are nested inside of headings as these have often been breadcrumbs.
+- `<Link sx={{fontWeight:...}}>` or `<Link sx={{fontFamily:...}}>` because these technically may provide sufficient distinguishing styling.
+- `<Link>` where the only adjacent text is a period, since that can't really be considered a text block.
+- `<Link>` where the children is a JSX component, rather than a string literal, because then it might be an icon link rather than a text link.
+- `<Link>` that are nested inside of headings as these have often been breadcrumbs.
 
 👎 Examples of **incorrect** code for this rule
 
