@@ -11,6 +11,8 @@ const App = () => (
   <IconButton icon={SearchIcon} aria-label="Search" unsafeDisableTooltip />
   // OR
   <IconButton icon={SearchIcon} aria-label="Search" unsafeDisableTooltip={true} />
+  // OR
+  <IconButton icon={SearchIcon} aria-label="Search" unsafeDisableTooltip={false} /> // This is incorrect because it should be removed
 )
 ```
 

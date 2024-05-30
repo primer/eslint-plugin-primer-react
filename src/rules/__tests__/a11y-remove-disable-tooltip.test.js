@@ -37,5 +37,14 @@ ruleTester.run('a11y-remove-disable-tooltip', rule, {
         },
       ],
     },
+    {
+      code: `<IconButton icon={SearchIcon} aria-label="Search" unsafeDisableTooltip={false} />`,
+      output: `<IconButton icon={SearchIcon} aria-label="Search" />`,
+      errors: [
+        {
+          messageId: 'removeDisableTooltipProp',
+        },
+      ],
+    },
   ],
 })
