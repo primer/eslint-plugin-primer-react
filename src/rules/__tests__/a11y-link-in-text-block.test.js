@@ -68,7 +68,7 @@ ruleTester.run('a11y-link-in-text-block', rule, {
     `import {Link} from '@primer/react';
     <div>
     <Link href={somePath}>
-      <GitHubAvatar /> <Text sx={{fontWeight: 'bold'}}>{owner}</Text>
+      <GitHubAvatar />{owner}
     </Link>{' '}
     last edited{' '}
     </div>
@@ -89,6 +89,14 @@ ruleTester.run('a11y-link-in-text-block', rule, {
     </Link>
     </span>
 `,
+    `import {Link} from '@primer/react';
+  <span>
+  by
+  <Link href="something" sx={{fontFamily: 'mono'}}>
+    Blah blah
+  </Link>
+  </span>
+  `,
     `import {Link} from '@primer/react';
     <Box>
 
