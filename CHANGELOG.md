@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 5.2.0
+
+### Minor Changes
+
+- [#190](https://github.com/primer/eslint-plugin-primer-react/pull/190) [`a02a188`](https://github.com/primer/eslint-plugin-primer-react/commit/a02a1884c1334e1cdb43d7c5cafacdfd4ec92e33) Thanks [@khiga8](https://github.com/khiga8)! - \* bump eslint-plugin-github to v5.0.0
+
+### Patch Changes
+
+- [#183](https://github.com/primer/eslint-plugin-primer-react/pull/183) [`7bd36d2`](https://github.com/primer/eslint-plugin-primer-react/commit/7bd36d2a9a594a49ab8317a2986eda7c948b16b6) Thanks [@khiga8](https://github.com/khiga8)! - New rule to flag `Link` in text block missing the `inline` prop
+
 ## 5.1.0
 
 ### Minor Changes
