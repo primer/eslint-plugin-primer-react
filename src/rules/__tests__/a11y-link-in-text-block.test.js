@@ -115,6 +115,16 @@ ruleTester.run('a11y-link-in-text-block', rule, {
           includes:
         </Heading>
 `,
+    `import {Link} from '@primer/react';
+      <p>bla blah
+      <Link className={styles.someClass}>Link text</Link>
+      </p>
+    `,
+    `import {Link} from '@primer/react';
+    <p>bla blah
+    <Link className='some-class'>Link text</Link>
+    </p>
+  `,
   ],
   invalid: [
     {
