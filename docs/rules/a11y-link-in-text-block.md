@@ -4,7 +4,7 @@ This is an experimental rule. If you suspect any false positives reported by thi
 
 ## Rule Details
 
-The `Link` component should have the `inline` prop when it is used within a text block and has no styles (aside from color) to  distinguish itself from surrounding plain text. 
+The `Link` component should have the `inline` prop when it is used within a text block and has no styles (aside from color) to distinguish itself from surrounding plain text.
 
 Related: [WCAG 1.4.1 Use of Color issues](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html)
 
