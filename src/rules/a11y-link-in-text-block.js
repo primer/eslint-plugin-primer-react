@@ -4,6 +4,9 @@ const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-elemen
 
 module.exports = {
   meta: {
+    docs: {
+      url: require('../url')(module),
+    },
     type: 'problem',
     schema: [
       {
@@ -15,7 +18,8 @@ module.exports = {
       },
     ],
     messages: {
-      linkInTextBlock: '<Link>s that are used within a text block should have the inline prop.',
+      linkInTextBlock:
+        'Links should have the inline prop if it appear in a text block and only uses color to distinguish itself from surrounding text.',
     },
   },
   create(context) {
