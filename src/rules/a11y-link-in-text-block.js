@@ -28,6 +28,10 @@ module.exports = {
           name === 'Link' &&
           node.parent.children
         ) {
+          // Skip if Link has className because we cannot deduce what styles are applied.
+          const classNameAttribute = getJSXOpeningElementAttribute(node.openingElement, 'className')
+          if (classNameAttribute) return
+
           let siblings = node.parent.children
           const parentName = node.parent.openingElement?.name?.name
           // Skip if Link is nested inside of a heading.
