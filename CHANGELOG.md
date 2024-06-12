@@ -1,5 +1,13 @@
 # eslint-plugin-primer-react
 
+## 5.2.1
+
+### Patch Changes
+
+- [#195](https://github.com/primer/eslint-plugin-primer-react/pull/195) [`ccc2e99`](https://github.com/primer/eslint-plugin-primer-react/commit/ccc2e995a3f46bb4842468188b91c0bd641da390) Thanks [@khiga8](https://github.com/khiga8)! - Clean up docs for link lint rule
+
+- [#193](https://github.com/primer/eslint-plugin-primer-react/pull/193) [`5fc19f6`](https://github.com/primer/eslint-plugin-primer-react/commit/5fc19f63a4916add7b3c335ac661119c50af17af) Thanks [@khiga8](https://github.com/khiga8)! - Update link lint rule to skip Link with className
+
 ## 5.2.0
 
 ### Minor Changes
