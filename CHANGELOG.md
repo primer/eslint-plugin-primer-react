@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 5.3.0
+
+### Minor Changes
+
+- [#185](https://github.com/primer/eslint-plugin-primer-react/pull/185) [`fea642d`](https://github.com/primer/eslint-plugin-primer-react/commit/fea642d79982e36729262ec55d6e291780ca6160) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Add a rule that warns against removing `unsafeDisableTooltip` prop
+
 ## 5.2.1
 
 ### Patch Changes
