@@ -8,6 +8,7 @@ module.exports = {
     'a11y-explicit-heading': require('./rules/a11y-explicit-heading'),
     'no-deprecated-props': require('./rules/no-deprecated-props'),
     'a11y-link-in-text-block': require('./rules/a11y-link-in-text-block'),
+    'a11y-remove-disable-tooltip': require('./rules/a11y-remove-disable-tooltip'),
   },
   configs: {
     recommended: require('./configs/recommended'),

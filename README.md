@@ -38,3 +38,4 @@ ESLint rules for Primer React
 - [a11y-tooltip-interactive-trigger](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-tooltip-interactive-trigger.md)
 - [a11y-explicit-heading](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-explicit-heading.md)
 - [a11y-link-in-text-block](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-link-in-text-block.md)
+- [a11y-remove-disable-tooltip](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/a11y-remove-disable-tooltip.md)
