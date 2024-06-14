@@ -40,11 +40,12 @@ const excludedComponentProps = new Map([
   ['PageLayout', new Set(['padding'])],
   ['PageLayout.Header', new Set(['padding'])],
   ['PageLayout.Footer', new Set(['padding'])],
-  ['PageLayout.Pane', new Set(['padding', 'position', 'width'])],
+  ['PageLayout.Pane', new Set(['padding', 'position', 'width', 'minWidth'])],
   ['PageLayout.Content', new Set(['padding', 'width'])],
   ['ProgressBar', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])],
   ['Truncate', new Set(['maxWidth'])],
+  ['SelectPanel', new Set(['width', 'maxHeight'])],
 ])
 
 const alwaysExcludedProps = new Set(['variant', 'size'])
