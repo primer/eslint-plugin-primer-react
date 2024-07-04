@@ -46,12 +46,13 @@ module.exports = {
     },
   },
   create(context) {
+    const sourceCode = context.sourceCode ?? context.getSourceCode()
     return {
       JSXOpeningElement(jsxNode) {
         const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
 
         if (
-          (skipImportCheck || isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) &&
+          (skipImportCheck || isPrimerComponent(jsxNode.name, sourceCode.getScope(jsxNode))) &&
           isHeadingComponent(jsxNode)
         ) {
           const error = isInvalid(jsxNode)

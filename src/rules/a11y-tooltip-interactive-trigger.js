@@ -152,13 +152,14 @@ module.exports = {
     },
   },
   create(context) {
+    const sourceCode = context.sourceCode ?? context.getSourceCode()
     return {
       JSXElement(jsxNode) {
         // If `skipImportCheck` is true, this rule will check for non-interactive element in any components (not just ones that are imported from `@primer/react`).
         const skipImportCheck = context.options[0] ? context.options[0].skipImportCheck : false
         const name = getJSXOpeningElementName(jsxNode.openingElement)
         if (
-          (skipImportCheck || isPrimerComponent(jsxNode.openingElement.name, context.getScope(jsxNode))) &&
+          (skipImportCheck || isPrimerComponent(jsxNode.openingElement.name, sourceCode.getScope(jsxNode))) &&
           name === 'Tooltip' &&
           jsxNode.children
         ) {

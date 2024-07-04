@@ -1,5 +1,35 @@
 # eslint-plugin-primer-react
 
+## 5.3.0
+
+### Minor Changes
+
+- [#185](https://github.com/primer/eslint-plugin-primer-react/pull/185) [`fea642d`](https://github.com/primer/eslint-plugin-primer-react/commit/fea642d79982e36729262ec55d6e291780ca6160) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Add a rule that warns against removing `unsafeDisableTooltip` prop
+
+## 5.2.1
+
+### Patch Changes
+
+- [#195](https://github.com/primer/eslint-plugin-primer-react/pull/195) [`ccc2e99`](https://github.com/primer/eslint-plugin-primer-react/commit/ccc2e995a3f46bb4842468188b91c0bd641da390) Thanks [@khiga8](https://github.com/khiga8)! - Clean up docs for link lint rule
+
+- [#193](https://github.com/primer/eslint-plugin-primer-react/pull/193) [`5fc19f6`](https://github.com/primer/eslint-plugin-primer-react/commit/5fc19f63a4916add7b3c335ac661119c50af17af) Thanks [@khiga8](https://github.com/khiga8)! - Update link lint rule to skip Link with className
+
+## 5.2.0
+
+### Minor Changes
+
+- [#190](https://github.com/primer/eslint-plugin-primer-react/pull/190) [`a02a188`](https://github.com/primer/eslint-plugin-primer-react/commit/a02a1884c1334e1cdb43d7c5cafacdfd4ec92e33) Thanks [@khiga8](https://github.com/khiga8)! - \* bump eslint-plugin-github to v5.0.0
+
+### Patch Changes
+
+- [#183](https://github.com/primer/eslint-plugin-primer-react/pull/183) [`7bd36d2`](https://github.com/primer/eslint-plugin-primer-react/commit/7bd36d2a9a594a49ab8317a2986eda7c948b16b6) Thanks [@khiga8](https://github.com/khiga8)! - New rule to flag `Link` in text block missing the `inline` prop
+
+## 5.1.0
+
+### Minor Changes
+
+- [#178](https://github.com/primer/eslint-plugin-primer-react/pull/178) [`49150da`](https://github.com/primer/eslint-plugin-primer-react/commit/49150da106f0ff9a52faac8d559b78449c672391) Thanks [@khiga8](https://github.com/khiga8)! - Map `Box` to `div` and pass it into `eslint-plugin-github`.
+
 ## 5.0.0
 
 ### Major Changes

@@ -1,4 +1,4 @@
-const components = require('./components')
+const {jsxA11yMapping, githubMapping} = require('./components')
 
 module.exports = {
   parserOptions: {
@@ -16,15 +16,15 @@ module.exports = {
     'primer-react/new-color-css-vars': 'error',
     'primer-react/a11y-explicit-heading': 'error',
     'primer-react/no-deprecated-props': 'warn',
-    'primer-react/new-color-css-vars-have-fallback': 'error',
+    'primer-react/a11y-remove-disable-tooltip': 'error',
     'primer-react/use-next-tooltip': 'error',
   },
   settings: {
     github: {
-      components,
+      components: githubMapping,
     },
     'jsx-a11y': {
-      components,
+      components: jsxA11yMapping,
     },
   },
 }

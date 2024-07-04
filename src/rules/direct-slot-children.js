@@ -45,6 +45,7 @@ module.exports = {
   },
   create(context) {
     const stack = []
+    const sourceCode = context.sourceCode ?? context.getSourceCode()
     return {
       JSXOpeningElement(jsxNode) {
         const name = getJSXOpeningElementName(jsxNode)
@@ -56,7 +57,7 @@ module.exports = {
         // If component is a Primer component and a slot child,
         // check if it's a direct child of the slot parent
         if (
-          (skipImportCheck || isPrimerComponent(jsxNode.name, context.getScope(jsxNode))) &&
+          (skipImportCheck || isPrimerComponent(jsxNode.name, sourceCode.getScope(jsxNode))) &&
           slotChildToParentMap[name]
         ) {
           const expectedParentNames = slotChildToParentMap[name]
