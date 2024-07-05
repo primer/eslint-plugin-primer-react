@@ -9,7 +9,7 @@ module.exports = {
     'no-deprecated-props': require('./rules/no-deprecated-props'),
     'a11y-link-in-text-block': require('./rules/a11y-link-in-text-block'),
     'a11y-remove-disable-tooltip': require('./rules/a11y-remove-disable-tooltip'),
-    'use-next-tooltip': require('./rules/use-next-tooltip'),
+    'a11y-use-next-tooltip': require('./rules/a11y-use-next-tooltip'),
   },
   configs: {
     recommended: require('./configs/recommended'),

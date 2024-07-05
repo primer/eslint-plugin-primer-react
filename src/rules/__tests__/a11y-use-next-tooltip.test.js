@@ -1,4 +1,4 @@
-const rule = require('../use-next-tooltip')
+const rule = require('../a11y-use-next-tooltip')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
@@ -11,7 +11,7 @@ const ruleTester = new RuleTester({
   },
 })
 
-ruleTester.run('use-next-tooltip', rule, {
+ruleTester.run('a11y-use-next-tooltip', rule, {
   valid: [
     `import {Tooltip} from '@primer/react/experimental';`,
     `import {UnderlineNav, Button} from '@primer/react';
