@@ -14,3 +14,15 @@ import {Tooltip} from '@primer/react'
 ```tsx
 import {Tooltip} from '@primer/react/next'
 ```
+
+## Icon buttons and tooltips
+
+Even though the below code is perfectly valid, since icon buttons now come with tooltips by default, it is not required to explicitly use the Tooltip component on icon buttons.
+
+```jsx
+import {IconButton} from '@primer/react'
+import {Tooltip} from '@primer/react/next'
+;<Tooltip text={'Search'} direction={'e'}>
+  <IconButton icon={SearchIcon} aria-label={'Search'} />
+</Tooltip>
+```
