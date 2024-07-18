@@ -1,4 +1,5 @@
 'use strict'
+const url = require('../url')
 const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 
@@ -9,6 +10,7 @@ module.exports = {
       description: 'recommends the use of @primer/react/next Tooltip component',
       category: 'Best Practices',
       recommended: true,
+      url: url(module),
     },
     fixable: true,
     schema: [],
