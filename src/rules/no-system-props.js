@@ -15,6 +15,7 @@ const utilityComponents = new Set(['Box', 'Text'])
 // Components for which we allow a set of prop names
 const excludedComponentProps = new Map([
   ['ActionMenu.Overlay', new Set(['width', 'height', 'maxHeight', 'position', 'top', 'right', 'bottom', 'left'])],
+  ['ActionMenu.Button', new Set(['alignContent'])],
   ['Autocomplete.Overlay', new Set(['width', 'height', 'maxHeight', 'position', 'top', 'right', 'bottom', 'left'])],
   ['AnchoredOverlay', new Set(['width', 'height'])],
   ['Avatar', new Set(['size'])],
