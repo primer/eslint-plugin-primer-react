@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 5.4.0
+
+### Minor Changes
+
+- [#103](https://github.com/primer/eslint-plugin-primer-react/pull/103) [`8617a66`](https://github.com/primer/eslint-plugin-primer-react/commit/8617a66b2afe7e4e7a8608dbf5744999fffd9140) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Add a11y-use-next-tooltip rule that warns against using Tooltip v1 (Not the accessible one)
+
+### Patch Changes
+
+- [#202](https://github.com/primer/eslint-plugin-primer-react/pull/202) [`0293fdc`](https://github.com/primer/eslint-plugin-primer-react/commit/0293fdc8da74c2296a22be93eceac7ff14772b1a) Thanks [@keithamus](https://github.com/keithamus)! - Allow ActionMenu.Button alignContent prop
+
 ## 5.3.0
 
 ### Minor Changes
