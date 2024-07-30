@@ -10,6 +10,7 @@ module.exports = {
     'a11y-link-in-text-block': require('./rules/a11y-link-in-text-block'),
     'a11y-remove-disable-tooltip': require('./rules/a11y-remove-disable-tooltip'),
     'a11y-use-next-tooltip': require('./rules/a11y-use-next-tooltip'),
+    'use-deprecated-from-deprecated': require('./rules/use-deprecated-from-deprecated'),
   },
   configs: {
     recommended: require('./configs/recommended'),
