@@ -131,5 +131,13 @@ ruleTester.run('unnecessary-components', rule, {
       errors: [{messageId}],
       filename,
     },
+    {
+      name: `Non-PRC ${component} when \`skipImportCheck\` is enabled`,
+      code: `${brandImport}${jsx(`<${component}>Hello World</${component}>`)}`,
+      output: `${brandImport}${jsx(`<${replacement}>Hello World</${replacement}>`)}`,
+      filename,
+      errors: [{messageId}],
+      options: [{skipImportCheck: true}],
+    },
   ]),
 })

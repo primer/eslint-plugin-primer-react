@@ -3,6 +3,7 @@
 const {ESLintUtils} = require('@typescript-eslint/utils')
 const {IndexKind} = require('typescript')
 const {pick: pickStyledSystemProps} = require('@styled-system/props')
+const {isPrimerComponent} = require('../utils/is-primer-component')
 
 /** @typedef {import('@typescript-eslint/types').TSESTree.JSXAttribute} JSXAttribute */
 
@@ -36,23 +37,24 @@ const rule = ESLintUtils.RuleCreator.withoutDocs({
       [components.Text.messageId]: components.Text.message,
     },
     type: 'problem',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          skipImportCheck: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     fixable: 'code',
   },
-  defaultOptions: [],
+  defaultOptions: [{skipImportCheck: false}],
   create(context) {
-    /**
-     * Cache components that we've verified are imported from @primer/react in this file, to save a bit of time
-     * @type {Map<string, boolean>}
-     */
-    const validatedComponents = new Map()
-
     return {
-      JSXElement(node) {
-        const {
-          openingElement: {name, attributes},
-          closingElement,
-        } = node
+      JSXElement({openingElement, closingElement}) {
+        const {name, attributes} = openingElement
 
         // Ensure this is one of the components we are looking for. Note this doesn't account for import aliases; this
         // is intentional to avoid having to do the scope tree traversal for every component of every name, which would
@@ -62,28 +64,9 @@ const rule = ESLintUtils.RuleCreator.withoutDocs({
 
         // Only continue if the variable declaration is an import from @primer/react. Otherwise it could, for example,
         // be an import from @primer/brand, which would be valid without sx.
-        let isImportedFromPrimer = validatedComponents.get(name.name)
-        if (isImportedFromPrimer === undefined) {
-          // Find the variable declaration for this component
-          let variable
-          /** @type {import('@typescript-eslint/utils/ts-eslint').Scope.Scope | undefined} */
-          let scope = context.sourceCode.getScope(name)
-          while (scope && !variable) {
-            variable = scope.variables.find(v => v.name === name.name)
-            scope = scope.upper ?? undefined
-          }
-
-          isImportedFromPrimer =
-            variable?.defs.some(
-              def =>
-                def.type === 'ImportBinding' &&
-                def.parent.type === 'ImportDeclaration' &&
-                def.parent.source.value === '@primer/react',
-            ) ?? false
-
-          validatedComponents.set(name.name, isImportedFromPrimer)
-        }
-        if (!isImportedFromPrimer) return
+        const skipImportCheck = context.options[0]?.skipImportCheck
+        const isPrimer = skipImportCheck || isPrimerComponent(name, context.sourceCode.getScope(openingElement))
+        if (!isPrimer) return
 
         // Validate the attributes and ensure an `sx` prop is present or spreaded in
         /** @type {typeof attributes[number] | undefined | null} */
