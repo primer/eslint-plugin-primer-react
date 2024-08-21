@@ -18,6 +18,7 @@ module.exports = {
     'primer-react/no-deprecated-props': 'warn',
     'primer-react/a11y-remove-disable-tooltip': 'error',
     'primer-react/a11y-use-next-tooltip': 'error',
+    'primer-react/no-unnecessary-components': 'error',
   },
   settings: {
     github: {
