@@ -1,5 +1,6 @@
 const {isImportedFrom} = require('./is-imported-from')
 
+/** @returns {boolean} */
 function isPrimerComponent(name, scope) {
   let identifier
 
