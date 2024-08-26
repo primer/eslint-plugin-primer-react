@@ -56,10 +56,7 @@ module.exports = {
           fix: fixer => {
             // Replace `onClick` with `onSelect`
             if (onClickAttribute.type === 'JSXAttribute') {
-              return fixer.replaceTextRange(
-                [onClickAttribute.name.range[0], onClickAttribute.name.range[1]],
-                'onSelect',
-              )
+              return fixer.replaceText(onClickAttribute.name, 'onSelect')
             }
             return null
           },
