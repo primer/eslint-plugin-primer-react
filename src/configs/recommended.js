@@ -19,6 +19,7 @@ module.exports = {
     'primer-react/a11y-remove-disable-tooltip': 'error',
     'primer-react/a11y-use-next-tooltip': 'error',
     'primer-react/no-unnecessary-components': 'error',
+    'primer-react/prefer-action-list-item-onselect': 'error',
   },
   settings: {
     github: {
