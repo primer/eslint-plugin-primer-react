@@ -12,13 +12,13 @@ const components = {
     replacement: 'div',
     messageId: 'unecessaryBox',
     message: 'Prefer plain HTML elements over `Box` when not using `sx` for styling.',
-    allowedProps: ['sx'], // + styled-system props
+    allowedProps: new Set(['sx']), // + styled-system props
   },
   Text: {
     replacement: 'span',
     messageId: 'unecessarySpan',
     message: 'Prefer plain HTML elements over `Text` when not using `sx` for styling.',
-    allowedProps: ['sx', 'size', 'weight'], // + styled-system props
+    allowedProps: new Set(['sx', 'size', 'weight']), // + styled-system props
   },
 }
 
@@ -70,6 +70,9 @@ const rule = ESLintUtils.RuleCreator.withoutDocs({
         const isPrimer = skipImportCheck || isPrimerComponent(name, context.sourceCode.getScope(openingElement))
         if (!isPrimer) return
 
+        /** @param {string} name */
+        const isAllowedProp = name => componentConfig.allowedProps.has(name) || isStyledSystemProp(name)
+
         // Validate the attributes and ensure an allowed prop is present or spreaded in
         /** @type {typeof attributes[number] | undefined | null} */
         let asProp = undefined
@@ -80,25 +83,23 @@ const rule = ESLintUtils.RuleCreator.withoutDocs({
             const typeChecker = services.program.getTypeChecker()
 
             const spreadType = services.getTypeAtLocation(attribute.argument)
-            for (const allowedProp of componentConfig.allowedProps)
-              if (typeChecker.getPropertyOfType(spreadType, allowedProp) !== undefined) return
 
             // Check if the spread type has a string index signature - this could hide an allowed property
             if (typeChecker.getIndexTypeOfType(spreadType, IndexKind.String) !== undefined) return
 
+            const spreadPropNames = typeChecker.getPropertiesOfType(spreadType).map(prop => prop.getName())
+
+            // If an allowed prop gets spread in, this is a valid use of the component
+            if (spreadPropNames.some(isAllowedProp)) return
+
             // If there is an `as` inside the spread object, we can't autofix reliably
-            if (typeChecker.getPropertyOfType(spreadType, 'as') !== undefined) asProp = null
+            if (spreadPropNames.includes('as')) asProp = null
 
             continue
           }
 
           // Has an allowed prop, so should keep using this component
-          for (const allowedProp of componentConfig.allowedProps)
-            if (
-              attribute.name.type === 'JSXIdentifier' &&
-              (attribute.name.name === allowedProp || isStyledSystemProp(attribute.name.name))
-            )
-              return
+          if (attribute.name.type === 'JSXIdentifier' && isAllowedProp(attribute.name.name)) return
 
           // If there is an `as` prop we will need to account for that when autofixing
           if (attribute.name.type === 'JSXIdentifier' && attribute.name.name === 'as') asProp = attribute
