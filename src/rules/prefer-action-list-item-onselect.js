@@ -21,6 +21,8 @@ module.exports = {
   create(context) {
     return {
       JSXElement(node) {
+        // Only check components that have the name `ActionList.Item`. We don't check if this comes from Primer
+        // because the chance of conflict here is very low
         const isActionListItem =
           node.openingElement.name.type === 'JSXMemberExpression' &&
           node.openingElement.name.object.type === 'JSXIdentifier' &&
@@ -51,6 +53,16 @@ module.exports = {
         context.report({
           node: onClickAttribute,
           messageId: 'prefer-action-list-item-onselect',
+          fix: fixer => {
+            // Replace `onClick` with `onSelect`
+            if (onClickAttribute.type === 'JSXAttribute') {
+              return fixer.replaceTextRange(
+                [onClickAttribute.name.range[0], onClickAttribute.name.range[1]],
+                'onSelect',
+              )
+            }
+            return null
+          },
         })
       },
     }
