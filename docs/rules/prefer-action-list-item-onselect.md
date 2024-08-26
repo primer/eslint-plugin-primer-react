@@ -1,4 +1,4 @@
-# Prefer using `onSelect` instead of `onClick` for `ActionListItem` components (`prefer-action-list-item-onselect`)
+# Prefer using `onSelect` instead of `onClick` for `ActionList.Item` components (`prefer-action-list-item-onselect`)
 
 🔧 The `--fix` option on the [ESLint CLI](https://eslint.org/docs/user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.
 
