@@ -40,6 +40,23 @@ ruleTester.run('prefer-action-list-item-onselect', rule, {
       errors: [{messageId: 'prefer-action-list-item-onselect'}],
       output: `<ActionList.Item aria-label="Edit item 1" onSelect={onClick} />`,
     },
+    {
+      code: `<ActionList.Item
+  aria-label="Edit item 1"
+  onClick={(event) => {
+    event.preventDefault()
+    handleClick()
+  }}
+/>`,
+      errors: [{messageId: 'prefer-action-list-item-onselect'}],
+      output: `<ActionList.Item
+  aria-label="Edit item 1"
+  onSelect={(event) => {
+    event.preventDefault()
+    handleClick()
+  }}
+/>`,
+    },
     // This is invalid, but we can fix it anyway
     {
       code: `<ActionList.Item aria-label="Edit item 1" onClick />`,
