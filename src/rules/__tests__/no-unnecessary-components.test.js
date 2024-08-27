@@ -65,6 +65,16 @@ ruleTester.run('unnecessary-components', rule, {
         filename,
       },
     ]),
+    {
+      name: `Text with weight prop`,
+      code: `${prcImport}${jsx(`<Text weight='medium'>Hello World</Text>`)}`,
+      filename,
+    },
+    {
+      name: `Text with size prop`,
+      code: `${prcImport}${jsx(`<Text size='small'>Hello World</Text>`)}`,
+      filename,
+    },
   ],
   invalid: Object.entries(components).flatMap(([component, {messageId, replacement}]) => [
     {
