@@ -2,4 +2,4 @@
 "eslint-plugin-primer-react": patch
 ---
 
-Fix `Stack` system prop for padding and gap
+no-system-props: Add `padding` and `gap` as exceptions for `Stack`
