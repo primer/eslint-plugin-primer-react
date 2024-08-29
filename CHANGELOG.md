@@ -1,5 +1,21 @@
 # eslint-plugin-primer-react
 
+## 6.0.0
+
+### Major Changes
+
+- [#207](https://github.com/primer/eslint-plugin-primer-react/pull/207) [`baff792`](https://github.com/primer/eslint-plugin-primer-react/commit/baff792c0aa01a29374e44e8aa770dbe2cb889a1) Thanks [@iansan5653](https://github.com/iansan5653)! - [Breaking] Adds `no-unnecessary-components` lint rule and enables it by default. This may raise new (typically autofixable) lint errors in existing codebases.
+
+- [#211](https://github.com/primer/eslint-plugin-primer-react/pull/211) [`3f92cd4`](https://github.com/primer/eslint-plugin-primer-react/commit/3f92cd4b689e437bb9efe6a9fe873501ddf76bf2) Thanks [@camchenry](https://github.com/camchenry)! - [Breaking] Adds `prefer-action-list-item-onselect` lint rule and enables it by default. This may raise new auto-fixable lint errors or type-checking errors in existing codebases.
+
+### Minor Changes
+
+- [#204](https://github.com/primer/eslint-plugin-primer-react/pull/204) [`e2cab87`](https://github.com/primer/eslint-plugin-primer-react/commit/e2cab872c265f4211750436fad32fe5fd8927c5c) Thanks [@joshblack](https://github.com/joshblack)! - Add use-deprecated-from-deprecated rule
+
+### Patch Changes
+
+- [#212](https://github.com/primer/eslint-plugin-primer-react/pull/212) [`78d4600`](https://github.com/primer/eslint-plugin-primer-react/commit/78d460024ae4c10b6a754b615c6d594e4dfb646e) Thanks [@langermank](https://github.com/langermank)! - no-system-props: Add `padding` and `gap` as exceptions for `Stack`
+
 ## 5.4.0
 
 ### Minor Changes
