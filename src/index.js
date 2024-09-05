@@ -11,8 +11,8 @@ module.exports = {
     'a11y-remove-disable-tooltip': require('./rules/a11y-remove-disable-tooltip'),
     'a11y-use-next-tooltip': require('./rules/a11y-use-next-tooltip'),
     'use-deprecated-from-deprecated': require('./rules/use-deprecated-from-deprecated'),
-    'primer-react/no-unnecessary-components': require('./rules/no-unnecessary-components'),
-    'primer-react/prefer-action-list-item-onselect': require('./rules/prefer-action-list-item-onselect'),
+    'no-unnecessary-components': require('./rules/no-unnecessary-components'),
+    'prefer-action-list-item-onselect': require('./rules/prefer-action-list-item-onselect'),
   },
   configs: {
     recommended: require('./configs/recommended'),
