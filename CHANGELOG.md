@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.0.1
+
+### Patch Changes
+
+- [#216](https://github.com/primer/eslint-plugin-primer-react/pull/216) [`55c5256`](https://github.com/primer/eslint-plugin-primer-react/commit/55c52562bc66fd661a5f0ef8218b90bf900411a4) Thanks [@iansan5653](https://github.com/iansan5653)! - Fix invalid rule names
+
 ## 6.0.0
 
 ### Major Changes
