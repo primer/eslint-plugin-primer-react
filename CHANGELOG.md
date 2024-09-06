@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.0.2
+
+### Patch Changes
+
+- [#218](https://github.com/primer/eslint-plugin-primer-react/pull/218) [`e55d3d3`](https://github.com/primer/eslint-plugin-primer-react/commit/e55d3d3d271058d76da94cc3152987ea6541e2a6) Thanks [@iansan5653](https://github.com/iansan5653)! - Fix incorrect rule violations on components imported from @primer/react-brand
+
 ## 6.0.1
 
 ### Patch Changes
