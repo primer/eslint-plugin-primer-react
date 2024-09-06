@@ -7,7 +7,7 @@ const rule = require('../no-unnecessary-components')
 const {components} = require('../no-unnecessary-components')
 
 const prcImport = 'import React from "react"; import {Box, Text} from "@primer/react";'
-const brandImport = 'import React from "react"; import {Box, Text} from "@primer/brand";'
+const brandImport = 'import React from "react"; import {Box, Text} from "@primer/react-brand";'
 
 /** @param {string} content */
 const jsx = content => `export const Component = () => <>${content}</>`
