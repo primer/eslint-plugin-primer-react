@@ -15,6 +15,6 @@ function isPrimerComponent(name, scope) {
       return false
   }
 
-  return isImportedFrom(/^@primer\/react/, identifier, scope)
+  return isImportedFrom(/^@primer\/react$/, identifier, scope)
 }
 exports.isPrimerComponent = isPrimerComponent
