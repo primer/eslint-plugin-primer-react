@@ -22,7 +22,7 @@ ruleTester.run('no-wildcard-imports', rule, {
       code: `import type {UnknownImport} from '@primer/react/lib-esm/unknown-path'`,
       errors: [
         {
-          message: 'Wildcard imports from @primer/react are not allowed. Import from an entrypoint instead',
+          messageId: 'unknownWildcardImport',
         },
       ],
     },
@@ -33,7 +33,10 @@ ruleTester.run('no-wildcard-imports', rule, {
       output: `import type {SxProp} from '@primer/react'`,
       errors: [
         {
-          message: 'Wildcard imports from @primer/react/lib-esm/sx are not allowed. Import from an entrypoint instead',
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/sx',
+          },
         },
       ],
     },
@@ -44,7 +47,10 @@ ruleTester.run('no-wildcard-imports', rule, {
       output: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react'`,
       errors: [
         {
-          message: 'Wildcard imports from @primer/react/lib-esm/sx are not allowed. Import from an entrypoint instead',
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/sx',
+          },
         },
       ],
     },
@@ -55,7 +61,10 @@ ruleTester.run('no-wildcard-imports', rule, {
       output: `import type {SxProp as RenamedSxProp} from '@primer/react'`,
       errors: [
         {
-          message: 'Wildcard imports from @primer/react/lib-esm/sx are not allowed. Import from an entrypoint instead',
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/sx',
+          },
         },
       ],
     },
@@ -66,8 +75,10 @@ ruleTester.run('no-wildcard-imports', rule, {
       output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
         {
-          message:
-            'Wildcard imports from @primer/react/lib-esm/useIsomorphicLayoutEffect are not allowed. Import from an entrypoint instead',
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+          },
         },
       ],
     },
@@ -75,17 +86,276 @@ ruleTester.run('no-wildcard-imports', rule, {
     // Test multiple wildcard imports into single entrypoint
     {
       code: `import useResizeObserver from '@primer/react/lib-esm/hooks/useResizeObserver'
-import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+    import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
       output: `import {useResizeObserver} from '@primer/react'
-import {useIsomorphicLayoutEffect} from '@primer/react'`,
+    import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
         {
-          message:
-            'Wildcard imports from @primer/react/lib-esm/hooks/useResizeObserver are not allowed. Import from an entrypoint instead',
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/hooks/useResizeObserver',
+          },
         },
         {
-          message:
-            'Wildcard imports from @primer/react/lib-esm/useIsomorphicLayoutEffect are not allowed. Import from an entrypoint instead',
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+          },
+        },
+      ],
+    },
+
+    // Test migrations
+
+    // Components --------------------------------------------------------------
+    {
+      code: `import {ButtonBase} from '@primer/react/lib-esm/Button/ButtonBase';
+import type {ButtonBaseProps} from '@primer/react/lib-esm/Button/ButtonBase'`,
+      output: `import {ButtonBase} from '@primer/react'
+import type {ButtonBaseProps} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Button/ButtonBase',
+          },
+        },
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Button/ButtonBase',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {ButtonBaseProps} from '@primer/react/lib-esm/Button/types'`,
+      output: `import type {ButtonBaseProps} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Button/types',
+          },
+        },
+      ],
+    },
+    {
+      code: `import {Dialog} from '@primer/react/lib-esm/Dialog/Dialog'`,
+      output: `import {Dialog} from '@primer/react/experimental'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Dialog/Dialog',
+          },
+        },
+      ],
+    },
+    {
+      code: `import {SelectPanel} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
+      output: `import {SelectPanel} from '@primer/react/experimental'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/SelectPanel/SelectPanel',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {SelectPanelProps} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
+      output: `import type {SelectPanelProps} from '@primer/react/experimental'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/SelectPanel/SelectPanel',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {LabelColorOptions} from '@primer/react/lib-esm/Label/Label'`,
+      output: `import type {LabelColorOptions} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Label/Label',
+          },
+        },
+      ],
+    },
+    {
+      code: `import VisuallyHidden from '@primer/react/lib-esm/_VisuallyHidden'`,
+      output: `import {VisuallyHidden} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/_VisuallyHidden',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {IssueLabelTokenProps} from '@primer/react/lib-esm/Token/IssueLabelToken'`,
+      output: `import type {IssueLabelTokenProps} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Token/IssueLabelToken',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {TokenSizeKeys} from '@primer/react/lib-esm/Token/TokenBase'`,
+      output: `import type {TokenSizeKeys} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Token/TokenBase',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList'`,
+      output: `import type {ActionListItemProps} from '@primer/react/deprecated'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {GroupedListProps} from '@primer/react/lib-esm/deprecated/ActionList/List'`,
+      output: `import type {ActionListGroupedListProps} from '@primer/react/deprecated'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/List',
+          },
+        },
+      ],
+    },
+    {
+      code: `import {ItemInput} from '@primer/react/lib-esm/deprecated/ActionList/List'`,
+      output: `import {ActionListItemInput} from '@primer/react/deprecated'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/List',
+          },
+        },
+      ],
+    },
+    {
+      code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
+      output: `import type {ActionListItemProps} from '@primer/react/deprecated'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/Item',
+          },
+        },
+      ],
+    },
+
+    // Hooks -------------------------------------------------------------------
+
+    // @primer/react/lib-esm/useIsomorphicLayoutEffect
+    {
+      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+      output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+          },
+        },
+      ],
+    },
+
+    // @primer/react/lib-esm/hooks/useResizeObserver
+    {
+      code: `import useResizeObserver from '@primer/react/lib-esm/hooks/useResizeObserver'`,
+      output: `import {useResizeObserver} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/hooks/useResizeObserver',
+          },
+        },
+      ],
+    },
+
+    // @primer/react/lib-esm/hooks/useProvidedRefOrCreate
+    {
+      code: `import useProvidedRefOrCreate from '@primer/react/lib-esm/hooks/useProvidedRefOrCreate'`,
+      output: `import {useProvidedRefOrCreate} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/hooks/useProvidedRefOrCreate',
+          },
+        },
+      ],
+    },
+
+    // @primer/react/lib-esm/hooks/useResponsiveValue
+    {
+      code: `import useResponsiveValue from '@primer/react/lib-esm/hooks/useResponsiveValue'`,
+      output: `import {useResponsiveValue} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/hooks/useResponsiveValue',
+          },
+        },
+      ],
+    },
+
+    // Utilities ---------------------------------------------------------------
+
+    // @primer/react/lib-esm/sx
+    {
+      code: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react/lib-esm/sx'`,
+      output: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/sx',
+          },
+        },
+      ],
+    },
+    // @primer/react/lib-esm/FeatureFlags/DefaultFeatureFlags
+    {
+      code: `import {DefaultFeatureFlags} from '@primer/react/lib-esm/FeatureFlags/DefaultFeatureFlags'`,
+      output: `import {DefaultFeatureFlags} from '@primer/react/experimental'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/FeatureFlags/DefaultFeatureFlags',
+          },
         },
       ],
     },
