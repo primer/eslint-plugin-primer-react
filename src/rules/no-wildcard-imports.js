@@ -229,7 +229,7 @@ module.exports = {
             message: `Wildcard imports from ${node.source.value} are not allowed. Import from an entrypoint instead`,
             *fix(fixer) {
               for (const [entrypoint, importSpecifiers] of changes) {
-                const allTypeImports = importSpecifiers.every(([_, __, type]) => type === 'type')
+                const allTypeImports = importSpecifiers.every(([, , type]) => type === 'type')
                 const importStatement = allTypeImports ? 'import type' : 'import'
                 const specifiers = importSpecifiers
                   .map(([imported, local, type]) => {
