@@ -239,13 +239,37 @@ module.exports = {
   create(context) {
     return {
       ImportDeclaration(node) {
-        try {
-          if (!node.source.value.startsWith('@primer/react/lib-esm')) {
-            return
-          }
+        if (!node.source.value.startsWith('@primer/react/lib-esm')) {
+          return
+        }
 
-          const wildcardImportMigrations = wildcardImports.get(node.source.value)
-          if (!wildcardImportMigrations) {
+        const wildcardImportMigrations = wildcardImports.get(node.source.value)
+        if (!wildcardImportMigrations) {
+          context.report({
+            node,
+            messageId: 'unknownWildcardImport',
+          })
+          return
+        }
+
+        /**
+         * Maps entrypoint to array of changes. This tuple contains the new
+         * imported name from the entrypoint along with the existing local name
+         * @type {Map<string, Array<[string, string]>>}
+         */
+        const changes = new Map()
+
+        for (const specifier of node.specifiers) {
+          const migration = wildcardImportMigrations.find(migration => {
+            if (specifier.type === 'ImportDefaultSpecifier') {
+              return migration.name === 'default'
+            }
+            return specifier.imported.name === migration.name
+          })
+
+          // If we do not have a migration, we should report an error even if we
+          // cannot autofix it
+          if (!migration) {
             context.report({
               node,
               messageId: 'unknownWildcardImport',
@@ -253,119 +277,91 @@ module.exports = {
             return
           }
 
-          /**
-           * Maps entrypoint to array of changes. This tuple contains the new
-           * imported name from the entrypoint along with the existing local name
-           * @type {Map<string, Array<[string, string]>>}
-           */
-          const changes = new Map()
+          if (!changes.has(migration.from)) {
+            changes.set(migration.from, [])
+          }
 
-          for (const specifier of node.specifiers) {
-            const migration = wildcardImportMigrations.find(migration => {
-              if (specifier.type === 'ImportDefaultSpecifier') {
-                return migration.name === 'default'
-              }
-              return specifier.imported.name === migration.name
-            })
+          if (migration.as) {
+            changes.get(migration.from).push([migration.as, migration.as, migration.type])
+          } else {
+            changes.get(migration.from).push([migration.name, specifier.local.name, migration.type])
+          }
+        }
 
-            // If we do not have a migration, we should report an error even if we
-            // cannot autofix it
-            if (!migration) {
-              context.report({
-                node,
-                messageId: 'unknownWildcardImport',
+        if (changes.length === 0) {
+          return
+        }
+
+        context.report({
+          node,
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: node.source.value,
+          },
+          *fix(fixer) {
+            for (const [entrypoint, importSpecifiers] of changes) {
+              const typeSpecifiers = importSpecifiers.filter(([, , type]) => {
+                return type === 'type'
               })
-              return
-            }
 
-            if (!changes.has(migration.from)) {
-              changes.set(migration.from, [])
-            }
-
-            if (migration.as) {
-              changes.get(migration.from).push([migration.as, migration.as, migration.type])
-            } else {
-              changes.get(migration.from).push([migration.name, specifier.local.name, migration.type])
-            }
-          }
-
-          if (changes.length === 0) {
-            return
-          }
-
-          context.report({
-            node,
-            messageId: 'wildcardMigration',
-            data: {
-              wildcardEntrypoint: node.source.value,
-            },
-            *fix(fixer) {
-              for (const [entrypoint, importSpecifiers] of changes) {
-                const typeSpecifiers = importSpecifiers.filter(([, , type]) => {
-                  return type === 'type'
+              // If all imports are type imports, emit emit as `import type {specifier} from '...'`
+              if (typeSpecifiers.length === importSpecifiers.length) {
+                const namedSpecifiers = typeSpecifiers.filter(([imported]) => {
+                  return imported !== 'default'
+                })
+                const defaultSpecifier = typeSpecifiers.find(([imported]) => {
+                  return imported === 'default'
                 })
 
-                // If all imports are type imports, emit emit as `import type {specifier} from '...'`
-                if (typeSpecifiers.length === importSpecifiers.length) {
-                  const namedSpecifiers = typeSpecifiers.filter(([imported]) => {
-                    return imported !== 'default'
+                if (namedSpecifiers.length > 0 && !defaultSpecifier) {
+                  const specifiers = namedSpecifiers.map(([imported, local]) => {
+                    if (imported !== local) {
+                      return `${imported} as ${local}`
+                    }
+                    return imported
                   })
-                  const defaultSpecifier = typeSpecifiers.find(([imported]) => {
-                    return imported === 'default'
-                  })
-
-                  if (namedSpecifiers.length > 0 && !defaultSpecifier) {
-                    const specifiers = namedSpecifiers.map(([imported, local]) => {
-                      if (imported !== local) {
-                        return `${imported} as ${local}`
-                      }
-                      return imported
-                    })
-                    yield fixer.replaceText(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
-                  } else if (namedSpecifiers.length > 0 && defaultSpecifier) {
-                    yield fixer.replaceText(
-                      node,
-                      `import type ${defaultSpecifier[1]}, ${specifiers.join(', ')} from '${entrypoint}'`,
-                    )
-                  } else if (defaultSpecifier && namedSpecifiers.length === 0) {
-                    yield fixer.replaceText(node, `import type ${defaultSpecifier[1]} from '${entrypoint}'`)
-                  }
-
-                  return
+                  yield fixer.replaceText(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
+                } else if (namedSpecifiers.length > 0 && defaultSpecifier) {
+                  yield fixer.replaceText(
+                    node,
+                    `import type ${defaultSpecifier[1]}, ${specifiers.join(', ')} from '${entrypoint}'`,
+                  )
+                } else if (defaultSpecifier && namedSpecifiers.length === 0) {
+                  yield fixer.replaceText(node, `import type ${defaultSpecifier[1]} from '${entrypoint}'`)
                 }
 
-                // Otherwise, we have a mix of type and value imports to emit
-                const valueSpecifiers = importSpecifiers.filter(([, , type]) => {
-                  return type !== 'type'
-                })
+                return
+              }
 
-                if (valueSpecifiers.length === 0) {
-                  return
+              // Otherwise, we have a mix of type and value imports to emit
+              const valueSpecifiers = importSpecifiers.filter(([, , type]) => {
+                return type !== 'type'
+              })
+
+              if (valueSpecifiers.length === 0) {
+                return
+              }
+
+              const specifiers = valueSpecifiers.map(([imported, local]) => {
+                if (imported !== local) {
+                  return `${imported} as ${local}`
                 }
+                return imported
+              })
+              yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
 
+              if (typeSpecifiers.length > 0) {
                 const specifiers = valueSpecifiers.map(([imported, local]) => {
                   if (imported !== local) {
                     return `${imported} as ${local}`
                   }
                   return imported
                 })
-                yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
-
-                if (typeSpecifiers.length > 0) {
-                  const specifiers = valueSpecifiers.map(([imported, local]) => {
-                    if (imported !== local) {
-                      return `${imported} as ${local}`
-                    }
-                    return imported
-                  })
-                  yield fixer.insertTextAfter(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
-                }
+                yield fixer.insertTextAfter(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
               }
-            },
-          })
-        } catch (error) {
-          console.log(error)
-        }
+            }
+          },
+        })
       },
     }
   },
