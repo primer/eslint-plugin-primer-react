@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.1.0
+
+### Minor Changes
+
+- [#225](https://github.com/primer/eslint-plugin-primer-react/pull/225) [`b4698df`](https://github.com/primer/eslint-plugin-primer-react/commit/b4698dfd4686067df6cf73788531fc3f835f7747) Thanks [@joshblack](https://github.com/joshblack)! - Add eslint rule for discouraging use of wildcard imports from @primer/react
+
 ## 6.0.2
 
 ### Patch Changes
