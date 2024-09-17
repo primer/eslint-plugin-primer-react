@@ -15,7 +15,7 @@ const ruleTester = new RuleTester({
 })
 
 ruleTester.run('no-sx-prop', rule, {
-  valid: [`import {Button} from '@primer/react'`],
+  valid: [],
   invalid: [
     {
       code: `

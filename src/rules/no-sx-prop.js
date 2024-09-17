@@ -71,7 +71,7 @@ module.exports = {
         }
 
         const hasSxProp = node.attributes.some(attr => {
-          if (attr.name.type === 'JSXIdentifier' && attr.name.name === 'sx') {
+          if (attr.name?.type === 'JSXIdentifier' && attr.name.name === 'sx') {
             return true
           }
           return false
