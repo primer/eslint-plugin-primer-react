@@ -54,23 +54,34 @@ module.exports = {
   create(context) {
     return {
       JSXOpeningElement(node) {
-        if (node.name.type === 'JSXMemberExpression') {
-          if (node.name.object.type === 'JSXIdentifier' && node.name.property.type === 'JSXIdentifier') {
-            const name = `${node.name.object.name}.${node.name.property.name}`
-            if (forbidden.has(name)) {
-              context.report({
-                node,
-                messageId: 'sxProp',
-              })
-            }
-          }
+        let name = null
+
+        if (
+          node.name.type === 'JSXMemberExpression' &&
+          node.name.object.type === 'JSXIdentifier' &&
+          node.name.property.type === 'JSXIdentifier'
+        ) {
+          name = `${node.name.object.name}.${node.name.property.name}`
         } else if (node.name.type === 'JSXIdentifier') {
-          if (forbidden.has(node.name.name)) {
-            context.report({
-              node,
-              messageId: 'sxProp',
-            })
+          name = node.name.name
+        }
+
+        if (!forbidden.has(name)) {
+          return
+        }
+
+        const hasSxProp = node.attributes.some(attr => {
+          if (attr.name.type === 'JSXIdentifier' && attr.name.name === 'sx') {
+            return true
           }
+          return false
+        })
+
+        if (hasSxProp) {
+          context.report({
+            node,
+            messageId: 'sxProp',
+          })
         }
       },
     }
