@@ -35,6 +35,11 @@ const wildcardImports = new Map([
         name: 'Dialog',
         from: '@primer/react/experimental',
       },
+      {
+        name: 'DialogHeaderProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
     ],
   ],
   [
@@ -354,7 +359,7 @@ module.exports = {
                   }
                   return imported
                 })
-                yield fixer.insertTextAfter(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
+                yield fixer.insertTextAfter(node, `\nimport type {${specifiers.join(', ')}} from '${entrypoint}'`)
               }
             }
           },
