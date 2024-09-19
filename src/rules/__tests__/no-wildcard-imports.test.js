@@ -105,6 +105,20 @@ ruleTester.run('no-wildcard-imports', rule, {
       ],
     },
 
+    // Test renamed wildcard imports
+    {
+      code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
+      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/Item',
+          },
+        },
+      ],
+    },
+
     // Test migrations
 
     // Components --------------------------------------------------------------
@@ -226,7 +240,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList'`,
-      output: `import type {ActionListItemProps} from '@primer/react/deprecated'`,
+      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -238,7 +252,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {GroupedListProps} from '@primer/react/lib-esm/deprecated/ActionList/List'`,
-      output: `import type {ActionListGroupedListProps} from '@primer/react/deprecated'`,
+      output: `import type {ActionListGroupedListProps as GroupedListProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -250,7 +264,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import {ItemInput} from '@primer/react/lib-esm/deprecated/ActionList/List'`,
-      output: `import {ActionListItemInput} from '@primer/react/deprecated'`,
+      output: `import {ActionListItemInput as ItemInput} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -262,7 +276,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
-      output: `import type {ActionListItemProps} from '@primer/react/deprecated'`,
+      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',

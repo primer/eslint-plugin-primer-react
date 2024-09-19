@@ -237,6 +237,7 @@ module.exports = {
     },
   },
   create(context) {
+    const sourceCode = context.sourceCode
     return {
       ImportDeclaration(node) {
         if (!node.source.value.startsWith('@primer/react/lib-esm')) {
@@ -282,7 +283,7 @@ module.exports = {
           }
 
           if (migration.as) {
-            changes.get(migration.from).push([migration.as, migration.as, migration.type])
+            changes.get(migration.from).push([migration.as, specifier.local.name, migration.type])
           } else {
             changes.get(migration.from).push([migration.name, specifier.local.name, migration.type])
           }
