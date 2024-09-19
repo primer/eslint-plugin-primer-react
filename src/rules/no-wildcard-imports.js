@@ -132,7 +132,7 @@ const wildcardImports = new Map([
 
   // Hooks
   [
-    '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+    '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
     [
       {
         name: 'default',
@@ -145,9 +145,8 @@ const wildcardImports = new Map([
     '@primer/react/lib-esm/hooks/useResizeObserver',
     [
       {
-        name: 'default',
+        name: 'useResizeObserver',
         from: '@primer/react',
-        as: 'useResizeObserver',
       },
     ],
   ],
@@ -155,9 +154,8 @@ const wildcardImports = new Map([
     '@primer/react/lib-esm/hooks/useProvidedRefOrCreate',
     [
       {
-        name: 'default',
+        name: 'useProvidedRefOrCreate',
         from: '@primer/react',
-        as: 'useProvidedRefOrCreate',
       },
     ],
   ],
@@ -165,9 +163,8 @@ const wildcardImports = new Map([
     '@primer/react/lib-esm/hooks/useResponsiveValue',
     [
       {
-        name: 'default',
+        name: 'useResponsiveValue',
         from: '@primer/react',
-        as: 'useResponsiveValue',
       },
     ],
   ],

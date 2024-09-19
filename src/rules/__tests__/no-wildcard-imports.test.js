@@ -71,13 +71,13 @@ ruleTester.run('no-wildcard-imports', rule, {
 
     // Test default import
     {
-      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
       output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
           data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
           },
         },
       ],
@@ -85,8 +85,8 @@ ruleTester.run('no-wildcard-imports', rule, {
 
     // Test multiple wildcard imports into single entrypoint
     {
-      code: `import useResizeObserver from '@primer/react/lib-esm/hooks/useResizeObserver'
-    import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+      code: `import {useResizeObserver} from '@primer/react/lib-esm/hooks/useResizeObserver'
+    import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
       output: `import {useResizeObserver} from '@primer/react'
     import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
@@ -99,7 +99,7 @@ ruleTester.run('no-wildcard-imports', rule, {
         {
           messageId: 'wildcardMigration',
           data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
           },
         },
       ],
@@ -291,13 +291,13 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/useIsomorphicLayoutEffect
     {
-      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
       output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
           data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
           },
         },
       ],
@@ -305,7 +305,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/hooks/useResizeObserver
     {
-      code: `import useResizeObserver from '@primer/react/lib-esm/hooks/useResizeObserver'`,
+      code: `import {useResizeObserver} from '@primer/react/lib-esm/hooks/useResizeObserver'`,
       output: `import {useResizeObserver} from '@primer/react'`,
       errors: [
         {
@@ -319,7 +319,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/hooks/useProvidedRefOrCreate
     {
-      code: `import useProvidedRefOrCreate from '@primer/react/lib-esm/hooks/useProvidedRefOrCreate'`,
+      code: `import {useProvidedRefOrCreate} from '@primer/react/lib-esm/hooks/useProvidedRefOrCreate'`,
       output: `import {useProvidedRefOrCreate} from '@primer/react'`,
       errors: [
         {
@@ -333,7 +333,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/hooks/useResponsiveValue
     {
-      code: `import useResponsiveValue from '@primer/react/lib-esm/hooks/useResponsiveValue'`,
+      code: `import {useResponsiveValue} from '@primer/react/lib-esm/hooks/useResponsiveValue'`,
       output: `import {useResponsiveValue} from '@primer/react'`,
       errors: [
         {
