@@ -237,7 +237,6 @@ module.exports = {
     },
   },
   create(context) {
-    const sourceCode = context.sourceCode
     return {
       ImportDeclaration(node) {
         if (!node.source.value.startsWith('@primer/react/lib-esm')) {
