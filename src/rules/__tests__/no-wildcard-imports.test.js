@@ -168,7 +168,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import {SelectPanel} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
-      output: `import {SelectPanel} from '@primer/react/deprecated'`,
+      output: `import {SelectPanel} from '@primer/react`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -180,7 +180,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {SelectPanelProps} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
-      output: `import type {SelectPanelProps} from '@primer/react/deprecated'`,
+      output: `import type {SelectPanelProps} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
