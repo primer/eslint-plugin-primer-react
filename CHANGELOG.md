@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.1.1
+
+### Patch Changes
+
+- [#237](https://github.com/primer/eslint-plugin-primer-react/pull/237) [`f072227`](https://github.com/primer/eslint-plugin-primer-react/commit/f072227b4e698660fda3c2416ed8a629e8e48a79) Thanks [@lukasoppermann](https://github.com/lukasoppermann)! - no-system-props: Add `bg` prop to `ProgressBar.Item`
+
 ## 6.1.0
 
 ### Minor Changes

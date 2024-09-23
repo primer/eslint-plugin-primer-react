@@ -44,6 +44,7 @@ const excludedComponentProps = new Map([
   ['PageLayout.Pane', new Set(['padding', 'position', 'width'])],
   ['PageLayout.Content', new Set(['padding', 'width'])],
   ['ProgressBar', new Set(['bg'])],
+  ['ProgressBar.Item', new Set(['bg'])],
   ['PointerBox', new Set(['bg'])],
   ['Truncate', new Set(['maxWidth'])],
   ['Stack', new Set(['padding', 'gap'])],
