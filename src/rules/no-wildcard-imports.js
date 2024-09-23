@@ -47,12 +47,12 @@ const wildcardImports = new Map([
     [
       {
         name: 'SelectPanel',
-        from: '@primer/react/experimental',
+        from: '@primer/react/deprecated',
       },
       {
         type: 'type',
         name: 'SelectPanelProps',
-        from: '@primer/react/experimental',
+        from: '@primer/react/deprecated',
       },
     ],
   ],
