@@ -1,5 +1,5 @@
 ---
-"@primer/react": patch
+'eslint-plugin-primer-react': patch
 ---
 
-Add `bg` prop to `ProgressBar.Item`
+no-system-props: Add `bg` prop to `ProgressBar.Item`
