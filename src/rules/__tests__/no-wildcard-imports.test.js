@@ -168,7 +168,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import {SelectPanel} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
-      output: `import {SelectPanel} from '@primer/react`,
+      output: `import {SelectPanel} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
