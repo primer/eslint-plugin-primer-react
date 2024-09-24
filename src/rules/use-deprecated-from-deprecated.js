@@ -40,6 +40,10 @@ const components = [
     entrypoint: '@primer/react',
   },
   {
+    identifier: 'TabNavLinkProps',
+    entrypoint: '@primer/react',
+  },
+  {
     identifier: 'Tooltip',
     entrypoint: '@primer/react',
   },
