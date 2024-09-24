@@ -373,6 +373,18 @@ import type {ButtonBaseProps} from '@primer/react'`,
         },
       ],
     },
+    {
+      code: `import type {ResponsiveValue} from '@primer/react/lib-esm/hooks/useResponsiveValue'`,
+      output: `import type {ResponsiveValue} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/hooks/useResponsiveValue',
+          },
+        },
+      ],
+    },
 
     // Utilities ---------------------------------------------------------------
 

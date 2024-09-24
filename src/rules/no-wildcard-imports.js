@@ -29,20 +29,6 @@ const wildcardImports = new Map([
     ],
   ],
   [
-    '@primer/react/lib-esm/Dialog',
-    [
-      {
-        name: 'Dialog',
-        from: '@primer/react/experimental',
-      },
-      {
-        name: 'DialogHeaderProps',
-        from: '@primer/react/experimental',
-        type: 'type',
-      },
-    ],
-  ],
-  [
     '@primer/react/lib-esm/Dialog/Dialog',
     [
       {
@@ -193,6 +179,11 @@ const wildcardImports = new Map([
     [
       {
         name: 'useResponsiveValue',
+        from: '@primer/react',
+      },
+      {
+        type: 'type',
+        name: 'ResponsiveValue',
         from: '@primer/react',
       },
     ],
