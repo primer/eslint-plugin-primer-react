@@ -29,6 +29,20 @@ const wildcardImports = new Map([
     ],
   ],
   [
+    '@primer/react/lib-esm/Dialog',
+    [
+      {
+        name: 'Dialog',
+        from: '@primer/react/experimental',
+      },
+      {
+        name: 'DialogHeaderProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
+    ],
+  ],
+  [
     '@primer/react/lib-esm/Dialog/Dialog',
     [
       {
@@ -37,6 +51,16 @@ const wildcardImports = new Map([
       },
       {
         name: 'DialogHeaderProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
+      {
+        name: 'DialogProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
+      {
+        name: 'DialogButtonProps',
         from: '@primer/react/experimental',
         type: 'type',
       },
@@ -245,6 +269,20 @@ module.exports = {
           return
         }
 
+        if (node.source.value === '@primer/react/lib-esm/utils/test-helpers') {
+          context.report({
+            node,
+            messageId: 'wildcardMigration',
+            data: {
+              wildcardEntrypoint: node.source.value,
+            },
+            fix(fixer) {
+              return fixer.replaceText(node.source, `'@primer/react/test-helpers'`)
+            },
+          })
+          return
+        }
+
         const wildcardImportMigrations = wildcardImports.get(node.source.value)
         if (!wildcardImportMigrations) {
           context.report({
@@ -353,7 +391,7 @@ module.exports = {
               yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
 
               if (typeSpecifiers.length > 0) {
-                const specifiers = valueSpecifiers.map(([imported, local]) => {
+                const specifiers = typeSpecifiers.map(([imported, local]) => {
                   if (imported !== local) {
                     return `${imported} as ${local}`
                   }

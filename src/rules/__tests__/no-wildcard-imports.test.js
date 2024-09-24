@@ -119,7 +119,36 @@ ruleTester.run('no-wildcard-imports', rule, {
       ],
     },
 
+    // Test mixed imports
+    {
+      code: `import {Dialog, type DialogProps} from '@primer/react/lib-esm/Dialog/Dialog'`,
+      output: `import {Dialog} from '@primer/react/experimental'
+import type {DialogProps} from '@primer/react/experimental'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/Dialog/Dialog',
+          },
+        },
+      ],
+    },
+
     // Test migrations
+
+    // Test helpers ------------------------------------------------------------
+    {
+      code: `import '@primer/react/lib-esm/utils/test-helpers'`,
+      output: `import '@primer/react/test-helpers'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/utils/test-helpers',
+          },
+        },
+      ],
+    },
 
     // Components --------------------------------------------------------------
     {
