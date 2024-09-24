@@ -1,5 +1,13 @@
 # eslint-plugin-primer-react
 
+## 6.1.2
+
+### Patch Changes
+
+- [#239](https://github.com/primer/eslint-plugin-primer-react/pull/239) [`3b2e023`](https://github.com/primer/eslint-plugin-primer-react/commit/3b2e023ce2215feff50a1b7f263d23db99f79ec2) Thanks [@joshblack](https://github.com/joshblack)! - Update use-deprecated-from-deprecated rule to include prop types
+
+- [#234](https://github.com/primer/eslint-plugin-primer-react/pull/234) [`9a58afb`](https://github.com/primer/eslint-plugin-primer-react/commit/9a58afb35f848bd8fcf11901653615f84c09f8f8) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to use local name for updated imports
+
 ## 6.1.1
 
 ### Patch Changes
