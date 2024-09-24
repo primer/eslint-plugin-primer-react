@@ -8,7 +8,19 @@ const components = [
     entrypoint: '@primer/react',
   },
   {
+    identifier: 'DialogProps',
+    entrypoint: '@primer/react',
+  },
+  {
+    identifier: 'DialogHeaderProps',
+    entrypoint: '@primer/react',
+  },
+  {
     identifier: 'Octicon',
+    entrypoint: '@primer/react',
+  },
+  {
+    identifier: 'OcticonProps',
     entrypoint: '@primer/react',
   },
   {
@@ -16,11 +28,23 @@ const components = [
     entrypoint: '@primer/react',
   },
   {
+    identifier: 'PageheadProps',
+    entrypoint: '@primer/react',
+  },
+  {
     identifier: 'TabNav',
     entrypoint: '@primer/react',
   },
   {
+    identifier: 'TabNavProps',
+    entrypoint: '@primer/react',
+  },
+  {
     identifier: 'Tooltip',
+    entrypoint: '@primer/react',
+  },
+  {
+    identifier: 'TooltipProps',
     entrypoint: '@primer/react',
   },
 ]
