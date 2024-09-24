@@ -71,13 +71,13 @@ ruleTester.run('no-wildcard-imports', rule, {
 
     // Test default import
     {
-      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
       output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
           data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
           },
         },
       ],
@@ -85,8 +85,8 @@ ruleTester.run('no-wildcard-imports', rule, {
 
     // Test multiple wildcard imports into single entrypoint
     {
-      code: `import useResizeObserver from '@primer/react/lib-esm/hooks/useResizeObserver'
-    import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+      code: `import {useResizeObserver} from '@primer/react/lib-esm/hooks/useResizeObserver'
+    import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
       output: `import {useResizeObserver} from '@primer/react'
     import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
@@ -99,7 +99,21 @@ ruleTester.run('no-wildcard-imports', rule, {
         {
           messageId: 'wildcardMigration',
           data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
+          },
+        },
+      ],
+    },
+
+    // Test renamed wildcard imports
+    {
+      code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
+      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/Item',
           },
         },
       ],
@@ -154,7 +168,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import {SelectPanel} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
-      output: `import {SelectPanel} from '@primer/react/experimental'`,
+      output: `import {SelectPanel} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -166,7 +180,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {SelectPanelProps} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
-      output: `import type {SelectPanelProps} from '@primer/react/experimental'`,
+      output: `import type {SelectPanelProps} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -226,7 +240,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList'`,
-      output: `import type {ActionListItemProps} from '@primer/react/deprecated'`,
+      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -238,7 +252,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {GroupedListProps} from '@primer/react/lib-esm/deprecated/ActionList/List'`,
-      output: `import type {ActionListGroupedListProps} from '@primer/react/deprecated'`,
+      output: `import type {ActionListGroupedListProps as GroupedListProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -250,7 +264,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import {ItemInput} from '@primer/react/lib-esm/deprecated/ActionList/List'`,
-      output: `import {ActionListItemInput} from '@primer/react/deprecated'`,
+      output: `import {ActionListItemInput as ItemInput} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -262,7 +276,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
-      output: `import type {ActionListItemProps} from '@primer/react/deprecated'`,
+      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -277,13 +291,13 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/useIsomorphicLayoutEffect
     {
-      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/useIsomorphicLayoutEffect'`,
+      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
       output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
           data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
           },
         },
       ],
@@ -291,7 +305,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/hooks/useResizeObserver
     {
-      code: `import useResizeObserver from '@primer/react/lib-esm/hooks/useResizeObserver'`,
+      code: `import {useResizeObserver} from '@primer/react/lib-esm/hooks/useResizeObserver'`,
       output: `import {useResizeObserver} from '@primer/react'`,
       errors: [
         {
@@ -305,7 +319,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/hooks/useProvidedRefOrCreate
     {
-      code: `import useProvidedRefOrCreate from '@primer/react/lib-esm/hooks/useProvidedRefOrCreate'`,
+      code: `import {useProvidedRefOrCreate} from '@primer/react/lib-esm/hooks/useProvidedRefOrCreate'`,
       output: `import {useProvidedRefOrCreate} from '@primer/react'`,
       errors: [
         {
@@ -319,7 +333,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
 
     // @primer/react/lib-esm/hooks/useResponsiveValue
     {
-      code: `import useResponsiveValue from '@primer/react/lib-esm/hooks/useResponsiveValue'`,
+      code: `import {useResponsiveValue} from '@primer/react/lib-esm/hooks/useResponsiveValue'`,
       output: `import {useResponsiveValue} from '@primer/react'`,
       errors: [
         {

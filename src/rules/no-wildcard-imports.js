@@ -35,6 +35,11 @@ const wildcardImports = new Map([
         name: 'Dialog',
         from: '@primer/react/experimental',
       },
+      {
+        name: 'DialogHeaderProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
     ],
   ],
   [
@@ -42,12 +47,12 @@ const wildcardImports = new Map([
     [
       {
         name: 'SelectPanel',
-        from: '@primer/react/experimental',
+        from: '@primer/react',
       },
       {
         type: 'type',
         name: 'SelectPanelProps',
-        from: '@primer/react/experimental',
+        from: '@primer/react',
       },
     ],
   ],
@@ -132,7 +137,7 @@ const wildcardImports = new Map([
 
   // Hooks
   [
-    '@primer/react/lib-esm/useIsomorphicLayoutEffect',
+    '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
     [
       {
         name: 'default',
@@ -145,9 +150,8 @@ const wildcardImports = new Map([
     '@primer/react/lib-esm/hooks/useResizeObserver',
     [
       {
-        name: 'default',
+        name: 'useResizeObserver',
         from: '@primer/react',
-        as: 'useResizeObserver',
       },
     ],
   ],
@@ -155,9 +159,8 @@ const wildcardImports = new Map([
     '@primer/react/lib-esm/hooks/useProvidedRefOrCreate',
     [
       {
-        name: 'default',
+        name: 'useProvidedRefOrCreate',
         from: '@primer/react',
-        as: 'useProvidedRefOrCreate',
       },
     ],
   ],
@@ -165,9 +168,8 @@ const wildcardImports = new Map([
     '@primer/react/lib-esm/hooks/useResponsiveValue',
     [
       {
-        name: 'default',
+        name: 'useResponsiveValue',
         from: '@primer/react',
-        as: 'useResponsiveValue',
       },
     ],
   ],
@@ -282,7 +284,7 @@ module.exports = {
           }
 
           if (migration.as) {
-            changes.get(migration.from).push([migration.as, migration.as, migration.type])
+            changes.get(migration.from).push([migration.as, specifier.local.name, migration.type])
           } else {
             changes.get(migration.from).push([migration.name, specifier.local.name, migration.type])
           }
@@ -357,7 +359,7 @@ module.exports = {
                   }
                   return imported
                 })
-                yield fixer.insertTextAfter(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
+                yield fixer.insertTextAfter(node, `\nimport type {${specifiers.join(', ')}} from '${entrypoint}'`)
               }
             }
           },
