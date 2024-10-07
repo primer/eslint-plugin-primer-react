@@ -40,6 +40,16 @@ const wildcardImports = new Map([
         from: '@primer/react/experimental',
         type: 'type',
       },
+      {
+        name: 'DialogProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
+      {
+        name: 'DialogButtonProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
     ],
   ],
   [
@@ -171,6 +181,11 @@ const wildcardImports = new Map([
         name: 'useResponsiveValue',
         from: '@primer/react',
       },
+      {
+        type: 'type',
+        name: 'ResponsiveValue',
+        from: '@primer/react',
+      },
     ],
   ],
 
@@ -200,6 +215,15 @@ const wildcardImports = new Map([
     [
       {
         name: 'DefaultFeatureFlags',
+        from: '@primer/react/experimental',
+      },
+    ],
+  ],
+  [
+    '@primer/react/lib-esm/FeatureFlags/useFeatureFlag',
+    [
+      {
+        name: 'useFeatureFlag',
         from: '@primer/react/experimental',
       },
     ],
@@ -242,6 +266,20 @@ module.exports = {
     return {
       ImportDeclaration(node) {
         if (!node.source.value.startsWith('@primer/react/lib-esm')) {
+          return
+        }
+
+        if (node.source.value === '@primer/react/lib-esm/utils/test-helpers') {
+          context.report({
+            node,
+            messageId: 'wildcardMigration',
+            data: {
+              wildcardEntrypoint: node.source.value,
+            },
+            fix(fixer) {
+              return fixer.replaceText(node.source, `'@primer/react/test-helpers'`)
+            },
+          })
           return
         }
 
@@ -353,7 +391,7 @@ module.exports = {
               yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
 
               if (typeSpecifiers.length > 0) {
-                const specifiers = valueSpecifiers.map(([imported, local]) => {
+                const specifiers = typeSpecifiers.map(([imported, local]) => {
                   if (imported !== local) {
                     return `${imported} as ${local}`
                   }
