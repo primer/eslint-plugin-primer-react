@@ -220,6 +220,15 @@ const wildcardImports = new Map([
     ],
   ],
   [
+    '@primer/react/lib-esm/FeatureFlags/useFeatureFlag',
+    [
+      {
+        name: 'useFeatureFlag',
+        from: '@primer/react/experimental',
+      },
+    ],
+  ],
+  [
     '@primer/react/lib-esm/theme',
     [
       {
