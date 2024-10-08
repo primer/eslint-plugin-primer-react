@@ -340,64 +340,31 @@ module.exports = {
           },
           *fix(fixer) {
             for (const [entrypoint, importSpecifiers] of changes) {
-              const typeSpecifiers = importSpecifiers.filter(([, , type]) => {
-                return type === 'type'
+              const namedSpecifiers = importSpecifiers.filter(([imported]) => {
+                return imported !== 'default'
               })
-
-              // If all imports are type imports, emit emit as `import type {specifier} from '...'`
-              if (typeSpecifiers.length === importSpecifiers.length) {
-                const namedSpecifiers = typeSpecifiers.filter(([imported]) => {
-                  return imported !== 'default'
-                })
-                const defaultSpecifier = typeSpecifiers.find(([imported]) => {
-                  return imported === 'default'
-                })
-
-                if (namedSpecifiers.length > 0 && !defaultSpecifier) {
-                  const specifiers = namedSpecifiers.map(([imported, local]) => {
-                    if (imported !== local) {
-                      return `${imported} as ${local}`
-                    }
-                    return imported
-                  })
-                  yield fixer.replaceText(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
-                } else if (namedSpecifiers.length > 0 && defaultSpecifier) {
-                  yield fixer.replaceText(
-                    node,
-                    `import type ${defaultSpecifier[1]}, ${specifiers.join(', ')} from '${entrypoint}'`,
-                  )
-                } else if (defaultSpecifier && namedSpecifiers.length === 0) {
-                  yield fixer.replaceText(node, `import type ${defaultSpecifier[1]} from '${entrypoint}'`)
-                }
-
-                return
-              }
-
-              // Otherwise, we have a mix of type and value imports to emit
-              const valueSpecifiers = importSpecifiers.filter(([, , type]) => {
-                return type !== 'type'
+              const defaultSpecifier = importSpecifiers.find(([imported]) => {
+                return imported === 'default'
               })
-
-              if (valueSpecifiers.length === 0) {
-                return
-              }
-
-              const specifiers = valueSpecifiers.map(([imported, local]) => {
+              const specifiers = namedSpecifiers.map(([imported, local, type]) => {
+                const prefix = type === 'type' ? 'type ' : ''
                 if (imported !== local) {
-                  return `${imported} as ${local}`
+                  return `${prefix}${imported} as ${local}`
                 }
-                return imported
+                return `${prefix}${imported}`
               })
-              yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
 
-              if (typeSpecifiers.length > 0) {
-                const specifiers = typeSpecifiers.map(([imported, local]) => {
-                  if (imported !== local) {
-                    return `${imported} as ${local}`
-                  }
-                  return imported
-                })
-                yield fixer.insertTextAfter(node, `\nimport type {${specifiers.join(', ')}} from '${entrypoint}'`)
+              if (namedSpecifiers.length > 0 && !defaultSpecifier) {
+                yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
+              } else if (namedSpecifiers.length > 0 && defaultSpecifier) {
+                const prefix = defaultSpecifier[2].type === 'type' ? 'type ' : ''
+                yield fixer.replaceText(
+                  node,
+                  `import ${prefix}${defaultSpecifier[1]}, {${specifiers.join(', ')}} from '${entrypoint}'`,
+                )
+              } else if (defaultSpecifier && namedSpecifiers.length === 0) {
+                const prefix = defaultSpecifier[2].type === 'type' ? 'type ' : ''
+                yield fixer.replaceText(node, `import ${prefix}${defaultSpecifier[1]} from '${entrypoint}'`)
               }
             }
           },

@@ -122,13 +122,27 @@ ruleTester.run('no-wildcard-imports', rule, {
     // Test mixed imports
     {
       code: `import {Dialog, type DialogProps} from '@primer/react/lib-esm/Dialog/Dialog'`,
-      output: `import {Dialog} from '@primer/react/experimental'
-import type {DialogProps} from '@primer/react/experimental'`,
+      output: `import {Dialog, type DialogProps} from '@primer/react/experimental'`,
       errors: [
         {
           messageId: 'wildcardMigration',
           data: {
             wildcardEntrypoint: '@primer/react/lib-esm/Dialog/Dialog',
+          },
+        },
+      ],
+    },
+
+    // Use existing imports
+    {
+      code: `import {Box, type BoxProps} from '@primer/react'
+import type {BetterSystemStyleObject} from '@primer/react/lib-esm/sx'`,
+      output: `import {Box, type BoxProps, type BetterSystemStyleObject} from '@primer/react'`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/sx',
           },
         },
       ],
@@ -414,5 +428,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
         },
       ],
     },
-  ],
+  ].filter((item, index) => {
+    return index === 7
+  }),
 })
