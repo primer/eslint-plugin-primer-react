@@ -265,6 +265,20 @@ module.exports = {
   create(context) {
     return {
       ImportDeclaration(node) {
+        if (node.source.value === '@primer/react/lib-esm/utils/test-helpers') {
+          context.report({
+            node,
+            messageId: 'wildcardMigration',
+            data: {
+              wildcardEntrypoint: node.source.value,
+            },
+            fix(fixer) {
+              return fixer.replaceText(node.source, `'@primer/react/test-helpers'`)
+            },
+          })
+          return
+        }
+
         if (!node.source.value.startsWith('@primer/react/lib-esm')) {
           return
         }
@@ -340,31 +354,63 @@ module.exports = {
           },
           *fix(fixer) {
             for (const [entrypoint, importSpecifiers] of changes) {
-              const namedSpecifiers = importSpecifiers.filter(([imported]) => {
-                return imported !== 'default'
+              const importDeclaration = node.parent.body.find(node => {
+                return node.type === 'ImportDeclaration' && node.source.value === entrypoint
               })
-              const defaultSpecifier = importSpecifiers.find(([imported]) => {
+              const namedSpecifiers = importSpecifiers
+                .filter(([imported]) => {
+                  return imported !== 'default'
+                })
+                .map(([imported, local, type]) => {
+                  const prefix = type === 'type' ? 'type ' : ''
+                  if (imported !== local) {
+                    return `${prefix}${imported} as ${local}`
+                  }
+                  return `${prefix}${imported}`
+                })
+              let defaultSpecifier = importSpecifiers.find(([imported]) => {
                 return imported === 'default'
               })
-              const specifiers = namedSpecifiers.map(([imported, local, type]) => {
-                const prefix = type === 'type' ? 'type ' : ''
-                if (imported !== local) {
-                  return `${prefix}${imported} as ${local}`
-                }
-                return `${prefix}${imported}`
-              })
+              if (defaultSpecifier) {
+                const prefix = defaultSpecifier[2] === 'type' ? 'type ' : ''
+                defaultSpecifier = `${prefix}${defaultSpecifier[1]}`
+              }
 
-              if (namedSpecifiers.length > 0 && !defaultSpecifier) {
-                yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
-              } else if (namedSpecifiers.length > 0 && defaultSpecifier) {
-                const prefix = defaultSpecifier[2].type === 'type' ? 'type ' : ''
-                yield fixer.replaceText(
-                  node,
-                  `import ${prefix}${defaultSpecifier[1]}, {${specifiers.join(', ')}} from '${entrypoint}'`,
-                )
-              } else if (defaultSpecifier && namedSpecifiers.length === 0) {
-                const prefix = defaultSpecifier[2].type === 'type' ? 'type ' : ''
-                yield fixer.replaceText(node, `import ${prefix}${defaultSpecifier[1]} from '${entrypoint}'`)
+              const hasNamedSpecifiers = namedSpecifiers.length > 0
+              const hasDefaultSpecifier = !!defaultSpecifier
+
+              if (importDeclaration) {
+                yield fixer.remove(node)
+
+                if (importDeclaration.specifiers.length === 0) {
+                  throw new Error('Import Declaration has no specifiers')
+                }
+
+                let lastSpecifier = importDeclaration.specifiers[importDeclaration.specifiers.length - 1]
+
+                if (hasDefaultSpecifier) {
+                  console.log('wat')
+                }
+
+                if (hasNamedSpecifiers) {
+                  yield fixer.insertTextAfter(lastSpecifier, `, ${namedSpecifiers.join(', ')}`)
+                }
+              } else {
+                let declaration = 'import '
+
+                if (hasDefaultSpecifier) {
+                  declaration += defaultSpecifier
+                }
+
+                if (hasNamedSpecifiers) {
+                  if (hasDefaultSpecifier) {
+                    declaration += ', '
+                  }
+                  declaration += `{${namedSpecifiers.join(', ')}}`
+                }
+
+                declaration += ` from '${entrypoint}'`
+                yield fixer.replaceText(node, declaration)
               }
             }
           },
