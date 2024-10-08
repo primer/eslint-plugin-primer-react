@@ -386,10 +386,11 @@ module.exports = {
                   throw new Error('Import Declaration has no specifiers')
                 }
 
-                let lastSpecifier = importDeclaration.specifiers[importDeclaration.specifiers.length - 1]
+                const firstSpecifier = importDeclaration.specifiers[0]
+                const lastSpecifier = importDeclaration.specifiers[importDeclaration.specifiers.length - 1]
 
                 if (hasDefaultSpecifier) {
-                  console.log('wat')
+                  yield fixer.insertTextBefore(firstSpecifier, `${defaultSpecifier}, `)
                 }
 
                 if (hasNamedSpecifiers) {
