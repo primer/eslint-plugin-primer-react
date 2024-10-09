@@ -30,7 +30,7 @@ ruleTester.run('no-wildcard-imports', rule, {
     // Test type import
     {
       code: `import type {SxProp} from '@primer/react/lib-esm/sx'`,
-      output: `import type {SxProp} from '@primer/react'`,
+      output: `import {type SxProp} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -44,7 +44,7 @@ ruleTester.run('no-wildcard-imports', rule, {
     // Test multiple type imports
     {
       code: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react/lib-esm/sx'`,
-      output: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react'`,
+      output: `import {type BetterSystemStyleObject, type SxProp, type BetterCssProperties} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -58,7 +58,7 @@ ruleTester.run('no-wildcard-imports', rule, {
     // Test import alias
     {
       code: `import type {SxProp as RenamedSxProp} from '@primer/react/lib-esm/sx'`,
-      output: `import type {SxProp as RenamedSxProp} from '@primer/react'`,
+      output: `import {type SxProp as RenamedSxProp} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -108,7 +108,7 @@ ruleTester.run('no-wildcard-imports', rule, {
     // Test renamed wildcard imports
     {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
-      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
+      output: `import {type ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -122,13 +122,28 @@ ruleTester.run('no-wildcard-imports', rule, {
     // Test mixed imports
     {
       code: `import {Dialog, type DialogProps} from '@primer/react/lib-esm/Dialog/Dialog'`,
-      output: `import {Dialog} from '@primer/react/experimental'
-import type {DialogProps} from '@primer/react/experimental'`,
+      output: `import {Dialog, type DialogProps} from '@primer/react/experimental'`,
       errors: [
         {
           messageId: 'wildcardMigration',
           data: {
             wildcardEntrypoint: '@primer/react/lib-esm/Dialog/Dialog',
+          },
+        },
+      ],
+    },
+
+    // Use existing imports
+    {
+      code: `import {Box, type BoxProps} from '@primer/react'
+import type {BetterSystemStyleObject} from '@primer/react/lib-esm/sx'`,
+      output: `import {Box, type BoxProps, type BetterSystemStyleObject} from '@primer/react'
+`,
+      errors: [
+        {
+          messageId: 'wildcardMigration',
+          data: {
+            wildcardEntrypoint: '@primer/react/lib-esm/sx',
           },
         },
       ],
@@ -155,7 +170,7 @@ import type {DialogProps} from '@primer/react/experimental'`,
       code: `import {ButtonBase} from '@primer/react/lib-esm/Button/ButtonBase';
 import type {ButtonBaseProps} from '@primer/react/lib-esm/Button/ButtonBase'`,
       output: `import {ButtonBase} from '@primer/react'
-import type {ButtonBaseProps} from '@primer/react'`,
+import {type ButtonBaseProps} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -173,7 +188,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ButtonBaseProps} from '@primer/react/lib-esm/Button/types'`,
-      output: `import type {ButtonBaseProps} from '@primer/react'`,
+      output: `import {type ButtonBaseProps} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -209,7 +224,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {SelectPanelProps} from '@primer/react/lib-esm/SelectPanel/SelectPanel'`,
-      output: `import type {SelectPanelProps} from '@primer/react'`,
+      output: `import {type SelectPanelProps} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -221,7 +236,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {LabelColorOptions} from '@primer/react/lib-esm/Label/Label'`,
-      output: `import type {LabelColorOptions} from '@primer/react'`,
+      output: `import {type LabelColorOptions} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -245,7 +260,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {IssueLabelTokenProps} from '@primer/react/lib-esm/Token/IssueLabelToken'`,
-      output: `import type {IssueLabelTokenProps} from '@primer/react'`,
+      output: `import {type IssueLabelTokenProps} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -257,7 +272,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {TokenSizeKeys} from '@primer/react/lib-esm/Token/TokenBase'`,
-      output: `import type {TokenSizeKeys} from '@primer/react'`,
+      output: `import {type TokenSizeKeys} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -269,7 +284,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList'`,
-      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
+      output: `import {type ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -281,7 +296,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {GroupedListProps} from '@primer/react/lib-esm/deprecated/ActionList/List'`,
-      output: `import type {ActionListGroupedListProps as GroupedListProps} from '@primer/react/deprecated'`,
+      output: `import {type ActionListGroupedListProps as GroupedListProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -305,7 +320,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
-      output: `import type {ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
+      output: `import {type ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -375,7 +390,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ResponsiveValue} from '@primer/react/lib-esm/hooks/useResponsiveValue'`,
-      output: `import type {ResponsiveValue} from '@primer/react'`,
+      output: `import {type ResponsiveValue} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -391,7 +406,7 @@ import type {ButtonBaseProps} from '@primer/react'`,
     // @primer/react/lib-esm/sx
     {
       code: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react/lib-esm/sx'`,
-      output: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react'`,
+      output: `import {type BetterSystemStyleObject, type SxProp, type BetterCssProperties} from '@primer/react'`,
       errors: [
         {
           messageId: 'wildcardMigration',
