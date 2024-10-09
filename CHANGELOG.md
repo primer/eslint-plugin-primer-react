@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.1.5
+
+### Patch Changes
+
+- [#253](https://github.com/primer/eslint-plugin-primer-react/pull/253) [`456bf4d`](https://github.com/primer/eslint-plugin-primer-react/commit/456bf4d3c1f5e5dde70030f24c1c6b821e685cc5) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to move ButtonBase to `@primer/react/experimental`
+
 ## 6.1.4
 
 ### Patch Changes
