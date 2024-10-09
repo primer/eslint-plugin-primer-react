@@ -10,11 +10,11 @@ const wildcardImports = new Map([
       {
         type: 'type',
         name: 'ButtonBaseProps',
-        from: '@primer/react',
+        from: '@primer/react/experimental',
       },
       {
         name: 'ButtonBase',
-        from: '@primer/react',
+        from: '@primer/react/experimental',
       },
     ],
   ],
@@ -24,7 +24,7 @@ const wildcardImports = new Map([
       {
         type: 'type',
         name: 'ButtonBaseProps',
-        from: '@primer/react',
+        from: '@primer/react/experimental',
       },
     ],
   ],
