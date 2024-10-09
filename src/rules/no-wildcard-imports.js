@@ -365,7 +365,7 @@ module.exports = {
                 )
               })
               const namedSpecifiers = importSpecifiers
-                .filter(([imported, _local, type]) => {
+                .filter(([imported, , type]) => {
                   return imported !== 'default' && type !== 'type'
                 })
                 .map(([imported, local, type]) => {
@@ -376,7 +376,7 @@ module.exports = {
                   return `${prefix}${imported}`
                 })
               const namedTypeSpecifiers = importSpecifiers
-                .filter(([imported, _local, type]) => {
+                .filter(([imported, , type]) => {
                   return imported !== 'default' && type === 'type'
                 })
                 .map(([imported, local, type]) => {
@@ -386,13 +386,13 @@ module.exports = {
                   }
                   return `${prefix}${imported}`
                 })
-              let defaultSpecifier = importSpecifiers.find(([imported, _local, type]) => {
+              let defaultSpecifier = importSpecifiers.find(([imported, , type]) => {
                 return imported === 'default' && type !== 'type'
               })
               if (defaultSpecifier) {
                 defaultSpecifier = defaultSpecifier[1]
               }
-              let defaultTypeSpecifier = importSpecifiers.find(([imported, _local, type]) => {
+              let defaultTypeSpecifier = importSpecifiers.find(([imported, , type]) => {
                 return imported === 'default' && type === 'type'
               })
               if (defaultTypeSpecifier) {
@@ -411,7 +411,7 @@ module.exports = {
                 if (defaultTypeSpecifier) {
                   const postfix =
                     namedTypeSpecifiers.length > 0 || typeImportDeclaration.specifiers.length > 0 ? ', ' : ' '
-                  yield fix.insertTextBeforeRange(
+                  yield fixer.insertTextBeforeRange(
                     [firstSpecifier.range[0] - 1, firstSpecifier.range[1]],
                     `${defaultTypeSpecifier}${postfix}`,
                   )
@@ -429,7 +429,7 @@ module.exports = {
 
                 if (defaultSpecifier) {
                   const postfix = namedSpecifiers.length > 0 || importDeclaration.specifiers.length > 0 ? ', ' : ' '
-                  yield fix.insertTextBeforeRange(
+                  yield fixer.insertTextBeforeRange(
                     [firstSpecifier.range[0] - 1, firstSpecifier.range[1]],
                     `${defaultSpecifier}${postfix}`,
                   )
