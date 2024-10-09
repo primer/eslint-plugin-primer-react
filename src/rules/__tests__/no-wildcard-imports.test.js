@@ -169,8 +169,8 @@ import type {BetterSystemStyleObject} from '@primer/react/lib-esm/sx'`,
     {
       code: `import {ButtonBase} from '@primer/react/lib-esm/Button/ButtonBase';
 import type {ButtonBaseProps} from '@primer/react/lib-esm/Button/ButtonBase'`,
-      output: `import {ButtonBase} from '@primer/react'
-import {type ButtonBaseProps} from '@primer/react'`,
+      output: `import {ButtonBase} from '@primer/react/experimental'
+import {type ButtonBaseProps} from '@primer/react/experimental'`,
       errors: [
         {
           messageId: 'wildcardMigration',
@@ -188,7 +188,7 @@ import {type ButtonBaseProps} from '@primer/react'`,
     },
     {
       code: `import type {ButtonBaseProps} from '@primer/react/lib-esm/Button/types'`,
-      output: `import {type ButtonBaseProps} from '@primer/react'`,
+      output: `import {type ButtonBaseProps} from '@primer/react/experimental'`,
       errors: [
         {
           messageId: 'wildcardMigration',
