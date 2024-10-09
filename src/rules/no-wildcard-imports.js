@@ -364,28 +364,13 @@ module.exports = {
                   node.type === 'ImportDeclaration' && node.source.value === entrypoint && node.importKind === 'type'
                 )
               })
-              const namedSpecifiers = importSpecifiers
-                .filter(([imported, , type]) => {
-                  return imported !== 'default' && type !== 'type'
-                })
-                .map(([imported, local, type]) => {
-                  const prefix = type === 'type' ? 'type ' : ''
-                  if (imported !== local) {
-                    return `${prefix}${imported} as ${local}`
-                  }
-                  return `${prefix}${imported}`
-                })
-              const namedTypeSpecifiers = importSpecifiers
-                .filter(([imported, , type]) => {
-                  return imported !== 'default' && type === 'type'
-                })
-                .map(([imported, local, type]) => {
-                  const prefix = type === 'type' ? 'type ' : ''
-                  if (imported !== local) {
-                    return `${prefix}${imported} as ${local}`
-                  }
-                  return `${prefix}${imported}`
-                })
+              let originalImportReplaced = false
+              const namedSpecifiers = importSpecifiers.filter(([imported, , type]) => {
+                return imported !== 'default' && type !== 'type'
+              })
+              const namedTypeSpecifiers = importSpecifiers.filter(([imported, , type]) => {
+                return imported !== 'default' && type === 'type'
+              })
               let defaultSpecifier = importSpecifiers.find(([imported, , type]) => {
                 return imported === 'default' && type !== 'type'
               })
@@ -399,10 +384,6 @@ module.exports = {
                 defaultTypeSpecifier = `type ${defaultTypeSpecifier[1]}`
               }
 
-              if (typeImportDeclaration || importDeclaration) {
-                yield fixer.remove(node)
-              }
-
               // Reuse a type import if it exists
               if (typeImportDeclaration) {
                 const firstSpecifier = typeImportDeclaration.specifiers[0]
@@ -412,13 +393,19 @@ module.exports = {
                   const postfix =
                     namedTypeSpecifiers.length > 0 || typeImportDeclaration.specifiers.length > 0 ? ', ' : ' '
                   yield fixer.insertTextBeforeRange(
-                    [firstSpecifier.range[0] - 1, firstSpecifier.range[1]],
+                    [firstSpecifier.range[0] - 2, firstSpecifier.range[1]],
                     `${defaultTypeSpecifier}${postfix}`,
                   )
                 }
 
                 if (namedTypeSpecifiers.length > 0) {
-                  yield fixer.insertTextAfter(lastSpecifier, `, ${namedTypeSpecifiers.join(', ')}`)
+                  const specifiers = namedTypeSpecifiers.map(([imported, local]) => {
+                    if (imported !== local) {
+                      return `${imported} as ${local}`
+                    }
+                    return imported
+                  })
+                  yield fixer.insertTextAfter(lastSpecifier, `, ${specifiers.join(', ')}`)
                 }
               }
 
@@ -430,23 +417,37 @@ module.exports = {
                 if (defaultSpecifier) {
                   const postfix = namedSpecifiers.length > 0 || importDeclaration.specifiers.length > 0 ? ', ' : ' '
                   yield fixer.insertTextBeforeRange(
-                    [firstSpecifier.range[0] - 1, firstSpecifier.range[1]],
+                    [firstSpecifier.range[0] - 2, firstSpecifier.range[1]],
                     `${defaultSpecifier}${postfix}`,
                   )
                 }
 
                 if (namedSpecifiers.length > 0 || (!typeImportDeclaration && namedTypeSpecifiers.length > 0)) {
-                  const specifiers = [...namedSpecifiers]
+                  let specifiers = [...namedSpecifiers]
                   if (!typeImportDeclaration) {
                     specifiers.push(...namedTypeSpecifiers)
                   }
+                  specifiers = specifiers.map(([imported, local, type]) => {
+                    const prefix = type === 'type' ? 'type ' : ''
+                    if (imported !== local) {
+                      return `${prefix}${imported} as ${local}`
+                    }
+                    return `${prefix}${imported}`
+                  })
                   yield fixer.insertTextAfter(lastSpecifier, `, ${specifiers.join(', ')}`)
                 }
               } else {
-                const specifiers = [...namedSpecifiers]
+                let specifiers = [...namedSpecifiers]
                 if (!typeImportDeclaration) {
                   specifiers.push(...namedTypeSpecifiers)
                 }
+                specifiers = specifiers.map(([imported, local, type]) => {
+                  const prefix = type === 'type' ? 'type ' : ''
+                  if (imported !== local) {
+                    return `${prefix}${imported} as ${local}`
+                  }
+                  return `${prefix}${imported}`
+                })
                 let declaration = 'import '
 
                 if (defaultSpecifier) {
@@ -466,6 +467,11 @@ module.exports = {
 
                 declaration += ` from '${entrypoint}'`
                 yield fixer.replaceText(node, declaration)
+                originalImportReplaced = true
+              }
+
+              if (!originalImportReplaced) {
+                yield fixer.remove(node)
               }
             }
           },
