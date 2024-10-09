@@ -406,7 +406,7 @@ module.exports = {
               // Reuse a type import if it exists
               if (typeImportDeclaration) {
                 const firstSpecifier = typeImportDeclaration.specifiers[0]
-                const lastSpecifier = typeImportDeclaration.specifiers[importDeclaration.specifiers.length - 1]
+                const lastSpecifier = typeImportDeclaration.specifiers[typeImportDeclaration.specifiers.length - 1]
 
                 if (defaultTypeSpecifier) {
                   const postfix =
