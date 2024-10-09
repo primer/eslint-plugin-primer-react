@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.1.4
+
+### Patch Changes
+
+- [#249](https://github.com/primer/eslint-plugin-primer-react/pull/249) [`f8c8a9d`](https://github.com/primer/eslint-plugin-primer-react/commit/f8c8a9df1b49cb7f487eb0dba3e7f46ac7f7e23b) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to not create separate imports for type only imports. This prevents an issue downstream with autofixers
+
 ## 6.1.3
 
 ### Patch Changes
