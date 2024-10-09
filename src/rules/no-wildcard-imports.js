@@ -355,11 +355,18 @@ module.exports = {
           *fix(fixer) {
             for (const [entrypoint, importSpecifiers] of changes) {
               const importDeclaration = node.parent.body.find(node => {
-                return node.type === 'ImportDeclaration' && node.source.value === entrypoint
+                return (
+                  node.type === 'ImportDeclaration' && node.source.value === entrypoint && node.importKind !== 'type'
+                )
+              })
+              const typeImportDeclaration = node.parent.body.find(node => {
+                return (
+                  node.type === 'ImportDeclaration' && node.source.value === entrypoint && node.importKind === 'type'
+                )
               })
               const namedSpecifiers = importSpecifiers
-                .filter(([imported]) => {
-                  return imported !== 'default'
+                .filter(([imported, _local, type]) => {
+                  return imported !== 'default' && type !== 'type'
                 })
                 .map(([imported, local, type]) => {
                   const prefix = type === 'type' ? 'type ' : ''
@@ -368,46 +375,93 @@ module.exports = {
                   }
                   return `${prefix}${imported}`
                 })
-              let defaultSpecifier = importSpecifiers.find(([imported]) => {
-                return imported === 'default'
+              const namedTypeSpecifiers = importSpecifiers
+                .filter(([imported, _local, type]) => {
+                  return imported !== 'default' && type === 'type'
+                })
+                .map(([imported, local, type]) => {
+                  const prefix = type === 'type' ? 'type ' : ''
+                  if (imported !== local) {
+                    return `${prefix}${imported} as ${local}`
+                  }
+                  return `${prefix}${imported}`
+                })
+              let defaultSpecifier = importSpecifiers.find(([imported, _local, type]) => {
+                return imported === 'default' && type !== 'type'
               })
               if (defaultSpecifier) {
-                const prefix = defaultSpecifier[2] === 'type' ? 'type ' : ''
-                defaultSpecifier = `${prefix}${defaultSpecifier[1]}`
+                defaultSpecifier = defaultSpecifier[1]
+              }
+              let defaultTypeSpecifier = importSpecifiers.find(([imported, _local, type]) => {
+                return imported === 'default' && type === 'type'
+              })
+              if (defaultTypeSpecifier) {
+                defaultTypeSpecifier = `type ${defaultTypeSpecifier[1]}`
               }
 
-              const hasNamedSpecifiers = namedSpecifiers.length > 0
-              const hasDefaultSpecifier = !!defaultSpecifier
-
-              if (importDeclaration) {
+              if (typeImportDeclaration || importDeclaration) {
                 yield fixer.remove(node)
+              }
 
-                if (importDeclaration.specifiers.length === 0) {
-                  throw new Error('Import Declaration has no specifiers')
+              // Reuse a type import if it exists
+              if (typeImportDeclaration) {
+                const firstSpecifier = typeImportDeclaration.specifiers[0]
+                const lastSpecifier = typeImportDeclaration.specifiers[importDeclaration.specifiers.length - 1]
+
+                if (defaultTypeSpecifier) {
+                  const postfix =
+                    namedTypeSpecifiers.length > 0 || typeImportDeclaration.specifiers.length > 0 ? ', ' : ' '
+                  yield fix.insertTextBeforeRange(
+                    [firstSpecifier.range[0] - 1, firstSpecifier.range[1]],
+                    `${defaultTypeSpecifier}${postfix}`,
+                  )
                 }
 
+                if (namedTypeSpecifiers.length > 0) {
+                  yield fixer.insertTextAfter(lastSpecifier, `, ${namedTypeSpecifiers.join(', ')}`)
+                }
+              }
+
+              // Reuse an import declaration if one exists
+              if (importDeclaration) {
                 const firstSpecifier = importDeclaration.specifiers[0]
                 const lastSpecifier = importDeclaration.specifiers[importDeclaration.specifiers.length - 1]
 
-                if (hasDefaultSpecifier) {
-                  yield fixer.insertTextBefore(firstSpecifier, `${defaultSpecifier}, `)
+                if (defaultSpecifier) {
+                  const postfix = namedSpecifiers.length > 0 || importDeclaration.specifiers.length > 0 ? ', ' : ' '
+                  yield fix.insertTextBeforeRange(
+                    [firstSpecifier.range[0] - 1, firstSpecifier.range[1]],
+                    `${defaultSpecifier}${postfix}`,
+                  )
                 }
 
-                if (hasNamedSpecifiers) {
-                  yield fixer.insertTextAfter(lastSpecifier, `, ${namedSpecifiers.join(', ')}`)
+                if (namedSpecifiers.length > 0 || (!typeImportDeclaration && namedTypeSpecifiers.length > 0)) {
+                  const specifiers = [...namedSpecifiers]
+                  if (!typeImportDeclaration) {
+                    specifiers.push(...namedTypeSpecifiers)
+                  }
+                  yield fixer.insertTextAfter(lastSpecifier, `, ${specifiers.join(', ')}`)
                 }
               } else {
+                const specifiers = [...namedSpecifiers]
+                if (!typeImportDeclaration) {
+                  specifiers.push(...namedTypeSpecifiers)
+                }
                 let declaration = 'import '
 
-                if (hasDefaultSpecifier) {
+                if (defaultSpecifier) {
                   declaration += defaultSpecifier
                 }
 
-                if (hasNamedSpecifiers) {
-                  if (hasDefaultSpecifier) {
+                if (defaultTypeSpecifier && !typeImportDeclaration) {
+                  declaration += defaultTypeSpecifier
+                }
+
+                if (specifiers.length > 0) {
+                  if (defaultSpecifier || defaultTypeSpecifier) {
                     declaration += ', '
                   }
-                  declaration += `{${namedSpecifiers.join(', ')}}`
+                  declaration += `{${specifiers.join(', ')}}`
                 }
 
                 declaration += ` from '${entrypoint}'`
