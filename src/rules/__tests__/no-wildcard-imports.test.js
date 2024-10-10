@@ -271,18 +271,6 @@ import {type ButtonBaseProps} from '@primer/react/experimental'`,
       ],
     },
     {
-      code: `import type {TokenSizeKeys} from '@primer/react/lib-esm/Token/TokenBase'`,
-      output: `import {type TokenSizeKeys} from '@primer/react'`,
-      errors: [
-        {
-          messageId: 'wildcardMigration',
-          data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/Token/TokenBase',
-          },
-        },
-      ],
-    },
-    {
       code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList'`,
       output: `import {type ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
       errors: [

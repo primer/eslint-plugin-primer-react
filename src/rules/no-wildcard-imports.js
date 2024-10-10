@@ -97,16 +97,6 @@ const wildcardImports = new Map([
     ],
   ],
   [
-    '@primer/react/lib-esm/Token/TokenBase',
-    [
-      {
-        type: 'type',
-        name: 'TokenSizeKeys',
-        from: '@primer/react',
-      },
-    ],
-  ],
-  [
     '@primer/react/lib-esm/deprecated/ActionList',
     [
       {
