@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.1.6
+
+### Patch Changes
+
+- [#255](https://github.com/primer/eslint-plugin-primer-react/pull/255) [`fd2cb55`](https://github.com/primer/eslint-plugin-primer-react/commit/fd2cb551cdf219c2ac690ce610fbbab102cc5e48) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to no longer migrate the TokenSizeKeys import
+
 ## 6.1.5
 
 ### Patch Changes
