@@ -20,6 +20,7 @@ module.exports = {
     'primer-react/a11y-use-next-tooltip': 'error',
     'primer-react/no-unnecessary-components': 'error',
     'primer-react/prefer-action-list-item-onselect': 'error',
+    'primer-react/enforce-css-module-identifier-casing': 'error',
   },
   settings: {
     github: {
