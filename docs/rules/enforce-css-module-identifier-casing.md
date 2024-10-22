@@ -27,7 +27,6 @@ let ButtonClass = "button"
 /* eslint primer-react/enforce-css-module-identifier-casing: "error" */
 import {Button} from '@primer/react'
 import classes from './some.module.css'
-
 ;<Button className={classes.Button} />
 ```
 
