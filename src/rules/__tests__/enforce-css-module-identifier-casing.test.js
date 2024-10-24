@@ -19,10 +19,20 @@ ruleTester.run('enforce-css-module-identifier-casing', rule, {
     'import classes from "a.module.css"; function Foo() { return <Box className={`${classes.Foo}`}/> }',
     'import classes from "a.module.css"; function Foo() { return <Box className={`${classes["Foo"]}`}/> }',
     'import classes from "a.module.css"; let x = "Foo"; function Foo() { return <Box className={`${classes[x]}`}/> }',
+    'import {Foo} from "a.module.css"; function Bar() { return <Box className={Foo}/> }',
   ],
   invalid: [
     {
       code: 'import classes from "a.module.css"; function Foo() { return <Box className={classes.foo}/> }',
+      errors: [
+        {
+          messageId: 'pascal',
+          data: {name: 'foo'},
+        },
+      ],
+    },
+    {
+      code: 'import {foo} from "a.module.css"; function Bar() { return <Box className={foo}/> }',
       errors: [
         {
           messageId: 'pascal',

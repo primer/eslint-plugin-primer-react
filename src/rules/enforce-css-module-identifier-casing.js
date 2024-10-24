@@ -24,6 +24,16 @@ module.exports = {
   create(context) {
     const casing = context.options[0]?.casing || 'pascal'
     return {
+      ['JSXAttribute[name.name="className"] JSXExpressionContainer>Identifier']: function (node) {
+        if (!identifierIsCSSModuleBinding(node, context)) return
+        if (!casingMatches(node.name || '', casing)) {
+          context.report({
+            node,
+            messageId: casing,
+            data: {name: node.name},
+          })
+        }
+      },
       ['JSXAttribute[name.name="className"] JSXExpressionContainer MemberExpression[object.type="Identifier"]']:
         function (node) {
           if (!identifierIsCSSModuleBinding(node.object, context)) return
@@ -44,8 +54,8 @@ module.exports = {
               })
             }
           } else if (node.computed) {
-            const ref = context
-              .getScope()
+            const ref = context.sourceCode
+              .getScope(node)
               .references.find(reference => reference.identifier.name === node.property.name)
             const def = ref.resolved?.defs?.[0]
             if (def?.node?.init?.type === 'Literal') {
