@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 6.2.0
+
+### Minor Changes
+
+- [#258](https://github.com/primer/eslint-plugin-primer-react/pull/258) [`83f29f3`](https://github.com/primer/eslint-plugin-primer-react/commit/83f29f339999b9c21d95167bcc2680c1797cbab6) Thanks [@keithamus](https://github.com/keithamus)! - Add enforce-css-module-identifier-casing rule
+
 ## 6.1.6
 
 ### Patch Changes
