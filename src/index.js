@@ -14,6 +14,8 @@ module.exports = {
     'no-wildcard-imports': require('./rules/no-wildcard-imports'),
     'no-unnecessary-components': require('./rules/no-unnecessary-components'),
     'prefer-action-list-item-onselect': require('./rules/prefer-action-list-item-onselect'),
+    'enforce-css-module-identifier-casing': require('./rules/enforce-css-module-identifier-casing'),
+    'enforce-css-module-default-import': require('./rules/enforce-css-module-default-import'),
   },
   configs: {
     recommended: require('./configs/recommended'),

@@ -20,6 +20,8 @@ module.exports = {
     'primer-react/a11y-use-accessible-tooltip': 'error',
     'primer-react/no-unnecessary-components': 'error',
     'primer-react/prefer-action-list-item-onselect': 'error',
+    'primer-react/enforce-css-module-identifier-casing': 'error',
+    'primer-react/enforce-css-module-default-import': ['error', {enforceName: '(^classes$|Classes$)'}],
   },
   settings: {
     github: {

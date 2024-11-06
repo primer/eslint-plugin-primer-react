@@ -10,11 +10,11 @@ const wildcardImports = new Map([
       {
         type: 'type',
         name: 'ButtonBaseProps',
-        from: '@primer/react',
+        from: '@primer/react/experimental',
       },
       {
         name: 'ButtonBase',
-        from: '@primer/react',
+        from: '@primer/react/experimental',
       },
     ],
   ],
@@ -24,7 +24,7 @@ const wildcardImports = new Map([
       {
         type: 'type',
         name: 'ButtonBaseProps',
-        from: '@primer/react',
+        from: '@primer/react/experimental',
       },
     ],
   ],
@@ -37,6 +37,16 @@ const wildcardImports = new Map([
       },
       {
         name: 'DialogHeaderProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
+      {
+        name: 'DialogProps',
+        from: '@primer/react/experimental',
+        type: 'type',
+      },
+      {
+        name: 'DialogButtonProps',
         from: '@primer/react/experimental',
         type: 'type',
       },
@@ -82,16 +92,6 @@ const wildcardImports = new Map([
       {
         type: 'type',
         name: 'IssueLabelTokenProps',
-        from: '@primer/react',
-      },
-    ],
-  ],
-  [
-    '@primer/react/lib-esm/Token/TokenBase',
-    [
-      {
-        type: 'type',
-        name: 'TokenSizeKeys',
         from: '@primer/react',
       },
     ],
@@ -171,6 +171,11 @@ const wildcardImports = new Map([
         name: 'useResponsiveValue',
         from: '@primer/react',
       },
+      {
+        type: 'type',
+        name: 'ResponsiveValue',
+        from: '@primer/react',
+      },
     ],
   ],
 
@@ -200,6 +205,15 @@ const wildcardImports = new Map([
     [
       {
         name: 'DefaultFeatureFlags',
+        from: '@primer/react/experimental',
+      },
+    ],
+  ],
+  [
+    '@primer/react/lib-esm/FeatureFlags/useFeatureFlag',
+    [
+      {
+        name: 'useFeatureFlag',
         from: '@primer/react/experimental',
       },
     ],
@@ -241,7 +255,35 @@ module.exports = {
   create(context) {
     return {
       ImportDeclaration(node) {
+        if (node.source.value === '@primer/react/lib-esm/utils/test-helpers') {
+          context.report({
+            node,
+            messageId: 'wildcardMigration',
+            data: {
+              wildcardEntrypoint: node.source.value,
+            },
+            fix(fixer) {
+              return fixer.replaceText(node.source, `'@primer/react/test-helpers'`)
+            },
+          })
+          return
+        }
+
         if (!node.source.value.startsWith('@primer/react/lib-esm')) {
+          return
+        }
+
+        if (node.source.value === '@primer/react/lib-esm/utils/test-helpers') {
+          context.report({
+            node,
+            messageId: 'wildcardMigration',
+            data: {
+              wildcardEntrypoint: node.source.value,
+            },
+            fix(fixer) {
+              return fixer.replaceText(node.source, `'@primer/react/test-helpers'`)
+            },
+          })
           return
         }
 
@@ -302,64 +344,124 @@ module.exports = {
           },
           *fix(fixer) {
             for (const [entrypoint, importSpecifiers] of changes) {
-              const typeSpecifiers = importSpecifiers.filter(([, , type]) => {
-                return type === 'type'
+              const importDeclaration = node.parent.body.find(node => {
+                return (
+                  node.type === 'ImportDeclaration' && node.source.value === entrypoint && node.importKind !== 'type'
+                )
               })
+              const typeImportDeclaration = node.parent.body.find(node => {
+                return (
+                  node.type === 'ImportDeclaration' && node.source.value === entrypoint && node.importKind === 'type'
+                )
+              })
+              let originalImportReplaced = false
+              const namedSpecifiers = importSpecifiers.filter(([imported, , type]) => {
+                return imported !== 'default' && type !== 'type'
+              })
+              const namedTypeSpecifiers = importSpecifiers.filter(([imported, , type]) => {
+                return imported !== 'default' && type === 'type'
+              })
+              let defaultSpecifier = importSpecifiers.find(([imported, , type]) => {
+                return imported === 'default' && type !== 'type'
+              })
+              if (defaultSpecifier) {
+                defaultSpecifier = defaultSpecifier[1]
+              }
+              let defaultTypeSpecifier = importSpecifiers.find(([imported, , type]) => {
+                return imported === 'default' && type === 'type'
+              })
+              if (defaultTypeSpecifier) {
+                defaultTypeSpecifier = `type ${defaultTypeSpecifier[1]}`
+              }
 
-              // If all imports are type imports, emit emit as `import type {specifier} from '...'`
-              if (typeSpecifiers.length === importSpecifiers.length) {
-                const namedSpecifiers = typeSpecifiers.filter(([imported]) => {
-                  return imported !== 'default'
-                })
-                const defaultSpecifier = typeSpecifiers.find(([imported]) => {
-                  return imported === 'default'
-                })
+              // Reuse a type import if it exists
+              if (typeImportDeclaration) {
+                const firstSpecifier = typeImportDeclaration.specifiers[0]
+                const lastSpecifier = typeImportDeclaration.specifiers[typeImportDeclaration.specifiers.length - 1]
 
-                if (namedSpecifiers.length > 0 && !defaultSpecifier) {
-                  const specifiers = namedSpecifiers.map(([imported, local]) => {
+                if (defaultTypeSpecifier) {
+                  const postfix =
+                    namedTypeSpecifiers.length > 0 || typeImportDeclaration.specifiers.length > 0 ? ', ' : ' '
+                  yield fixer.insertTextBeforeRange(
+                    [firstSpecifier.range[0] - 2, firstSpecifier.range[1]],
+                    `${defaultTypeSpecifier}${postfix}`,
+                  )
+                }
+
+                if (namedTypeSpecifiers.length > 0) {
+                  const specifiers = namedTypeSpecifiers.map(([imported, local]) => {
                     if (imported !== local) {
                       return `${imported} as ${local}`
                     }
                     return imported
                   })
-                  yield fixer.replaceText(node, `import type {${specifiers.join(', ')}} from '${entrypoint}'`)
-                } else if (namedSpecifiers.length > 0 && defaultSpecifier) {
-                  yield fixer.replaceText(
-                    node,
-                    `import type ${defaultSpecifier[1]}, ${specifiers.join(', ')} from '${entrypoint}'`,
+                  yield fixer.insertTextAfter(lastSpecifier, `, ${specifiers.join(', ')}`)
+                }
+              }
+
+              // Reuse an import declaration if one exists
+              if (importDeclaration) {
+                const firstSpecifier = importDeclaration.specifiers[0]
+                const lastSpecifier = importDeclaration.specifiers[importDeclaration.specifiers.length - 1]
+
+                if (defaultSpecifier) {
+                  const postfix = namedSpecifiers.length > 0 || importDeclaration.specifiers.length > 0 ? ', ' : ' '
+                  yield fixer.insertTextBeforeRange(
+                    [firstSpecifier.range[0] - 2, firstSpecifier.range[1]],
+                    `${defaultSpecifier}${postfix}`,
                   )
-                } else if (defaultSpecifier && namedSpecifiers.length === 0) {
-                  yield fixer.replaceText(node, `import type ${defaultSpecifier[1]} from '${entrypoint}'`)
                 }
 
-                return
-              }
-
-              // Otherwise, we have a mix of type and value imports to emit
-              const valueSpecifiers = importSpecifiers.filter(([, , type]) => {
-                return type !== 'type'
-              })
-
-              if (valueSpecifiers.length === 0) {
-                return
-              }
-
-              const specifiers = valueSpecifiers.map(([imported, local]) => {
-                if (imported !== local) {
-                  return `${imported} as ${local}`
-                }
-                return imported
-              })
-              yield fixer.replaceText(node, `import {${specifiers.join(', ')}} from '${entrypoint}'`)
-
-              if (typeSpecifiers.length > 0) {
-                const specifiers = valueSpecifiers.map(([imported, local]) => {
-                  if (imported !== local) {
-                    return `${imported} as ${local}`
+                if (namedSpecifiers.length > 0 || (!typeImportDeclaration && namedTypeSpecifiers.length > 0)) {
+                  let specifiers = [...namedSpecifiers]
+                  if (!typeImportDeclaration) {
+                    specifiers.push(...namedTypeSpecifiers)
                   }
-                  return imported
+                  specifiers = specifiers.map(([imported, local, type]) => {
+                    const prefix = type === 'type' ? 'type ' : ''
+                    if (imported !== local) {
+                      return `${prefix}${imported} as ${local}`
+                    }
+                    return `${prefix}${imported}`
+                  })
+                  yield fixer.insertTextAfter(lastSpecifier, `, ${specifiers.join(', ')}`)
+                }
+              } else {
+                let specifiers = [...namedSpecifiers]
+                if (!typeImportDeclaration) {
+                  specifiers.push(...namedTypeSpecifiers)
+                }
+                specifiers = specifiers.map(([imported, local, type]) => {
+                  const prefix = type === 'type' ? 'type ' : ''
+                  if (imported !== local) {
+                    return `${prefix}${imported} as ${local}`
+                  }
+                  return `${prefix}${imported}`
                 })
-                yield fixer.insertTextAfter(node, `\nimport type {${specifiers.join(', ')}} from '${entrypoint}'`)
+                let declaration = 'import '
+
+                if (defaultSpecifier) {
+                  declaration += defaultSpecifier
+                }
+
+                if (defaultTypeSpecifier && !typeImportDeclaration) {
+                  declaration += defaultTypeSpecifier
+                }
+
+                if (specifiers.length > 0) {
+                  if (defaultSpecifier || defaultTypeSpecifier) {
+                    declaration += ', '
+                  }
+                  declaration += `{${specifiers.join(', ')}}`
+                }
+
+                declaration += ` from '${entrypoint}'`
+                yield fixer.replaceText(node, declaration)
+                originalImportReplaced = true
+              }
+
+              if (!originalImportReplaced) {
+                yield fixer.remove(node)
               }
             }
           },

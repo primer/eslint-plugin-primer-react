@@ -1,5 +1,29 @@
 # eslint-plugin-primer-react
 
+## 6.1.6
+
+### Patch Changes
+
+- [#255](https://github.com/primer/eslint-plugin-primer-react/pull/255) [`fd2cb55`](https://github.com/primer/eslint-plugin-primer-react/commit/fd2cb551cdf219c2ac690ce610fbbab102cc5e48) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to no longer migrate the TokenSizeKeys import
+
+## 6.1.5
+
+### Patch Changes
+
+- [#253](https://github.com/primer/eslint-plugin-primer-react/pull/253) [`456bf4d`](https://github.com/primer/eslint-plugin-primer-react/commit/456bf4d3c1f5e5dde70030f24c1c6b821e685cc5) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to move ButtonBase to `@primer/react/experimental`
+
+## 6.1.4
+
+### Patch Changes
+
+- [#249](https://github.com/primer/eslint-plugin-primer-react/pull/249) [`f8c8a9d`](https://github.com/primer/eslint-plugin-primer-react/commit/f8c8a9df1b49cb7f487eb0dba3e7f46ac7f7e23b) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to not create separate imports for type only imports. This prevents an issue downstream with autofixers
+
+## 6.1.3
+
+### Patch Changes
+
+- [#242](https://github.com/primer/eslint-plugin-primer-react/pull/242) [`e139c02`](https://github.com/primer/eslint-plugin-primer-react/commit/e139c02ae0d0d656d2276320ae0e4756b3a1debd) Thanks [@joshblack](https://github.com/joshblack)! - Update no-wildcard-imports rule to work for imports that specify value and type imports
+
 ## 6.1.2
 
 ### Patch Changes
