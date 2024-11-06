@@ -100,9 +100,9 @@ module.exports = {
                 fixes.push(fixer.removeRange(rangeToRemove))
               }
               // find the last specifier in the existing @primer/react import and insert Tooltip after that
-              // const rootImport = sourceCode.ast.body.find(statement => {
-              //   return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
-              // })
+              const rootImport = sourceCode.ast.body.find(statement => {
+                return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
+              })
               const lastSpecifier = rootImport.specifiers[rootImport.specifiers.length - 1]
               fixes.push(fixer.insertTextAfter(lastSpecifier, `, Tooltip`))
             }
