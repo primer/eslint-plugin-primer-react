@@ -6,13 +6,13 @@ This rule recommends using the tooltip that is imported from `@primer/react/next
 👎 Examples of **incorrect** code for this rule:
 
 ```tsx
-import {Tooltip} from '@primer/react'
+import {Tooltip} from '@primer/react/deprecated'
 ```
 
 👍 Examples of **correct** code for this rule:
 
 ```tsx
-import {Tooltip} from '@primer/react/next'
+import {Tooltip} from '@primer/react'
 ```
 
 ## Icon buttons and tooltips
@@ -20,8 +20,7 @@ import {Tooltip} from '@primer/react/next'
 Even though the below code is perfectly valid, since icon buttons now come with tooltips by default, it is not required to explicitly use the Tooltip component on icon buttons.
 
 ```jsx
-import {IconButton} from '@primer/react'
-import {Tooltip} from '@primer/react/next'
+import {IconButton, Tooltip} from '@primer/react'
 
 function ExampleComponent() {
   return (
