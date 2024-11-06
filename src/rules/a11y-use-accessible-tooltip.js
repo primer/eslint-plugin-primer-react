@@ -55,10 +55,20 @@ module.exports = {
           messageId: 'useAccessibleTooltip',
           fix(fixer) {
             const fixes = []
-            // If Tooltip is the only import and no existing @primer/react import, replace the whole import statement
-            if (!hasOtherImports && !hasRootImport) {
-              fixes.push(fixer.replaceText(node.source, `'@primer/react'`))
-            } else if (hasOtherImports && !hasRootImport) {
+            if (!hasOtherImports) {
+              // If Tooltip is the only import and no existing @primer/react import, replace the whole import statement
+              if (!hasRootImport) fixes.push(fixer.replaceText(node.source, `'@primer/react'`))
+              if (hasRootImport) {
+                //  remove the entire import statement
+                fixes.push(fixer.remove(node))
+                // find the last specifier in the existing @primer/react import and insert Tooltip after that
+                const rootImport = sourceCode.ast.body.find(statement => {
+                  return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
+                })
+                const lastSpecifier = rootImport.specifiers[rootImport.specifiers.length - 1]
+                fixes.push(fixer.insertTextAfter(lastSpecifier, `, Tooltip`))
+              }
+            } else {
               // There are other imports from the deprecated bundle but no existing @primer/react import, so remove the Tooltip import and add a new import statement with the correct path.
               const previousToken = sourceCode.getTokenBefore(tooltipSpecifier)
               const nextToken = sourceCode.getTokenAfter(tooltipSpecifier)
@@ -74,39 +84,20 @@ module.exports = {
               } else {
                 rangeToRemove = [tooltipSpecifier.range[0], tooltipSpecifier.range[1]]
               }
-
+              // Remove Tooltip from the import statement
               fixes.push(fixer.removeRange(rangeToRemove))
-              fixes.push(fixer.insertTextAfter(node, `\nimport {Tooltip} from '@primer/react';`))
-            } else {
-              if (!hasOtherImports) {
-                //  remove the entire import statement
-                fixes.push(fixer.remove(node))
+
+              if (!hasRootImport) {
+                fixes.push(fixer.insertTextAfter(node, `\nimport {Tooltip} from '@primer/react';`))
               } else {
-                const previousToken = sourceCode.getTokenBefore(tooltipSpecifier)
-                const nextToken = sourceCode.getTokenAfter(tooltipSpecifier)
-                const hasTrailingComma = nextToken && nextToken.value === ','
-                const hasLeadingComma = previousToken && previousToken.value === ','
-
-                let rangeToRemove
-
-                if (hasTrailingComma) {
-                  rangeToRemove = [tooltipSpecifier.range[0], nextToken.range[1] + 1]
-                } else if (hasLeadingComma) {
-                  rangeToRemove = [previousToken.range[0], tooltipSpecifier.range[1]]
-                } else {
-                  rangeToRemove = [tooltipSpecifier.range[0], tooltipSpecifier.range[1]]
-                }
-
-                fixes.push(fixer.removeRange(rangeToRemove))
+                // find the last specifier in the existing @primer/react import and insert Tooltip after that
+                const rootImport = sourceCode.ast.body.find(statement => {
+                  return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
+                })
+                const lastSpecifier = rootImport.specifiers[rootImport.specifiers.length - 1]
+                fixes.push(fixer.insertTextAfter(lastSpecifier, `, Tooltip`))
               }
-              // find the last specifier in the existing @primer/react import and insert Tooltip after that
-              const rootImport = sourceCode.ast.body.find(statement => {
-                return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
-              })
-              const lastSpecifier = rootImport.specifiers[rootImport.specifiers.length - 1]
-              fixes.push(fixer.insertTextAfter(lastSpecifier, `, Tooltip`))
             }
-
             return fixes
           },
         })
