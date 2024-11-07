@@ -40,7 +40,8 @@ module.exports = {
 
         const sourceCode = context.getSourceCode()
         // Checking to see if there is an existing root (@primer/react) import
-        const rootImport = sourceCode.ast.body.filter(statement => {
+        // Assuming there is one root import per file
+        const rootImport = sourceCode.ast.body.find(statement => {
           return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
         })
 
@@ -48,7 +49,7 @@ module.exports = {
           specifier => specifier.imported && specifier.imported.name === 'Tooltip',
         )
 
-        const hasRootImport = rootImport.length >= 1
+        const hasRootImport = rootImport !== undefined
 
         context.report({
           node,
@@ -62,9 +63,6 @@ module.exports = {
                 //  remove the entire import statement
                 fixes.push(fixer.remove(node))
                 // find the last specifier in the existing @primer/react import and insert Tooltip after that
-                const rootImport = sourceCode.ast.body.find(statement => {
-                  return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
-                })
                 const lastSpecifier = rootImport.specifiers[rootImport.specifiers.length - 1]
                 fixes.push(fixer.insertTextAfter(lastSpecifier, `, Tooltip`))
               }
@@ -91,9 +89,6 @@ module.exports = {
                 fixes.push(fixer.insertTextAfter(node, `\nimport {Tooltip} from '@primer/react';`))
               } else {
                 // find the last specifier in the existing @primer/react import and insert Tooltip after that
-                const rootImport = sourceCode.ast.body.find(statement => {
-                  return statement.type === 'ImportDeclaration' && statement.source.value === '@primer/react'
-                })
                 const lastSpecifier = rootImport.specifiers[rootImport.specifiers.length - 1]
                 fixes.push(fixer.insertTextAfter(lastSpecifier, `, Tooltip`))
               }
