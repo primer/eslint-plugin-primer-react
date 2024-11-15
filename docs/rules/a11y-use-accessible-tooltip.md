@@ -1,18 +1,33 @@
-# Recommends to use the `next` tooltip instead of the current stable one.
+# Recommends to use the new accessible tooltip instead of the deprecated one.
 
 ## Rule details
 
-This rule recommends using the tooltip that is imported from `@primer/react/next` instead of the main entrypoint. The components that are exported from `@primer/react/next` are recommended over the main entrypoint ones because `next` components are reviewed and remediated for accessibility issues.
+This rule suggests switching to the new accessible tooltip from @primer/react instead of the deprecated version. Deprecated props like wrap, noDelay, and align should also be removed.
+
+Note that the new tooltip is intended for interactive elements only, such as buttons and links, whereas the deprecated tooltip could be applied to any element, though it lacks screen reader accessibility. As a result, the autofix for this rule will only work if the deprecated tooltip is on an interactive element. If it is applied to a non-interactive element, please consult your design team for [an alternative approach](https://primer.style/guides/accessibility/tooltip-alternatives).
+
 👎 Examples of **incorrect** code for this rule:
 
-```tsx
+```jsx
 import {Tooltip} from '@primer/react/deprecated'
+
+const App = () => (
+  <Tooltip aria-label="This change cannot be undone" direction="w" wrap={true} noDelay={true} align="left">
+    <Button onClick={onClick}>Delete</Button>
+  </Tooltip>
+)
 ```
 
 👍 Examples of **correct** code for this rule:
 
-```tsx
+```jsx
 import {Tooltip} from '@primer/react'
+
+const App = () => (
+  <Tooltip text="This change cannot be undone" direction="w">
+    <Button onClick={onClick}>Delete</Button>
+  </Tooltip>
+)
 ```
 
 ## Icon buttons and tooltips
