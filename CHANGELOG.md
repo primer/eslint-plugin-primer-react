@@ -1,5 +1,17 @@
 # eslint-plugin-primer-react
 
+## 7.0.0
+
+### Major Changes
+
+- [#270](https://github.com/primer/eslint-plugin-primer-react/pull/270) [`17814a2`](https://github.com/primer/eslint-plugin-primer-react/commit/17814a2d77d752b6675e51124fe3c18671837a10) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Update a11y-use-next-tooltip to be a11y-use-accessible-tooltip and make the changes accordingly
+
+### Minor Changes
+
+- [#266](https://github.com/primer/eslint-plugin-primer-react/pull/266) [`90134bc`](https://github.com/primer/eslint-plugin-primer-react/commit/90134bcee073c424e81c53e69632e1518798af93) Thanks [@keithamus](https://github.com/keithamus)! - Add enforce-css-module-default-import rule
+
+- [#258](https://github.com/primer/eslint-plugin-primer-react/pull/258) [`83f29f3`](https://github.com/primer/eslint-plugin-primer-react/commit/83f29f339999b9c21d95167bcc2680c1797cbab6) Thanks [@keithamus](https://github.com/keithamus)! - Add enforce-css-module-identifier-casing rule
+
 ## 6.1.6
 
 ### Patch Changes
