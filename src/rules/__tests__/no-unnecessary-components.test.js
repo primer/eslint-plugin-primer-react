@@ -1,6 +1,7 @@
 // @ts-check
 
 const {RuleTester} = require('@typescript-eslint/rule-tester')
+const tseslint = require('typescript-eslint')
 
 const path = require('node:path')
 const rule = require('../no-unnecessary-components')
@@ -20,10 +21,14 @@ const componentDeclaration = `const OtherComponent = ({children}: {children: Rea
 const asConstDeclaration = `const as = "p";`
 
 const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    tsconfigRootDir: path.resolve(__dirname, 'fixtures'),
-    project: path.resolve(__dirname, 'fixtures', 'tsconfig.json'),
+  languageOptions: {
+    parser: tseslint.parser,
+    parserOptions: {
+      tsconfigRootDir: path.resolve(__dirname, 'fixtures'),
+      projectService: {
+        allowDefaultProject: ['*.ts*'],
+      },
+    },
   },
   defaultFilenames: {
     ts: 'file.ts',
