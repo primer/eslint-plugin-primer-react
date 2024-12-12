@@ -25,14 +25,8 @@ const ruleTester = new RuleTester({
     parser: tseslint.parser,
     parserOptions: {
       tsconfigRootDir: path.resolve(__dirname, 'fixtures'),
-      projectService: {
-        allowDefaultProject: ['*.ts*'],
-      },
+      project: path.resolve(__dirname, 'fixtures', 'tsconfig.json'),
     },
-  },
-  defaultFilenames: {
-    ts: 'file.ts',
-    tsx: 'File.tsx',
   },
 })
 
