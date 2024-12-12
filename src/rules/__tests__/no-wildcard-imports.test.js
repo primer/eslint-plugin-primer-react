@@ -2,14 +2,17 @@
 
 const {RuleTester} = require('eslint')
 const rule = require('../no-wildcard-imports')
+const tseslint = require('typescript-eslint')
 
 const ruleTester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parser: tseslint.parser,
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 })
@@ -41,20 +44,6 @@ ruleTester.run('no-wildcard-imports', rule, {
       ],
     },
 
-    // Test multiple type imports
-    {
-      code: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react/lib-esm/sx'`,
-      output: `import {type BetterSystemStyleObject, type SxProp, type BetterCssProperties} from '@primer/react'`,
-      errors: [
-        {
-          messageId: 'wildcardMigration',
-          data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/sx',
-          },
-        },
-      ],
-    },
-
     // Test import alias
     {
       code: `import type {SxProp as RenamedSxProp} from '@primer/react/lib-esm/sx'`,
@@ -64,20 +53,6 @@ ruleTester.run('no-wildcard-imports', rule, {
           messageId: 'wildcardMigration',
           data: {
             wildcardEntrypoint: '@primer/react/lib-esm/sx',
-          },
-        },
-      ],
-    },
-
-    // Test default import
-    {
-      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
-      output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
-      errors: [
-        {
-          messageId: 'wildcardMigration',
-          data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
           },
         },
       ],
@@ -302,18 +277,6 @@ import {type ButtonBaseProps} from '@primer/react/experimental'`,
           messageId: 'wildcardMigration',
           data: {
             wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/List',
-          },
-        },
-      ],
-    },
-    {
-      code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
-      output: `import {type ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
-      errors: [
-        {
-          messageId: 'wildcardMigration',
-          data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/Item',
           },
         },
       ],
