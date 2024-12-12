@@ -4,11 +4,13 @@ const {RuleTester} = require('eslint')
 const rule = require('../a11y-remove-disable-tooltip')
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 })
