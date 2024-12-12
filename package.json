@@ -43,6 +43,8 @@
     "@github/markdownlint-github": "^0.6.3",
     "@github/prettier-config": "0.0.6",
     "eslint": "^9.16.0",
+    "@eslint/js": "^9.16.0",
+    "eslint-plugin-jest": "^28.9.0",
     "eslint-plugin-prettier": "^5.2.1",
     "jest": "^29.7.0",
     "markdownlint-cli2": "^0.14.0",

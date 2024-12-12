@@ -24,5 +24,5 @@ module.exports = {
   configs: {
     recommended: require('./configs/recommended'),
   },
-  getFlatConfigs: getFlatConfigs
+  getFlatConfigs,
 }
