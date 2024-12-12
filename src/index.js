@@ -1,3 +1,7 @@
+const getFlatConfigs = () => ({
+  recommended: require('./configs/flat/recommended'),
+})
+
 module.exports = {
   rules: {
     'direct-slot-children': require('./rules/direct-slot-children'),
@@ -22,4 +26,5 @@ module.exports = {
   configs: {
     recommended: require('./configs/recommended'),
   },
+  getFlatConfigs: getFlatConfigs
 }
