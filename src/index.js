@@ -1,8 +1,11 @@
+const {name, version} = require('../package.json')
+
 const getFlatConfigs = () => ({
   recommended: require('./configs/flat/recommended'),
 })
 
-module.exports = {
+const plugin = {
+  meta: {name, version},
   rules: {
     'direct-slot-children': require('./rules/direct-slot-children'),
     'no-deprecated-entrypoints': require('./rules/no-deprecated-entrypoints'),
@@ -28,3 +31,5 @@ module.exports = {
   },
   getFlatConfigs,
 }
+
+module.exports = plugin
