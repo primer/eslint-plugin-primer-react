@@ -16,11 +16,11 @@ const options = githubMarkdownOpinions.init({
   'no-hard-tabs': false,
   'first-line-heading': false,
   'no-space-in-emphasis': false,
-  'blanks-around-fences': false
+  'blanks-around-fences': false,
 })
 
 module.exports = {
   config: options,
   customRules: ['@github/markdownlint-github'],
-  outputFormatters: [['markdownlint-cli2-formatter-pretty', {appendLink: true}]]
+  outputFormatters: [['markdownlint-cli2-formatter-pretty', {appendLink: true}]],
 }
