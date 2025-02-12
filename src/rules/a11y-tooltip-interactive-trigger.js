@@ -31,8 +31,11 @@ const isJSXValue = attributes => {
 
 const isInteractiveAnchor = child => {
   const hasHref = getJSXOpeningElementAttribute(child.openingElement, 'href')
-  if (!hasHref) return false
-  const href = getJSXOpeningElementAttribute(child.openingElement, 'href').value.value
+  const hasTo = getJSXOpeningElementAttribute(child.openingElement, 'to')
+  if (!hasHref && !hasTo) return false
+  
+  const href = hasHref ? getJSXOpeningElementAttribute(child.openingElement, 'href').value.value : getJSXOpeningElementAttribute(child.openingElement, 'to').value.value
+
   const hasJSXValue = isJSXValue(child.openingElement.attributes)
   const isAnchorInteractive = (typeof href === 'string' && href !== '') || hasJSXValue
 
