@@ -67,6 +67,22 @@ ruleTester.run('non-interactive-tooltip-trigger', rule, {
       </Link>
     </Tooltip>
     `,
+    `
+    import {Tooltip, Link} from '@primer/react';
+    <Tooltip aria-label="product" direction="e">
+      <Link to={productLink}>
+        Product
+      </Link>
+    </Tooltip>
+    `,
+    `
+    import {Tooltip, Link} from '@primer/react';
+    <Tooltip aria-label="product" direction="e">
+      <Link to="https://github.com">
+        Product
+      </Link>
+    </Tooltip>
+    `,
   ],
   invalid: [
     {
