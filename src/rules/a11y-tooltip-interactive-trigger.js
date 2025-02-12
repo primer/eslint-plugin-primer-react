@@ -23,7 +23,7 @@ const isAnchorTag = el => {
 }
 
 const isJSXValue = attributes => {
-  const node = attributes.find(attribute => propName(attribute) === 'href')
+  const node = attributes.find(attribute => propName(attribute) === 'href' || propName(attribute))
   const isJSXExpression = node.value.type === 'JSXExpressionContainer' && node && typeof getPropValue(node) === 'string'
 
   return isJSXExpression
@@ -32,6 +32,7 @@ const isJSXValue = attributes => {
 const isInteractiveAnchor = child => {
   const hasHref = getJSXOpeningElementAttribute(child.openingElement, 'href')
   const hasTo = getJSXOpeningElementAttribute(child.openingElement, 'to')
+
   if (!hasHref && !hasTo) return false
 
   const href = hasHref
