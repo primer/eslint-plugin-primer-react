@@ -7,7 +7,7 @@ This rule aims to prevent the use of the `title` attribute with some components 
 ```jsx
 import {RelativeTime} from '@primer/react'
 
-<RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle={false} />
+const App = () => <RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle={false} />
 ```
 
 👍 Examples of **correct** code for this rule:
@@ -15,7 +15,7 @@ import {RelativeTime} from '@primer/react'
 ```jsx
 import {RelativeTime} from '@primer/react'
 
-<RelativeTime date={new Date('2020-01-01T00:00:00Z')} />
+const App = () => <RelativeTime date={new Date('2020-01-01T00:00:00Z')} />
 ```
 
 The `noTitle` attribute can be omitted because its default value is `true` internally.
