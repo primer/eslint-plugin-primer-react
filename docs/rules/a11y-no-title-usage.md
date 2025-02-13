@@ -18,7 +18,7 @@ import {RelativeTime} from '@primer/react'
 const App = () => <RelativeTime date={new Date('2020-01-01T00:00:00Z')} />
 ```
 
-The `noTitle` attribute can be omitted because its default value is `true` internally.
+The noTitle attribute is true by default, so it can be omitted.
 
 ## With alternative tooltip
 
