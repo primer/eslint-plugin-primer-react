@@ -19,3 +19,22 @@ const App = () => <RelativeTime date={new Date('2020-01-01T00:00:00Z')} />
 ```
 
 The `noTitle` attribute can be omitted because its default value is `true` internally.
+
+## With alternative tooltip
+
+If you want to still utilize a tooltip in a similar way to how the `title` attribute works, you can use the [Primer `Tooltip`](https://primer.style/components/tooltip/react/beta). If you use the `Tooltip` component, you must use it with an interactive element, such as with a button or a link.
+
+```jsx
+import {RelativeTime, Tooltip} from '@primer/react'
+
+const App = () => {
+  const date = new Date('2020-01-01T00:00:00Z')
+  return (
+    <Tooltip text={date.toString()}>
+      <Link href="#">
+        <RelativeTime date={date} noTitle={true} />
+      </Link>
+    </Tooltip>
+  )
+}
+```
