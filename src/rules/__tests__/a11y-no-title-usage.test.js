@@ -13,17 +13,14 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('a11y-no-title-usage', rule, {
   valid: [
-    `import {RelativeTime} from '@primer/react';
-  <RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle={true} />`,
-    `import {RelativeTime} from '@primer/react';
-  <RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle />`,
-    `import {RelativeTime} from '@primer/react';
-  <RelativeTime date={new Date('2020-01-01T00:00:00Z')} />`,
+    `<RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle={true} />`,
+    `<RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle />`,
+    `<RelativeTime date={new Date('2020-01-01T00:00:00Z')} />`,
   ],
   invalid: [
     {
-      code: `import {RelativeTime} from '@primer/react'; <RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle={false} />`,
-      output: `import {RelativeTime} from '@primer/react'; <RelativeTime date={new Date('2020-01-01T00:00:00Z')} />`,
+      code: `<RelativeTime date={new Date('2020-01-01T00:00:00Z')} noTitle={false} />`,
+      output: `<RelativeTime date={new Date('2020-01-01T00:00:00Z')} />`,
       errors: [{messageId: 'noTitleOnRelativeTime'}],
     },
   ],
