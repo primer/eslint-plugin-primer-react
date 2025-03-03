@@ -10,6 +10,7 @@ module.exports = {
     'a11y-link-in-text-block': require('./rules/a11y-link-in-text-block'),
     'a11y-remove-disable-tooltip': require('./rules/a11y-remove-disable-tooltip'),
     'a11y-use-accessible-tooltip': require('./rules/a11y-use-accessible-tooltip'),
+    'a11y-no-title-usage': require('./rules/a11y-no-title-usage'),
     'use-deprecated-from-deprecated': require('./rules/use-deprecated-from-deprecated'),
     'no-wildcard-imports': require('./rules/no-wildcard-imports'),
     'no-unnecessary-components': require('./rules/no-unnecessary-components'),
