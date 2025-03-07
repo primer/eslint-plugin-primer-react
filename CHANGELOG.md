@@ -1,5 +1,23 @@
 # eslint-plugin-primer-react
 
+## 7.0.0
+
+### Major Changes
+
+- [#270](https://github.com/primer/eslint-plugin-primer-react/pull/270) [`17814a2`](https://github.com/primer/eslint-plugin-primer-react/commit/17814a2d77d752b6675e51124fe3c18671837a10) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Update a11y-use-next-tooltip to be a11y-use-accessible-tooltip and make the changes accordingly
+
+- [#316](https://github.com/primer/eslint-plugin-primer-react/pull/316) [`40016c8`](https://github.com/primer/eslint-plugin-primer-react/commit/40016c8db99b4045ed7474cead0b48eed05f5f64) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Add `a11y-no-title-usage` that warns against using `title` in some components
+
+### Minor Changes
+
+- [#266](https://github.com/primer/eslint-plugin-primer-react/pull/266) [`90134bc`](https://github.com/primer/eslint-plugin-primer-react/commit/90134bcee073c424e81c53e69632e1518798af93) Thanks [@keithamus](https://github.com/keithamus)! - Add enforce-css-module-default-import rule
+
+- [#258](https://github.com/primer/eslint-plugin-primer-react/pull/258) [`83f29f3`](https://github.com/primer/eslint-plugin-primer-react/commit/83f29f339999b9c21d95167bcc2680c1797cbab6) Thanks [@keithamus](https://github.com/keithamus)! - Add enforce-css-module-identifier-casing rule
+
+### Patch Changes
+
+- [#314](https://github.com/primer/eslint-plugin-primer-react/pull/314) [`63ef9fd`](https://github.com/primer/eslint-plugin-primer-react/commit/63ef9fdf02a9c4b80528644a96fd81e366bce187) Thanks [@khiga8](https://github.com/khiga8)! - fix: Link to should be allowed to have tooltip
+
 ## 6.1.6
 
 ### Patch Changes
