@@ -1,4 +1,4 @@
-# No experimental SelectPanel
+# No deprecated experimental components
 
 ## Rule Details
 

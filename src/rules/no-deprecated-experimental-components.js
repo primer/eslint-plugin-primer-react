@@ -33,8 +33,6 @@ module.exports = {
     schema: [],
   },
   create(context) {
-    const sourceCode = context.getSourceCode()
-
     return {
       ImportDeclaration(node) {
         if (!entrypoints.has(node.source.value)) {
