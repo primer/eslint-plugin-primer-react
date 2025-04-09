@@ -45,15 +45,20 @@ module.exports = {
           return entrypoint.has(specifier.imported.name)
         })
 
+        const components = experimental.map(specifier => specifier.imported.name)
+
         if (experimental.length === 0) {
           return
         }
 
-        // All imports are deprecated
         if (experimental.length > 0) {
+          const message = `${components.join(', ')} ${
+            components.length > 1 ? 'are' : 'is'
+          } deprecated. Please import them from the stable entrypoint (@primer/react) if available.`
+
           context.report({
             node,
-            message: 'SelectPanelV2 is deprecated. Please import SelectPanelV1 from `@primer/react`',
+            message,
           })
         }
       },
