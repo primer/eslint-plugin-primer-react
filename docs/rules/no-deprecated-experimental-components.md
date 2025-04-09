@@ -19,7 +19,7 @@ function ExampleComponent() {
 You can satisfy the rule by either converting to the non-experimental version:
 
 ```jsx
-import {SelectPane} from '@primer/react'
+import {SelectPanel} from '@primer/react'
 
 function ExampleComponent() {
   return <SelectPanel />
