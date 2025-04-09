@@ -2,7 +2,7 @@
 
 ## Rule Details
 
-This rule enforces the usage of specific imports from `@primer/react/experimental`.
+This rule discourages the usage of specific imports from `@primer/react/experimental`.
 
 👎 Examples of **incorrect** code for this rule
 
