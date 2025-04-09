@@ -54,7 +54,7 @@ module.exports = {
         if (experimental.length > 0) {
           const message = `${components.join(', ')} ${
             components.length > 1 ? 'are' : 'is'
-          } deprecated. Please import them from the stable entrypoint (@primer/react) if available.`
+          } deprecated. Please import them from the stable entrypoint (@primer/react) if available, or check https://primer.style/product/components/ for alternative components.`
 
           context.report({
             node,
