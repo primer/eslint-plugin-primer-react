@@ -17,7 +17,7 @@ module.exports = [
       },
     },
     rules: {
-      'importPlugin/no-commonjs': 'off',
+      'import/no-commonjs': 'off',
       'no-shadow': 'off',
       'no-unused-vars': [
         'error',
@@ -35,18 +35,14 @@ module.exports = [
         ...pluginJest.environments.globals.globals,
       },
     },
-  },
-  {
-    files: ['.eslint.config.js', '.markdownlint-cli2.cjs'],
     rules: {
-      'filenames/match-regex': 'off',
-      'github/filenames-match-regex': 'off',
+      'i18n-text/no-en': 'off',
     },
   },
   {
-    files: ['src/url.js', 'src/rules/new-color-css-vars.js'],
+    files: ['.markdownlint-cli2.cjs'],
     rules: {
-      'importPlugin/extensions': 'off',
+      'github/filenames-match-regex': 'off',
     },
   },
 ]

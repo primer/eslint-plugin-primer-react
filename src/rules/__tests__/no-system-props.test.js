@@ -104,6 +104,7 @@ ruleTester.run('no-system-props', rule, {
     },
     {
       code: `import {Button} from '@primer/react'; <Button width={200} sx={myStylez} />`,
+      output: null,
       errors: [
         {
           messageId: 'noSystemProps',

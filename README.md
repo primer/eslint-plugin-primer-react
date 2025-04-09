@@ -6,8 +6,7 @@ ESLint rules for Primer React
 
 ## Installation
 
-1. Assuming you already have [ESLint](https://www.npmjs.com/package/eslint) and
-   [Primer React](https://github.com/primer/react) installed, run:
+Assuming you already have [ESLint](https://www.npmjs.com/package/eslint) and [Primer React](https://github.com/primer/react) installed, run:
 
    ```shell
    npm install --save-dev eslint-plugin-primer-react
@@ -17,8 +16,29 @@ ESLint rules for Primer React
    yarn add --dev eslint-plugin-primer-react
    ```
 
-2. In your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/configuration-files), extend the
-   recommended Primer React ESLint config:
+## Setup
+
+### Flat Configuration (`eslint.config.js`)
+
+In your [`eslint.config`](https://eslint.org/docs/user-guide/configuring/configuration-files) file, import `eslint-plugin-primer-react` and extend the recommended configuration using `getFlatConfigs()`:
+
+```js
+import pluginPrimerReact from 'eslint-plugin-primer-react'
+
+export default [
+  pluginPrimerReact.getFlatConfigs().recommended,
+  {
+    rules: {
+      'primer-react/no-system-props': 'error',
+      // other custom rules...
+    },
+  },
+]
+```
+
+### Legacy Configuration (`.eslintrc.js`)
+
+In your [`.eslintrc`](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated) file, extend the recommended Primer React ESLint config:
 
    ```js
    {
