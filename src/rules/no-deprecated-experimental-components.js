@@ -25,7 +25,7 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Use deprecated components from the `@primer/react/deprecated` entrypoint',
+      description: 'Use a stable component from the `@primer/react` entrypoint, or check the docs for alternatives',
       recommended: true,
       url: url(module),
     },
