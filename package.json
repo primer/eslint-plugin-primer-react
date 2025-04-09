@@ -34,8 +34,8 @@
     "eslint-traverse": "^1.0.0",
     "lodash": "^4.17.21",
     "styled-system": "^5.1.5",
-    "@typescript-eslint/utils": "8.24.0",
-    "typescript": "^5.5.3"
+    "@typescript-eslint/utils": "8.26.0",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
