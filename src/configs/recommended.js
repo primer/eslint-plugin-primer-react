@@ -12,7 +12,7 @@ module.exports = {
   rules: {
     'primer-react/direct-slot-children': 'error',
     'primer-react/no-system-props': 'warn',
-    'no-deprecated-experimental-components': 'warn',
+    'primer-react/no-deprecated-experimental-components': 'warn',
     'primer-react/a11y-tooltip-interactive-trigger': 'error',
     'primer-react/new-color-css-vars': 'error',
     'primer-react/a11y-explicit-heading': 'error',
