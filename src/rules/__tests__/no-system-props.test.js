@@ -2,11 +2,13 @@ const rule = require('../no-system-props')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 })
@@ -102,7 +104,7 @@ ruleTester.run('no-system-props', rule, {
     },
     {
       code: `import {Button} from '@primer/react'; <Button width={200} sx={myStylez} />`,
-      output: `import {Button} from '@primer/react'; <Button width={200} sx={myStylez} />`,
+      output: null,
       errors: [
         {
           messageId: 'noSystemProps',
