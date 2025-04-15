@@ -2,11 +2,13 @@ const rule = require('../a11y-use-accessible-tooltip')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 })
