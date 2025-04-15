@@ -8,13 +8,13 @@ ESLint rules for Primer React
 
 Assuming you already have [ESLint](https://www.npmjs.com/package/eslint) and [Primer React](https://github.com/primer/react) installed, run:
 
-   ```shell
-   npm install --save-dev eslint-plugin-primer-react
+```shell
+npm install --save-dev eslint-plugin-primer-react
 
-   # or
+# or
 
-   yarn add --dev eslint-plugin-primer-react
-   ```
+yarn add --dev eslint-plugin-primer-react
+```
 
 ## Setup
 
@@ -40,14 +40,14 @@ export default [
 
 In your [`.eslintrc`](https://eslint.org/docs/latest/use/configure/configuration-files-deprecated) file, extend the recommended Primer React ESLint config:
 
-   ```js
-   {
-     "extends": [
-       // ...
-       "plugin:primer-react/recommended"
-     ]
-   }
-   ```
+```js
+{
+  "extends": [
+    // ...
+    "plugin:primer-react/recommended"
+  ]
+}
+```
 
 ## Rules
 
