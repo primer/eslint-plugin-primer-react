@@ -57,7 +57,7 @@ module.exports = {
             const ref = context.sourceCode
               .getScope(node)
               .references.find(reference => reference.identifier.name === node.property.name)
-            const def = ref.resolved?.defs?.[0]
+            const def = ref?.resolved?.defs?.[0]
             if (def?.node?.init?.type === 'Literal') {
               if (!casingMatches(def.node.init.value || '', casing)) {
                 context.report({
