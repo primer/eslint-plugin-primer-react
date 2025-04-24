@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 7.0.1
+
+### Patch Changes
+
+- [#331](https://github.com/primer/eslint-plugin-primer-react/pull/331) [`82a7d03`](https://github.com/primer/eslint-plugin-primer-react/commit/82a7d037b92c02126c6bf0daba060b233ef94262) Thanks [@francinelucca](https://github.com/francinelucca)! - Update message for no-deprecated-experimental-components rule
+
+- [#333](https://github.com/primer/eslint-plugin-primer-react/pull/333) [`c709c98`](https://github.com/primer/eslint-plugin-primer-react/commit/c709c98a84dc1ce978575136292063f3821b47cc) Thanks [@francinelucca](https://github.com/francinelucca)! - Update message for no-deprecated-experimental-components rule
+
+- [#331](https://github.com/primer/eslint-plugin-primer-react/pull/331) [`82a7d03`](https://github.com/primer/eslint-plugin-primer-react/commit/82a7d037b92c02126c6bf0daba060b233ef94262) Thanks [@francinelucca](https://github.com/francinelucca)! - Removes primer-react/enforce-css-module-identifier-casing, primer-react/enforce-css-module-default-import from recommended set of rules.
+
 ## 7.0.0
 
 ### Major Changes
