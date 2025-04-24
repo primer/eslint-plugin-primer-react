@@ -30,14 +30,14 @@ ruleTester.run('no-deprecated-experimental-components', rule, {
     {
       code: `import {SelectPanel} from '@primer/react/experimental'`,
       errors: [
-        'The experimental SelectPanel is deprecated. Please import from the stable entrypoint (@primer/react) if available, or check https://primer.style/product/components/ for alternative components.',
+        'The experimental SelectPanel is deprecated. Please import from the stable entrypoint (@primer/react) if available. Check https://primer.style/product/getting-started/react/migration-guides/ for migration guidance or https://primer.style/product/components/ for alternative components.',
       ],
     },
     // Multiple experimental import
     {
       code: `import {SelectPanel, DataTable, ActionBar} from '@primer/react/experimental'`,
       errors: [
-        'The experimental SelectPanel is deprecated. Please import from the stable entrypoint (@primer/react) if available, or check https://primer.style/product/components/ for alternative components.',
+        'The experimental SelectPanel is deprecated. Please import from the stable entrypoint (@primer/react) if available. Check https://primer.style/product/getting-started/react/migration-guides/ for migration guidance or https://primer.style/product/components/ for alternative components.',
       ],
     },
   ],
