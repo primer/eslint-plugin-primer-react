@@ -125,6 +125,19 @@ ruleTester.run('a11y-link-in-text-block', rule, {
     <Link className='some-class'>Link text</Link>
     </p>
   `,
+    // Valid HTML anchor examples
+    `<h1>
+      <a href="/home">Home</a>
+    </h1>`,
+    `<p>
+      <a href="/about" className="custom-link">About us</a>
+    </p>`,
+    `<div>
+      <a href="/contact"><CustomIcon /> Contact</a>
+    </div>`,
+    `<div>
+      <a href="/link">Link</a>.
+    </div>`,
   ],
   invalid: [
     {
@@ -166,6 +179,27 @@ ruleTester.run('a11y-link-in-text-block', rule, {
       <Link underline>Link level 1</Link></>;
     `,
       errors: [{messageId: 'linkInTextBlock'}],
+    },
+    // HTML anchor element tests
+    {
+      code: `<p>Please <a href="https://github.com">visit our site</a> for more information.</p>`,
+      errors: [{messageId: 'htmlAnchorInTextBlock'}],
+      output: `<p>Please <Link href="https://github.com">visit our site</Link> for more information.</p>`,
+    },
+    {
+      code: `<div>Learn more about <a href="/pricing">pricing</a> options.</div>`,
+      errors: [{messageId: 'htmlAnchorInTextBlock'}],
+      output: `<div>Learn more about <Link href="/pricing">pricing</Link> options.</div>`,
+    },
+    {
+      code: `<span>Check out <a href="https://github.com" target="_blank">GitHub</a> today!</span>`,
+      errors: [{messageId: 'htmlAnchorInTextBlock'}],
+      output: `<span>Check out <Link href="https://github.com" target="_blank">GitHub</Link> today!</span>`,
+    },
+    {
+      code: `<p><a href="/home">Home page</a> has been updated.</p>`,
+      errors: [{messageId: 'htmlAnchorInTextBlock'}],
+      output: `<p><Link href="/home">Home page</Link> has been updated.</p>`,
     },
   ],
 })
