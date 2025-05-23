@@ -84,6 +84,10 @@ module.exports = {
           const classNameAttribute = getJSXOpeningElementAttribute(node.openingElement, 'className')
           if (classNameAttribute) return
 
+          // Skip if anchor has an ID (might have distinguishing styles)
+          const idAttribute = getJSXOpeningElementAttribute(node.openingElement, 'id')
+          if (idAttribute) return
+
           // Check for anchor in text block
           if (isNodeInTextBlock(node)) {
             // Skip if anchor child is a JSX element

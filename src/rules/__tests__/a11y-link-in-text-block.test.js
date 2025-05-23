@@ -15,11 +15,11 @@ ruleTester.run('a11y-link-in-text-block', rule, {
   valid: [
     `import {Link} from '@primer/react';
     <Box>
-  
+
     <Link href="something">
       Blah blah
     </Link>{' '}
-    . 
+    .
     </Box>
   `,
     `import {Text, Link} from '@primer/react';
@@ -137,6 +137,9 @@ ruleTester.run('a11y-link-in-text-block', rule, {
     </div>`,
     `<div>
       <a href="/link">Link</a>.
+    </div>`,
+    `<div>
+      <a href="/link" id="custom-link">Link</a>.
     </div>`,
   ],
   invalid: [
