@@ -28,12 +28,12 @@ module.exports = {
   },
   create(context) {
     const sourceCode = context.sourceCode ?? context.getSourceCode()
-    
+
     // Helper function to check if a node is in a text block
-    const isNodeInTextBlock = (node) => {
+    const isNodeInTextBlock = node => {
       let siblings = node.parent.children
       if (!siblings || siblings.length === 0) return false
-      
+
       // Filter out whitespace nodes
       siblings = siblings.filter(childNode => {
         return (
@@ -46,17 +46,17 @@ module.exports = {
           !(childNode.type === 'Literal' && /^\s+$/.test(childNode.value))
         )
       })
-      
+
       const index = siblings.findIndex(childNode => {
         return childNode.range === node.range
       })
-      
+
       const prevSibling = siblings[index - 1]
       const nextSibling = siblings[index + 1]
-      
+
       const prevSiblingIsText = prevSibling && prevSibling.type === 'JSXText'
       const nextSiblingIsText = nextSibling && nextSibling.type === 'JSXText'
-      
+
       // If there's text on either side
       if (prevSiblingIsText || nextSiblingIsText) {
         // Skip if the only text adjacent to the link is a period
@@ -65,55 +65,49 @@ module.exports = {
         }
         return true
       }
-      
+
       return false
     }
-    
+
     return {
       JSXElement(node) {
         const name = getJSXOpeningElementName(node.openingElement)
         const parentName = node.parent.openingElement?.name?.name
         const parentsToSkip = ['Heading', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-        
+
         // Check for HTML anchor elements
-        if (
-          isHTMLElement(node.openingElement) &&
-          name === 'a' &&
-          node.parent.children
-        ) {
+        if (isHTMLElement(node.openingElement) && name === 'a' && node.parent.children) {
           // Skip if anchor is nested inside of a heading
           if (parentsToSkip.includes(parentName)) return
-          
+
           // Skip if anchor has className (might have distinguishing styles)
           const classNameAttribute = getJSXOpeningElementAttribute(node.openingElement, 'className')
           if (classNameAttribute) return
-          
+
           // Check for anchor in text block
           if (isNodeInTextBlock(node)) {
             // Skip if anchor child is a JSX element
             const jsxElementChildren = node.children.filter(child => child.type === 'JSXElement')
             if (jsxElementChildren.length > 0) return
-            
+
             // Report and autofix
             context.report({
               node,
               messageId: 'htmlAnchorInTextBlock',
               fix(fixer) {
                 // Get all attributes from the anchor to transfer to Link
-                const attributes = node.openingElement.attributes
-                  .map(attr => sourceCode.getText(attr))
-                  .join(' ')
-                
+                const attributes = node.openingElement.attributes.map(attr => sourceCode.getText(attr)).join(' ')
+
                 // Create the Link component opening and closing tags
                 const openingTag = `<Link ${attributes}>`
                 const closingTag = '</Link>'
-                
+
                 // Apply fixes to the opening and closing tags
                 const openingFix = fixer.replaceText(node.openingElement, openingTag)
                 const closingFix = fixer.replaceText(node.closingElement, closingTag)
-                
+
                 return [openingFix, closingFix]
-              }
+              },
             })
           }
         }

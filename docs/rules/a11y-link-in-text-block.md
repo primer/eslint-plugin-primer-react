@@ -11,6 +11,7 @@ Additionally, HTML anchor elements (`<a>`) in text blocks should be converted to
 Related: [WCAG 1.4.1 Use of Color issues](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html)
 
 The lint rule will flag:
+
 - Any `<Link>` without the `inline` property (equal to `true`) detected with string nodes on either side.
 - Any HTML `<a>` elements detected within a text block, with an autofix to convert them to `Link` components.
 
@@ -110,7 +111,11 @@ import {Link} from '@primer/react'
 function ExampleComponent() {
   return (
     <p>
-      Learn more about <Link href="https://github.com/pricing" inline>GitHub plans</Link> and pricing options.
+      Learn more about{' '}
+      <Link href="https://github.com/pricing" inline>
+        GitHub plans
+      </Link>{' '}
+      and pricing options.
     </p>
   )
 }
