@@ -42,7 +42,7 @@ module.exports = {
         const entrypoint = entrypoints.get(node.source.value)
 
         const experimental = node.specifiers.filter(specifier => {
-          return entrypoint.has(specifier.imported.name)
+          return entrypoint.has(specifier.imported?.name)
         })
 
         const components = experimental.map(specifier => specifier.imported.name)
