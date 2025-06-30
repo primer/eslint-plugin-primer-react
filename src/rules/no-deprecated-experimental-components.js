@@ -45,7 +45,7 @@ module.exports = {
           return entrypoint.has(specifier.imported?.name)
         })
 
-        const components = experimental.map(specifier => specifier.imported.name)
+        const components = experimental.map(specifier => specifier.imported?.name)
 
         if (experimental.length === 0) {
           return
