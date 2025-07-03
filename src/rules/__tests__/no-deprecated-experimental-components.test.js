@@ -24,6 +24,9 @@ ruleTester.run('no-deprecated-experimental-components', rule, {
     {
       code: `import {DataTable, ActionBar} from '@primer/react/experimental'`,
     },
+    {
+      code: `import * as RandomComponent from '@primer/react/experimental'`,
+    },
   ],
   invalid: [
     // Single experimental import
