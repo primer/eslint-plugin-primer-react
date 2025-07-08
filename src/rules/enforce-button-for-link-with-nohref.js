@@ -12,10 +12,8 @@ module.exports = {
       url: url(module),
     },
     messages: {
-      noLinkWithoutHref:
-        'Links without href and other side effects are not accessible. Use a Button instead.',
+      noLinkWithoutHref: 'Links without href and other side effects are not accessible. Use a Button instead.',
     },
-    fixable: 'code',
   },
 
   create(context) {
