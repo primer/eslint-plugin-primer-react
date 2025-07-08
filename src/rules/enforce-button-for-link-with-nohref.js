@@ -13,7 +13,7 @@ module.exports = {
     },
     messages: {
       noLinkWithoutHref:
-        'Links without href and other side effects are not accessible. Use a Button instead.Use a button instead',
+        'Links without href and other side effects are not accessible. Use a Button instead.',
     },
     fixable: 'code',
   },
