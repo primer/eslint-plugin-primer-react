@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 7.0.3
+
+### Patch Changes
+
+- [#364](https://github.com/primer/eslint-plugin-primer-react/pull/364) [`ec701d2`](https://github.com/primer/eslint-plugin-primer-react/commit/ec701d29d35a0a3f09eea2f66dbe28b4be81957f) Thanks [@pksjce](https://github.com/pksjce)! - Add rule for Link to not be allowed without href
+
 ## 7.0.2
 
 ### Patch Changes
