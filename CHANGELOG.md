@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 7.1.0
+
+### Minor Changes
+
+- [#366](https://github.com/primer/eslint-plugin-primer-react/pull/366) [`c7bf278`](https://github.com/primer/eslint-plugin-primer-react/commit/c7bf278d7e7d6b389f325bfb9f57dca2114b3506) Thanks [@liuliu-dev](https://github.com/liuliu-dev)! - Add `a11y-no-duplicate-form-labels` rule to prevent duplicate labels on TextInput components.
+
+### Patch Changes
+
+- [#364](https://github.com/primer/eslint-plugin-primer-react/pull/364) [`ec701d2`](https://github.com/primer/eslint-plugin-primer-react/commit/ec701d29d35a0a3f09eea2f66dbe28b4be81957f) Thanks [@pksjce](https://github.com/pksjce)! - Add rule for Link to not be allowed without href
+
 ## 7.0.2
 
 ### Patch Changes
