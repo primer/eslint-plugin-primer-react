@@ -155,14 +155,18 @@ export default function App() {
       ],
     },
 
-    // Complex conditional case - should report but not autofix
+    // Complex conditional case - now provides autofix
     {
       code: `import {Octicon} from '@primer/react/deprecated'
 import {XIcon, CheckIcon} from '@primer/octicons-react'
 export default function App() {
   return <Octicon icon={condition ? XIcon : CheckIcon} />
 }`,
-      output: null,
+      output: `import {Octicon} from '@primer/react/deprecated'
+import {XIcon, CheckIcon} from '@primer/octicons-react'
+export default function App() {
+  return condition ? <XIcon /> : <CheckIcon />
+}`,
       errors: [
         {
           messageId: 'replaceDeprecatedOcticon',
@@ -170,14 +174,56 @@ export default function App() {
       ],
     },
 
-    // Dynamic icon access - should report but not autofix
+    // Complex conditional case with props - applies props to both components
+    {
+      code: `import {Octicon} from '@primer/react/deprecated'
+import {XIcon, CheckIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={condition ? XIcon : CheckIcon} size={16} className="test" />
+}`,
+      output: `import {Octicon} from '@primer/react/deprecated'
+import {XIcon, CheckIcon} from '@primer/octicons-react'
+export default function App() {
+  return condition ? <XIcon size={16} className="test" /> : <CheckIcon size={16} className="test" />
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // Dynamic icon access - now provides autofix
     {
       code: `import {Octicon} from '@primer/react/deprecated'
 export default function App() {
   const icons = { x: XIcon }
   return <Octicon icon={icons.x} />
 }`,
-      output: null,
+      output: `import {Octicon} from '@primer/react/deprecated'
+export default function App() {
+  const icons = { x: XIcon }
+  return React.createElement(icons.x, {})
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // Dynamic icon access with props
+    {
+      code: `import {Octicon} from '@primer/react/deprecated'
+export default function App() {
+  const icons = { x: XIcon }
+  return <Octicon icon={icons.x} size={16} className="btn-icon" />
+}`,
+      output: `import {Octicon} from '@primer/react/deprecated'
+export default function App() {
+  const icons = { x: XIcon }
+  return React.createElement(icons.x, {size: 16, className: "btn-icon"})
+}`,
       errors: [
         {
           messageId: 'replaceDeprecatedOcticon',

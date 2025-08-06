@@ -42,9 +42,12 @@ module.exports = {
         }
 
         let iconName = null
-        let isDynamic = false
+        let isConditional = false
+        let isMemberExpression = false
+        let conditionalExpression = null
+        let memberExpression = null
 
-        // Analyze the icon prop to determine the icon name
+        // Analyze the icon prop to determine the icon name and type
         if (iconProp.value?.type === 'JSXExpressionContainer') {
           const expression = iconProp.value.expression
 
@@ -53,20 +56,25 @@ module.exports = {
             iconName = expression.name
           } else if (expression.type === 'ConditionalExpression') {
             // Conditional case: icon={condition ? XIcon : YIcon}
-            // For now, we'll skip auto-fixing complex conditionals
-            isDynamic = true
+            isConditional = true
+            conditionalExpression = expression
           } else if (expression.type === 'MemberExpression') {
             // Dynamic lookup: icon={icons.x}
-            isDynamic = true
+            isMemberExpression = true
+            memberExpression = expression
           }
         }
 
-        if (!iconName && !isDynamic) {
+        if (!iconName && !isConditional && !isMemberExpression) {
           return
         }
 
+        // Get all props except the icon prop to preserve them
+        const otherProps = openingElement.attributes.filter(attr => attr !== iconProp)
+        const propsText = otherProps.map(attr => sourceCode.getText(attr)).join(' ')
+
         // For simple cases, we can provide an autofix
-        if (iconName && !isDynamic) {
+        if (iconName) {
           context.report({
             node: openingElement,
             messageId: 'replaceDeprecatedOcticon',
@@ -111,8 +119,86 @@ module.exports = {
               }
             },
           })
+        } else if (isConditional) {
+          // Handle conditional expressions: icon={condition ? XIcon : YIcon}
+          // Transform to: condition ? <XIcon otherProps /> : <YIcon otherProps />
+          context.report({
+            node: openingElement,
+            messageId: 'replaceDeprecatedOcticon',
+            *fix(fixer) {
+              const test = sourceCode.getText(conditionalExpression.test)
+              const consequentName = conditionalExpression.consequent.type === 'Identifier' 
+                ? conditionalExpression.consequent.name
+                : sourceCode.getText(conditionalExpression.consequent)
+              const alternateName = conditionalExpression.alternate.type === 'Identifier'
+                ? conditionalExpression.alternate.name 
+                : sourceCode.getText(conditionalExpression.alternate)
+              
+              const propsString = propsText ? ` ${propsText}` : ''
+              let replacement = `${test} ? <${consequentName}${propsString} /> : <${alternateName}${propsString} />`
+              
+              // If it has children, we need to include them in both branches
+              if (node.children && node.children.length > 0) {
+                const childrenText = node.children.map(child => sourceCode.getText(child)).join('')
+                replacement = `${test} ? <${consequentName}${propsString}>${childrenText}</${consequentName}> : <${alternateName}${propsString}>${childrenText}</${alternateName}>`
+              }
+              
+              yield fixer.replaceText(node, replacement)
+            },
+          })
+        } else if (isMemberExpression) {
+          // Handle member expressions: icon={icons.x}
+          // Transform to: React.createElement(icons.x, otherProps)
+          context.report({
+            node: openingElement,
+            messageId: 'replaceDeprecatedOcticon',
+            *fix(fixer) {
+              const memberText = sourceCode.getText(memberExpression)
+              
+              // Build props object
+              let propsObject = '{}'
+              if (otherProps.length > 0) {
+                const propStrings = otherProps.map(attr => {
+                  if (attr.type === 'JSXSpreadAttribute') {
+                    return `...${sourceCode.getText(attr.argument)}`
+                  } else {
+                    const name = attr.name.name
+                    const value = attr.value
+                    if (!value) {
+                      return `${name}: true`
+                    } else if (value.type === 'Literal') {
+                      return `${name}: ${JSON.stringify(value.value)}`
+                    } else if (value.type === 'JSXExpressionContainer') {
+                      return `${name}: ${sourceCode.getText(value.expression)}`
+                    }
+                    return `${name}: ${sourceCode.getText(value)}`
+                  }
+                })
+                propsObject = `{${propStrings.join(', ')}}`
+              }
+              
+              let replacement = `React.createElement(${memberText}, ${propsObject})`
+              
+              // If it has children, include them as additional arguments
+              if (node.children && node.children.length > 0) {
+                const childrenArgs = node.children.map(child => {
+                  if (child.type === 'JSXText') {
+                    return JSON.stringify(child.value.trim()).replace(/\n\s*/g, ' ')
+                  } else {
+                    return sourceCode.getText(child)
+                  }
+                }).filter(child => child !== '""') // Filter out empty text nodes
+                
+                if (childrenArgs.length > 0) {
+                  replacement = `React.createElement(${memberText}, ${propsObject}, ${childrenArgs.join(', ')})`
+                }
+              }
+              
+              yield fixer.replaceText(node, replacement)
+            },
+          })
         } else {
-          // For complex cases, just report without autofix
+          // For other complex cases, just report without autofix
           context.report({
             node: openingElement,
             messageId: 'replaceDeprecatedOcticon',
