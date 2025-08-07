@@ -6,11 +6,11 @@
 
 <!-- end auto-generated rule header -->
 
-Enforce importing components that use `sx` prop from `@primer/styled-react` instead of `@primer/react`.
+Enforce importing components that use `sx` prop from `@primer/styled-react` instead of `@primer/react`, and vice versa.
 
 ## Rule Details
 
-This rule detects when certain Primer React components are used with the `sx` prop and ensures they are imported from the temporary `@primer/styled-react` package instead of `@primer/react`. It also moves certain types and utilities to the styled-react package.
+This rule detects when certain Primer React components are used with the `sx` prop and ensures they are imported from the temporary `@primer/styled-react` package instead of `@primer/react`. When the same components are used without the `sx` prop, it ensures they are imported from `@primer/react` instead of `@primer/styled-react`. It also moves certain types and utilities to the styled-react package.
 
 ### Components that should be imported from `@primer/styled-react` when used with `sx`:
 
@@ -60,6 +60,12 @@ const Component = () => <Box sx={{padding: 2}}>Content</Box>
 import {sx} from '@primer/react'
 ```
 
+```jsx
+import {Button} from '@primer/styled-react'
+
+const Component = () => <Button>Click me</Button>
+```
+
 ### ✅ Correct
 
 ```jsx
@@ -81,6 +87,13 @@ import {sx} from '@primer/styled-react'
 
 ```jsx
 // Components without sx prop can stay in @primer/react
+import {Button} from '@primer/react'
+
+const Component = () => <Button>Click me</Button>
+```
+
+```jsx
+// Components imported from styled-react but used without sx prop should be moved back
 import {Button} from '@primer/react'
 
 const Component = () => <Button>Click me</Button>

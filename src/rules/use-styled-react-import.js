@@ -47,12 +47,14 @@ module.exports = {
     messages: {
       useStyledReactImport: 'Import {{ componentName }} from "@primer/styled-react" when using with sx prop',
       moveToStyledReact: 'Move {{ importName }} import to "@primer/styled-react"',
+      usePrimerReactImport: 'Import {{ componentName }} from "@primer/react" when not using sx prop',
     },
   },
   create(context) {
     const componentsWithSx = new Set()
+    const allUsedComponents = new Set() // Track all used components
     const primerReactImports = new Map() // Map of component name to import node
-    const styledReactImports = new Set() // Set of components already imported from styled-react
+    const styledReactImports = new Map() // Map of components imported from styled-react to import node
 
     return {
       ImportDeclaration(node) {
@@ -73,10 +75,11 @@ module.exports = {
             }
           }
         } else if (importSource === '@primer/styled-react') {
-          // Track what's already imported from styled-react
+          // Track what's imported from styled-react
           for (const specifier of node.specifiers) {
             if (specifier.type === 'ImportSpecifier') {
-              styledReactImports.add(specifier.imported.name)
+              const importedName = specifier.imported.name
+              styledReactImports.set(importedName, {node, specifier})
             }
           }
         }
@@ -84,6 +87,11 @@ module.exports = {
 
       JSXOpeningElement(node) {
         const componentName = getJSXOpeningElementName(node)
+
+        // Track all used components that are in our styled components list
+        if (styledComponents.has(componentName)) {
+          allUsedComponents.add(componentName)
+        }
 
         // Check if this component has an sx prop
         const hasSxProp = node.attributes.some(
@@ -139,6 +147,55 @@ module.exports = {
                 fixes.push(
                   fixer.insertTextAfter(importNode, `\nimport { ${componentName} } from '@primer/styled-react'`),
                 )
+
+                return fixes
+              },
+            })
+          }
+        }
+
+        // Report errors for components used WITHOUT sx prop that are imported from @primer/styled-react
+        for (const componentName of allUsedComponents) {
+          // If component is used but NOT with sx prop, and it's imported from styled-react
+          if (!componentsWithSx.has(componentName) && styledReactImports.has(componentName)) {
+            const importInfo = styledReactImports.get(componentName)
+            context.report({
+              node: importInfo.specifier,
+              messageId: 'usePrimerReactImport',
+              data: {componentName},
+              fix(fixer) {
+                const {node: importNode, specifier} = importInfo
+                const otherSpecifiers = importNode.specifiers.filter(s => s !== specifier)
+
+                // If this is the only import, replace the whole import
+                if (otherSpecifiers.length === 0) {
+                  return fixer.replaceText(importNode, `import { ${componentName} } from '@primer/react'`)
+                }
+
+                // Otherwise, remove from current import and add new import
+                const fixes = []
+
+                // Remove the specifier from current import
+                if (importNode.specifiers.length === 1) {
+                  fixes.push(fixer.remove(importNode))
+                } else {
+                  const isFirst = importNode.specifiers[0] === specifier
+                  const isLast = importNode.specifiers[importNode.specifiers.length - 1] === specifier
+
+                  if (isFirst) {
+                    const nextSpecifier = importNode.specifiers[1]
+                    fixes.push(fixer.removeRange([specifier.range[0], nextSpecifier.range[0]]))
+                  } else if (isLast) {
+                    const prevSpecifier = importNode.specifiers[importNode.specifiers.length - 2]
+                    fixes.push(fixer.removeRange([prevSpecifier.range[1], specifier.range[1]]))
+                  } else {
+                    const nextSpecifier = importNode.specifiers[importNode.specifiers.indexOf(specifier) + 1]
+                    fixes.push(fixer.removeRange([specifier.range[0], nextSpecifier.range[0]]))
+                  }
+                }
+
+                // Add new import
+                fixes.push(fixer.insertTextAfter(importNode, `\nimport { ${componentName} } from '@primer/react'`))
 
                 return fixes
               },

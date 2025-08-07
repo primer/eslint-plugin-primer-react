@@ -33,6 +33,9 @@ ruleTester.run('use-styled-react-import', rule, {
     // Valid: Mixed imports - component without sx prop
     `import { Button, Text } from '@primer/react'
      const Component = () => <Button>Click me</Button>`,
+
+    // Valid: Component without sx prop imported from styled-react (when not used)
+    `import { Button } from '@primer/styled-react'`,
   ],
   invalid: [
     // Invalid: Box with sx prop imported from @primer/react
@@ -112,6 +115,59 @@ import { Button } from '@primer/styled-react'
       errors: [
         {
           messageId: 'useStyledReactImport',
+          data: {componentName: 'Button'},
+        },
+      ],
+    },
+
+    // Invalid: Button imported from styled-react but used without sx prop
+    {
+      code: `import { Button } from '@primer/styled-react'
+             const Component = () => <Button>Click me</Button>`,
+      output: `import { Button } from '@primer/react'
+             const Component = () => <Button>Click me</Button>`,
+      errors: [
+        {
+          messageId: 'usePrimerReactImport',
+          data: {componentName: 'Button'},
+        },
+      ],
+    },
+
+    // Invalid: Box imported from styled-react but used without sx prop
+    {
+      code: `import { Box } from '@primer/styled-react'
+             const Component = () => <Box>Content</Box>`,
+      output: `import { Box } from '@primer/react'
+             const Component = () => <Box>Content</Box>`,
+      errors: [
+        {
+          messageId: 'usePrimerReactImport',
+          data: {componentName: 'Box'},
+        },
+      ],
+    },
+
+    // Invalid: Multiple components from styled-react, one used without sx
+    {
+      code: `import { Button, Box } from '@primer/styled-react'
+             const Component = () => (
+               <div>
+                 <Button>Regular button</Button>
+                 <Box sx={{ padding: 2 }}>Styled box</Box>
+               </div>
+             )`,
+      output: `import { Box } from '@primer/styled-react'
+import { Button } from '@primer/react'
+             const Component = () => (
+               <div>
+                 <Button>Regular button</Button>
+                 <Box sx={{ padding: 2 }}>Styled box</Box>
+               </div>
+             )`,
+      errors: [
+        {
+          messageId: 'usePrimerReactImport',
           data: {componentName: 'Button'},
         },
       ],
