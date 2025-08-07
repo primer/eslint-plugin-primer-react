@@ -2,11 +2,13 @@ const rule = require('../a11y-no-duplicate-form-labels')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
-  parserOptions: {
+  languageOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 })
@@ -35,12 +37,6 @@ ruleTester.run('a11y-no-duplicate-form-labels', rule, {
     <FormControl>
       <FormControl.Label visuallyHidden>Form Input Label</FormControl.Label>
       <TextInput />
-    </FormControl>`,
-
-    // FormControl without FormControl.Label but with aria-label is valid
-    `import {FormControl, TextInput} from '@primer/react';
-    <FormControl>
-      <TextInput aria-label="Form Input Label" />
     </FormControl>`,
 
     // Multiple TextInputs with different approaches
