@@ -90,27 +90,31 @@ module.exports = {
         const otherProps = openingElement.attributes.filter(attr => attr !== iconProp)
         const propsText = otherProps.map(attr => sourceCode.getText(attr)).join(' ')
 
-        // Helper function to determine if this is the last Octicon in the file
-        function isLastOcticon() {
-          // Get all Octicon elements using the source code
+        // Helper function to determine if this is the last Octicon in the file that needs fixing
+        function isLastOcticonToFix() {
+          // Get all JSX elements in the source code that are Octicons with icon props
           const sourceText = sourceCode.getText()
-          const octiconMatches = [...sourceText.matchAll(/<Octicon\s/g)]
+          const lines = sourceText.split('\n')
           
-          if (octiconMatches.length <= 1) {
-            return true
-          }
+          // Find all potential Octicon lines
+          const octiconLines = []
+          lines.forEach((line, index) => {
+            if (line.includes('<Octicon') && line.includes('icon=')) {
+              octiconLines.push(index + 1) // 1-based line numbers
+            }
+          })
           
-          // Find the position of the current node in the source
-          const currentNodeStart = node.range[0]
+          // Get the line number of the current node
+          const currentLine = sourceCode.getLocFromIndex(node.range[0]).line
           
-          // Check if there are any more Octicon elements after this one
-          const laterOcticons = octiconMatches.filter(match => match.index > currentNodeStart)
-          return laterOcticons.length === 0
+          // Check if this is the last one
+          const currentIndex = octiconLines.indexOf(currentLine)
+          return currentIndex === octiconLines.length - 1
         }
 
         // Helper function to generate import fixes if this is the last Octicon usage
         function* generateImportFixes(fixer) {
-          if (isLastOcticon() && octiconImports.length > 0) {
+          if (isLastOcticonToFix() && octiconImports.length > 0) {
             const importNode = octiconImports[0]
             const octiconSpecifier = importNode.specifiers.find(
               specifier => specifier.imported && specifier.imported.name === 'Octicon',
