@@ -24,8 +24,25 @@ module.exports = {
   },
   create(context) {
     const sourceCode = context.getSourceCode()
+    
+    // Track Octicon imports
+    const octiconImports = []
 
     return {
+      ImportDeclaration(node) {
+        if (node.source.value !== '@primer/react/deprecated') {
+          return
+        }
+        
+        const hasOcticon = node.specifiers.some(
+          specifier => specifier.imported && specifier.imported.name === 'Octicon',
+        )
+        
+        if (hasOcticon) {
+          octiconImports.push(node)
+        }
+      },
+      
       JSXElement(node) {
         const {openingElement, closingElement} = node
         const elementName = getJSXOpeningElementName(openingElement)
@@ -73,6 +90,68 @@ module.exports = {
         const otherProps = openingElement.attributes.filter(attr => attr !== iconProp)
         const propsText = otherProps.map(attr => sourceCode.getText(attr)).join(' ')
 
+        // Helper function to determine if this is the last Octicon in the file
+        function isLastOcticon() {
+          // Get all Octicon elements using the source code
+          const sourceText = sourceCode.getText()
+          const octiconMatches = [...sourceText.matchAll(/<Octicon\s/g)]
+          
+          if (octiconMatches.length <= 1) {
+            return true
+          }
+          
+          // Find the position of the current node in the source
+          const currentNodeStart = node.range[0]
+          
+          // Check if there are any more Octicon elements after this one
+          const laterOcticons = octiconMatches.filter(match => match.index > currentNodeStart)
+          return laterOcticons.length === 0
+        }
+
+        // Helper function to generate import fixes if this is the last Octicon usage
+        function* generateImportFixes(fixer) {
+          if (isLastOcticon() && octiconImports.length > 0) {
+            const importNode = octiconImports[0]
+            const octiconSpecifier = importNode.specifiers.find(
+              specifier => specifier.imported && specifier.imported.name === 'Octicon',
+            )
+            
+            if (importNode.specifiers.length === 1) {
+              // Octicon is the only import, remove the entire import statement
+              // Also remove trailing newline if present
+              const nextToken = sourceCode.getTokenAfter(importNode)
+              const importEnd = importNode.range[1]
+              const nextStart = nextToken ? nextToken.range[0] : sourceCode.getText().length
+              const textBetween = sourceCode.getText().substring(importEnd, nextStart)
+              const hasTrailingNewline = /^\s*\n/.test(textBetween)
+              
+              if (hasTrailingNewline) {
+                const newlineMatch = textBetween.match(/^\s*\n/)
+                const endRange = importEnd + newlineMatch[0].length
+                yield fixer.removeRange([importNode.range[0], endRange])
+              } else {
+                yield fixer.remove(importNode)
+              }
+            } else {
+              // Remove just the Octicon specifier from the import
+              const previousToken = sourceCode.getTokenBefore(octiconSpecifier)
+              const nextToken = sourceCode.getTokenAfter(octiconSpecifier)
+              const hasTrailingComma = nextToken && nextToken.value === ','
+              const hasLeadingComma = previousToken && previousToken.value === ','
+              
+              let rangeToRemove
+              if (hasTrailingComma) {
+                rangeToRemove = [octiconSpecifier.range[0], nextToken.range[1] + 1]
+              } else if (hasLeadingComma) {
+                rangeToRemove = [previousToken.range[0], octiconSpecifier.range[1]]
+              } else {
+                rangeToRemove = [octiconSpecifier.range[0], octiconSpecifier.range[1]]
+              }
+              yield fixer.removeRange(rangeToRemove)
+            }
+          }
+        }
+
         // For simple cases, we can provide an autofix
         if (iconName) {
           context.report({
@@ -117,6 +196,9 @@ module.exports = {
                   : iconProp.range[0]
                 yield fixer.removeRange([startPos, iconProp.range[1]])
               }
+              
+              // Handle import removal if this is the last Octicon usage
+              yield* generateImportFixes(fixer)
             },
           })
         } else if (isConditional) {
@@ -144,6 +226,9 @@ module.exports = {
               }
               
               yield fixer.replaceText(node, replacement)
+              
+              // Handle import removal if this is the last Octicon usage
+              yield* generateImportFixes(fixer)
             },
           })
         } else if (isMemberExpression) {
@@ -195,6 +280,9 @@ module.exports = {
               }
               
               yield fixer.replaceText(node, replacement)
+              
+              // Handle import removal if this is the last Octicon usage
+              yield* generateImportFixes(fixer)
             },
           })
         } else {

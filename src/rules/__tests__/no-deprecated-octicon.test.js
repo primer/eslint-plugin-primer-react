@@ -48,8 +48,7 @@ import {XIcon} from '@primer/octicons-react'
 export default function App() {
   return <Octicon icon={XIcon} />
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon} from '@primer/octicons-react'
+      output: `import {XIcon} from '@primer/octicons-react'
 export default function App() {
   return <XIcon />
 }`,
@@ -67,8 +66,7 @@ import {XIcon} from '@primer/octicons-react'
 export default function App() {
   return <Octicon icon={XIcon} size={16} className="test" />
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon} from '@primer/octicons-react'
+      output: `import {XIcon} from '@primer/octicons-react'
 export default function App() {
   return <XIcon size={16} className="test" />
 }`,
@@ -87,8 +85,7 @@ export default function App() {
   const props = { size: 16 }
   return <Octicon {...props} icon={XIcon} className="test" />
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon} from '@primer/octicons-react'
+      output: `import {XIcon} from '@primer/octicons-react'
 export default function App() {
   const props = { size: 16 }
   return <XIcon {...props} className="test" />
@@ -109,8 +106,7 @@ export default function App() {
     <span>Content</span>
   </Octicon>
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon} from '@primer/octicons-react'
+      output: `import {XIcon} from '@primer/octicons-react'
 export default function App() {
   return <XIcon>
     <span>Content</span>
@@ -135,8 +131,7 @@ export default function App() {
     </div>
   )
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon, CheckIcon} from '@primer/octicons-react'
+      output: `import {XIcon, CheckIcon} from '@primer/octicons-react'
 export default function App() {
   return (
     <div>
@@ -162,8 +157,7 @@ import {XIcon, CheckIcon} from '@primer/octicons-react'
 export default function App() {
   return <Octicon icon={condition ? XIcon : CheckIcon} />
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon, CheckIcon} from '@primer/octicons-react'
+      output: `import {XIcon, CheckIcon} from '@primer/octicons-react'
 export default function App() {
   return condition ? <XIcon /> : <CheckIcon />
 }`,
@@ -181,8 +175,7 @@ import {XIcon, CheckIcon} from '@primer/octicons-react'
 export default function App() {
   return <Octicon icon={condition ? XIcon : CheckIcon} size={16} className="test" />
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon, CheckIcon} from '@primer/octicons-react'
+      output: `import {XIcon, CheckIcon} from '@primer/octicons-react'
 export default function App() {
   return condition ? <XIcon size={16} className="test" /> : <CheckIcon size={16} className="test" />
 }`,
@@ -200,8 +193,7 @@ export default function App() {
   const icons = { x: XIcon }
   return <Octicon icon={icons.x} />
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-export default function App() {
+      output: `export default function App() {
   const icons = { x: XIcon }
   return React.createElement(icons.x, {})
 }`,
@@ -219,10 +211,65 @@ export default function App() {
   const icons = { x: XIcon }
   return <Octicon icon={icons.x} size={16} className="btn-icon" />
 }`,
-      output: `import {Octicon} from '@primer/react/deprecated'
-export default function App() {
+      output: `export default function App() {
   const icons = { x: XIcon }
   return React.createElement(icons.x, {size: 16, className: "btn-icon"})
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // Test import removal - single Octicon import gets removed
+    {
+      code: `import {Octicon} from '@primer/react/deprecated'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={XIcon} />
+}`,
+      output: `import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <XIcon />
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // Test partial import removal - Octicon removed but other imports remain
+    {
+      code: `import {Octicon, Button} from '@primer/react/deprecated'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={XIcon} />
+}`,
+      output: `import {Button} from '@primer/react/deprecated'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <XIcon />
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // Test partial import removal - Octicon in middle of import list
+    {
+      code: `import {Button, Octicon, TextField} from '@primer/react/deprecated'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={XIcon} />
+}`,
+      output: `import {Button, TextField} from '@primer/react/deprecated'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <XIcon />
 }`,
       errors: [
         {
