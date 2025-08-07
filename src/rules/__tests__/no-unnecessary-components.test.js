@@ -21,7 +21,7 @@ const asConstDeclaration = `const as = "p";`
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
+    parser: require('@typescript-eslint/parser'),
     parserOptions: {
       tsconfigRootDir: path.resolve(__dirname, 'fixtures'),
       project: path.resolve(__dirname, 'fixtures', 'tsconfig.json'),
