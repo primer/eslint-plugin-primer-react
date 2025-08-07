@@ -1,5 +1,43 @@
 # eslint-plugin-primer-react
 
+## 7.0.2
+
+### Patch Changes
+
+- [#359](https://github.com/primer/eslint-plugin-primer-react/pull/359) [`1480eba`](https://github.com/primer/eslint-plugin-primer-react/commit/1480eba98bd8023c16d55aad5777a52c9da3079d) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Fixes error when `imported` does not exist in specifier object
+
+## 7.0.1
+
+### Patch Changes
+
+- [#331](https://github.com/primer/eslint-plugin-primer-react/pull/331) [`82a7d03`](https://github.com/primer/eslint-plugin-primer-react/commit/82a7d037b92c02126c6bf0daba060b233ef94262) Thanks [@francinelucca](https://github.com/francinelucca)! - Update message for no-deprecated-experimental-components rule
+
+- [#333](https://github.com/primer/eslint-plugin-primer-react/pull/333) [`c709c98`](https://github.com/primer/eslint-plugin-primer-react/commit/c709c98a84dc1ce978575136292063f3821b47cc) Thanks [@francinelucca](https://github.com/francinelucca)! - Update message for no-deprecated-experimental-components rule
+
+- [#331](https://github.com/primer/eslint-plugin-primer-react/pull/331) [`82a7d03`](https://github.com/primer/eslint-plugin-primer-react/commit/82a7d037b92c02126c6bf0daba060b233ef94262) Thanks [@francinelucca](https://github.com/francinelucca)! - Removes primer-react/enforce-css-module-identifier-casing, primer-react/enforce-css-module-default-import from recommended set of rules.
+
+## 7.0.0
+
+### Major Changes
+
+- [#270](https://github.com/primer/eslint-plugin-primer-react/pull/270) [`17814a2`](https://github.com/primer/eslint-plugin-primer-react/commit/17814a2d77d752b6675e51124fe3c18671837a10) Thanks [@broccolinisoup](https://github.com/broccolinisoup)! - Update a11y-use-next-tooltip to be a11y-use-accessible-tooltip and make the changes accordingly
+
+- [#316](https://github.com/primer/eslint-plugin-primer-react/pull/316) [`40016c8`](https://github.com/primer/eslint-plugin-primer-react/commit/40016c8db99b4045ed7474cead0b48eed05f5f64) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Add `a11y-no-title-usage` that warns against using `title` in some components
+
+### Minor Changes
+
+- [#266](https://github.com/primer/eslint-plugin-primer-react/pull/266) [`90134bc`](https://github.com/primer/eslint-plugin-primer-react/commit/90134bcee073c424e81c53e69632e1518798af93) Thanks [@keithamus](https://github.com/keithamus)! - Add enforce-css-module-default-import rule
+
+- [#258](https://github.com/primer/eslint-plugin-primer-react/pull/258) [`83f29f3`](https://github.com/primer/eslint-plugin-primer-react/commit/83f29f339999b9c21d95167bcc2680c1797cbab6) Thanks [@keithamus](https://github.com/keithamus)! - Add enforce-css-module-identifier-casing rule
+
+- [#325](https://github.com/primer/eslint-plugin-primer-react/pull/325) [`f689fcc`](https://github.com/primer/eslint-plugin-primer-react/commit/f689fcc0ca3e5a2c4b76aa04ebb620c7c5786fdf) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Add `no-deprecated-experimental-components` rule
+
+### Patch Changes
+
+- [#330](https://github.com/primer/eslint-plugin-primer-react/pull/330) [`1b70cf1`](https://github.com/primer/eslint-plugin-primer-react/commit/1b70cf108948d2c6818bbaddd69e5dfad5060e53) Thanks [@francinelucca](https://github.com/francinelucca)! - Add null check to enforce-css-module-identifier-casing.js. Corrects complex instances where ref.resolve is not available.
+
+- [#314](https://github.com/primer/eslint-plugin-primer-react/pull/314) [`63ef9fd`](https://github.com/primer/eslint-plugin-primer-react/commit/63ef9fdf02a9c4b80528644a96fd81e366bce187) Thanks [@khiga8](https://github.com/khiga8)! - fix: Link to should be allowed to have tooltip
+
 ## 6.1.6
 
 ### Patch Changes
