@@ -20,10 +20,12 @@ const componentDeclaration = `const OtherComponent = ({children}: {children: Rea
 const asConstDeclaration = `const as = "p";`
 
 const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    tsconfigRootDir: path.resolve(__dirname, 'fixtures'),
-    project: path.resolve(__dirname, 'fixtures', 'tsconfig.json'),
+  languageOptions: {
+    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
+    parserOptions: {
+      tsconfigRootDir: path.resolve(__dirname, 'fixtures'),
+      project: path.resolve(__dirname, 'fixtures', 'tsconfig.json'),
+    },
   },
   defaultFilenames: {
     ts: 'file.ts',
