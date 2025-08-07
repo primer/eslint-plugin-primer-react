@@ -10,7 +10,11 @@ Enforce importing components that use `sx` prop from `@primer/styled-react` inst
 
 ## Rule Details
 
-This rule detects when certain Primer React components are used with the `sx` prop and ensures they are imported from the temporary `@primer/styled-react` package instead of `@primer/react`. When the same components are used without the `sx` prop, it ensures they are imported from `@primer/react` instead of `@primer/styled-react`. It also moves certain types and utilities to the styled-react package.
+This rule detects when certain Primer React components are used with the `sx` prop and ensures they are imported from the temporary `@primer/styled-react` package instead of `@primer/react`. When the same components are used without the `sx` prop, it ensures they are imported from `@primer/react` instead of `@primer/styled-react`.
+
+When a component is used both with and without the `sx` prop in the same file, the rule will import the styled version with an alias (e.g., `StyledButton`) and update the JSX usage accordingly to avoid naming conflicts.
+
+It also moves certain types and utilities to the styled-react package.
 
 ### Components that should be imported from `@primer/styled-react` when used with `sx`:
 
@@ -66,6 +70,13 @@ import {Button} from '@primer/styled-react'
 const Component = () => <Button>Click me</Button>
 ```
 
+```jsx
+import {Button} from '@primer/react'
+
+const Component1 = () => <Button>Click me</Button>
+const Component2 = () => <Button sx={{color: 'red'}}>Styled me</Button>
+```
+
 ### ✅ Correct
 
 ```jsx
@@ -97,6 +108,15 @@ const Component = () => <Button>Click me</Button>
 import {Button} from '@primer/react'
 
 const Component = () => <Button>Click me</Button>
+```
+
+```jsx
+// When a component is used both ways, use an alias for the styled version
+import {Button} from '@primer/react'
+import {Button as StyledButton} from '@primer/styled-react'
+
+const Component1 = () => <Button>Click me</Button>
+const Component2 = () => <StyledButton sx={{color: 'red'}}>Styled me</StyledButton>
 ```
 
 ## Options

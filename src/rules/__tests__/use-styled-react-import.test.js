@@ -172,5 +172,34 @@ import { Button } from '@primer/react'
         },
       ],
     },
+
+    // Invalid: Button used both with and without sx prop - should use alias
+    {
+      code: `import { Button } from '@primer/react'
+             const Component = () => (
+               <div>
+                 <Button>Regular button</Button>
+                 <Button sx={{ color: 'red' }}>Styled button</Button>
+               </div>
+             )`,
+      output: `import { Button } from '@primer/react'
+import { Button as StyledButton } from '@primer/styled-react'
+             const Component = () => (
+               <div>
+                 <Button>Regular button</Button>
+                 <StyledButton sx={{ color: 'red' }}>Styled button</StyledButton>
+               </div>
+             )`,
+      errors: [
+        {
+          messageId: 'useStyledReactImportWithAlias',
+          data: {componentName: 'Button', aliasName: 'StyledButton'},
+        },
+        {
+          messageId: 'useAliasedComponent',
+          data: {componentName: 'Button', aliasName: 'StyledButton'},
+        },
+      ],
+    },
   ],
 })
