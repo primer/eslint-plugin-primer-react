@@ -3,6 +3,9 @@
   "version": "7.0.2",
   "description": "ESLint rules for Primer React",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "format": "prettier --cache --write '**/*.{js,css,md,mdx,ts,tsx,yml}'",
     "format:check": "prettier --cache --list-different '**/*.{js,css,md,mdx,ts,tsx,yml}'",
