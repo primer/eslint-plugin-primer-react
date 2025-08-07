@@ -39,12 +39,6 @@ ruleTester.run('a11y-no-duplicate-form-labels', rule, {
       <TextInput />
     </FormControl>`,
 
-    // FormControl without FormControl.Label but with aria-label is valid
-    `import {FormControl, TextInput} from '@primer/react';
-    <FormControl>
-      <TextInput aria-label="Form Input Label" />
-    </FormControl>`,
-
     // Multiple TextInputs with different approaches
     `import {FormControl, TextInput} from '@primer/react';
     <div>

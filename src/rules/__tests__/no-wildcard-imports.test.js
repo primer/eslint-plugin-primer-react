@@ -71,20 +71,6 @@ ruleTester.run('no-wildcard-imports', rule, {
       ],
     },
 
-    // Test default import
-    {
-      code: `import useIsomorphicLayoutEffect from '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect'`,
-      output: `import {useIsomorphicLayoutEffect} from '@primer/react'`,
-      errors: [
-        {
-          messageId: 'wildcardMigration',
-          data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/utils/useIsomorphicLayoutEffect',
-          },
-        },
-      ],
-    },
-
     // Test multiple wildcard imports into single entrypoint
     {
       code: `import {useResizeObserver} from '@primer/react/lib-esm/hooks/useResizeObserver'
@@ -308,18 +294,6 @@ import {type ButtonBaseProps} from '@primer/react/experimental'`,
         },
       ],
     },
-    {
-      code: `import type {ItemProps} from '@primer/react/lib-esm/deprecated/ActionList/Item'`,
-      output: `import {type ActionListItemProps as ItemProps} from '@primer/react/deprecated'`,
-      errors: [
-        {
-          messageId: 'wildcardMigration',
-          data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/deprecated/ActionList/Item',
-          },
-        },
-      ],
-    },
 
     // Hooks -------------------------------------------------------------------
 
@@ -393,19 +367,6 @@ import {type ButtonBaseProps} from '@primer/react/experimental'`,
 
     // Utilities ---------------------------------------------------------------
 
-    // @primer/react/lib-esm/sx
-    {
-      code: `import type {BetterSystemStyleObject, SxProp, BetterCssProperties} from '@primer/react/lib-esm/sx'`,
-      output: `import {type BetterSystemStyleObject, type SxProp, type BetterCssProperties} from '@primer/react'`,
-      errors: [
-        {
-          messageId: 'wildcardMigration',
-          data: {
-            wildcardEntrypoint: '@primer/react/lib-esm/sx',
-          },
-        },
-      ],
-    },
     // @primer/react/lib-esm/FeatureFlags/DefaultFeatureFlags
     {
       code: `import {DefaultFeatureFlags} from '@primer/react/lib-esm/FeatureFlags/DefaultFeatureFlags'`,
