@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/primer/eslint-plugin-primer-react#readme",
   "peerDependencies": {
-    "eslint": "^8.42.0 || ^9.0.0"
+    "eslint": "^9.0.0"
   },
   "dependencies": {
     "@styled-system/props": "^5.1.5",
