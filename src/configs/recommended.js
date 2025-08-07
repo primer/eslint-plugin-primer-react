@@ -17,6 +17,7 @@ module.exports = {
     'primer-react/new-color-css-vars': 'error',
     'primer-react/a11y-explicit-heading': 'error',
     'primer-react/a11y-no-title-usage': 'error',
+    'primer-react/a11y-no-duplicate-form-labels': 'error',
     'primer-react/no-deprecated-props': 'warn',
     'primer-react/a11y-remove-disable-tooltip': 'error',
     'primer-react/a11y-use-accessible-tooltip': 'error',

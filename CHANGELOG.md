@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 7.0.2
+
+### Patch Changes
+
+- [#359](https://github.com/primer/eslint-plugin-primer-react/pull/359) [`1480eba`](https://github.com/primer/eslint-plugin-primer-react/commit/1480eba98bd8023c16d55aad5777a52c9da3079d) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Fixes error when `imported` does not exist in specifier object
+
 ## 7.0.1
 
 ### Patch Changes
