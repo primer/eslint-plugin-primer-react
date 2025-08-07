@@ -8,7 +8,7 @@ ESLint plugin for Primer React components. This is a JavaScript-based ESLint plu
 
 ### Bootstrap and Setup
 
-- Install Node.js v18+ (currently works with v20+):
+- Install Node.js v20+ (v20 is the current standard):
   - Check version: `node --version && npm --version`
 - Install dependencies: `npm ci` -- takes 60 seconds. Set timeout to 90+ seconds.
 - **NO BUILD STEP REQUIRED** - This is a direct JavaScript project with main entry at `src/index.js`
@@ -67,7 +67,7 @@ ruleTester.run('test', rule, {
 - `package.json` - Scripts and dependencies (no build scripts needed)
 - `jest.config.js` - Jest test configuration
 - `.eslintrc.js` - ESLint configuration for the project itself
-- `.nvmrc` - Node.js version specification (v18)
+- `.nvmrc` - Node.js version specification (v20)
 
 ### Rule Development Pattern
 
@@ -133,7 +133,7 @@ The plugin can be tested by:
 
 ### Common Issues
 
-- **Node.js version**: Use Node.js v18+ (v20+ works fine)
+- **Node.js version**: Use Node.js v20+ (v20 is the current standard)
 - **Dependencies**: Always use `npm ci` instead of `npm install` for consistent installs
 - **Test failures**: Run `npm test` to see specific failures - tests are fast and detailed
 - **Lint failures**: Run `npm run lint` and `npm run lint:md` to see specific issues
