@@ -188,8 +188,7 @@ import { Button } from '@primer/react'
                </div>
              )`,
       output: `import { Button } from '@primer/react'
-import { Link } from '@primer/styled-react'
-import { Button as StyledButton } from '@primer/styled-react'
+import { Button as StyledButton, Link } from '@primer/styled-react'
              const Component = () => (
                <div>
                  <Link sx={{ color: 'red' }} />

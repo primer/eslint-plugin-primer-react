@@ -203,20 +203,25 @@ module.exports = {
                     fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '@primer/react'`),
                   )
 
-                  // Add new imports for moved components
-                  for (const componentName of changes.toMove) {
-                    fixes.push(
-                      fixer.insertTextAfter(importNode, `\nimport { ${componentName} } from '@primer/styled-react'`),
-                    )
-                  }
+                  // Combine all styled-react imports into a single import statement
+                  const styledReactImports = []
 
-                  // Add new aliased imports for conflicted components
+                  // Add aliased components first
                   for (const componentName of changes.toAlias) {
                     const aliasName = `Styled${componentName}`
+                    styledReactImports.push(`${componentName} as ${aliasName}`)
+                  }
+
+                  // Add moved components second
+                  for (const componentName of changes.toMove) {
+                    styledReactImports.push(componentName)
+                  }
+
+                  if (styledReactImports.length > 0) {
                     fixes.push(
                       fixer.insertTextAfter(
                         importNode,
-                        `\nimport { ${componentName} as ${aliasName} } from '@primer/styled-react'`,
+                        `\nimport { ${styledReactImports.join(', ')} } from '@primer/styled-react'`,
                       ),
                     )
                   }
