@@ -30,6 +30,10 @@ ruleTester.run('use-styled-react-import', rule, {
     `import { Avatar } from '@primer/react'
      const Component = () => <Avatar sx={{ color: 'red' }} />`,
 
+    // Valid: Component not imported from @primer/react
+    `import { Button } from '@github-ui/button'
+     const Component = () => <Button sx={{ color: 'red' }} />`,
+
     // Valid: Mixed imports - component without sx prop
     `import { Button, Text } from '@primer/react'
      const Component = () => <Button>Click me</Button>`,
