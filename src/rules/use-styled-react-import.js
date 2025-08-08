@@ -113,6 +113,33 @@ module.exports = {
       },
 
       'Program:exit': function () {
+        // Group components by import node to handle multiple changes to same import
+        const importNodeChanges = new Map()
+
+        // Collect all changes needed for components used with sx prop
+        for (const componentName of componentsWithSx) {
+          const importInfo = primerReactImports.get(componentName)
+          if (importInfo && !styledReactImports.has(componentName)) {
+            const hasConflict = componentsWithoutSx.has(componentName)
+            const {node: importNode} = importInfo
+
+            if (!importNodeChanges.has(importNode)) {
+              importNodeChanges.set(importNode, {
+                toMove: [],
+                toAlias: [],
+                originalSpecifiers: [...importNode.specifiers],
+              })
+            }
+
+            const changes = importNodeChanges.get(importNode)
+            if (hasConflict) {
+              changes.toAlias.push(componentName)
+            } else {
+              changes.toMove.push(componentName)
+            }
+          }
+        }
+
         // Report errors for components used with sx prop that are imported from @primer/react
         for (const componentName of componentsWithSx) {
           const importInfo = primerReactImports.get(componentName)
@@ -126,51 +153,76 @@ module.exports = {
               data: hasConflict ? {componentName, aliasName: `Styled${componentName}`} : {componentName},
               fix(fixer) {
                 const {node: importNode, specifier} = importInfo
-                const otherSpecifiers = importNode.specifiers.filter(s => s !== specifier)
+                const changes = importNodeChanges.get(importNode)
 
-                if (hasConflict) {
-                  // Use alias when there's a conflict - keep original import and add aliased import
-                  const aliasName = `Styled${componentName}`
-                  return fixer.insertTextAfter(
-                    importNode,
-                    `\nimport { ${componentName} as ${aliasName} } from '@primer/styled-react'`,
-                  )
-                } else {
-                  // No conflict - use the original logic
-                  // If this is the only import, replace the whole import
-                  if (otherSpecifiers.length === 0) {
-                    return fixer.replaceText(importNode, `import { ${componentName} } from '@primer/styled-react'`)
-                  }
-
-                  // Otherwise, remove from current import and add new import
-                  const fixes = []
-
-                  // Remove the specifier from current import
-                  if (importNode.specifiers.length === 1) {
-                    fixes.push(fixer.remove(importNode))
-                  } else {
-                    const isFirst = importNode.specifiers[0] === specifier
-                    const isLast = importNode.specifiers[importNode.specifiers.length - 1] === specifier
-
-                    if (isFirst) {
-                      const nextSpecifier = importNode.specifiers[1]
-                      fixes.push(fixer.removeRange([specifier.range[0], nextSpecifier.range[0]]))
-                    } else if (isLast) {
-                      const prevSpecifier = importNode.specifiers[importNode.specifiers.length - 2]
-                      fixes.push(fixer.removeRange([prevSpecifier.range[1], specifier.range[1]]))
-                    } else {
-                      const nextSpecifier = importNode.specifiers[importNode.specifiers.indexOf(specifier) + 1]
-                      fixes.push(fixer.removeRange([specifier.range[0], nextSpecifier.range[0]]))
-                    }
-                  }
-
-                  // Add new import
-                  fixes.push(
-                    fixer.insertTextAfter(importNode, `\nimport { ${componentName} } from '@primer/styled-react'`),
-                  )
-
-                  return fixes
+                if (!changes) {
+                  return null
                 }
+
+                // Only apply the fix once per import node (for the first component processed)
+                const isFirstComponent =
+                  changes.originalSpecifiers[0] === specifier ||
+                  (changes.toMove.length > 0 && changes.toMove[0] === componentName) ||
+                  (changes.toAlias.length > 0 && changes.toAlias[0] === componentName)
+
+                if (!isFirstComponent) {
+                  return null
+                }
+
+                const fixes = []
+                const componentsToMove = new Set(changes.toMove)
+
+                // Find specifiers that remain in original import
+                const remainingSpecifiers = changes.originalSpecifiers.filter(spec => {
+                  const name = spec.imported.name
+                  // Keep components that are not being moved (only aliased components stay for non-sx usage)
+                  return !componentsToMove.has(name)
+                })
+
+                // If no components remain, replace with new imports directly
+                if (remainingSpecifiers.length === 0) {
+                  // Build the new imports to replace the original
+                  const newImports = []
+
+                  // Add imports for moved components
+                  for (const componentName of changes.toMove) {
+                    newImports.push(`import { ${componentName} } from '@primer/styled-react'`)
+                  }
+
+                  // Add aliased imports for conflicted components
+                  for (const componentName of changes.toAlias) {
+                    const aliasName = `Styled${componentName}`
+                    newImports.push(`import { ${componentName} as ${aliasName} } from '@primer/styled-react'`)
+                  }
+
+                  fixes.push(fixer.replaceText(importNode, newImports.join('\n')))
+                } else {
+                  // Otherwise, update the import to only include remaining components
+                  const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
+                  fixes.push(
+                    fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '@primer/react'`),
+                  )
+
+                  // Add new imports for moved components
+                  for (const componentName of changes.toMove) {
+                    fixes.push(
+                      fixer.insertTextAfter(importNode, `\nimport { ${componentName} } from '@primer/styled-react'`),
+                    )
+                  }
+
+                  // Add new aliased imports for conflicted components
+                  for (const componentName of changes.toAlias) {
+                    const aliasName = `Styled${componentName}`
+                    fixes.push(
+                      fixer.insertTextAfter(
+                        importNode,
+                        `\nimport { ${componentName} as ${aliasName} } from '@primer/styled-react'`,
+                      ),
+                    )
+                  }
+                }
+
+                return fixes
               },
             })
           }
