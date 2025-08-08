@@ -138,6 +138,42 @@ import { Button } from '@primer/styled-react'
       ],
     },
 
+    // Invalid: <Link /> and <StyledButton /> imported from styled-react but used without sx prop
+    {
+      code: `import { Button } from '@primer/react'
+import { Button as StyledButton, Link } from '@primer/styled-react'
+             const Component = () => (
+               <div>
+                 <Link />
+                 <Button>Regular button</Button>
+                 <StyledButton>Styled button</StyledButton>
+               </div>
+             )`,
+      output: `import { Button, Link } from '@primer/react'
+
+             const Component = () => (
+               <div>
+                 <Link />
+                 <Button>Regular button</Button>
+                 <Button>Styled button</Button>
+               </div>
+             )`,
+      errors: [
+        {
+          messageId: 'usePrimerReactImport',
+          data: {componentName: 'Button'},
+        },
+        {
+          messageId: 'usePrimerReactImport',
+          data: {componentName: 'Link'},
+        },
+        {
+          messageId: 'usePrimerReactImport',
+          data: {componentName: 'Button'},
+        },
+      ],
+    },
+
     // Invalid: Box imported from styled-react but used without sx prop
     {
       code: `import { Box } from '@primer/styled-react'
