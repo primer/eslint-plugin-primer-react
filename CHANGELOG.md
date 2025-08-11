@@ -1,5 +1,21 @@
 # eslint-plugin-primer-react
 
+## 8.0.0
+
+### Major Changes
+
+- [#381](https://github.com/primer/eslint-plugin-primer-react/pull/381) [`52f3be6`](https://github.com/primer/eslint-plugin-primer-react/commit/52f3be6881a522b0c9b261fe5acbe0c84a7deb5a) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Upgrade to ESLint v9 support with eslint-plugin-github v6
+
+- [#380](https://github.com/primer/eslint-plugin-primer-react/pull/380) [`d42d5c0`](https://github.com/primer/eslint-plugin-primer-react/commit/d42d5c03a0e7df44efeed84baff2eca95af05113) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Update repository to Node.js v20
+
+### Minor Changes
+
+- [#366](https://github.com/primer/eslint-plugin-primer-react/pull/366) [`c7bf278`](https://github.com/primer/eslint-plugin-primer-react/commit/c7bf278d7e7d6b389f325bfb9f57dca2114b3506) Thanks [@liuliu-dev](https://github.com/liuliu-dev)! - Add `a11y-no-duplicate-form-labels` rule to prevent duplicate labels on TextInput components.
+
+### Patch Changes
+
+- [#364](https://github.com/primer/eslint-plugin-primer-react/pull/364) [`ec701d2`](https://github.com/primer/eslint-plugin-primer-react/commit/ec701d29d35a0a3f09eea2f66dbe28b4be81957f) Thanks [@pksjce](https://github.com/pksjce)! - Add rule for Link to not be allowed without href
+
 ## 7.0.2
 
 ### Patch Changes
@@ -155,7 +171,6 @@
 ### Major Changes
 
 - [#174](https://github.com/primer/eslint-plugin-primer-react/pull/174) [`d9832b8`](https://github.com/primer/eslint-plugin-primer-react/commit/d9832b850cbcf808ddcdfd3efbbab7d2bf913ccd) Thanks [@langermank](https://github.com/langermank)! - - Remove `no-deprecated-colors` plugin
-
   - Remove dependency on `primer/primitives`
 
 - [#172](https://github.com/primer/eslint-plugin-primer-react/pull/172) [`8e24d66`](https://github.com/primer/eslint-plugin-primer-react/commit/8e24d660065b3c690a14d826580c793d7b305068) Thanks [@langermank](https://github.com/langermank)! - [Breaking] Remove `new-color-css-vars-have-fallback`
@@ -366,7 +381,6 @@
 - [#7](https://github.com/primer/eslint-plugin-primer-react/pull/7) [`d9dfb8d`](https://github.com/primer/eslint-plugin-primer-react/commit/d9dfb8de6d6dc42efe606517db7a0dd90d5c5578) Thanks [@colebemis](https://github.com/colebemis)! - Add `skipImportCheck` option. By default, the `no-deprecated-colors` rule will only check for deprecated colors used in functions and components that are imported from `@primer/react`. You can disable this behavior by setting `skipImportCheck` to `true`. This is useful for linting custom components that pass color-related props down to Primer React components.
 
 * [#6](https://github.com/primer/eslint-plugin-primer-react/pull/6) [`dd14594`](https://github.com/primer/eslint-plugin-primer-react/commit/dd14594b05e4d800baa76771f5b911d77352a983) Thanks [@colebemis](https://github.com/colebemis)! - The `no-deprecated-colors` rule can now find deprecated colors in the following cases:
-
   - Nested `sx` properties:
 
     ```jsx
