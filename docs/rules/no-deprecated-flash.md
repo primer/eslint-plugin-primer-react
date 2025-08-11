@@ -21,11 +21,7 @@ import {Flash} from '@primer/react'
 
 function ExampleComponent() {
   return (
-    <Flash 
-      variant="warning" 
-      sx={{fontSize: 0, borderRadius: 0, py: 2, px: 3}}
-      className="custom-class"
-    >
+    <Flash variant="warning" sx={{fontSize: 0, borderRadius: 0, py: 2, px: 3}} className="custom-class">
       Banner content
     </Flash>
   )
@@ -47,11 +43,7 @@ import {Banner} from '@primer/react/experimental'
 
 function ExampleComponent() {
   return (
-    <Banner 
-      variant="warning" 
-      sx={{fontSize: 0, borderRadius: 0, py: 2, px: 3}}
-      className="custom-class"
-    >
+    <Banner variant="warning" className="custom-class">
       Banner content
     </Banner>
   )
@@ -61,6 +53,7 @@ function ExampleComponent() {
 ## Auto-fix
 
 This rule provides automatic fixes that:
+
 - Replace `Flash` component usage with `Banner`
 - Update import statements from `@primer/react` to `@primer/react/experimental`
 - Preserve all props, attributes, and children content
