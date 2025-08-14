@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 8.1.0
+
+### Minor Changes
+
+- [#382](https://github.com/primer/eslint-plugin-primer-react/pull/382) [`93e4b76`](https://github.com/primer/eslint-plugin-primer-react/commit/93e4b76269bf816bfc24991180f73ef22266a6f5) Thanks [@jonrohan](https://github.com/jonrohan)! - Add rule `use-styled-react-import` to enforce importing components with sx prop from @primer/styled-react
+
+### Patch Changes
+
+- [#389](https://github.com/primer/eslint-plugin-primer-react/pull/389) [`747fc82`](https://github.com/primer/eslint-plugin-primer-react/commit/747fc82dc9fc584005d98b36f8417985469a083a) Thanks [@llastflowers](https://github.com/llastflowers)! - Add exception for height and width for SkeletonBox in no-system-props rule
+
 ## 8.0.0
 
 ### Major Changes
