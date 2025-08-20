@@ -48,6 +48,7 @@ const excludedComponentProps = new Map([
   ['PointerBox', new Set(['bg'])],
   ['Truncate', new Set(['maxWidth'])],
   ['Stack', new Set(['padding', 'gap'])],
+  ['SkeletonBox', new Set(['width', 'height'])],
 ])
 
 const alwaysExcludedProps = new Set(['variant', 'size'])

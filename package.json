@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-primer-react",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "ESLint rules for Primer React",
   "main": "src/index.js",
   "engines": {
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@styled-system/props": "^5.1.5",
-    "@typescript-eslint/utils": "8.39.0",
+    "@typescript-eslint/utils": "8.39.1",
     "eslint-plugin-github": "^6.0.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-traverse": "^1.0.0",
