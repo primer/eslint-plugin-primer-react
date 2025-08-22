@@ -24,7 +24,7 @@ module.exports = {
   },
   create(context) {
     const sourceCode = context.getSourceCode()
-    
+
     // Track Octicon imports
     const octiconImports = []
 
@@ -33,16 +33,16 @@ module.exports = {
         if (node.source.value !== '@primer/react/deprecated') {
           return
         }
-        
+
         const hasOcticon = node.specifiers.some(
           specifier => specifier.imported && specifier.imported.name === 'Octicon',
         )
-        
+
         if (hasOcticon) {
           octiconImports.push(node)
         }
       },
-      
+
       JSXElement(node) {
         const {openingElement, closingElement} = node
         const elementName = getJSXOpeningElementName(openingElement)
@@ -95,18 +95,18 @@ module.exports = {
           // Get all JSX elements in the source code that are Octicons with icon props
           const sourceText = sourceCode.getText()
           const lines = sourceText.split('\n')
-          
+
           // Find all potential Octicon lines
           const octiconLines = []
-          lines.forEach((line, index) => {
+          for (const [index, line] of lines.entries()) {
             if (line.includes('<Octicon') && line.includes('icon=')) {
               octiconLines.push(index + 1) // 1-based line numbers
             }
-          })
-          
+          }
+
           // Get the line number of the current node
           const currentLine = sourceCode.getLocFromIndex(node.range[0]).line
-          
+
           // Check if this is the last one
           const currentIndex = octiconLines.indexOf(currentLine)
           return currentIndex === octiconLines.length - 1
@@ -119,7 +119,7 @@ module.exports = {
             const octiconSpecifier = importNode.specifiers.find(
               specifier => specifier.imported && specifier.imported.name === 'Octicon',
             )
-            
+
             if (importNode.specifiers.length === 1) {
               // Octicon is the only import, remove the entire import statement
               // Also remove trailing newline if present
@@ -128,7 +128,7 @@ module.exports = {
               const nextStart = nextToken ? nextToken.range[0] : sourceCode.getText().length
               const textBetween = sourceCode.getText().substring(importEnd, nextStart)
               const hasTrailingNewline = /^\s*\n/.test(textBetween)
-              
+
               if (hasTrailingNewline) {
                 const newlineMatch = textBetween.match(/^\s*\n/)
                 const endRange = importEnd + newlineMatch[0].length
@@ -142,7 +142,7 @@ module.exports = {
               const nextToken = sourceCode.getTokenAfter(octiconSpecifier)
               const hasTrailingComma = nextToken && nextToken.value === ','
               const hasLeadingComma = previousToken && previousToken.value === ','
-              
+
               let rangeToRemove
               if (hasTrailingComma) {
                 rangeToRemove = [octiconSpecifier.range[0], nextToken.range[1] + 1]
@@ -200,7 +200,7 @@ module.exports = {
                   : iconProp.range[0]
                 yield fixer.removeRange([startPos, iconProp.range[1]])
               }
-              
+
               // Handle import removal if this is the last Octicon usage
               yield* generateImportFixes(fixer)
             },
@@ -213,24 +213,26 @@ module.exports = {
             messageId: 'replaceDeprecatedOcticon',
             *fix(fixer) {
               const test = sourceCode.getText(conditionalExpression.test)
-              const consequentName = conditionalExpression.consequent.type === 'Identifier' 
-                ? conditionalExpression.consequent.name
-                : sourceCode.getText(conditionalExpression.consequent)
-              const alternateName = conditionalExpression.alternate.type === 'Identifier'
-                ? conditionalExpression.alternate.name 
-                : sourceCode.getText(conditionalExpression.alternate)
-              
+              const consequentName =
+                conditionalExpression.consequent.type === 'Identifier'
+                  ? conditionalExpression.consequent.name
+                  : sourceCode.getText(conditionalExpression.consequent)
+              const alternateName =
+                conditionalExpression.alternate.type === 'Identifier'
+                  ? conditionalExpression.alternate.name
+                  : sourceCode.getText(conditionalExpression.alternate)
+
               const propsString = propsText ? ` ${propsText}` : ''
               let replacement = `${test} ? <${consequentName}${propsString} /> : <${alternateName}${propsString} />`
-              
+
               // If it has children, we need to include them in both branches
               if (node.children && node.children.length > 0) {
                 const childrenText = node.children.map(child => sourceCode.getText(child)).join('')
                 replacement = `${test} ? <${consequentName}${propsString}>${childrenText}</${consequentName}> : <${alternateName}${propsString}>${childrenText}</${alternateName}>`
               }
-              
+
               yield fixer.replaceText(node, replacement)
-              
+
               // Handle import removal if this is the last Octicon usage
               yield* generateImportFixes(fixer)
             },
@@ -243,7 +245,7 @@ module.exports = {
             messageId: 'replaceDeprecatedOcticon',
             *fix(fixer) {
               const memberText = sourceCode.getText(memberExpression)
-              
+
               // Build props object
               let propsObject = '{}'
               if (otherProps.length > 0) {
@@ -265,26 +267,28 @@ module.exports = {
                 })
                 propsObject = `{${propStrings.join(', ')}}`
               }
-              
+
               let replacement = `React.createElement(${memberText}, ${propsObject})`
-              
+
               // If it has children, include them as additional arguments
               if (node.children && node.children.length > 0) {
-                const childrenArgs = node.children.map(child => {
-                  if (child.type === 'JSXText') {
-                    return JSON.stringify(child.value.trim()).replace(/\n\s*/g, ' ')
-                  } else {
-                    return sourceCode.getText(child)
-                  }
-                }).filter(child => child !== '""') // Filter out empty text nodes
-                
+                const childrenArgs = node.children
+                  .map(child => {
+                    if (child.type === 'JSXText') {
+                      return JSON.stringify(child.value.trim()).replace(/\n\s*/g, ' ')
+                    } else {
+                      return sourceCode.getText(child)
+                    }
+                  })
+                  .filter(child => child !== '""') // Filter out empty text nodes
+
                 if (childrenArgs.length > 0) {
                   replacement = `React.createElement(${memberText}, ${propsObject}, ${childrenArgs.join(', ')})`
                 }
               }
-              
+
               yield fixer.replaceText(node, replacement)
-              
+
               // Handle import removal if this is the last Octicon usage
               yield* generateImportFixes(fixer)
             },
