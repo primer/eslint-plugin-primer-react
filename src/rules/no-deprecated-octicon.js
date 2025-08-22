@@ -145,7 +145,12 @@ module.exports = {
               // Handle import removal if this is the last Octicon usage
               // Only check for last octicon after incrementing counter to ensure accurate count
               processedOcticonUsages++
-              if (processedOcticonUsages === totalOcticonUsages && octiconImports.length > 0) {
+              // Disable import removal for multiple Octicons to avoid fix conflicts (temporary fix)
+              if (
+                processedOcticonUsages === totalOcticonUsages &&
+                totalOcticonUsages === 1 &&
+                octiconImports.length > 0
+              ) {
                 const importNode = octiconImports[0]
                 const octiconSpecifier = importNode.specifiers.find(
                   specifier => specifier.imported && specifier.imported.name === 'Octicon',
@@ -217,7 +222,11 @@ module.exports = {
 
               // Handle import removal if this is the last Octicon usage
               processedOcticonUsages++
-              if (processedOcticonUsages === totalOcticonUsages && octiconImports.length > 0) {
+              if (
+                processedOcticonUsages === totalOcticonUsages &&
+                totalOcticonUsages === 1 &&
+                octiconImports.length > 0
+              ) {
                 const importNode = octiconImports[0]
                 const octiconSpecifier = importNode.specifiers.find(
                   specifier => specifier.imported && specifier.imported.name === 'Octicon',
@@ -313,7 +322,11 @@ module.exports = {
 
               // Handle import removal if this is the last Octicon usage
               processedOcticonUsages++
-              if (processedOcticonUsages === totalOcticonUsages && octiconImports.length > 0) {
+              if (
+                processedOcticonUsages === totalOcticonUsages &&
+                totalOcticonUsages === 1 &&
+                octiconImports.length > 0
+              ) {
                 const importNode = octiconImports[0]
                 const octiconSpecifier = importNode.specifiers.find(
                   specifier => specifier.imported && specifier.imported.name === 'Octicon',

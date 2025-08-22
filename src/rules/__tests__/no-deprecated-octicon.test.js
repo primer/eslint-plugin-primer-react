@@ -133,7 +133,8 @@ export default function App() {
     </div>
   )
 }`,
-      output: `import {XIcon, CheckIcon} from '@primer/octicons-react'
+      output: `import {Octicon} from '@primer/react/deprecated'
+import {XIcon, CheckIcon} from '@primer/octicons-react'
 export default function App() {
   return (
     <div>
