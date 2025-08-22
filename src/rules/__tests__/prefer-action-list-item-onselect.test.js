@@ -2,12 +2,14 @@ const {RuleTester} = require('@typescript-eslint/rule-tester')
 const rule = require('../prefer-action-list-item-onselect')
 
 const ruleTester = new RuleTester({
-  parser: require.resolve('@typescript-eslint/parser'),
-  parserOptions: {
+  languageOptions: {
+    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
     ecmaVersion: 2018,
     sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 })
