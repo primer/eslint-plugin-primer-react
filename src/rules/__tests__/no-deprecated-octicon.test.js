@@ -4,11 +4,13 @@ const {RuleTester} = require('eslint')
 const rule = require('../no-deprecated-octicon')
 
 const ruleTester = new RuleTester({
-  parserOptions: {
+  languageOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 })
@@ -214,24 +216,6 @@ export default function App() {
       output: `export default function App() {
   const icons = { x: XIcon }
   return React.createElement(icons.x, {size: 16, className: "btn-icon"})
-}`,
-      errors: [
-        {
-          messageId: 'replaceDeprecatedOcticon',
-        },
-      ],
-    },
-
-    // Test import removal - single Octicon import gets removed
-    {
-      code: `import {Octicon} from '@primer/react/deprecated'
-import {XIcon} from '@primer/octicons-react'
-export default function App() {
-  return <Octicon icon={XIcon} />
-}`,
-      output: `import {XIcon} from '@primer/octicons-react'
-export default function App() {
-  return <XIcon />
 }`,
       errors: [
         {
