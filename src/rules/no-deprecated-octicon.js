@@ -142,10 +142,9 @@ module.exports = {
                 yield fixer.removeRange([startPos, iconProp.range[1]])
               }
 
-              // Handle import removal if this is the last Octicon usage
-              // Only check for last octicon after incrementing counter to ensure accurate count
+              // Import removal: only enabled for single Octicon cases to prevent ESLint fix conflicts
+              // For multiple Octicons, JSX transformation works but import remains (can be cleaned up manually)
               processedOcticonUsages++
-              // Disable import removal for multiple Octicons to avoid fix conflicts (temporary fix)
               if (
                 processedOcticonUsages === totalOcticonUsages &&
                 totalOcticonUsages === 1 &&
@@ -220,7 +219,8 @@ module.exports = {
 
               yield fixer.replaceText(node, replacement)
 
-              // Handle import removal if this is the last Octicon usage
+              // Import removal: only enabled for single Octicon cases to prevent ESLint fix conflicts
+              // For multiple Octicons, JSX transformation works but import remains (can be cleaned up manually)
               processedOcticonUsages++
               if (
                 processedOcticonUsages === totalOcticonUsages &&
@@ -320,7 +320,8 @@ module.exports = {
 
               yield fixer.replaceText(node, replacement)
 
-              // Handle import removal if this is the last Octicon usage
+              // Import removal: only enabled for single Octicon cases to prevent ESLint fix conflicts
+              // For multiple Octicons, JSX transformation works but import remains (can be cleaned up manually)
               processedOcticonUsages++
               if (
                 processedOcticonUsages === totalOcticonUsages &&
