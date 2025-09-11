@@ -288,21 +288,23 @@ module.exports = {
 
         // Report on JSX elements that should use aliased components
         for (const {node: jsxNode, componentName, openingElement} of jsxElementsWithSx) {
-          const hasConflict = componentsWithoutSx.has(componentName)
-          const isImportedFromPrimerReact = primerReactImports.has(componentName)
+          // For compound components like "ActionList.Item", we need to check the parent component for conflicts
+          const parentComponentName = componentName.includes('.') ? componentName.split('.')[0] : componentName
+          const hasConflict = componentsWithoutSx.has(parentComponentName)
+          const isImportedFromPrimerReact = primerReactImports.has(parentComponentName)
 
-          if (hasConflict && isImportedFromPrimerReact && !styledReactImports.has(componentName)) {
-            const aliasName = `Styled${componentName}`
+          if (hasConflict && isImportedFromPrimerReact && !styledReactImports.has(parentComponentName)) {
+            const aliasName = `Styled${parentComponentName}`
             context.report({
               node: openingElement,
               messageId: 'useAliasedComponent',
-              data: {componentName, aliasName},
+              data: {componentName: parentComponentName, aliasName},
               fix(fixer) {
                 const sourceCode = context.getSourceCode()
                 const jsxText = sourceCode.getText(jsxNode)
 
-                // Replace all instances of the component name (both main component and compound components)
-                const componentPattern = new RegExp(`\\b${componentName}(?=\\.|\\s|>)`, 'g')
+                // Replace all instances of the parent component name (both main component and compound components)
+                const componentPattern = new RegExp(`\\b${parentComponentName}(?=\\.|\\s|>)`, 'g')
                 const aliasedText = jsxText.replace(componentPattern, aliasName)
 
                 return fixer.replaceText(jsxNode, aliasedText)

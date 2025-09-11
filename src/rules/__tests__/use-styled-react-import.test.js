@@ -117,6 +117,45 @@ import { FormControl as StyledFormControl } from '@primer/styled-react'
       ],
     },
 
+    // Invalid: ActionList used without sx, ActionList.Item used with sx - should use alias for compound component
+    {
+      code: `import { ActionList, ActionMenu } from '@primer/react'
+             const Component = () => (
+               <ActionMenu>
+                 <ActionMenu.Overlay>
+                   <ActionList>
+                     <ActionList.Item sx={{ paddingLeft: 'calc(1 * var(--base-size-12))' }}>
+                       Item
+                     </ActionList.Item>
+                   </ActionList>
+                 </ActionMenu.Overlay>
+               </ActionMenu>
+             )`,
+      output: `import { ActionList, ActionMenu } from '@primer/react'
+import { ActionList as StyledActionList } from '@primer/styled-react'
+             const Component = () => (
+               <ActionMenu>
+                 <ActionMenu.Overlay>
+                   <ActionList>
+                     <StyledActionList.Item sx={{ paddingLeft: 'calc(1 * var(--base-size-12))' }}>
+                       Item
+                     </StyledActionList.Item>
+                   </ActionList>
+                 </ActionMenu.Overlay>
+               </ActionMenu>
+             )`,
+      errors: [
+        {
+          messageId: 'useStyledReactImportWithAlias',
+          data: {componentName: 'ActionList', aliasName: 'StyledActionList'},
+        },
+        {
+          messageId: 'useAliasedComponent',
+          data: {componentName: 'ActionList', aliasName: 'StyledActionList'},
+        },
+      ],
+    },
+
     // Invalid: Multiple components, one with sx prop
     {
       code: `import { Button, Box, Avatar } from '@primer/react'
