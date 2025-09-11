@@ -271,17 +271,14 @@ module.exports = {
               messageId: 'useAliasedComponent',
               data: {componentName, aliasName},
               fix(fixer) {
-                const fixes = []
+                const sourceCode = context.getSourceCode()
+                const jsxText = sourceCode.getText(jsxNode)
 
-                // Replace the component name in the JSX opening tag
-                fixes.push(fixer.replaceText(openingElement.name, aliasName))
+                // Replace all instances of the component name (both main component and compound components)
+                const componentPattern = new RegExp(`\\b${componentName}(?=\\.|\\s|>)`, 'g')
+                const aliasedText = jsxText.replace(componentPattern, aliasName)
 
-                // Replace the component name in the JSX closing tag if it exists
-                if (jsxNode.closingElement) {
-                  fixes.push(fixer.replaceText(jsxNode.closingElement.name, aliasName))
-                }
-
-                return fixes
+                return fixer.replaceText(jsxNode, aliasedText)
               },
             })
           }

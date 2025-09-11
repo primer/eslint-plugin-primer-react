@@ -70,6 +70,39 @@ ruleTester.run('use-styled-react-import', rule, {
       ],
     },
 
+    // Invalid: FormControl used both with and without sx prop - should use alias
+    {
+      code: `import { FormControl } from '@primer/react'
+             const Component = () => (
+               <div>
+                 <FormControl></FormControl>
+                 <FormControl sx={{ color: 'red' }}>
+                   <FormControl.Label visuallyHidden>Label</FormControl.Label>
+                 </FormControl>
+               </div>
+             )`,
+      output: `import { FormControl } from '@primer/react'
+import { FormControl as StyledFormControl } from '@primer/styled-react'
+             const Component = () => (
+               <div>
+                 <FormControl></FormControl>
+                 <StyledFormControl sx={{ color: 'red' }}>
+                   <StyledFormControl.Label visuallyHidden>Label</StyledFormControl.Label>
+                 </StyledFormControl>
+               </div>
+             )`,
+      errors: [
+        {
+          messageId: 'useStyledReactImportWithAlias',
+          data: {componentName: 'FormControl', aliasName: 'StyledFormControl'},
+        },
+        {
+          messageId: 'useAliasedComponent',
+          data: {componentName: 'FormControl', aliasName: 'StyledFormControl'},
+        },
+      ],
+    },
+
     // Invalid: Button with sx prop imported from @primer/react
     {
       code: `import { Button } from '@primer/react'
