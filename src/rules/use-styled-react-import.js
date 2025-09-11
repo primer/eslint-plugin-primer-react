@@ -3,8 +3,8 @@
 const url = require('../url')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 
-// Components that should be imported from @primer/styled-react when used with sx prop
-const styledComponents = new Set([
+// Default components that should be imported from @primer/styled-react when used with sx prop
+const defaultStyledComponents = [
   'ActionList',
   'ActionMenu',
   'Box',
@@ -23,13 +23,13 @@ const styledComponents = new Set([
   'Truncate',
   'Octicon',
   'Dialog',
-])
+]
 
-// Types that should be imported from @primer/styled-react
-const styledTypes = new Set(['BoxProps', 'SxProp', 'BetterSystemStyleObject'])
+// Default types that should be imported from @primer/styled-react
+const defaultStyledTypes = ['BoxProps', 'SxProp', 'BetterSystemStyleObject']
 
-// Utilities that should be imported from @primer/styled-react
-const styledUtilities = new Set(['sx'])
+// Default utilities that should be imported from @primer/styled-react
+const defaultStyledUtilities = ['sx']
 
 /**
  * @type {import('eslint').Rule.RuleModule}
@@ -43,7 +43,29 @@ module.exports = {
       url: url(module),
     },
     fixable: 'code',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          styledComponents: {
+            type: 'array',
+            items: {type: 'string'},
+            description: 'Components that should be imported from @primer/styled-react when used with sx prop',
+          },
+          styledTypes: {
+            type: 'array',
+            items: {type: 'string'},
+            description: 'Types that should be imported from @primer/styled-react',
+          },
+          styledUtilities: {
+            type: 'array',
+            items: {type: 'string'},
+            description: 'Utilities that should be imported from @primer/styled-react',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       useStyledReactImport: 'Import {{ componentName }} from "@primer/styled-react" when using with sx prop',
       useStyledReactImportWithAlias:
@@ -54,6 +76,11 @@ module.exports = {
     },
   },
   create(context) {
+    // Get configuration options or use defaults
+    const options = context.options[0] || {}
+    const styledComponents = new Set(options.styledComponents || defaultStyledComponents)
+    const styledTypes = new Set(options.styledTypes || defaultStyledTypes)
+    const styledUtilities = new Set(options.styledUtilities || defaultStyledUtilities)
     const componentsWithSx = new Set()
     const componentsWithoutSx = new Set() // Track components used without sx
     const allUsedComponents = new Set() // Track all used components

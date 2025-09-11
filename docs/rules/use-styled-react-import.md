@@ -121,7 +121,55 @@ const Component2 = () => <StyledButton sx={{color: 'red'}}>Styled me</StyledButt
 
 ## Options
 
-This rule has no options.
+This rule accepts an optional configuration object with the following properties:
+
+- `styledComponents` (array of strings): Components that should be imported from `@primer/styled-react` when used with `sx` prop. Defaults to the list shown above.
+- `styledTypes` (array of strings): Types that should always be imported from `@primer/styled-react`. Defaults to `['BoxProps', 'SxProp', 'BetterSystemStyleObject']`.
+- `styledUtilities` (array of strings): Utilities that should always be imported from `@primer/styled-react`. Defaults to `['sx']`.
+
+### Example Configuration
+
+```json
+{
+  "rules": {
+    "@primer/primer-react/use-styled-react-import": [
+      "error",
+      {
+        "styledComponents": ["Button", "Box", "CustomComponent"],
+        "styledTypes": ["BoxProps", "CustomProps"],
+        "styledUtilities": ["sx", "customSx"]
+      }
+    ]
+  }
+}
+```
+
+### Configuration Examples
+
+#### ❌ Incorrect with custom configuration
+
+```jsx
+// With styledComponents: ["CustomButton"]
+import {CustomButton} from '@primer/react'
+
+const Component = () => <CustomButton sx={{color: 'red'}}>Click me</CustomButton>
+```
+
+#### ✅ Correct with custom configuration
+
+```jsx
+// With styledComponents: ["CustomButton"]
+import {CustomButton} from '@primer/styled-react'
+
+const Component = () => <CustomButton sx={{color: 'red'}}>Click me</CustomButton>
+```
+
+```jsx
+// Box is not in custom styledComponents list, so it can be used with sx from @primer/react
+import {Box} from '@primer/react'
+
+const Component = () => <Box sx={{color: 'red'}}>Content</Box>
+```
 
 ## When Not To Use It
 

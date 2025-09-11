@@ -249,3 +249,64 @@ import { Button as StyledButton, Link } from '@primer/styled-react'
     },
   ],
 })
+
+// Test configuration options
+ruleTester.run('use-styled-react-import with custom configuration', rule, {
+  valid: [
+    // Valid: Custom component not in default list
+    {
+      code: `import { CustomButton } from '@primer/react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      options: [{}], // Using default configuration
+    },
+
+    // Valid: Custom component in custom list used without sx prop
+    {
+      code: `import { CustomButton } from '@primer/react'
+             const Component = () => <CustomButton>Click me</CustomButton>`,
+      options: [{styledComponents: ['CustomButton']}],
+    },
+
+    // Valid: Custom component with sx prop imported from styled-react
+    {
+      code: `import { CustomButton } from '@primer/styled-react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      options: [{styledComponents: ['CustomButton']}],
+    },
+
+    // Valid: Box not in custom list, so sx usage is allowed from @primer/react
+    {
+      code: `import { Box } from '@primer/react'
+             const Component = () => <Box sx={{ color: 'red' }}>Content</Box>`,
+      options: [{styledComponents: ['CustomButton']}], // Box not included
+    },
+  ],
+  invalid: [
+    // Invalid: Custom component with sx prop should be from styled-react
+    {
+      code: `import { CustomButton } from '@primer/react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      output: `import { CustomButton } from '@primer/styled-react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      options: [{styledComponents: ['CustomButton']}],
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'CustomButton'},
+        },
+      ],
+    },
+    // Invalid: Custom utility should be from styled-react
+    {
+      code: `import { customSx } from '@primer/react'`,
+      output: `import { customSx } from '@primer/styled-react'`,
+      options: [{styledUtilities: ['customSx']}],
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'customSx'},
+        },
+      ],
+    },
+  ],
+})
