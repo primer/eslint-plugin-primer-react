@@ -56,6 +56,20 @@ ruleTester.run('use-styled-react-import', rule, {
       ],
     },
 
+    // Invalid: ActionList.Item with sx prop and ActionList imported from @primer/react
+    {
+      code: `import { ActionList } from '@primer/react'
+             const Component = () => <ActionList.Item sx={{ color: 'red' }}>Content</ActionList.Item>`,
+      output: `import { ActionList } from '@primer/styled-react'
+             const Component = () => <ActionList.Item sx={{ color: 'red' }}>Content</ActionList.Item>`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'ActionList'},
+        },
+      ],
+    },
+
     // Invalid: Button with sx prop imported from @primer/react
     {
       code: `import { Button } from '@primer/react'
