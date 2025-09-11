@@ -70,7 +70,7 @@ ruleTester.run('use-styled-react-import', rule, {
       ],
     },
 
-    // Invalid: FormControl used both with and without sx prop - should use alias
+    // Invalid: FormControl used both with and without sx prop - should move to styled-react
     {
       code: `import { FormControl } from '@primer/react'
              const Component = () => (
@@ -81,24 +81,19 @@ ruleTester.run('use-styled-react-import', rule, {
                  </FormControl>
                </div>
              )`,
-      output: `import { FormControl } from '@primer/react'
-import { FormControl as StyledFormControl } from '@primer/styled-react'
+      output: `import { FormControl } from '@primer/styled-react'
              const Component = () => (
                <div>
                  <FormControl></FormControl>
-                 <StyledFormControl sx={{ color: 'red' }}>
-                   <StyledFormControl.Label visuallyHidden>Label</StyledFormControl.Label>
-                 </StyledFormControl>
+                 <FormControl sx={{ color: 'red' }}>
+                   <FormControl.Label visuallyHidden>Label</FormControl.Label>
+                 </FormControl>
                </div>
              )`,
       errors: [
         {
-          messageId: 'useStyledReactImportWithAlias',
-          data: {componentName: 'FormControl', aliasName: 'StyledFormControl'},
-        },
-        {
-          messageId: 'useAliasedComponent',
-          data: {componentName: 'FormControl', aliasName: 'StyledFormControl'},
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'FormControl'},
         },
       ],
     },
@@ -117,7 +112,7 @@ import { FormControl as StyledFormControl } from '@primer/styled-react'
       ],
     },
 
-    // Invalid: ActionList used without sx, ActionList.Item used with sx - should use alias for compound component
+    // Invalid: ActionList used without sx, ActionList.Item used with sx - should move ActionList to styled-react
     {
       code: `import { ActionList, ActionMenu } from '@primer/react'
              const Component = () => (
@@ -131,27 +126,23 @@ import { FormControl as StyledFormControl } from '@primer/styled-react'
                  </ActionMenu.Overlay>
                </ActionMenu>
              )`,
-      output: `import { ActionList, ActionMenu } from '@primer/react'
-import { ActionList as StyledActionList } from '@primer/styled-react'
+      output: `import { ActionMenu } from '@primer/react'
+import { ActionList } from '@primer/styled-react'
              const Component = () => (
                <ActionMenu>
                  <ActionMenu.Overlay>
                    <ActionList>
-                     <StyledActionList.Item sx={{ paddingLeft: 'calc(1 * var(--base-size-12))' }}>
+                     <ActionList.Item sx={{ paddingLeft: 'calc(1 * var(--base-size-12))' }}>
                        Item
-                     </StyledActionList.Item>
+                     </ActionList.Item>
                    </ActionList>
                  </ActionMenu.Overlay>
                </ActionMenu>
              )`,
       errors: [
         {
-          messageId: 'useStyledReactImportWithAlias',
-          data: {componentName: 'ActionList', aliasName: 'StyledActionList'},
-        },
-        {
-          messageId: 'useAliasedComponent',
-          data: {componentName: 'ActionList', aliasName: 'StyledActionList'},
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'ActionList'},
         },
       ],
     },
@@ -224,7 +215,7 @@ import { Button } from '@primer/styled-react'
       ],
     },
 
-    // Invalid: <Link /> and <StyledButton /> imported from styled-react but used without sx prop
+    // Invalid: <Link /> and <Button /> imported from styled-react but used without sx prop
     {
       code: `import { Button } from '@primer/react'
 import { Button as StyledButton, Link } from '@primer/styled-react'
@@ -241,7 +232,7 @@ import { Button as StyledButton, Link } from '@primer/styled-react'
                <div>
                  <Link />
                  <Button>Regular button</Button>
-                 <Button>Styled button</Button>
+                 <StyledButton>Styled button</StyledButton>
                </div>
              )`,
       errors: [
@@ -252,10 +243,6 @@ import { Button as StyledButton, Link } from '@primer/styled-react'
         {
           messageId: 'usePrimerReactImport',
           data: {componentName: 'Link'},
-        },
-        {
-          messageId: 'usePrimerReactImport',
-          data: {componentName: 'Button'},
         },
       ],
     },
@@ -299,7 +286,7 @@ import { Button } from '@primer/react'
       ],
     },
 
-    // Invalid: Button used both with and without sx prop - should use alias
+    // Invalid: Button and Link used with sx prop - should move both to styled-react
     {
       code: `import { Button, Link } from '@primer/react'
              const Component = () => (
@@ -309,27 +296,22 @@ import { Button } from '@primer/react'
                  <Button sx={{ color: 'red' }}>Styled button</Button>
                </div>
              )`,
-      output: `import { Button } from '@primer/react'
-import { Button as StyledButton, Link } from '@primer/styled-react'
+      output: `import { Link, Button } from '@primer/styled-react'
              const Component = () => (
                <div>
                  <Link sx={{ color: 'red' }} />
                  <Button>Regular button</Button>
-                 <StyledButton sx={{ color: 'red' }}>Styled button</StyledButton>
+                 <Button sx={{ color: 'red' }}>Styled button</Button>
                </div>
              )`,
       errors: [
         {
-          messageId: 'useStyledReactImportWithAlias',
-          data: {componentName: 'Button', aliasName: 'StyledButton'},
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Button'},
         },
         {
           messageId: 'useStyledReactImport',
           data: {componentName: 'Link'},
-        },
-        {
-          messageId: 'useAliasedComponent',
-          data: {componentName: 'Button', aliasName: 'StyledButton'},
         },
       ],
     },
