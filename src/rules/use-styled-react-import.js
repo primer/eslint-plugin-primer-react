@@ -132,9 +132,14 @@ module.exports = {
         // Check if this is an aliased component from styled-react
         const originalComponentName = aliasMapping.get(componentName) || componentName
 
+        // For compound components like "ActionList.Item", we need to check the parent component
+        const parentComponentName = originalComponentName.includes('.')
+          ? originalComponentName.split('.')[0]
+          : originalComponentName
+
         // Track all used components that are in our styled components list
-        if (styledComponents.has(originalComponentName)) {
-          allUsedComponents.add(originalComponentName)
+        if (styledComponents.has(parentComponentName)) {
+          allUsedComponents.add(parentComponentName)
 
           // Check if this component has an sx prop
           const hasSxProp = openingElement.attributes.some(
@@ -142,17 +147,17 @@ module.exports = {
           )
 
           if (hasSxProp) {
-            componentsWithSx.add(originalComponentName)
+            componentsWithSx.add(parentComponentName)
             jsxElementsWithSx.push({node, componentName: originalComponentName, openingElement})
           } else {
-            componentsWithoutSx.add(originalComponentName)
+            componentsWithoutSx.add(parentComponentName)
 
             // If this is an aliased component without sx, we need to track it for renaming
             if (aliasMapping.has(componentName)) {
               jsxElementsWithoutSx.push({
                 node,
                 localName: componentName,
-                originalName: originalComponentName,
+                originalName: parentComponentName,
                 openingElement,
               })
             }
@@ -293,17 +298,14 @@ module.exports = {
               messageId: 'useAliasedComponent',
               data: {componentName, aliasName},
               fix(fixer) {
-                const fixes = []
+                const sourceCode = context.getSourceCode()
+                const jsxText = sourceCode.getText(jsxNode)
 
-                // Replace the component name in the JSX opening tag
-                fixes.push(fixer.replaceText(openingElement.name, aliasName))
+                // Replace all instances of the component name (both main component and compound components)
+                const componentPattern = new RegExp(`\\b${componentName}(?=\\.|\\s|>)`, 'g')
+                const aliasedText = jsxText.replace(componentPattern, aliasName)
 
-                // Replace the component name in the JSX closing tag if it exists
-                if (jsxNode.closingElement) {
-                  fixes.push(fixer.replaceText(jsxNode.closingElement.name, aliasName))
-                }
-
-                return fixes
+                return fixer.replaceText(jsxNode, aliasedText)
               },
             })
           }

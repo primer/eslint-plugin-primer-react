@@ -56,6 +56,53 @@ ruleTester.run('use-styled-react-import', rule, {
       ],
     },
 
+    // Invalid: ActionList.Item with sx prop and ActionList imported from @primer/react
+    {
+      code: `import { ActionList } from '@primer/react'
+             const Component = () => <ActionList.Item sx={{ color: 'red' }}>Content</ActionList.Item>`,
+      output: `import { ActionList } from '@primer/styled-react'
+             const Component = () => <ActionList.Item sx={{ color: 'red' }}>Content</ActionList.Item>`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'ActionList'},
+        },
+      ],
+    },
+
+    // Invalid: FormControl used both with and without sx prop - should use alias
+    {
+      code: `import { FormControl } from '@primer/react'
+             const Component = () => (
+               <div>
+                 <FormControl></FormControl>
+                 <FormControl sx={{ color: 'red' }}>
+                   <FormControl.Label visuallyHidden>Label</FormControl.Label>
+                 </FormControl>
+               </div>
+             )`,
+      output: `import { FormControl } from '@primer/react'
+import { FormControl as StyledFormControl } from '@primer/styled-react'
+             const Component = () => (
+               <div>
+                 <FormControl></FormControl>
+                 <StyledFormControl sx={{ color: 'red' }}>
+                   <StyledFormControl.Label visuallyHidden>Label</StyledFormControl.Label>
+                 </StyledFormControl>
+               </div>
+             )`,
+      errors: [
+        {
+          messageId: 'useStyledReactImportWithAlias',
+          data: {componentName: 'FormControl', aliasName: 'StyledFormControl'},
+        },
+        {
+          messageId: 'useAliasedComponent',
+          data: {componentName: 'FormControl', aliasName: 'StyledFormControl'},
+        },
+      ],
+    },
+
     // Invalid: Button with sx prop imported from @primer/react
     {
       code: `import { Button } from '@primer/react'
