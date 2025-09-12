@@ -56,6 +56,26 @@ ruleTester.run('use-styled-react-import', rule, {
       ],
     },
 
+    // Invalid: Imports from /experimental and /deprecated paths
+    {
+      code: `import { Button } from '@primer/react/experimental'
+             import { Box } from '@primer/react/deprecated'
+             const Component = () => <Box sx={{ color: 'red' }}><Button sx={{ margin: 2 }}>Click me</Button></Box>`,
+      output: `import { Button } from '@primer/styled-react/experimental'
+             import { Box } from '@primer/styled-react/deprecated'
+             const Component = () => <Box sx={{ color: 'red' }}><Button sx={{ margin: 2 }}>Click me</Button></Box>`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Button'},
+        },
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Box'},
+        },
+      ],
+    },
+
     // Invalid: ActionList.Item with sx prop and ActionList imported from @primer/react
     {
       code: `import { ActionList } from '@primer/react'

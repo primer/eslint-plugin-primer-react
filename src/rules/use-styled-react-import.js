@@ -88,8 +88,8 @@ module.exports = {
       ImportDeclaration(node) {
         const importSource = node.source.value
 
-        if (importSource === '@primer/react') {
-          // Track imports from @primer/react
+        if (importSource === '@primer/react' || importSource.startsWith('@primer/react/')) {
+          // Track imports from @primer/react and its subpaths
           for (const specifier of node.specifiers) {
             if (specifier.type === 'ImportSpecifier') {
               const importedName = specifier.imported.name
@@ -98,16 +98,16 @@ module.exports = {
                 styledTypes.has(importedName) ||
                 styledUtilities.has(importedName)
               ) {
-                primerReactImports.set(importedName, {node, specifier})
+                primerReactImports.set(importedName, {node, specifier, importSource})
               }
             }
           }
-        } else if (importSource === '@primer/styled-react') {
-          // Track what's imported from styled-react
+        } else if (importSource === '@primer/styled-react' || importSource.startsWith('@primer/styled-react/')) {
+          // Track what's imported from styled-react and its subpaths
           for (const specifier of node.specifiers) {
             if (specifier.type === 'ImportSpecifier') {
               const importedName = specifier.imported.name
-              styledReactImports.set(importedName, {node, specifier})
+              styledReactImports.set(importedName, {node, specifier, importSource})
             }
           }
         }
@@ -167,7 +167,7 @@ module.exports = {
               messageId: 'useStyledReactImport',
               data: {componentName},
               fix(fixer) {
-                const {node: importNode} = importInfo
+                const {node: importNode, importSource} = importInfo
                 const changes = importNodeChanges.get(importNode)
 
                 if (!changes) {
@@ -190,21 +190,24 @@ module.exports = {
                   return !componentsToMove.has(name)
                 })
 
+                // Convert @primer/react path to @primer/styled-react path
+                const styledReactPath = importSource.replace('@primer/react', '@primer/styled-react')
+
                 // If no components remain, replace with new import directly
                 if (remainingSpecifiers.length === 0) {
                   const movedComponents = changes.toMove.join(', ')
-                  fixes.push(fixer.replaceText(importNode, `import { ${movedComponents} } from '@primer/styled-react'`))
+                  fixes.push(fixer.replaceText(importNode, `import { ${movedComponents} } from '${styledReactPath}'`))
                 } else {
                   // Otherwise, update the import to only include remaining components
                   const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
                   fixes.push(
-                    fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '@primer/react'`),
+                    fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
 
                   // Add new styled-react import
                   const movedComponents = changes.toMove.join(', ')
                   fixes.push(
-                    fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '@primer/styled-react'`),
+                    fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '${styledReactPath}'`),
                   )
                 }
 
@@ -250,7 +253,7 @@ module.exports = {
               messageId: 'usePrimerReactImport',
               data: {componentName},
               fix(fixer) {
-                const {node: importNode} = importInfo
+                const {node: importNode, importSource} = importInfo
                 const changes = styledReactImportNodeChanges.get(importNode)
 
                 if (!changes) {
@@ -273,6 +276,9 @@ module.exports = {
                   return !componentsToMove.has(name)
                 })
 
+                // Convert @primer/styled-react path to @primer/react path
+                const primerReactPath = importSource.replace('@primer/styled-react', '@primer/react')
+
                 // Check if there's an existing primer-react import to merge with
                 const existingPrimerReactImport = Array.from(primerReactImportNodes)[0]
 
@@ -286,7 +292,7 @@ module.exports = {
                   fixes.push(
                     fixer.replaceText(
                       existingPrimerReactImport,
-                      `import { ${newSpecifiers.join(', ')} } from '@primer/react'`,
+                      `import { ${newSpecifiers.join(', ')} } from '${primerReactPath}'`,
                     ),
                   )
                   fixes.push(fixer.remove(importNode))
@@ -300,33 +306,29 @@ module.exports = {
                   fixes.push(
                     fixer.replaceText(
                       existingPrimerReactImport,
-                      `import { ${newSpecifiers.join(', ')} } from '@primer/react'`,
+                      `import { ${newSpecifiers.join(', ')} } from '${primerReactPath}'`,
                     ),
                   )
 
                   const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
                   fixes.push(
-                    fixer.replaceText(
-                      importNode,
-                      `import { ${remainingNames.join(', ')} } from '@primer/styled-react'`,
-                    ),
+                    fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
                 } else if (remainingSpecifiers.length === 0) {
                   // Case: No existing primer-react import, no remaining styled-react imports
                   const movedComponents = changes.toMove.join(', ')
-                  fixes.push(fixer.replaceText(importNode, `import { ${movedComponents} } from '@primer/react'`))
+                  fixes.push(fixer.replaceText(importNode, `import { ${movedComponents} } from '${primerReactPath}'`))
                 } else {
                   // Case: No existing primer-react import, some styled-react imports remain
                   const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
                   fixes.push(
-                    fixer.replaceText(
-                      importNode,
-                      `import { ${remainingNames.join(', ')} } from '@primer/styled-react'`,
-                    ),
+                    fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
 
                   const movedComponents = changes.toMove.join(', ')
-                  fixes.push(fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '@primer/react'`))
+                  fixes.push(
+                    fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '${primerReactPath}'`),
+                  )
                 }
 
                 return fixes
@@ -343,13 +345,16 @@ module.exports = {
               messageId: 'moveToStyledReact',
               data: {importName},
               fix(fixer) {
-                const {node: importNode, specifier} = importInfo
+                const {node: importNode, specifier, importSource} = importInfo
                 const otherSpecifiers = importNode.specifiers.filter(s => s !== specifier)
+
+                // Convert @primer/react path to @primer/styled-react path
+                const styledReactPath = importSource.replace('@primer/react', '@primer/styled-react')
 
                 // If this is the only import, replace the whole import
                 if (otherSpecifiers.length === 0) {
                   const prefix = styledTypes.has(importName) ? 'type ' : ''
-                  return fixer.replaceText(importNode, `import { ${prefix}${importName} } from '@primer/styled-react'`)
+                  return fixer.replaceText(importNode, `import { ${prefix}${importName} } from '${styledReactPath}'`)
                 }
 
                 // Otherwise, remove from current import and add new import
@@ -377,7 +382,7 @@ module.exports = {
                 // Add new import
                 const prefix = styledTypes.has(importName) ? 'type ' : ''
                 fixes.push(
-                  fixer.insertTextAfter(importNode, `\nimport { ${prefix}${importName} } from '@primer/styled-react'`),
+                  fixer.insertTextAfter(importNode, `\nimport { ${prefix}${importName} } from '${styledReactPath}'`),
                 )
 
                 return fixes
