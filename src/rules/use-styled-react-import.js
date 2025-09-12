@@ -32,7 +32,7 @@ const defaultStyledComponents = [
   'Truncate',
   'Octicon',
   'Dialog',
-  'UnderlineNav'
+  'UnderlineNav',
 ]
 
 // Default types that should be imported from @primer/styled-react
