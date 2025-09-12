@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 8.2.0
+
+### Minor Changes
+
+- [#407](https://github.com/primer/eslint-plugin-primer-react/pull/407) [`2f25480`](https://github.com/primer/eslint-plugin-primer-react/commit/2f25480c3341c1d1afb6fc040c5c5deee416d71c) Thanks [@jonrohan](https://github.com/jonrohan)! - Make `use-styled-react-import` rule configurable
+
+### Patch Changes
+
+- [#406](https://github.com/primer/eslint-plugin-primer-react/pull/406) [`d72e8c4`](https://github.com/primer/eslint-plugin-primer-react/commit/d72e8c4c172d1c37da201a20cde0b7b2bd9ab283) Thanks [@jonrohan](https://github.com/jonrohan)! - Fixes for `use-styled-react-import` rule for compound components.
+
 ## 8.1.0
 
 ### Minor Changes
