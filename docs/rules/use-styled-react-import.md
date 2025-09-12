@@ -12,7 +12,7 @@ Enforce importing components that use `sx` prop from `@primer/styled-react` inst
 
 This rule detects when certain Primer React components are used with the `sx` prop and ensures they are imported from the temporary `@primer/styled-react` package instead of `@primer/react`. When the same components are used without the `sx` prop, it ensures they are imported from `@primer/react` instead of `@primer/styled-react`.
 
-When a component is used both with and without the `sx` prop in the same file, the rule will import the styled version with an alias (e.g., `StyledButton`) and update the JSX usage accordingly to avoid naming conflicts.
+When a component is used with the `sx` prop anywhere in the file, the entire component import is moved to `@primer/styled-react`, simplifying the import structure.
 
 It also moves certain types and utilities to the styled-react package.
 
@@ -111,12 +111,11 @@ const Component = () => <Button>Click me</Button>
 ```
 
 ```jsx
-// When a component is used both ways, use an alias for the styled version
-import {Button} from '@primer/react'
-import {Button as StyledButton} from '@primer/styled-react'
+// When a component is used with sx prop anywhere, import from styled-react
+import {Button} from '@primer/styled-react'
 
 const Component1 = () => <Button>Click me</Button>
-const Component2 = () => <StyledButton sx={{color: 'red'}}>Styled me</StyledButton>
+const Component2 = () => <Button sx={{color: 'red'}}>Styled me</Button>
 ```
 
 ## Options

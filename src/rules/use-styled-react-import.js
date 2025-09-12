@@ -68,9 +68,6 @@ module.exports = {
     ],
     messages: {
       useStyledReactImport: 'Import {{ componentName }} from "@primer/styled-react" when using with sx prop',
-      useStyledReactImportWithAlias:
-        'Import {{ componentName }} as {{ aliasName }} from "@primer/styled-react" when using with sx prop (conflicts with non-sx usage)',
-      useAliasedComponent: 'Use {{ aliasName }} instead of {{ componentName }} when using sx prop',
       moveToStyledReact: 'Move {{ importName }} import to "@primer/styled-react"',
       usePrimerReactImport: 'Import {{ componentName }} from "@primer/react" when not using sx prop',
     },
@@ -86,9 +83,6 @@ module.exports = {
     const allUsedComponents = new Set() // Track all used components
     const primerReactImports = new Map() // Map of component name to import node
     const styledReactImports = new Map() // Map of components imported from styled-react to import node
-    const aliasMapping = new Map() // Map local name to original component name for aliased imports
-    const jsxElementsWithSx = [] // Track JSX elements that use sx prop
-    const jsxElementsWithoutSx = [] // Track JSX elements that don't use sx prop
 
     return {
       ImportDeclaration(node) {
@@ -113,13 +107,7 @@ module.exports = {
           for (const specifier of node.specifiers) {
             if (specifier.type === 'ImportSpecifier') {
               const importedName = specifier.imported.name
-              const localName = specifier.local.name
               styledReactImports.set(importedName, {node, specifier})
-
-              // Track alias mapping for styled-react imports
-              if (localName !== importedName) {
-                aliasMapping.set(localName, importedName)
-              }
             }
           }
         }
@@ -129,13 +117,8 @@ module.exports = {
         const openingElement = node.openingElement
         const componentName = getJSXOpeningElementName(openingElement)
 
-        // Check if this is an aliased component from styled-react
-        const originalComponentName = aliasMapping.get(componentName) || componentName
-
         // For compound components like "ActionList.Item", we need to check the parent component
-        const parentComponentName = originalComponentName.includes('.')
-          ? originalComponentName.split('.')[0]
-          : originalComponentName
+        const parentComponentName = componentName.includes('.') ? componentName.split('.')[0] : componentName
 
         // Track all used components that are in our styled components list
         if (styledComponents.has(parentComponentName)) {
@@ -148,19 +131,8 @@ module.exports = {
 
           if (hasSxProp) {
             componentsWithSx.add(parentComponentName)
-            jsxElementsWithSx.push({node, componentName: originalComponentName, openingElement})
           } else {
             componentsWithoutSx.add(parentComponentName)
-
-            // If this is an aliased component without sx, we need to track it for renaming
-            if (aliasMapping.has(componentName)) {
-              jsxElementsWithoutSx.push({
-                node,
-                localName: componentName,
-                originalName: parentComponentName,
-                openingElement,
-              })
-            }
           }
         }
       },
@@ -173,23 +145,16 @@ module.exports = {
         for (const componentName of componentsWithSx) {
           const importInfo = primerReactImports.get(componentName)
           if (importInfo && !styledReactImports.has(componentName)) {
-            const hasConflict = componentsWithoutSx.has(componentName)
             const {node: importNode} = importInfo
 
             if (!importNodeChanges.has(importNode)) {
               importNodeChanges.set(importNode, {
                 toMove: [],
-                toAlias: [],
                 originalSpecifiers: [...importNode.specifiers],
               })
             }
 
-            const changes = importNodeChanges.get(importNode)
-            if (hasConflict) {
-              changes.toAlias.push(componentName)
-            } else {
-              changes.toMove.push(componentName)
-            }
+            importNodeChanges.get(importNode).toMove.push(componentName)
           }
         }
 
@@ -197,15 +162,12 @@ module.exports = {
         for (const componentName of componentsWithSx) {
           const importInfo = primerReactImports.get(componentName)
           if (importInfo && !styledReactImports.has(componentName)) {
-            // Check if this component is also used without sx prop (conflict scenario)
-            const hasConflict = componentsWithoutSx.has(componentName)
-
             context.report({
               node: importInfo.specifier,
-              messageId: hasConflict ? 'useStyledReactImportWithAlias' : 'useStyledReactImport',
-              data: hasConflict ? {componentName, aliasName: `Styled${componentName}`} : {componentName},
+              messageId: 'useStyledReactImport',
+              data: {componentName},
               fix(fixer) {
-                const {node: importNode, specifier} = importInfo
+                const {node: importNode} = importInfo
                 const changes = importNodeChanges.get(importNode)
 
                 if (!changes) {
@@ -213,10 +175,7 @@ module.exports = {
                 }
 
                 // Only apply the fix once per import node (for the first component processed)
-                const isFirstComponent =
-                  changes.originalSpecifiers[0] === specifier ||
-                  (changes.toMove.length > 0 && changes.toMove[0] === componentName) ||
-                  (changes.toAlias.length > 0 && changes.toAlias[0] === componentName)
+                const isFirstComponent = changes.toMove[0] === componentName
 
                 if (!isFirstComponent) {
                   return null
@@ -228,27 +187,13 @@ module.exports = {
                 // Find specifiers that remain in original import
                 const remainingSpecifiers = changes.originalSpecifiers.filter(spec => {
                   const name = spec.imported.name
-                  // Keep components that are not being moved (only aliased components stay for non-sx usage)
                   return !componentsToMove.has(name)
                 })
 
-                // If no components remain, replace with new imports directly
+                // If no components remain, replace with new import directly
                 if (remainingSpecifiers.length === 0) {
-                  // Build the new imports to replace the original
-                  const newImports = []
-
-                  // Add imports for moved components
-                  for (const componentName of changes.toMove) {
-                    newImports.push(`import { ${componentName} } from '@primer/styled-react'`)
-                  }
-
-                  // Add aliased imports for conflicted components
-                  for (const componentName of changes.toAlias) {
-                    const aliasName = `Styled${componentName}`
-                    newImports.push(`import { ${componentName} as ${aliasName} } from '@primer/styled-react'`)
-                  }
-
-                  fixes.push(fixer.replaceText(importNode, newImports.join('\n')))
+                  const movedComponents = changes.toMove.join(', ')
+                  fixes.push(fixer.replaceText(importNode, `import { ${movedComponents} } from '@primer/styled-react'`))
                 } else {
                   // Otherwise, update the import to only include remaining components
                   const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
@@ -256,56 +201,14 @@ module.exports = {
                     fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '@primer/react'`),
                   )
 
-                  // Combine all styled-react imports into a single import statement
-                  const styledReactImports = []
-
-                  // Add aliased components first
-                  for (const componentName of changes.toAlias) {
-                    const aliasName = `Styled${componentName}`
-                    styledReactImports.push(`${componentName} as ${aliasName}`)
-                  }
-
-                  // Add moved components second
-                  for (const componentName of changes.toMove) {
-                    styledReactImports.push(componentName)
-                  }
-
-                  if (styledReactImports.length > 0) {
-                    fixes.push(
-                      fixer.insertTextAfter(
-                        importNode,
-                        `\nimport { ${styledReactImports.join(', ')} } from '@primer/styled-react'`,
-                      ),
-                    )
-                  }
+                  // Add new styled-react import
+                  const movedComponents = changes.toMove.join(', ')
+                  fixes.push(
+                    fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '@primer/styled-react'`),
+                  )
                 }
 
                 return fixes
-              },
-            })
-          }
-        }
-
-        // Report on JSX elements that should use aliased components
-        for (const {node: jsxNode, componentName, openingElement} of jsxElementsWithSx) {
-          const hasConflict = componentsWithoutSx.has(componentName)
-          const isImportedFromPrimerReact = primerReactImports.has(componentName)
-
-          if (hasConflict && isImportedFromPrimerReact && !styledReactImports.has(componentName)) {
-            const aliasName = `Styled${componentName}`
-            context.report({
-              node: openingElement,
-              messageId: 'useAliasedComponent',
-              data: {componentName, aliasName},
-              fix(fixer) {
-                const sourceCode = context.getSourceCode()
-                const jsxText = sourceCode.getText(jsxNode)
-
-                // Replace all instances of the component name (both main component and compound components)
-                const componentPattern = new RegExp(`\\b${componentName}(?=\\.|\\s|>)`, 'g')
-                const aliasedText = jsxText.replace(componentPattern, aliasName)
-
-                return fixer.replaceText(jsxNode, aliasedText)
               },
             })
           }
@@ -424,30 +327,6 @@ module.exports = {
 
                   const movedComponents = changes.toMove.join(', ')
                   fixes.push(fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '@primer/react'`))
-                }
-
-                return fixes
-              },
-            })
-          }
-        }
-
-        // Report and fix JSX elements that use aliased components without sx prop
-        for (const {node: jsxNode, originalName, openingElement} of jsxElementsWithoutSx) {
-          if (!componentsWithSx.has(originalName) && styledReactImports.has(originalName)) {
-            context.report({
-              node: openingElement,
-              messageId: 'usePrimerReactImport',
-              data: {componentName: originalName},
-              fix(fixer) {
-                const fixes = []
-
-                // Replace the aliased component name with the original component name in JSX opening tag
-                fixes.push(fixer.replaceText(openingElement.name, originalName))
-
-                // Replace the aliased component name in JSX closing tag if it exists
-                if (jsxNode.closingElement) {
-                  fixes.push(fixer.replaceText(jsxNode.closingElement.name, originalName))
                 }
 
                 return fixes
