@@ -17,12 +17,22 @@ const defaultStyledComponents = [
   'Label',
   'Link',
   'LinkButton',
+  'NavList',
+  'PageHeader',
   'PageLayout',
+  'Spinner',
+  'Table',
+  'TabNav',
   'Text',
+  'Textarea',
   'TextInput',
+  'Timeline',
+  'Token',
+  'Tooltip',
   'Truncate',
   'Octicon',
   'Dialog',
+  'UnderlineNav'
 ]
 
 // Default types that should be imported from @primer/styled-react
