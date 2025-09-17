@@ -20,6 +20,7 @@ module.exports = {
     'enforce-css-module-identifier-casing': require('./rules/enforce-css-module-identifier-casing'),
     'enforce-css-module-default-import': require('./rules/enforce-css-module-default-import'),
     'use-styled-react-import': require('./rules/use-styled-react-import'),
+    'no-deprecated-octicon': require('./rules/no-deprecated-octicon'),
   },
   configs: {
     recommended: require('./configs/recommended'),
