@@ -56,6 +56,68 @@ ruleTester.run('use-styled-react-import', rule, {
       ],
     },
 
+    // Invalid: Imports from /experimental and /deprecated paths
+    {
+      code: `import { Button } from '@primer/react/experimental'
+             import { Box } from '@primer/react/deprecated'
+             const Component = () => <Box sx={{ color: 'red' }}><Button sx={{ margin: 2 }}>Click me</Button></Box>`,
+      output: `import { Button } from '@primer/styled-react/experimental'
+             import { Box } from '@primer/styled-react/deprecated'
+             const Component = () => <Box sx={{ color: 'red' }}><Button sx={{ margin: 2 }}>Click me</Button></Box>`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Button'},
+        },
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Box'},
+        },
+      ],
+    },
+
+    // Invalid: ActionList.Item with sx prop and ActionList imported from @primer/react
+    {
+      code: `import { ActionList } from '@primer/react'
+             const Component = () => <ActionList.Item sx={{ color: 'red' }}>Content</ActionList.Item>`,
+      output: `import { ActionList } from '@primer/styled-react'
+             const Component = () => <ActionList.Item sx={{ color: 'red' }}>Content</ActionList.Item>`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'ActionList'},
+        },
+      ],
+    },
+
+    // Invalid: FormControl used both with and without sx prop - should move to styled-react
+    {
+      code: `import { FormControl } from '@primer/react'
+             const Component = () => (
+               <div>
+                 <FormControl></FormControl>
+                 <FormControl sx={{ color: 'red' }}>
+                   <FormControl.Label visuallyHidden>Label</FormControl.Label>
+                 </FormControl>
+               </div>
+             )`,
+      output: `import { FormControl } from '@primer/styled-react'
+             const Component = () => (
+               <div>
+                 <FormControl></FormControl>
+                 <FormControl sx={{ color: 'red' }}>
+                   <FormControl.Label visuallyHidden>Label</FormControl.Label>
+                 </FormControl>
+               </div>
+             )`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'FormControl'},
+        },
+      ],
+    },
+
     // Invalid: Button with sx prop imported from @primer/react
     {
       code: `import { Button } from '@primer/react'
@@ -66,6 +128,41 @@ ruleTester.run('use-styled-react-import', rule, {
         {
           messageId: 'useStyledReactImport',
           data: {componentName: 'Button'},
+        },
+      ],
+    },
+
+    // Invalid: ActionList used without sx, ActionList.Item used with sx - should move ActionList to styled-react
+    {
+      code: `import { ActionList, ActionMenu } from '@primer/react'
+             const Component = () => (
+               <ActionMenu>
+                 <ActionMenu.Overlay>
+                   <ActionList>
+                     <ActionList.Item sx={{ paddingLeft: 'calc(1 * var(--base-size-12))' }}>
+                       Item
+                     </ActionList.Item>
+                   </ActionList>
+                 </ActionMenu.Overlay>
+               </ActionMenu>
+             )`,
+      output: `import { ActionMenu } from '@primer/react'
+import { ActionList } from '@primer/styled-react'
+             const Component = () => (
+               <ActionMenu>
+                 <ActionMenu.Overlay>
+                   <ActionList>
+                     <ActionList.Item sx={{ paddingLeft: 'calc(1 * var(--base-size-12))' }}>
+                       Item
+                     </ActionList.Item>
+                   </ActionList>
+                 </ActionMenu.Overlay>
+               </ActionMenu>
+             )`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'ActionList'},
         },
       ],
     },
@@ -138,7 +235,7 @@ import { Button } from '@primer/styled-react'
       ],
     },
 
-    // Invalid: <Link /> and <StyledButton /> imported from styled-react but used without sx prop
+    // Invalid: <Link /> and <Button /> imported from styled-react but used without sx prop
     {
       code: `import { Button } from '@primer/react'
 import { Button as StyledButton, Link } from '@primer/styled-react'
@@ -155,7 +252,7 @@ import { Button as StyledButton, Link } from '@primer/styled-react'
                <div>
                  <Link />
                  <Button>Regular button</Button>
-                 <Button>Styled button</Button>
+                 <StyledButton>Styled button</StyledButton>
                </div>
              )`,
       errors: [
@@ -166,10 +263,6 @@ import { Button as StyledButton, Link } from '@primer/styled-react'
         {
           messageId: 'usePrimerReactImport',
           data: {componentName: 'Link'},
-        },
-        {
-          messageId: 'usePrimerReactImport',
-          data: {componentName: 'Button'},
         },
       ],
     },
@@ -213,7 +306,7 @@ import { Button } from '@primer/react'
       ],
     },
 
-    // Invalid: Button used both with and without sx prop - should use alias
+    // Invalid: Button and Link used with sx prop - should move both to styled-react
     {
       code: `import { Button, Link } from '@primer/react'
              const Component = () => (
@@ -223,27 +316,83 @@ import { Button } from '@primer/react'
                  <Button sx={{ color: 'red' }}>Styled button</Button>
                </div>
              )`,
-      output: `import { Button } from '@primer/react'
-import { Button as StyledButton, Link } from '@primer/styled-react'
+      output: `import { Link, Button } from '@primer/styled-react'
              const Component = () => (
                <div>
                  <Link sx={{ color: 'red' }} />
                  <Button>Regular button</Button>
-                 <StyledButton sx={{ color: 'red' }}>Styled button</StyledButton>
+                 <Button sx={{ color: 'red' }}>Styled button</Button>
                </div>
              )`,
       errors: [
         {
-          messageId: 'useStyledReactImportWithAlias',
-          data: {componentName: 'Button', aliasName: 'StyledButton'},
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Button'},
         },
         {
           messageId: 'useStyledReactImport',
           data: {componentName: 'Link'},
         },
+      ],
+    },
+  ],
+})
+
+// Test configuration options
+ruleTester.run('use-styled-react-import with custom configuration', rule, {
+  valid: [
+    // Valid: Custom component not in default list
+    {
+      code: `import { CustomButton } from '@primer/react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      options: [{}], // Using default configuration
+    },
+
+    // Valid: Custom component in custom list used without sx prop
+    {
+      code: `import { CustomButton } from '@primer/react'
+             const Component = () => <CustomButton>Click me</CustomButton>`,
+      options: [{styledComponents: ['CustomButton']}],
+    },
+
+    // Valid: Custom component with sx prop imported from styled-react
+    {
+      code: `import { CustomButton } from '@primer/styled-react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      options: [{styledComponents: ['CustomButton']}],
+    },
+
+    // Valid: Box not in custom list, so sx usage is allowed from @primer/react
+    {
+      code: `import { Box } from '@primer/react'
+             const Component = () => <Box sx={{ color: 'red' }}>Content</Box>`,
+      options: [{styledComponents: ['CustomButton']}], // Box not included
+    },
+  ],
+  invalid: [
+    // Invalid: Custom component with sx prop should be from styled-react
+    {
+      code: `import { CustomButton } from '@primer/react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      output: `import { CustomButton } from '@primer/styled-react'
+             const Component = () => <CustomButton sx={{ color: 'red' }}>Click me</CustomButton>`,
+      options: [{styledComponents: ['CustomButton']}],
+      errors: [
         {
-          messageId: 'useAliasedComponent',
-          data: {componentName: 'Button', aliasName: 'StyledButton'},
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'CustomButton'},
+        },
+      ],
+    },
+    // Invalid: Custom utility should be from styled-react
+    {
+      code: `import { customSx } from '@primer/react'`,
+      output: `import { customSx } from '@primer/styled-react'`,
+      options: [{styledUtilities: ['customSx']}],
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'customSx'},
         },
       ],
     },

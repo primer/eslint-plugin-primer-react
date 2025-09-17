@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-primer-react",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "description": "ESLint rules for Primer React",
   "main": "src/index.js",
   "engines": {
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@styled-system/props": "^5.1.5",
-    "@typescript-eslint/utils": "8.40.0",
+    "@typescript-eslint/utils": "^8.39.0",
     "eslint-plugin-github": "^6.0.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-traverse": "^1.0.0",
@@ -46,7 +46,7 @@
     "@github/markdownlint-github": "^0.6.3",
     "@github/prettier-config": "0.0.6",
     "@types/jest": "^30.0.0",
-    "@typescript-eslint/rule-tester": "8.40.0",
+    "@typescript-eslint/rule-tester": "8.42.0",
     "eslint": "^9.0.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-filenames": "^1.3.2",
