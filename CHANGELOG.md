@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 8.2.1
+
+### Patch Changes
+
+- [#410](https://github.com/primer/eslint-plugin-primer-react/pull/410) [`f3e47b1`](https://github.com/primer/eslint-plugin-primer-react/commit/f3e47b1a75ad27aceaed89d50175cc59754c8b9d) Thanks [@jonrohan](https://github.com/jonrohan)! - Fix for deprecated and experimental import paths
+
 ## 8.2.0
 
 ### Minor Changes
