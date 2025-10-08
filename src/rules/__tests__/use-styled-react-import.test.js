@@ -25,6 +25,8 @@ ruleTester.run('use-styled-react-import', rule, {
 
     // Valid: Utilities imported from styled-react
     `import { sx } from '@primer/styled-react'`,
+    `import { useTheme } from '@primer/styled-react'`,
+    `import { sx, useTheme } from '@primer/styled-react'`,
 
     // Valid: Component not in the styled list
     `import { Avatar } from '@primer/react'
@@ -40,6 +42,14 @@ ruleTester.run('use-styled-react-import', rule, {
 
     // Valid: Component without sx prop imported from styled-react (when not used)
     `import { Button } from '@primer/styled-react'`,
+
+    // Valid: allowedComponents without sx prop imported from styled-react
+    `import { ThemeProvider, BaseStyles } from '@primer/styled-react'
+     const Component = ({children}) => <ThemeProvider><BaseStyles>{children}</BaseStyles></ThemeProvider>`,
+
+    // Valid: Component with sx prop AND allowedComponents
+    `import { ThemeProvider, Button } from '@primer/styled-react'
+     const Component = () => <ThemeProvider><Button sx={{ color: 'btn.bg'}}>Click me</Button></ThemeProvider>`,
   ],
   invalid: [
     // Invalid: Box with sx prop imported from @primer/react
@@ -205,6 +215,16 @@ import { Box } from '@primer/styled-react'
         },
       ],
     },
+    {
+      code: `import { useTheme } from '@primer/react'`,
+      output: `import { useTheme } from '@primer/styled-react'`,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'useTheme'},
+        },
+      ],
+    },
 
     // Invalid: Button and Link, only Button uses sx
     {
@@ -332,6 +352,62 @@ import { Button } from '@primer/react'
         {
           messageId: 'useStyledReactImport',
           data: {componentName: 'Link'},
+        },
+      ],
+    },
+
+    // Invalid: ThemeProvider and BaseStyles - should move to styled-react
+    {
+      code: `
+        import { ThemeProvider, BaseStyles } from '@primer/react'
+      `,
+      output: `
+        import { ThemeProvider, BaseStyles } from '@primer/styled-react'
+      `,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'ThemeProvider'},
+        },
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'BaseStyles'},
+        },
+      ],
+    },
+
+    {
+      code: `
+        import { ThemeProvider, Button } from '@primer/react'
+      `,
+      output: `
+        import { Button } from '@primer/react'
+import { ThemeProvider } from '@primer/styled-react'
+      `,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'ThemeProvider'},
+        },
+      ],
+    },
+    {
+      code: `
+        import { ThemeProvider, Button } from '@primer/react'
+        const Component = () => <ThemeProvider><Button sx={{mr: 2}}>Click me</Button></ThemeProvider>
+      `,
+      output: `
+        import { ThemeProvider, Button } from '@primer/styled-react'
+        const Component = () => <ThemeProvider><Button sx={{mr: 2}}>Click me</Button></ThemeProvider>
+      `,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'ThemeProvider'},
+        },
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Button'},
         },
       ],
     },

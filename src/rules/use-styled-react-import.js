@@ -23,13 +23,17 @@ const defaultStyledComponents = [
   'Truncate',
   'Octicon',
   'Dialog',
+  'ThemeProvider',
+  'BaseStyles',
 ]
+
+const componentsToAlwaysImportFromStyledReact = new Set(['ThemeProvider', 'BaseStyles'])
 
 // Default types that should be imported from @primer/styled-react
 const defaultStyledTypes = ['BoxProps', 'SxProp', 'BetterSystemStyleObject']
 
 // Default utilities that should be imported from @primer/styled-react
-const defaultStyledUtilities = ['sx']
+const defaultStyledUtilities = ['sx', 'useTheme']
 
 /**
  * @type {import('eslint').Rule.RuleModule}
@@ -246,7 +250,11 @@ module.exports = {
         // Report errors for components used WITHOUT sx prop that are imported from @primer/styled-react
         for (const componentName of allUsedComponents) {
           // If component is used but NOT with sx prop, and it's imported from styled-react
-          if (!componentsWithSx.has(componentName) && styledReactImports.has(componentName)) {
+          if (
+            !componentsWithSx.has(componentName) &&
+            styledReactImports.has(componentName) &&
+            !componentsToAlwaysImportFromStyledReact.has(componentName)
+          ) {
             const importInfo = styledReactImports.get(componentName)
             context.report({
               node: importInfo.specifier,
@@ -339,7 +347,12 @@ module.exports = {
 
         // Also report for types and utilities that should always be from styled-react
         for (const [importName, importInfo] of primerReactImports) {
-          if ((styledTypes.has(importName) || styledUtilities.has(importName)) && !styledReactImports.has(importName)) {
+          if (
+            (styledTypes.has(importName) ||
+              styledUtilities.has(importName) ||
+              componentsToAlwaysImportFromStyledReact.has(importName)) &&
+            !styledReactImports.has(importName)
+          ) {
             context.report({
               node: importInfo.specifier,
               messageId: 'moveToStyledReact',
