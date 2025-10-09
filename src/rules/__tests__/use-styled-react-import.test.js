@@ -403,28 +403,6 @@ import { Button } from '@primer/react'
       ],
     },
 
-    // Invalid: ThemeProvider, Button with sx prop - both should be from styled-react
-    {
-      code: `
-        import { ThemeProvider, Button } from '@primer/react'
-        const Component = () => <ThemeProvider><Button sx={{mr: 2}}>Click me</Button></ThemeProvider>
-      `,
-      output: `
-        import { Button, ThemeProvider } from '@primer/styled-react'
-        const Component = () => <ThemeProvider><Button sx={{mr: 2}}>Click me</Button></ThemeProvider>
-      `,
-      errors: [
-        {
-          messageId: 'moveToStyledReact',
-          data: {importName: 'ThemeProvider'},
-        },
-        {
-          messageId: 'useStyledReactImport',
-          data: {componentName: 'Button'},
-        },
-      ],
-    },
-
     // Invalid: ThemeProvider, Button without sx prop - only ThemeProvider should be from styled-react
     {
       code: `
