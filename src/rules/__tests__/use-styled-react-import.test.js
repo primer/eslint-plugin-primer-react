@@ -3,6 +3,7 @@ const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
   languageOptions: {
+    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
     ecmaVersion: 'latest',
     sourceType: 'module',
     parserOptions: {
@@ -25,6 +26,8 @@ ruleTester.run('use-styled-react-import', rule, {
 
     // Valid: Utilities imported from styled-react
     `import { sx } from '@primer/styled-react'`,
+    `import { useTheme } from '@primer/styled-react'`,
+    `import { sx, useTheme } from '@primer/styled-react'`,
 
     // Valid: Component not in the styled list
     `import { Avatar } from '@primer/react'
@@ -40,6 +43,14 @@ ruleTester.run('use-styled-react-import', rule, {
 
     // Valid: Component without sx prop imported from styled-react (when not used)
     `import { Button } from '@primer/styled-react'`,
+
+    // Valid: allowedComponents without sx prop imported from styled-react
+    `import { ThemeProvider, BaseStyles } from '@primer/styled-react'
+     const Component = ({children}) => <ThemeProvider><BaseStyles>{children}</BaseStyles></ThemeProvider>`,
+
+    // Valid: Component with sx prop AND allowedComponents
+    `import { ThemeProvider, Button } from '@primer/styled-react'
+     const Component = () => <ThemeProvider><Button sx={{ color: 'btn.bg'}}>Click me</Button></ThemeProvider>`,
   ],
   invalid: [
     // Invalid: Box with sx prop imported from @primer/react
@@ -205,6 +216,43 @@ import { Box } from '@primer/styled-react'
         },
       ],
     },
+    {
+      code: `import { useTheme } from '@primer/react'`,
+      output: `import { useTheme } from '@primer/styled-react'`,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'useTheme'},
+        },
+      ],
+    },
+    {
+      code: `import { sx, useTheme } from '@primer/react'`,
+      output: `import { sx, useTheme } from '@primer/styled-react'`,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'sx'},
+        },
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'useTheme'},
+        },
+      ],
+    },
+
+    // Invalid: Utility import from @primer/react that should be from styled-react, mixed with other imports
+    {
+      code: `import { sx, useAnchoredPosition } from '@primer/react'`,
+      output: `import { useAnchoredPosition } from '@primer/react'
+import { sx } from '@primer/styled-react'`,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'sx'},
+        },
+      ],
+    },
 
     // Invalid: Button and Link, only Button uses sx
     {
@@ -332,6 +380,61 @@ import { Button } from '@primer/react'
         {
           messageId: 'useStyledReactImport',
           data: {componentName: 'Link'},
+        },
+      ],
+    },
+
+    // Invalid: ThemeProvider and BaseStyles - should move to styled-react
+    {
+      code: `
+        import { ThemeProvider, BaseStyles } from '@primer/react'
+      `,
+      output: `
+        import { ThemeProvider, BaseStyles } from '@primer/styled-react'
+      `,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'ThemeProvider'},
+        },
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'BaseStyles'},
+        },
+      ],
+    },
+
+    // Invalid: ThemeProvider, Button without sx prop - only ThemeProvider should be from styled-react
+    {
+      code: `
+        import { ThemeProvider, Button } from '@primer/react'
+        const Component = () => <ThemeProvider><Button>Click me</Button></ThemeProvider>
+      `,
+      output: `
+        import { Button } from '@primer/react'
+import { ThemeProvider } from '@primer/styled-react'
+        const Component = () => <ThemeProvider><Button>Click me</Button></ThemeProvider>
+      `,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'ThemeProvider'},
+        },
+      ],
+    },
+
+    // Invalid: Utility and type imports from @primer/react that should be from styled-react
+    {
+      code: `import { sx, type SxProp } from '@primer/react'`,
+      output: `import { sx, type SxProp } from '@primer/styled-react'`,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'sx'},
+        },
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'SxProp'},
         },
       ],
     },
