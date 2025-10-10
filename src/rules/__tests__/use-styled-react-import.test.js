@@ -3,6 +3,7 @@ const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
   languageOptions: {
+    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
     ecmaVersion: 'latest',
     sourceType: 'module',
     parserOptions: {
@@ -418,6 +419,22 @@ import { ThemeProvider } from '@primer/styled-react'
         {
           messageId: 'moveToStyledReact',
           data: {importName: 'ThemeProvider'},
+        },
+      ],
+    },
+
+    // Invalid: Utility and type imports from @primer/react that should be from styled-react
+    {
+      code: `import { sx, type SxProp } from '@primer/react'`,
+      output: `import { sx, type SxProp } from '@primer/styled-react'`,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'sx'},
+        },
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'SxProp'},
         },
       ],
     },

@@ -386,21 +386,23 @@ module.exports = {
                   // if there are no remaining specifiers, we can remove the whole import
                   fixes.push(fixer.remove(importNode))
                 } else {
-                  const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
-                  // TODO: handle types!
+                  const remainingNames = remainingSpecifiers.map(spec =>
+                    spec.importKind === 'type' ? `type ${spec.imported.name}` : spec.imported.name,
+                  )
                   fixes.push(
                     fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
                 }
 
-                // TODO: handle types!
                 if (specifiersToMove.length > 0) {
-                  const movedComponents = specifiersToMove.map(spec => spec.imported.name).join(', ')
+                  const movedComponents = specifiersToMove.map(spec =>
+                    spec.importKind === 'type' ? `type ${spec.imported.name}` : spec.imported.name,
+                  )
                   const onNewLine = remainingSpecifiers.length > 0
                   fixes.push(
                     fixer.insertTextAfter(
                       importNode,
-                      `${onNewLine ? '\n' : ''}import { ${movedComponents} } from '${styledReactPath}'`,
+                      `${onNewLine ? '\n' : ''}import { ${movedComponents.join(', ')} } from '${styledReactPath}'`,
                     ),
                   )
                 }
