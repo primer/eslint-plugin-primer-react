@@ -396,7 +396,7 @@ module.exports = {
                 // TODO: handle types!
                 if (specifiersToMove.length > 0) {
                   const movedComponents = specifiersToMove.map(spec => spec.imported.name).join(', ')
-                  const onNewLine = remainingSpecifiers.length > 0 ? true : false
+                  const onNewLine = remainingSpecifiers.length > 0
                   fixes.push(
                     fixer.insertTextAfter(
                       importNode,
