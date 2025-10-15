@@ -1,5 +1,27 @@
 # eslint-plugin-primer-react
 
+## 8.3.0
+
+### Minor Changes
+
+- [#426](https://github.com/primer/eslint-plugin-primer-react/pull/426) [`b83f467`](https://github.com/primer/eslint-plugin-primer-react/commit/b83f46761945d73dfea6c1381ff776e9f50e0bd2) Thanks [@siddharthkp](https://github.com/siddharthkp)! - use-styled-react-import: Add ThemeProvider, BaseStyles and useTheme. Allow theme components to be imported from styled-react without sx
+
+## 8.2.1
+
+### Patch Changes
+
+- [#410](https://github.com/primer/eslint-plugin-primer-react/pull/410) [`f3e47b1`](https://github.com/primer/eslint-plugin-primer-react/commit/f3e47b1a75ad27aceaed89d50175cc59754c8b9d) Thanks [@jonrohan](https://github.com/jonrohan)! - Fix for deprecated and experimental import paths
+
+## 8.2.0
+
+### Minor Changes
+
+- [#407](https://github.com/primer/eslint-plugin-primer-react/pull/407) [`2f25480`](https://github.com/primer/eslint-plugin-primer-react/commit/2f25480c3341c1d1afb6fc040c5c5deee416d71c) Thanks [@jonrohan](https://github.com/jonrohan)! - Make `use-styled-react-import` rule configurable
+
+### Patch Changes
+
+- [#406](https://github.com/primer/eslint-plugin-primer-react/pull/406) [`d72e8c4`](https://github.com/primer/eslint-plugin-primer-react/commit/d72e8c4c172d1c37da201a20cde0b7b2bd9ab283) Thanks [@jonrohan](https://github.com/jonrohan)! - Fixes for `use-styled-react-import` rule for compound components.
+
 ## 8.1.0
 
 ### Minor Changes
