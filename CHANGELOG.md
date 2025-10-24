@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 8.4.0
+
+### Minor Changes
+
+- [#437](https://github.com/primer/eslint-plugin-primer-react/pull/437) [`9270d40`](https://github.com/primer/eslint-plugin-primer-react/commit/9270d40d73bd046e21156b68ef6bd13a20008585) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Add spread-props-first rule to ensure spread props come before other props
+
 ## 8.3.0
 
 ### Minor Changes
