@@ -33,8 +33,7 @@ module.exports = {
 
         // If we found a spread after a named prop, report it
         if (firstSpreadAfterNamedPropIndex !== -1) {
-          // Support both newer (sourceCode property) and older (getSourceCode method) ESLint versions
-          const sourceCode = context.sourceCode ?? context.getSourceCode()
+          const sourceCode = context.sourceCode
           const spreadAttr = attributes[firstSpreadAfterNamedPropIndex]
           const namedAttr = attributes[lastNamedPropIndex]
 
