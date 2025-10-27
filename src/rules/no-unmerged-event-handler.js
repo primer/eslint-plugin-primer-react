@@ -94,14 +94,16 @@ module.exports = {
           return
         }
 
-        // Find the first spread attribute index
-        const spreadIndex = attributes.findIndex(attr => attr.type === 'JSXSpreadAttribute')
-
         // Check each event handler
         for (const handler of eventHandlers) {
           const handlerIndex = attributes.findIndex(attr => attr === handler)
 
-          if (spreadIndex < handlerIndex) {
+          // Check if there's any spread attribute before this event handler
+          const hasSpreadBeforeHandler = attributes
+            .slice(0, handlerIndex)
+            .some(attr => attr.type === 'JSXSpreadAttribute')
+
+          if (hasSpreadBeforeHandler) {
             // Event handler comes after spread, check if it's merging properly
             if (handler.value && handler.value.type === 'JSXExpressionContainer') {
               const expression = handler.value.expression

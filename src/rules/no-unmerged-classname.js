@@ -26,11 +26,13 @@ module.exports = {
           return
         }
 
-        // Check if className comes after a spread attribute
-        const spreadIndex = attributes.findIndex(attr => attr.type === 'JSXSpreadAttribute')
+        // Check if className comes after any spread attribute
         const classNameIndex = attributes.findIndex(attr => attr === classNameAttr)
+        const hasSpreadBeforeClassName = attributes
+          .slice(0, classNameIndex)
+          .some(attr => attr.type === 'JSXSpreadAttribute')
 
-        if (spreadIndex < classNameIndex) {
+        if (hasSpreadBeforeClassName) {
           // className comes after spread, so it would override - this is OK
           // But we need to check if the className value is merging with the spread props
           if (classNameAttr.value && classNameAttr.value.type === 'JSXExpressionContainer') {
