@@ -135,7 +135,7 @@ module.exports = {
             .sort((a, b) => attributes.indexOf(a) - attributes.indexOf(b))[0]
 
           const spreadArgument = firstSpreadBeforeHandler.argument
-          const spreadPropName = spreadArgument.name || 'props'
+          const spreadPropName = spreadArgument.name || sourceCode.getText(spreadArgument)
 
           // Get current handler value as string
           let currentHandler = ''
@@ -144,6 +144,20 @@ module.exports = {
           }
 
           const handlerName = handler.name.name
+
+          // Don't provide a fix if handlerValue is null/undefined or currentHandler is empty
+          if (!handlerValue || !currentHandler) {
+            context.report({
+              node: handler,
+              messageId: 'mergeEventHandler',
+              data: {
+                handlerName,
+                spreadPropName,
+                currentHandler: 'handler',
+              },
+            })
+            continue
+          }
 
           context.report({
             node: handler,

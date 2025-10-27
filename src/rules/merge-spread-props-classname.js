@@ -66,7 +66,7 @@ module.exports = {
           .sort((a, b) => attributes.indexOf(a) - attributes.indexOf(b))[0]
 
         const spreadArgument = firstSpreadBeforeClassName.argument
-        const spreadPropName = spreadArgument.name || 'props'
+        const spreadPropName = spreadArgument.name || sourceCode.getText(spreadArgument)
 
         // Get current className value as string
         let currentValue = sourceCode.getText(classNameAttr.value)
@@ -74,6 +74,19 @@ module.exports = {
           currentValue = sourceCode.getText(classNameValue.expression)
         } else if (classNameValue && classNameValue.type === 'Literal') {
           currentValue = `"${classNameValue.value}"`
+        }
+
+        // Don't provide a fix if currentValue is empty
+        if (!currentValue) {
+          context.report({
+            node: classNameAttr,
+            messageId: 'mergeClassName',
+            data: {
+              spreadPropName,
+              currentValue: 'value',
+            },
+          })
+          return
         }
 
         context.report({
