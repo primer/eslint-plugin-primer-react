@@ -83,7 +83,7 @@ module.exports = {
             messageId: 'mergeClassName',
             data: {
               spreadPropName,
-              currentValue: 'value',
+              currentValue: '<empty>',
             },
           })
           return

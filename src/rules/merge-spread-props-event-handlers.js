@@ -153,7 +153,7 @@ module.exports = {
               data: {
                 handlerName,
                 spreadPropName,
-                currentHandler: 'handler',
+                currentHandler: '<empty>',
               },
             })
             continue
