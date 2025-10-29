@@ -1,5 +1,23 @@
 # eslint-plugin-primer-react
 
+## 8.4.0
+
+### Minor Changes
+
+- [#437](https://github.com/primer/eslint-plugin-primer-react/pull/437) [`9270d40`](https://github.com/primer/eslint-plugin-primer-react/commit/9270d40d73bd046e21156b68ef6bd13a20008585) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Add spread-props-first rule to ensure spread props come before other props
+
+## 8.3.0
+
+### Minor Changes
+
+- [#426](https://github.com/primer/eslint-plugin-primer-react/pull/426) [`b83f467`](https://github.com/primer/eslint-plugin-primer-react/commit/b83f46761945d73dfea6c1381ff776e9f50e0bd2) Thanks [@siddharthkp](https://github.com/siddharthkp)! - use-styled-react-import: Add ThemeProvider, BaseStyles and useTheme. Allow theme components to be imported from styled-react without sx
+
+## 8.2.1
+
+### Patch Changes
+
+- [#410](https://github.com/primer/eslint-plugin-primer-react/pull/410) [`f3e47b1`](https://github.com/primer/eslint-plugin-primer-react/commit/f3e47b1a75ad27aceaed89d50175cc59754c8b9d) Thanks [@jonrohan](https://github.com/jonrohan)! - Fix for deprecated and experimental import paths
+
 ## 8.2.0
 
 ### Minor Changes

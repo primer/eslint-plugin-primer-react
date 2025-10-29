@@ -23,13 +23,17 @@ const defaultStyledComponents = [
   'Truncate',
   'Octicon',
   'Dialog',
+  'ThemeProvider',
+  'BaseStyles',
 ]
+
+const componentsToAlwaysImportFromStyledReact = new Set(['ThemeProvider', 'BaseStyles'])
 
 // Default types that should be imported from @primer/styled-react
 const defaultStyledTypes = ['BoxProps', 'SxProp', 'BetterSystemStyleObject']
 
 // Default utilities that should be imported from @primer/styled-react
-const defaultStyledUtilities = ['sx']
+const defaultStyledUtilities = ['sx', 'useTheme']
 
 /**
  * @type {import('eslint').Rule.RuleModule}
@@ -246,7 +250,11 @@ module.exports = {
         // Report errors for components used WITHOUT sx prop that are imported from @primer/styled-react
         for (const componentName of allUsedComponents) {
           // If component is used but NOT with sx prop, and it's imported from styled-react
-          if (!componentsWithSx.has(componentName) && styledReactImports.has(componentName)) {
+          if (
+            !componentsWithSx.has(componentName) &&
+            styledReactImports.has(componentName) &&
+            !componentsToAlwaysImportFromStyledReact.has(componentName)
+          ) {
             const importInfo = styledReactImports.get(componentName)
             context.report({
               node: importInfo.specifier,
@@ -337,53 +345,67 @@ module.exports = {
           }
         }
 
-        // Also report for types and utilities that should always be from styled-react
+        // Also report for types, utilities and components that should always be from styled-react
         for (const [importName, importInfo] of primerReactImports) {
-          if ((styledTypes.has(importName) || styledUtilities.has(importName)) && !styledReactImports.has(importName)) {
+          if (
+            (styledTypes.has(importName) ||
+              styledUtilities.has(importName) ||
+              componentsToAlwaysImportFromStyledReact.has(importName)) &&
+            !styledReactImports.has(importName)
+          ) {
             context.report({
               node: importInfo.specifier,
               messageId: 'moveToStyledReact',
               data: {importName},
               fix(fixer) {
                 const {node: importNode, specifier, importSource} = importInfo
-                const otherSpecifiers = importNode.specifiers.filter(s => s !== specifier)
+
+                const fixes = []
+
+                // we consolidate all the fixes for the import in the first specifier
+                const isFirst = importNode.specifiers[0] === specifier
+                if (!isFirst) return null
+
+                const specifiersToMove = importNode.specifiers.filter(specifier => {
+                  const name = specifier.imported.name
+                  return (
+                    styledUtilities.has(name) ||
+                    styledTypes.has(name) ||
+                    componentsToAlwaysImportFromStyledReact.has(name)
+                  )
+                })
+
+                const remainingSpecifiers = importNode.specifiers.filter(specifier => {
+                  return !specifiersToMove.includes(specifier)
+                })
 
                 // Convert @primer/react path to @primer/styled-react path
                 const styledReactPath = importSource.replace('@primer/react', '@primer/styled-react')
 
-                // If this is the only import, replace the whole import
-                if (otherSpecifiers.length === 0) {
-                  const prefix = styledTypes.has(importName) ? 'type ' : ''
-                  return fixer.replaceText(importNode, `import { ${prefix}${importName} } from '${styledReactPath}'`)
-                }
-
-                // Otherwise, remove from current import and add new import
-                const fixes = []
-
-                // Remove the specifier from current import
-                if (importNode.specifiers.length === 1) {
+                if (remainingSpecifiers.length === 0) {
+                  // if there are no remaining specifiers, we can remove the whole import
                   fixes.push(fixer.remove(importNode))
                 } else {
-                  const isFirst = importNode.specifiers[0] === specifier
-                  const isLast = importNode.specifiers[importNode.specifiers.length - 1] === specifier
-
-                  if (isFirst) {
-                    const nextSpecifier = importNode.specifiers[1]
-                    fixes.push(fixer.removeRange([specifier.range[0], nextSpecifier.range[0]]))
-                  } else if (isLast) {
-                    const prevSpecifier = importNode.specifiers[importNode.specifiers.length - 2]
-                    fixes.push(fixer.removeRange([prevSpecifier.range[1], specifier.range[1]]))
-                  } else {
-                    const nextSpecifier = importNode.specifiers[importNode.specifiers.indexOf(specifier) + 1]
-                    fixes.push(fixer.removeRange([specifier.range[0], nextSpecifier.range[0]]))
-                  }
+                  const remainingNames = remainingSpecifiers.map(spec =>
+                    spec.importKind === 'type' ? `type ${spec.imported.name}` : spec.imported.name,
+                  )
+                  fixes.push(
+                    fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
+                  )
                 }
 
-                // Add new import
-                const prefix = styledTypes.has(importName) ? 'type ' : ''
-                fixes.push(
-                  fixer.insertTextAfter(importNode, `\nimport { ${prefix}${importName} } from '${styledReactPath}'`),
-                )
+                if (specifiersToMove.length > 0) {
+                  const movedComponents = specifiersToMove.map(spec =>
+                    spec.importKind === 'type' ? `type ${spec.imported.name}` : spec.imported.name,
+                  )
+                  const onNewLine = remainingSpecifiers.length > 0
+                  fixes.push(
+                    fixer.insertTextAfter(
+                      importNode,
+                      `${onNewLine ? '\n' : ''}import { ${movedComponents.join(', ')} } from '${styledReactPath}'`,
+                    ),
+                  )
+                }
 
                 return fixes
               },
