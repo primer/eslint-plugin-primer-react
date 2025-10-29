@@ -21,6 +21,8 @@ module.exports = {
     'enforce-css-module-default-import': require('./rules/enforce-css-module-default-import'),
     'use-styled-react-import': require('./rules/use-styled-react-import'),
     'spread-props-first': require('./rules/spread-props-first'),
+    'merge-spread-props-classname': require('./rules/merge-spread-props-classname'),
+    'merge-spread-props-event-handlers': require('./rules/merge-spread-props-event-handlers'),
   },
   configs: {
     recommended: require('./configs/recommended'),
