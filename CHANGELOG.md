@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 8.5.0
+
+### Minor Changes
+
+- [#443](https://github.com/primer/eslint-plugin-primer-react/pull/443) [`8865e3a`](https://github.com/primer/eslint-plugin-primer-react/commit/8865e3af43dfd302ed345c5b9243c32abe7cebad) Thanks [@hectahertz](https://github.com/hectahertz)! - Add no-use-responsive-value
+
 ## 8.4.0
 
 ### Minor Changes
