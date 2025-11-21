@@ -26,6 +26,12 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42
+        id: app-token
+        with:
+          app-id: ${{ vars.PRIMER_APP_ID_SHARED }}
+          private-key: ${{ secrets.PRIMER_APP_PRIVATE_KEY_SHARED }}
+          
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
@@ -42,7 +48,7 @@ jobs:
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: npm run release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
 
   release-canary:
     name: Canary
