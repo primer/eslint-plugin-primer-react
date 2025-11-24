@@ -1,5 +1,17 @@
 # eslint-plugin-primer-react
 
+## 8.5.0
+
+### Minor Changes
+
+- [#443](https://github.com/primer/eslint-plugin-primer-react/pull/443) [`8865e3a`](https://github.com/primer/eslint-plugin-primer-react/commit/8865e3af43dfd302ed345c5b9243c32abe7cebad) Thanks [@hectahertz](https://github.com/hectahertz)! - Add no-use-responsive-value
+
+### Patch Changes
+
+- [#435](https://github.com/primer/eslint-plugin-primer-react/pull/435) [`aa12209`](https://github.com/primer/eslint-plugin-primer-react/commit/aa12209a5ede77f01217ff044192c2b4b15ae2ab) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Adds `width` and `height` to `no-system-props` for `ConfirmationDialog`
+
+- [#454](https://github.com/primer/eslint-plugin-primer-react/pull/454) [`917f344`](https://github.com/primer/eslint-plugin-primer-react/commit/917f344f61beeb8bd5817e89456a135769319003) Thanks [@francinelucca](https://github.com/francinelucca)! - no-system-props: allow 'overflow' prop in Breadcrumbs
+
 ## 8.4.0
 
 ### Minor Changes
