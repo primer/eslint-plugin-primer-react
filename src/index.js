@@ -20,6 +20,8 @@ module.exports = {
     'enforce-css-module-identifier-casing': require('./rules/enforce-css-module-identifier-casing'),
     'enforce-css-module-default-import': require('./rules/enforce-css-module-default-import'),
     'use-styled-react-import': require('./rules/use-styled-react-import'),
+    'spread-props-first': require('./rules/spread-props-first'),
+    'no-use-responsive-value': require('./rules/no-use-responsive-value'),
   },
   configs: {
     recommended: require('./configs/recommended'),

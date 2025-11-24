@@ -24,6 +24,7 @@ ruleTester.run('no-system-props', rule, {
     `import {Button} from '@primer/react'; <Button variant="large" />`,
     `import {Button} from '@primer/react'; <Button size="large" />`,
     `import {ActionMenu} from '@primer/react'; <ActionMenu.Overlay width="large" />`,
+    `import {Breadcrumbs} from '@primer/react'; <Breadcrumbs overflow="auto" />`,
     {code: `<img width="200px" />`, options: [{skipImportCheck: true}]},
     {code: `<Placeholder width="200px" />`, options: [{skipImportCheck: true, ignoreNames: ['Placeholder']}]},
     {
