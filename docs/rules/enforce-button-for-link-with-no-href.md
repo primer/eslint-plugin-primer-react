@@ -11,15 +11,13 @@ This rule reports any `Link` from `@primer/react` that does not include an `href
 ```jsx
 /* eslint primer-react/enforce-button-for-link-with-no-href: "error" */
 import {Link} from '@primer/react'
-
-<Link onClick={handleClick}>Save changes</Link>
+;<Link onClick={handleClick}>Save changes</Link>
 ```
 
 ```jsx
 /* eslint primer-react/enforce-button-for-link-with-no-href: "error" */
 import {Link} from '@primer/react'
-
-<Link className="text-right">Learn more</Link>
+;<Link className="text-right">Learn more</Link>
 ```
 
 👍 Examples of **correct** code for this rule:
@@ -27,8 +25,7 @@ import {Link} from '@primer/react'
 ```jsx
 /* eslint primer-react/enforce-button-for-link-with-no-href: "error" */
 import {Link} from '@primer/react'
-
-<Link href="https://primer.style/react">Read the docs</Link>
+;<Link href="https://primer.style/react">Read the docs</Link>
 ```
 
 ```jsx
