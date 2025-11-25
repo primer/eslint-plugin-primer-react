@@ -22,6 +22,7 @@ module.exports = {
     'use-styled-react-import': require('./rules/use-styled-react-import'),
     'spread-props-first': require('./rules/spread-props-first'),
     'no-use-responsive-value': require('./rules/no-use-responsive-value'),
+    'enforce-button-for-link-with-no-href': require('./rules/enforce-button-for-link-with-no-href'),
   },
   configs: {
     recommended: require('./configs/recommended'),
