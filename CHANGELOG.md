@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 8.5.1
+
+### Patch Changes
+
+- [#461](https://github.com/primer/eslint-plugin-primer-react/pull/461) [`75ae0a5`](https://github.com/primer/eslint-plugin-primer-react/commit/75ae0a5cb1d4587b5481c8a459033206aae8e5c3) Thanks [@joshfarrant](https://github.com/joshfarrant)! - Export `enforce-button-for-link-with-no-href` rule, which flags `Link` components which don't have a `href`.
+
 ## 8.5.0
 
 ### Minor Changes
