@@ -7,6 +7,7 @@ const rule = require('../no-unnecessary-components')
 const {components} = require('../no-unnecessary-components')
 
 const prcImport = 'import React from "react"; import {Box, Text} from "@primer/react";'
+const styledReactImport = 'import React from "react"; import {Box, Text} from "@primer/styled-react";'
 const brandImport = 'import React from "react"; import {Box, Text} from "@primer/react-brand";'
 
 /** @param {string} content */
@@ -77,6 +78,14 @@ ruleTester.run('unnecessary-components', rule, {
       code: `${prcImport}${jsx(`<Text size='small'>Hello World</Text>`)}`,
       filename,
     },
+    // Test @primer/styled-react imports
+    ...Object.keys(components).flatMap(component => [
+      {
+        name: `${component} from @primer/styled-react with sx prop`,
+        code: `${styledReactImport}${jsx(`<${component} sx={{color: "red"}}>Hello World</${component}>`)}`,
+        filename,
+      },
+    ]),
   ],
   invalid: Object.entries(components).flatMap(([component, {messageId, replacement}]) => [
     {
@@ -150,6 +159,21 @@ ruleTester.run('unnecessary-components', rule, {
       filename,
       errors: [{messageId}],
       options: [{skipImportCheck: true}],
+    },
+    // Test @primer/styled-react imports
+    {
+      name: `${component} from @primer/styled-react without sx`,
+      code: `${styledReactImport}${jsx(`<${component}>Hello World</${component}>`)}`,
+      output: `${styledReactImport}${jsx(`<${replacement}>Hello World</${replacement}>`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with className only`,
+      code: `${styledReactImport}${jsx(`<${component} className="my-class">Hello World</${component}>`)}`,
+      output: `${styledReactImport}${jsx(`<${replacement} className="my-class">Hello World</${replacement}>`)}`,
+      errors: [{messageId}],
+      filename,
     },
   ]),
 })
