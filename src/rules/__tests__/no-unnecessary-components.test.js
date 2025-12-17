@@ -7,6 +7,7 @@ const rule = require('../no-unnecessary-components')
 const {components} = require('../no-unnecessary-components')
 
 const prcImport = 'import React from "react"; import {Box, Text} from "@primer/react";'
+const styledReactImport = 'import React from "react"; import {Box, Text} from "@primer/styled-react";'
 const brandImport = 'import React from "react"; import {Box, Text} from "@primer/react-brand";'
 
 /** @param {string} content */
@@ -64,6 +65,26 @@ ruleTester.run('unnecessary-components', rule, {
       {
         name: `${component} with string index spread props`,
         code: `${prcImport}${stringRecordDeclaration}${jsx(`<${component} {...props}>Hello World</${component}>`)}`,
+        filename,
+      },
+      {
+        name: `${component} from @primer/styled-react with sx prop`,
+        code: `${styledReactImport}${jsx(`<${component} sx={{color: "red"}}>Hello World</${component}>`)}`,
+        filename,
+      },
+      {
+        name: `${component} from @primer/styled-react with any styled-system prop`,
+        code: `${styledReactImport}${jsx(`<${component} flex="row">Hello World</${component}>`)}`,
+        filename,
+      },
+      {
+        name: `${component} from @primer/styled-react with spread sx prop`,
+        code: `${styledReactImport}${sxObjectDeclaration}${jsx(`<${component} {...props}>Hello World</${component}>`)}`,
+        filename,
+      },
+      {
+        name: `${component} from @primer/styled-react with string index spread props`,
+        code: `${styledReactImport}${stringRecordDeclaration}${jsx(`<${component} {...props}>Hello World</${component}>`)}`,
         filename,
       },
     ]),
@@ -150,6 +171,70 @@ ruleTester.run('unnecessary-components', rule, {
       filename,
       errors: [{messageId}],
       options: [{skipImportCheck: true}],
+    },
+    {
+      name: `${component} from @primer/styled-react without any styled-system props`,
+      code: `${styledReactImport}${jsx(`<${component}>Hello World</${component}>`)}`,
+      output: `${styledReactImport}${jsx(`<${replacement}>Hello World</${replacement}>`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `Self-closing ${component} from @primer/styled-react without any styled-system props`,
+      code: `${styledReactImport}${jsx(`<${component} />`)}`,
+      output: `${styledReactImport}${jsx(`<${replacement} />`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with spread props without sx`,
+      code: `${styledReactImport}${testIdObjectDeclaration}${jsx(`<${component} {...props}>Hello World</${component}>`)}`,
+      output: `${styledReactImport}${testIdObjectDeclaration}${jsx(`<${replacement} {...props}>Hello World</${replacement}>`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with string element 'as' prop`,
+      code: `${styledReactImport}${jsx(`<${component} as="code">Hello world</${component}>`)}`,
+      // There is extra whitespace here we don't worry about since formatters would get rid of it
+      output: `${styledReactImport}${jsx(`<code >Hello world</code>`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with single-character 'as' prop`,
+      code: `${styledReactImport}${jsx(`<${component} as="p">Hello world</${component}>`)}`,
+      output: `${styledReactImport}${jsx(`<p >Hello world</p>`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with string element 'as' prop surrounded by unnecessary braces`,
+      code: `${styledReactImport}${jsx(`<${component} as={"code"}>Hello world</${component}>`)}`,
+      output: `${styledReactImport}${jsx(`<code >Hello world</code>`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with component reference 'as' prop`,
+      code: `${styledReactImport}${componentDeclaration}${jsx(`<${component} as={OtherComponent}>Hello world</${component}>`)}`,
+      output: `${styledReactImport}${componentDeclaration}${jsx(`<OtherComponent >Hello world</OtherComponent>`)}`,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with spread 'as' prop`,
+      code: `${styledReactImport}${asObjectDeclaration}${jsx(`<${component} {...props}>Hello world</${component}>`)}`,
+      output: null,
+      errors: [{messageId}],
+      filename,
+    },
+    {
+      name: `${component} from @primer/styled-react with unusable lowercase reference 'as' prop`,
+      code: `${styledReactImport}${asConstDeclaration}${jsx(`<${component} as={as}>Hello world</${component}>`)}`,
+      output: null,
+      errors: [{messageId}],
+      filename,
     },
   ]),
 })
