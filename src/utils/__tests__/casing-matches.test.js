@@ -1,4 +1,4 @@
-const {casingMatches, availableCasings} = require('../casing-matches')
+const { casingMatches, availableCasings } = require('../casing-matches')
 
 describe('casingMatches', function () {
   describe('camel case', function () {
