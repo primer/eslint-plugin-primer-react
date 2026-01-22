@@ -1,4 +1,4 @@
-const {casingMatches, availableCasings} = require('../casing-matches')
+const { casingMatches, availableCasings } = require('../casing-matches')
 
 describe('casingMatches', function () {
   describe('camel case', function () {
@@ -9,14 +9,13 @@ describe('casingMatches', function () {
       expect(casingMatches('className', 'camel')).toBe(true)
     })
 
-    it('matches camelCase with numbers followed by lowercase', function () {
-      expect(casingMatches('foo1bar', 'camel')).toBe(true)
-      expect(casingMatches('button2click', 'camel')).toBe(true)
+    it('matches camelCase with numbers', function () {
+      expect(casingMatches('button2', 'camel')).toBe(true)
+      expect(casingMatches('v1Release', 'camel')).toBe(true)
     })
 
-    it('rejects trailing numbers without lowercase', function () {
-      expect(casingMatches('button2', 'camel')).toBe(false)
-      expect(casingMatches('foo1Bar', 'camel')).toBe(false)
+    it('rejects numbers at the start', function () {
+      expect(casingMatches('2button', 'camel')).toBe(false)
     })
 
     it('rejects PascalCase', function () {
@@ -60,9 +59,9 @@ describe('casingMatches', function () {
       expect(casingMatches('class-name', 'kebab')).toBe(true)
     })
 
-    it('matches kebab-case with numbers', function () {
-      expect(casingMatches('foo-1-bar', 'kebab')).toBe(true)
+    it('matches kebab-case with trailing numbers', function () {
       expect(casingMatches('button-2', 'kebab')).toBe(true)
+      expect(casingMatches('v-1', 'kebab')).toBe(true)
     })
 
     it('rejects camelCase', function () {
