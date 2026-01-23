@@ -208,5 +208,15 @@ ruleTester.run('namespace-spacing-utils', rule, {
       output: '<div className="pr-p-0" />',
       errors: [{messageId: 'namespaceRequired', data: {className: 'p-0', replacement: 'pr-p-0'}}],
     },
+
+    // Duplicate class occurrences (edge case - should replace all)
+    {
+      code: '<div className="m-4 some-class m-4" />',
+      output: '<div className="pr-m-4 some-class pr-m-4" />',
+      errors: [
+        {messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}},
+        {messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}},
+      ],
+    },
   ],
 })

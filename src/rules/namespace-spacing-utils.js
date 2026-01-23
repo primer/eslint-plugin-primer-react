@@ -39,6 +39,7 @@ module.exports = {
     },
   },
   create(context) {
+    const sourceCode = context.sourceCode ?? context.getSourceCode()
     const reportUnNamespacedClasses = (node, classNameStr, valueNode) => {
       const unNamespacedClasses = findUnNamespacedClasses(classNameStr)
 
@@ -52,11 +53,11 @@ module.exports = {
           },
           fix(fixer) {
             // Get the raw text of the value node
-            const sourceCode = context.sourceCode
             const rawText = sourceCode.getText(valueNode)
 
             // Replace the unnamespaced class with the namespaced version
-            const fixedText = rawText.replace(original, replacement)
+            // Using replaceAll to handle multiple occurrences of the same class
+            const fixedText = rawText.replaceAll(original, replacement)
             return fixer.replaceText(valueNode, fixedText)
           },
         })
