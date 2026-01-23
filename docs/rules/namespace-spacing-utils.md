@@ -13,7 +13,7 @@ The following patterns are detected:
 - Margin: `m-{size}`, `mx-{size}`, `my-{size}`, `mt-{size}`, `mr-{size}`, `mb-{size}`, `ml-{size}`
 - Padding: `p-{size}`, `px-{size}`, `py-{size}`, `pt-{size}`, `pr-{size}`, `pb-{size}`, `pl-{size}`
 - Sizes: `0-12`, `auto`, `n1-n12` (negative values)
-- Responsive variants: `sm:`, `md:`, `lg:`, `xl:` prefixes
+- Responsive variants: `mx-sm-2`, `mx-md-4`, `p-lg-3`, `mt-xl-6` (breakpoint embedded in class name)
 
 👎 Examples of **incorrect** code for this rule:
 
@@ -36,7 +36,8 @@ The following patterns are detected:
 <div className="mx-auto" />
 
 // ❌ Responsive variants without namespace
-<div className="md:m-4" />
+<div className="mx-sm-2" />
+<div className="mx-md-4" />
 ```
 
 👍 Examples of **correct** code for this rule:
@@ -60,7 +61,8 @@ The following patterns are detected:
 <div className="pr-mx-auto" />
 
 // ✅ Responsive variants with namespace
-<div className="md:pr-m-4" />
+<div className="pr-mx-sm-2" />
+<div className="pr-mx-md-4" />
 
 // ✅ Non-spacing classes are not affected
 <div className="text-bold color-fg-default" />

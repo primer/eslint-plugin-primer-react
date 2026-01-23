@@ -63,9 +63,10 @@ ruleTester.run('namespace-spacing-utils', rule, {
     // Template literal with namespaced classes
     '<div className={`pr-m-4 pr-p-2`} />',
 
-    // Responsive variants (already namespaced)
-    '<div className="md:pr-m-4" />',
-    '<div className="lg:pr-p-2" />',
+    // Responsive variants (already namespaced) - Primer CSS format: mx-sm-2, mx-md-4
+    '<div className="pr-mx-sm-2" />',
+    '<div className="pr-mx-md-4" />',
+    '<div className="pr-p-lg-3" />',
   ],
   invalid: [
     // Basic margin classes without namespace
@@ -185,16 +186,21 @@ ruleTester.run('namespace-spacing-utils', rule, {
       errors: [{messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}}],
     },
 
-    // Responsive variants
+    // Responsive variants - Primer CSS format: mx-sm-2, mx-md-4
     {
-      code: '<div className="md:m-4" />',
-      output: '<div className="md:pr-m-4" />',
-      errors: [{messageId: 'namespaceRequired', data: {className: 'md:m-4', replacement: 'md:pr-m-4'}}],
+      code: '<div className="mx-sm-2" />',
+      output: '<div className="pr-mx-sm-2" />',
+      errors: [{messageId: 'namespaceRequired', data: {className: 'mx-sm-2', replacement: 'pr-mx-sm-2'}}],
     },
     {
-      code: '<div className="lg:p-2" />',
-      output: '<div className="lg:pr-p-2" />',
-      errors: [{messageId: 'namespaceRequired', data: {className: 'lg:p-2', replacement: 'lg:pr-p-2'}}],
+      code: '<div className="mx-md-4" />',
+      output: '<div className="pr-mx-md-4" />',
+      errors: [{messageId: 'namespaceRequired', data: {className: 'mx-md-4', replacement: 'pr-mx-md-4'}}],
+    },
+    {
+      code: '<div className="p-lg-3" />',
+      output: '<div className="pr-p-lg-3" />',
+      errors: [{messageId: 'namespaceRequired', data: {className: 'p-lg-3', replacement: 'pr-p-lg-3'}}],
     },
 
     // Size 0 classes

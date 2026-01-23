@@ -1,8 +1,9 @@
 // Regex pattern to match margin/padding utility classes from Primer CSS
 // Matches: m-{size}, mx-{size}, my-{size}, mt-{size}, mr-{size}, mb-{size}, ml-{size}
 //          p-{size}, px-{size}, py-{size}, pt-{size}, pr-{size}, pb-{size}, pl-{size}
-// Sizes: 0-12, auto, n1-n12 (negative), responsive variants like md:m-4
-const spacingUtilPattern = /(?<!\S)(?:(?:sm|md|lg|xl):)?([mp][xytblr]?-(?:auto|n?[0-9]+))(?!\S)/g
+// Sizes: 0-12, auto, n1-n12 (negative)
+// Responsive variants: mx-sm-2, mx-md-4, etc. (breakpoint embedded in class name)
+const spacingUtilPattern = /(?<!\S)([mp][xytblr]?-(?:sm-|md-|lg-|xl-)?(?:auto|n?[0-9]+))(?!\S)/g
 
 // Process a class name string and find unnamespaced spacing utilities
 const findUnNamespacedClasses = classNameStr => {
@@ -18,7 +19,7 @@ const findUnNamespacedClasses = classNameStr => {
     if (!prefix.endsWith('pr-')) {
       matches.push({
         original: fullMatch,
-        replacement: fullMatch.includes(':') ? fullMatch.replace(/:([mp])/, ':pr-$1') : `pr-${fullMatch}`,
+        replacement: `pr-${fullMatch}`,
         index: startIndex,
       })
     }
