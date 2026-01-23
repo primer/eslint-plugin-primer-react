@@ -168,7 +168,7 @@ ruleTester.run('namespace-spacing-utils', rule, {
       errors: [{messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}}],
     },
 
-    // Multiple unnamespaced classes - reports first one
+    // Multiple unnamespaced classes - each is reported and fixed (first pass fixes first match only in test)
     {
       code: '<div className="m-4 p-2" />',
       output: '<div className="pr-m-4 p-2" />',
