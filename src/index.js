@@ -11,6 +11,7 @@ module.exports = {
     'enforce-button-for-link-with-no-href': require('./rules/enforce-button-for-link-with-no-href'),
     'enforce-css-module-default-import': require('./rules/enforce-css-module-default-import'),
     'enforce-css-module-identifier-casing': require('./rules/enforce-css-module-identifier-casing'),
+    'namespace-spacing-utils': require('./rules/namespace-spacing-utils'),
     'new-color-css-vars': require('./rules/new-color-css-vars'),
     'no-deprecated-entrypoints': require('./rules/no-deprecated-entrypoints'),
     'no-deprecated-experimental-components': require('./rules/no-deprecated-experimental-components'),
