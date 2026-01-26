@@ -54,7 +54,7 @@ module.exports = {
   create(context) {
     const sourceCode = context.sourceCode ?? context.getSourceCode()
 
-    const reportUnNamespacedClasses = (node, classNameStr, valueNode, isTemplateLiteral = false) => {
+    const reportUnNamespacedClasses = (classNameStr, valueNode, isTemplateLiteral = false) => {
       const unNamespacedClasses = findUnNamespacedClasses(classNameStr)
 
       if (unNamespacedClasses.length === 0) return
@@ -102,13 +102,13 @@ module.exports = {
       // Handle className="..." (string literal)
       'JSXAttribute[name.name="className"] Literal': function (node) {
         if (typeof node.value === 'string') {
-          reportUnNamespacedClasses(node, node.value, node, false)
+          reportUnNamespacedClasses(node.value, node, false)
         }
       },
       // Handle className={`...`} (template literal)
       'JSXAttribute[name.name="className"] TemplateLiteral TemplateElement': function (node) {
         if (node.value && typeof node.value.raw === 'string') {
-          reportUnNamespacedClasses(node, node.value.raw, node, true)
+          reportUnNamespacedClasses(node.value.raw, node, true)
         }
       },
     }
