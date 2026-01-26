@@ -42,6 +42,7 @@ ESLint rules for Primer React
 - [enforce-button-for-link-with-no-href](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/enforce-button-for-link-with-no-href.md)
 - [enforce-css-module-default-import](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/enforce-css-module-default-import.md)
 - [enforce-css-module-identifier-casing](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/enforce-css-module-identifier-casing.md)
+- [namespace-spacing-utils](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/namespace-spacing-utils.md)
 - [new-color-css-vars](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/new-color-css-vars.md)
 - [no-deprecated-entrypoints](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-entrypoints.md)
 - [no-deprecated-experimental-components](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-experimental-components.md)

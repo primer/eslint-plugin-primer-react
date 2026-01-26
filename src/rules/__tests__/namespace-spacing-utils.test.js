@@ -54,6 +54,11 @@ ruleTester.run('namespace-spacing-utils', rule, {
     '<div className="padding-extra" />',
     '<div className="margin-custom" />',
 
+    // Regression: classes containing spacing utility substrings should NOT be modified
+    '<div className="my-m-4-custom" />',
+    '<div className="prefix-p-2-suffix" />',
+    '<div className="custom-m-4" />',
+
     // Empty className
     '<div className="" />',
 
@@ -169,10 +174,10 @@ ruleTester.run('namespace-spacing-utils', rule, {
       errors: [{messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}}],
     },
 
-    // Multiple unnamespaced classes - each is reported and fixed (first pass fixes first match only in test)
+    // Multiple unnamespaced classes - all are fixed in a single pass
     {
       code: '<div className="m-4 p-2" />',
-      output: '<div className="pr-m-4 p-2" />',
+      output: '<div className="pr-m-4 pr-p-2" />',
       errors: [
         {messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}},
         {messageId: 'namespaceRequired', data: {className: 'p-2', replacement: 'pr-p-2'}},
@@ -222,6 +227,16 @@ ruleTester.run('namespace-spacing-utils', rule, {
       errors: [
         {messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}},
         {messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}},
+      ],
+    },
+
+    // Regression: spacing utils mixed with classes containing substrings - only real spacing utils are fixed
+    {
+      code: '<div className="m-4 my-m-4-custom p-2" />',
+      output: '<div className="pr-m-4 my-m-4-custom pr-p-2" />',
+      errors: [
+        {messageId: 'namespaceRequired', data: {className: 'm-4', replacement: 'pr-m-4'}},
+        {messageId: 'namespaceRequired', data: {className: 'p-2', replacement: 'pr-p-2'}},
       ],
     },
   ],

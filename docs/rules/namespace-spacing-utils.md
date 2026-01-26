@@ -74,4 +74,4 @@ This rule has no configuration options.
 
 ## When to use autofix
 
-This rule includes an autofix that will automatically add the `pr-` prefix to unnamespaced spacing utility classes. The autofix is safe to use as it only modifies the class names that match the spacing utility patterns.
+This rule includes an autofix that will automatically add the `pr-` prefix to unnamespaced spacing utility classes. The autofix operates on individual class tokens and is designed to only modify class names that match the spacing utility patterns, but you should still review the changes before committing.

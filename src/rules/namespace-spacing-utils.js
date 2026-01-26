@@ -3,28 +3,40 @@
 //          p-{size}, px-{size}, py-{size}, pt-{size}, pr-{size}, pb-{size}, pl-{size}
 // Sizes: 0-12, auto, n1-n12 (negative)
 // Responsive variants: mx-sm-2, mx-md-4, etc. (breakpoint embedded in class name)
-const spacingUtilPattern = /(?<!\S)([mp][xytblr]?-(?:sm-|md-|lg-|xl-)?(?:auto|n?[0-9]+))(?!\S)/g
+const spacingUtilPattern = /^[mp][xytblr]?-(?:sm-|md-|lg-|xl-)?(?:auto|n?[0-9]+)$/
 
-// Process a class name string and find unnamespaced spacing utilities
+// Check if a single class token is an unnamespaced spacing utility
+const isUnNamespacedSpacingUtil = token => {
+  return spacingUtilPattern.test(token)
+}
+
+// Process a class name string by tokenizing on whitespace
+// Returns array of {original, replacement} for unnamespaced spacing utilities
 const findUnNamespacedClasses = classNameStr => {
+  const tokens = classNameStr.split(/\s+/).filter(Boolean)
   const matches = []
-  let match
-  spacingUtilPattern.lastIndex = 0 // Reset regex state
-  while ((match = spacingUtilPattern.exec(classNameStr)) !== null) {
-    const fullMatch = match[0]
-    // Check if it's already namespaced (has pr- prefix)
-    // We need to check the position before the match for "pr-"
-    const startIndex = match.index
-    const prefix = classNameStr.slice(Math.max(0, startIndex - 3), startIndex)
-    if (!prefix.endsWith('pr-')) {
+
+  for (const token of tokens) {
+    if (isUnNamespacedSpacingUtil(token)) {
       matches.push({
-        original: fullMatch,
-        replacement: `pr-${fullMatch}`,
-        index: startIndex,
+        original: token,
+        replacement: `pr-${token}`,
       })
     }
   }
+
   return matches
+}
+
+// Fix all unnamespaced spacing utilities in a class string by tokenizing
+const fixClassNameStr = classNameStr => {
+  // Split by whitespace while preserving the whitespace structure
+  return classNameStr.replace(/\S+/g, token => {
+    if (isUnNamespacedSpacingUtil(token)) {
+      return `pr-${token}`
+    }
+    return token
+  })
 }
 
 module.exports = {
@@ -41,9 +53,13 @@ module.exports = {
   },
   create(context) {
     const sourceCode = context.sourceCode ?? context.getSourceCode()
-    const reportUnNamespacedClasses = (node, classNameStr, valueNode) => {
+
+    const reportUnNamespacedClasses = (node, classNameStr, valueNode, isTemplateLiteral = false) => {
       const unNamespacedClasses = findUnNamespacedClasses(classNameStr)
 
+      if (unNamespacedClasses.length === 0) return
+
+      // Report each unnamespaced class
       for (const {original, replacement} of unNamespacedClasses) {
         context.report({
           node: valueNode,
@@ -56,9 +72,26 @@ module.exports = {
             // Get the raw text of the value node
             const rawText = sourceCode.getText(valueNode)
 
-            // Replace the unnamespaced class with the namespaced version
-            // Using replaceAll to handle multiple occurrences of the same class
-            const fixedText = rawText.replaceAll(original, replacement)
+            // For string literals, fix the content inside the quotes
+            // For template literals, fix the raw content (getText includes backticks)
+            let fixedText
+            if (isTemplateLiteral) {
+              // Template element - getText returns content WITH backticks for simple template literals
+              // We need to strip them, fix the content, and add them back
+              if (rawText.startsWith('`') && rawText.endsWith('`')) {
+                const content = rawText.slice(1, -1)
+                fixedText = `\`${fixClassNameStr(content)}\``
+              } else {
+                // Raw template element text without backticks
+                fixedText = fixClassNameStr(rawText)
+              }
+            } else {
+              // String literal - preserve the quotes
+              const quote = rawText[0]
+              const content = rawText.slice(1, -1)
+              fixedText = quote + fixClassNameStr(content) + quote
+            }
+
             return fixer.replaceText(valueNode, fixedText)
           },
         })
@@ -69,13 +102,13 @@ module.exports = {
       // Handle className="..." (string literal)
       'JSXAttribute[name.name="className"] Literal': function (node) {
         if (typeof node.value === 'string') {
-          reportUnNamespacedClasses(node, node.value, node)
+          reportUnNamespacedClasses(node, node.value, node, false)
         }
       },
       // Handle className={`...`} (template literal)
       'JSXAttribute[name.name="className"] TemplateLiteral TemplateElement': function (node) {
         if (node.value && typeof node.value.raw === 'string') {
-          reportUnNamespacedClasses(node, node.value.raw, node)
+          reportUnNamespacedClasses(node, node.value.raw, node, true)
         }
       },
     }
