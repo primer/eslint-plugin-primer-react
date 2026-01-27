@@ -41,7 +41,9 @@ ruleTester.run('namespace-spacing-utils', rule, {
     '<div className="pr-m-n4" />',
     '<div className="pr-mt-n2" />',
 
-    // Auto spacing classes (already namespaced)
+    // Auto spacing classes - these are skipped from namespacing
+    '<div className="m-auto" />',
+    '<div className="mx-auto" />',
     '<div className="pr-m-auto" />',
     '<div className="pr-mx-auto" />',
 
@@ -153,18 +155,6 @@ ruleTester.run('namespace-spacing-utils', rule, {
       code: '<div className="mt-n2" />',
       output: '<div className="pr-mt-n2" />',
       errors: [{messageId: 'namespaceRequired', data: {className: 'mt-n2', replacement: 'pr-mt-n2'}}],
-    },
-
-    // Auto spacing classes
-    {
-      code: '<div className="m-auto" />',
-      output: '<div className="pr-m-auto" />',
-      errors: [{messageId: 'namespaceRequired', data: {className: 'm-auto', replacement: 'pr-m-auto'}}],
-    },
-    {
-      code: '<div className="mx-auto" />',
-      output: '<div className="pr-mx-auto" />',
-      errors: [{messageId: 'namespaceRequired', data: {className: 'mx-auto', replacement: 'pr-mx-auto'}}],
     },
 
     // Mixed with other classes

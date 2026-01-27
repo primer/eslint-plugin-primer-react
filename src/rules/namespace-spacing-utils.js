@@ -1,9 +1,10 @@
 // Regex pattern to match margin/padding utility classes from Primer CSS
 // Matches: m-{size}, mx-{size}, my-{size}, mt-{size}, mr-{size}, mb-{size}, ml-{size}
 //          p-{size}, px-{size}, py-{size}, pt-{size}, pr-{size}, pb-{size}, pl-{size}
-// Sizes: 0-12, auto, n1-n12 (negative)
+// Sizes: 0-12, n1-n12 (negative)
 // Responsive variants: mx-sm-2, mx-md-4, etc. (breakpoint embedded in class name)
-const spacingUtilPattern = /^[mp][xytblr]?-(?:sm-|md-|lg-|xl-)?(?:auto|n?[0-9]+)$/
+// Note: auto values (m-auto, mx-auto, etc.) are skipped - they don't need namespacing
+const spacingUtilPattern = /^[mp][xytblr]?-(?:sm-|md-|lg-|xl-)?n?[0-9]+$/
 
 // Check if a single class token is an unnamespaced spacing utility
 const isUnNamespacedSpacingUtil = token => {

@@ -12,8 +12,10 @@ The following patterns are detected:
 
 - Margin: `m-{size}`, `mx-{size}`, `my-{size}`, `mt-{size}`, `mr-{size}`, `mb-{size}`, `ml-{size}`
 - Padding: `p-{size}`, `px-{size}`, `py-{size}`, `pt-{size}`, `pr-{size}`, `pb-{size}`, `pl-{size}`
-- Sizes: `0-12`, `auto`, `n1-n12` (negative values)
+- Sizes: `0-12`, `n1-n12` (negative values)
 - Responsive variants: `mx-sm-2`, `mx-md-4`, `p-lg-3`, `mt-xl-6` (breakpoint embedded in class name)
+
+**Note:** `auto` values (e.g., `m-auto`, `mx-auto`) are **not** flagged by this rule and don't need namespacing.
 
 👎 Examples of **incorrect** code for this rule:
 
@@ -31,9 +33,6 @@ The following patterns are detected:
 
 // ❌ Negative spacing without namespace
 <div className="m-n4" />
-
-// ❌ Auto spacing without namespace
-<div className="mx-auto" />
 
 // ❌ Responsive variants without namespace
 <div className="mx-sm-2" />
@@ -57,8 +56,9 @@ The following patterns are detected:
 // ✅ Negative spacing with namespace
 <div className="pr-m-n4" />
 
-// ✅ Auto spacing with namespace
-<div className="pr-mx-auto" />
+// ✅ Auto spacing (no namespace needed)
+<div className="mx-auto" />
+<div className="m-auto" />
 
 // ✅ Responsive variants with namespace
 <div className="pr-mx-sm-2" />
