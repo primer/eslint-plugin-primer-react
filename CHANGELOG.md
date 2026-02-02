@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 8.5.2
+
+### Patch Changes
+
+- [#488](https://github.com/primer/eslint-plugin-primer-react/pull/488) [`e27c83b`](https://github.com/primer/eslint-plugin-primer-react/commit/e27c83b392a2c947b07cd40edce5c8fc587e36dd) Thanks [@siddharthkp](https://github.com/siddharthkp)! - utils/casing-matches: Prevent ReDoS vulnerability
+
 ## 8.5.1
 
 ### Patch Changes
