@@ -23,6 +23,7 @@ module.exports = {
     'spread-props-first': require('./rules/spread-props-first'),
     'use-deprecated-from-deprecated': require('./rules/use-deprecated-from-deprecated'),
     'use-styled-react-import': require('./rules/use-styled-react-import'),
+    'no-deprecated-octicon': require('./rules/no-deprecated-octicon'),
   },
   configs: {
     recommended: require('./configs/recommended'),
