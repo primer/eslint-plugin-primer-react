@@ -1,5 +1,49 @@
 # eslint-plugin-primer-react
 
+## 8.5.2
+
+### Patch Changes
+
+- [#488](https://github.com/primer/eslint-plugin-primer-react/pull/488) [`e27c83b`](https://github.com/primer/eslint-plugin-primer-react/commit/e27c83b392a2c947b07cd40edce5c8fc587e36dd) Thanks [@siddharthkp](https://github.com/siddharthkp)! - utils/casing-matches: Prevent ReDoS vulnerability
+
+## 8.5.1
+
+### Patch Changes
+
+- [#474](https://github.com/primer/eslint-plugin-primer-react/pull/474) [`1e0f943`](https://github.com/primer/eslint-plugin-primer-react/commit/1e0f943a264aaac2581b95916bd0cb8a66a41a17) Thanks [@liuliu-dev](https://github.com/liuliu-dev)! - Fix `no-unnecessary-components` rule to support `@primer/styled-react` imports.
+
+- [#461](https://github.com/primer/eslint-plugin-primer-react/pull/461) [`75ae0a5`](https://github.com/primer/eslint-plugin-primer-react/commit/75ae0a5cb1d4587b5481c8a459033206aae8e5c3) Thanks [@joshfarrant](https://github.com/joshfarrant)! - Export `enforce-button-for-link-with-no-href` rule, which flags `Link` components which don't have a `href`.
+
+## 8.5.0
+
+### Minor Changes
+
+- [#443](https://github.com/primer/eslint-plugin-primer-react/pull/443) [`8865e3a`](https://github.com/primer/eslint-plugin-primer-react/commit/8865e3af43dfd302ed345c5b9243c32abe7cebad) Thanks [@hectahertz](https://github.com/hectahertz)! - Add no-use-responsive-value
+
+### Patch Changes
+
+- [#435](https://github.com/primer/eslint-plugin-primer-react/pull/435) [`aa12209`](https://github.com/primer/eslint-plugin-primer-react/commit/aa12209a5ede77f01217ff044192c2b4b15ae2ab) Thanks [@TylerJDev](https://github.com/TylerJDev)! - Adds `width` and `height` to `no-system-props` for `ConfirmationDialog`
+
+- [#454](https://github.com/primer/eslint-plugin-primer-react/pull/454) [`917f344`](https://github.com/primer/eslint-plugin-primer-react/commit/917f344f61beeb8bd5817e89456a135769319003) Thanks [@francinelucca](https://github.com/francinelucca)! - no-system-props: allow 'overflow' prop in Breadcrumbs
+
+## 8.4.0
+
+### Minor Changes
+
+- [#437](https://github.com/primer/eslint-plugin-primer-react/pull/437) [`9270d40`](https://github.com/primer/eslint-plugin-primer-react/commit/9270d40d73bd046e21156b68ef6bd13a20008585) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Add spread-props-first rule to ensure spread props come before other props
+
+## 8.3.0
+
+### Minor Changes
+
+- [#426](https://github.com/primer/eslint-plugin-primer-react/pull/426) [`b83f467`](https://github.com/primer/eslint-plugin-primer-react/commit/b83f46761945d73dfea6c1381ff776e9f50e0bd2) Thanks [@siddharthkp](https://github.com/siddharthkp)! - use-styled-react-import: Add ThemeProvider, BaseStyles and useTheme. Allow theme components to be imported from styled-react without sx
+
+## 8.2.1
+
+### Patch Changes
+
+- [#410](https://github.com/primer/eslint-plugin-primer-react/pull/410) [`f3e47b1`](https://github.com/primer/eslint-plugin-primer-react/commit/f3e47b1a75ad27aceaed89d50175cc59754c8b9d) Thanks [@jonrohan](https://github.com/jonrohan)! - Fix for deprecated and experimental import paths
+
 ## 8.2.0
 
 ### Minor Changes

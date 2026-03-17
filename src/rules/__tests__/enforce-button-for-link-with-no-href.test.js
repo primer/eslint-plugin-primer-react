@@ -1,4 +1,4 @@
-const rule = require('../enforce-button-for-link-with-nohref')
+const rule = require('../enforce-button-for-link-with-no-href')
 const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
@@ -13,7 +13,7 @@ const ruleTester = new RuleTester({
   },
 })
 
-ruleTester.run('enforce-button-for-link-with-nohref', rule, {
+ruleTester.run('enforce-button-for-link-with-no-href', rule, {
   valid: [
     // Link with href attribute
     `import {Link} from '@primer/react';

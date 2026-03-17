@@ -23,6 +23,7 @@ module.exports = {
     'primer-react/a11y-use-accessible-tooltip': 'error',
     'primer-react/no-unnecessary-components': 'error',
     'primer-react/prefer-action-list-item-onselect': 'error',
+    'primer-react/no-use-responsive-value': 'error',
   },
   settings: {
     github: {

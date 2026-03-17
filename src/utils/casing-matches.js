@@ -1,6 +1,6 @@
-const camelReg = /^[a-z]+(?:[A-Z0-9][a-z0-9]+)*?$/
-const pascalReg = /^(?:[A-Z0-9][a-z0-9]+)+?$/
-const kebabReg = /^[a-z]+(?:-[a-z0-9]+)*?$/
+const camelReg = /^[a-z][a-z0-9]*(?:[A-Z][a-z0-9]*)*$/
+const pascalReg = /^(?:[A-Z][a-z0-9]*)+$/
+const kebabReg = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/
 
 function casingMatches(name, type) {
   switch (type) {
