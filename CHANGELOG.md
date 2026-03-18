@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 8.6.0
+
+### Minor Changes
+
+- [#376](https://github.com/primer/eslint-plugin-primer-react/pull/376) [`4f0e5b5`](https://github.com/primer/eslint-plugin-primer-react/commit/4f0e5b51fef890703ed8685ec74b30aa9e7b8547) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Add ESLint rule to replace deprecated Octicon component with specific icons and remove unused imports
+
 ## 8.5.2
 
 ### Patch Changes
