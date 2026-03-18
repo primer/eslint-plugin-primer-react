@@ -37,7 +37,7 @@ module.exports = {
 
     return {
       ImportDeclaration(node) {
-        if (node.source.value !== '@primer/react/deprecated') {
+        if (node.source.value !== '@primer/react/deprecated' && node.source.value !== '@primer/styled-react') {
           return
         }
 

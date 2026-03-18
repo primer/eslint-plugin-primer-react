@@ -262,5 +262,96 @@ export default function App() {
         },
       ],
     },
+
+    // @primer/styled-react: basic case
+    {
+      code: `import {Octicon} from '@primer/styled-react'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={XIcon} />
+}`,
+      output: `import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <XIcon />
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // @primer/styled-react: Octicon with additional props
+    {
+      code: `import {Octicon} from '@primer/styled-react'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={XIcon} size={16} className="test" />
+}`,
+      output: `import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <XIcon size={16} className="test" />
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // @primer/styled-react: partial import removal
+    {
+      code: `import {Octicon, Button} from '@primer/styled-react'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={XIcon} />
+}`,
+      output: `import {Button} from '@primer/styled-react'
+import {XIcon} from '@primer/octicons-react'
+export default function App() {
+  return <XIcon />
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // @primer/styled-react: conditional case
+    {
+      code: `import {Octicon} from '@primer/styled-react'
+import {XIcon, CheckIcon} from '@primer/octicons-react'
+export default function App() {
+  return <Octicon icon={condition ? XIcon : CheckIcon} size={16} />
+}`,
+      output: `import {XIcon, CheckIcon} from '@primer/octicons-react'
+export default function App() {
+  return condition ? <XIcon size={16} /> : <CheckIcon size={16} />
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
+
+    // @primer/styled-react: dynamic icon access
+    {
+      code: `import {Octicon} from '@primer/styled-react'
+export default function App() {
+  const icons = { x: XIcon }
+  return <Octicon icon={icons.x} size={24} />
+}`,
+      output: `export default function App() {
+  const icons = { x: XIcon }
+  return React.createElement(icons.x, {size: 24})
+}`,
+      errors: [
+        {
+          messageId: 'replaceDeprecatedOcticon',
+        },
+      ],
+    },
   ],
 })
