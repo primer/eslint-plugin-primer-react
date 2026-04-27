@@ -4,7 +4,7 @@ import packageJson from '../package.json' with {type: 'json'}
 
 const {homepage, version} = packageJson
 
-const ruleDocsUrl = sourceUrl => {
+const getRuleDocsUrl = sourceUrl => {
   const url = new URL(homepage)
   const rule = path.basename(fileURLToPath(sourceUrl), '.js')
   url.hash = ''
@@ -12,4 +12,4 @@ const ruleDocsUrl = sourceUrl => {
   return url.toString()
 }
 
-export default ruleDocsUrl
+export default getRuleDocsUrl
