@@ -1,17 +1,15 @@
-'use strict'
-
-const url = require('../url')
+import url from '../url.js'
 
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {
       description: 'Avoid using deprecated entrypoints from @primer/react',
       recommended: true,
-      url: url(module),
+      url: url(import.meta.url),
     },
     fixable: true,
     schema: [],

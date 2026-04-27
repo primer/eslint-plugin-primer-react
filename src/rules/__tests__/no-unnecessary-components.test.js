@@ -1,10 +1,14 @@
 // @ts-check
 
-const {RuleTester} = require('@typescript-eslint/rule-tester')
+import {jest} from '@jest/globals'
+import {RuleTester} from '@typescript-eslint/rule-tester'
+import tsParser from '@typescript-eslint/parser'
 
-const path = require('node:path')
-const rule = require('../no-unnecessary-components')
-const {components} = require('../no-unnecessary-components')
+import path from 'node:path'
+import {fileURLToPath} from 'node:url'
+import rule, {components} from '../no-unnecessary-components.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const prcImport = 'import React from "react"; import {Box, Text} from "@primer/react";'
 const styledReactImport = 'import React from "react"; import {Box, Text} from "@primer/styled-react";'
@@ -22,7 +26,7 @@ const asConstDeclaration = `const as = "p";`
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require('@typescript-eslint/parser'),
+    parser: tsParser,
     parserOptions: {
       tsconfigRootDir: path.resolve(__dirname, 'fixtures'),
       project: path.resolve(__dirname, 'fixtures', 'tsconfig.json'),

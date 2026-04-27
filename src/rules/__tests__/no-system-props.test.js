@@ -1,5 +1,5 @@
-const rule = require('../no-system-props')
-const {RuleTester} = require('eslint')
+import rule from '../no-system-props.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

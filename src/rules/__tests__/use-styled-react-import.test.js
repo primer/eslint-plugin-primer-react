@@ -1,9 +1,10 @@
-const rule = require('../use-styled-react-import')
-const {RuleTester} = require('eslint')
+import rule from '../use-styled-react-import.js'
+import {RuleTester} from 'eslint'
 
+import tsParser from '@typescript-eslint/parser'
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
+    parser: tsParser,
     ecmaVersion: 'latest',
     sourceType: 'module',
     parserOptions: {

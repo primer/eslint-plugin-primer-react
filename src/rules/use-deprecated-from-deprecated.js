@@ -1,6 +1,4 @@
-'use strict'
-
-const url = require('../url')
+import url from '../url.js'
 
 const components = [
   {
@@ -65,13 +63,13 @@ for (const component of components) {
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {
       description: 'Use deprecated components from the `@primer/react/deprecated` entrypoint',
       recommended: true,
-      url: url(module),
+      url: url(import.meta.url),
     },
     fixable: true,
     schema: [],

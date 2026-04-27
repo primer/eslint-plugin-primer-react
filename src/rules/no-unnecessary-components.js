@@ -1,9 +1,11 @@
 // @ts-check
 
-const {ESLintUtils} = require('@typescript-eslint/utils')
-const {IndexKind} = require('typescript')
-const {pick: pickStyledSystemProps} = require('@styled-system/props')
-const {isPrimerComponent} = require('../utils/is-primer-component')
+import {ESLintUtils} from '@typescript-eslint/utils'
+import {IndexKind} from 'typescript'
+import styledSystemProps from '@styled-system/props'
+import {isPrimerComponent} from '../utils/is-primer-component.js'
+
+const {pick: pickStyledSystemProps} = styledSystemProps
 
 /** @typedef {import('@typescript-eslint/types').TSESTree.JSXAttribute} JSXAttribute */
 
@@ -157,4 +159,5 @@ const rule = ESLintUtils.RuleCreator.withoutDocs({
   },
 })
 
-module.exports = {...rule, components}
+export {components}
+export default {...rule, components}

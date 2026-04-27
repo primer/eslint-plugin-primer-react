@@ -1,6 +1,6 @@
-const {jsxA11yMapping, githubMapping} = require('./components')
+import {jsxA11yMapping, githubMapping} from './components.js'
 
-module.exports = {
+export default {
   parserOptions: {
     sourceType: 'module',
     ecmaFeatures: {

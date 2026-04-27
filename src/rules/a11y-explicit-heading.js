@@ -1,6 +1,7 @@
-const {isPrimerComponent} = require('../utils/is-primer-component')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
+import url from '../url.js'
+import {isPrimerComponent} from '../utils/is-primer-component.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
 
 const validHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 
@@ -25,11 +26,11 @@ const isInvalid = elem => {
   return false
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Heading component must have explicit heading level, and specific `as` usage.',
-      url: require('../url')(module),
+      url: url(import.meta.url),
     },
     schema: [
       {

@@ -1,4 +1,4 @@
-const {isImportedFrom} = require('./is-imported-from')
+import {isImportedFrom} from './is-imported-from.js'
 
 /**
  * Check if `name` is a JSX component that is imported from `@primer/react`,
@@ -20,4 +20,4 @@ function isPrimerComponent(name, scope) {
   }
   return isImportedFrom(/^@primer\/(?:styled-)?react(?:$|\/)/, identifier, scope)
 }
-exports.isPrimerComponent = isPrimerComponent
+export {isPrimerComponent}

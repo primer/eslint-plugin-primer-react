@@ -1,8 +1,11 @@
-const {isPrimerComponent} = require('../utils/is-primer-component')
-const {isHTMLElement} = require('../utils/is-html-element')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const {pick} = require('@styled-system/props')
-const {some, last} = require('lodash')
+import {isPrimerComponent} from '../utils/is-primer-component.js'
+import {isHTMLElement} from '../utils/is-html-element.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
+import styledSystemProps from '@styled-system/props'
+import lodash from 'lodash'
+
+const {pick} = styledSystemProps
+const {last, some} = lodash
 
 // Components for which we allow all styled system props
 const alwaysExcludedComponents = new Set([
@@ -55,7 +58,7 @@ const excludedComponentProps = new Map([
 
 const alwaysExcludedProps = new Set(['variant', 'size'])
 
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
     fixable: 'code',

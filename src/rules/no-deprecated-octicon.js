@@ -1,19 +1,17 @@
-'use strict'
-
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const url = require('../url')
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
+import url from '../url.js'
 
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {
       description: 'Replace deprecated `Octicon` component with specific icon imports from `@primer/octicons-react`',
       recommended: true,
-      url: url(module),
+      url: url(import.meta.url),
     },
     fixable: 'code',
     schema: [],

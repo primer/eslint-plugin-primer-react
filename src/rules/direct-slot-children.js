@@ -1,6 +1,7 @@
-const {isPrimerComponent} = require('../utils/is-primer-component')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const {last} = require('lodash')
+import {isPrimerComponent} from '../utils/is-primer-component.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
+import lodash from 'lodash'
+const {last} = lodash
 
 const slotParentToChildMap = {
   PageLayout: ['PageLayout.Header', 'PageLayout.Footer'],
@@ -27,7 +28,7 @@ const slotChildToParentMap = Object.entries(slotParentToChildMap).reduce((acc, [
   return acc
 }, {})
 
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     schema: [

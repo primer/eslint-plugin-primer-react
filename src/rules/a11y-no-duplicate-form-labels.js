@@ -1,6 +1,7 @@
-const {isPrimerComponent} = require('../utils/is-primer-component')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
+import url from '../url.js'
+import {isPrimerComponent} from '../utils/is-primer-component.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
 
 const isFormControl = node => getJSXOpeningElementName(node) === 'FormControl'
 const isFormControlLabel = node => getJSXOpeningElementName(node) === 'FormControl.Label'
@@ -33,13 +34,13 @@ const findFormControlLabel = (node, sourceCode) => {
   return false
 }
 
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {
       description:
         'Prevent duplicate labels on form inputs by disallowing aria-label on TextInput when FormControl.Label is present.',
-      url: require('../url')(module),
+      url: url(import.meta.url),
     },
     schema: [],
     messages: {
