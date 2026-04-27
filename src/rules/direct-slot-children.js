@@ -1,7 +1,6 @@
 import {isPrimerComponent} from '../utils/is-primer-component.js'
 import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
-import lodash from 'lodash'
-const {last} = lodash
+import last from 'lodash/last.js'
 
 const slotParentToChildMap = {
   PageLayout: ['PageLayout.Header', 'PageLayout.Footer'],

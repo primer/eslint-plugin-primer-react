@@ -2,10 +2,8 @@
 
 import {ESLintUtils} from '@typescript-eslint/utils'
 import {IndexKind} from 'typescript'
-import styledSystemProps from '@styled-system/props'
+import {pick as pickStyledSystemProps} from '@styled-system/props'
 import {isPrimerComponent} from '../utils/is-primer-component.js'
-
-const {pick: pickStyledSystemProps} = styledSystemProps
 
 /** @typedef {import('@typescript-eslint/types').TSESTree.JSXAttribute} JSXAttribute */
 

@@ -1,11 +1,9 @@
 import {isPrimerComponent} from '../utils/is-primer-component.js'
 import {isHTMLElement} from '../utils/is-html-element.js'
 import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
-import styledSystemProps from '@styled-system/props'
-import lodash from 'lodash'
-
-const {pick} = styledSystemProps
-const {some, last} = lodash
+import {pick} from '@styled-system/props'
+import last from 'lodash/last.js'
+import some from 'lodash/some.js'
 
 // Components for which we allow all styled system props
 const alwaysExcludedComponents = new Set([
