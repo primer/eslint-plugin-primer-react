@@ -182,7 +182,9 @@ const stylesMapFromPropNodes = (systemProps, context) => {
   return new Map(
     systemProps.map(a => [
       a.name.name,
-      a.value === null ? 'true' : a.value.raw || context.getSourceCode().getText(a.value.expression),
+      a.value === null
+        ? 'true'
+        : a.value.raw || (context.sourceCode ?? context.getSourceCode()).getText(a.value.expression),
     ]),
   )
 }

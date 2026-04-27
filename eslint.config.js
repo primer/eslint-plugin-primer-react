@@ -2,7 +2,9 @@
 
 const js = require('@eslint/js')
 const globals = require('globals')
-const github = require('eslint-plugin-github')
+const prettierPlugin = require('eslint-plugin-prettier')
+const eslintComments = require('@eslint-community/eslint-plugin-eslint-comments')
+const noOnlyTestsPlugin = require('eslint-plugin-no-only-tests')
 
 /**
  * @type {import('eslint').Linter.FlatConfig[]}
@@ -12,8 +14,12 @@ module.exports = [
     ignores: ['node_modules/**', '.git/**'],
   },
   js.configs.recommended,
-  github.default.getFlatConfigs().recommended,
   {
+    plugins: {
+      prettier: prettierPlugin,
+      'eslint-comments': eslintComments,
+      'no-only-tests': noOnlyTestsPlugin,
+    },
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'commonjs',
@@ -23,9 +29,18 @@ module.exports = [
       },
     },
     rules: {
-      // Override specific rules for the repository
-      'import/no-commonjs': 'off',
-      'import/no-dynamic-require': 'off', // Allow dynamic requires in tests
+      'prettier/prettier': 'error',
+      'eslint-comments/no-duplicate-disable': 'error',
+      'eslint-comments/no-unlimited-disable': 'error',
+      'eslint-comments/no-unused-disable': 'error',
+      'eslint-comments/no-unused-enable': 'error',
+      'eslint-comments/no-use': ['error', {allow: ['eslint', 'eslint-disable-next-line', 'eslint-env', 'globals']}],
+      'no-only-tests/no-only-tests': [
+        'error',
+        {block: ['describe', 'it', 'context', 'test', 'tape', 'fixture', 'serial', 'suite']},
+      ],
+      'no-var': 'error',
+      'prefer-const': 'error',
       'no-shadow': 'off',
       'no-unused-vars': [
         'error',
@@ -33,8 +48,6 @@ module.exports = [
           varsIgnorePattern: '^_',
         },
       ],
-      'github/filenames-match-regex': 'off', // Allow various file naming patterns
-      'i18n-text/no-en': 'off', // Allow English text in this repository
     },
   },
   {

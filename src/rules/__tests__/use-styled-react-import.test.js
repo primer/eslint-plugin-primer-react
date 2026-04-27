@@ -3,7 +3,7 @@ const {RuleTester} = require('eslint')
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
+    parser: require('@typescript-eslint/parser'),
     ecmaVersion: 'latest',
     sourceType: 'module',
     parserOptions: {

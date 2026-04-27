@@ -3,7 +3,7 @@ const rule = require('../prefer-action-list-item-onselect')
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
+    parser: require('@typescript-eslint/parser'),
     ecmaVersion: 2018,
     sourceType: 'module',
     parserOptions: {
