@@ -5,7 +5,7 @@ import styledSystemProps from '@styled-system/props'
 import lodash from 'lodash'
 
 const {pick} = styledSystemProps
-const {last, some} = lodash
+const {some, last} = lodash
 
 // Components for which we allow all styled system props
 const alwaysExcludedComponents = new Set([
