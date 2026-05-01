@@ -364,7 +364,7 @@ import { Button } from '@primer/react'
                  <Button sx={{ color: 'red' }}>Styled button</Button>
                </div>
              )`,
-      output: `import { Link, Button } from '@primer/styled-react'
+      output: `import { Button, Link } from '@primer/styled-react'
              const Component = () => (
                <div>
                  <Link sx={{ color: 'red' }} />
@@ -435,6 +435,40 @@ import { ThemeProvider } from '@primer/styled-react'
         {
           messageId: 'moveToStyledReact',
           data: {importName: 'SxProp'},
+        },
+      ],
+    },
+
+    // Invalid: type keyword preserved when splitting imports - component with sx moved to styled-react
+    {
+      code: `import { Button, type ButtonProps } from '@primer/react'
+             const Component = () => <Button sx={{ color: 'red' }}>Click me</Button>`,
+      output: `import { type ButtonProps } from '@primer/react'
+import { Button } from '@primer/styled-react'
+             const Component = () => <Button sx={{ color: 'red' }}>Click me</Button>`,
+      errors: [
+        {
+          messageId: 'useStyledReactImport',
+          data: {componentName: 'Button'},
+        },
+      ],
+    },
+
+    // Invalid: type keyword preserved on moved specifiers (type + utility)
+    {
+      code: `import { type SxProp, sx, Button } from '@primer/react'
+             const Component = () => <Button>Click me</Button>`,
+      output: `import { Button } from '@primer/react'
+import { type SxProp, sx } from '@primer/styled-react'
+             const Component = () => <Button>Click me</Button>`,
+      errors: [
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'SxProp'},
+        },
+        {
+          messageId: 'moveToStyledReact',
+          data: {importName: 'sx'},
         },
       ],
     },
