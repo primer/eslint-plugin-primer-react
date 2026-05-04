@@ -3,6 +3,15 @@
 const url = require('../url')
 const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
 
+/**
+ * Format a specifier name, preserving the `type` keyword if present.
+ * @param {import('estree').ImportSpecifier} spec
+ * @returns {string}
+ */
+function formatSpecifier(spec) {
+  return spec.importKind === 'type' ? `type ${spec.imported.name}` : spec.imported.name
+}
+
 // Default components that should be imported from @primer/styled-react when used with sx prop
 const defaultStyledComponents = [
   'ActionList',
@@ -197,19 +206,24 @@ module.exports = {
                 // Convert @primer/react path to @primer/styled-react path
                 const styledReactPath = importSource.replace('@primer/react', '@primer/styled-react')
 
+                // Find the original specifier nodes for moved components to preserve importKind
+                const movedSpecifiers = changes.originalSpecifiers.filter(spec =>
+                  componentsToMove.has(spec.imported.name),
+                )
+
                 // If no components remain, replace with new import directly
                 if (remainingSpecifiers.length === 0) {
-                  const movedComponents = changes.toMove.join(', ')
+                  const movedComponents = movedSpecifiers.map(formatSpecifier).join(', ')
                   fixes.push(fixer.replaceText(importNode, `import { ${movedComponents} } from '${styledReactPath}'`))
                 } else {
                   // Otherwise, update the import to only include remaining components
-                  const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
+                  const remainingNames = remainingSpecifiers.map(formatSpecifier)
                   fixes.push(
                     fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
 
                   // Add new styled-react import
-                  const movedComponents = changes.toMove.join(', ')
+                  const movedComponents = movedSpecifiers.map(formatSpecifier).join(', ')
                   fixes.push(
                     fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '${styledReactPath}'`),
                   )
@@ -290,10 +304,16 @@ module.exports = {
                 // Check if there's an existing primer-react import to merge with
                 const existingPrimerReactImport = Array.from(primerReactImportNodes)[0]
 
+                // Find the original specifier nodes for moved components to preserve importKind
+                const movedSpecifiers = changes.originalSpecifiers.filter(spec =>
+                  componentsToMove.has(spec.imported.name),
+                )
+
                 if (existingPrimerReactImport && remainingSpecifiers.length === 0) {
                   // Case: No remaining styled-react imports, merge with existing primer-react import
-                  const existingSpecifiers = existingPrimerReactImport.specifiers.map(spec => spec.imported.name)
-                  const newSpecifiers = [...existingSpecifiers, ...changes.toMove].filter(
+                  const existingNames = existingPrimerReactImport.specifiers.map(formatSpecifier)
+                  const movedNames = movedSpecifiers.map(formatSpecifier)
+                  const newSpecifiers = [...existingNames, ...movedNames].filter(
                     (name, index, arr) => arr.indexOf(name) === index,
                   )
 
@@ -306,8 +326,9 @@ module.exports = {
                   fixes.push(fixer.remove(importNode))
                 } else if (existingPrimerReactImport && remainingSpecifiers.length > 0) {
                   // Case: Some styled-react imports remain, merge moved components with existing primer-react
-                  const existingSpecifiers = existingPrimerReactImport.specifiers.map(spec => spec.imported.name)
-                  const newSpecifiers = [...existingSpecifiers, ...changes.toMove].filter(
+                  const existingNames = existingPrimerReactImport.specifiers.map(formatSpecifier)
+                  const movedNames = movedSpecifiers.map(formatSpecifier)
+                  const newSpecifiers = [...existingNames, ...movedNames].filter(
                     (name, index, arr) => arr.indexOf(name) === index,
                   )
 
@@ -318,22 +339,22 @@ module.exports = {
                     ),
                   )
 
-                  const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
+                  const remainingNames = remainingSpecifiers.map(formatSpecifier)
                   fixes.push(
                     fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
                 } else if (remainingSpecifiers.length === 0) {
                   // Case: No existing primer-react import, no remaining styled-react imports
-                  const movedComponents = changes.toMove.join(', ')
+                  const movedComponents = movedSpecifiers.map(formatSpecifier).join(', ')
                   fixes.push(fixer.replaceText(importNode, `import { ${movedComponents} } from '${primerReactPath}'`))
                 } else {
                   // Case: No existing primer-react import, some styled-react imports remain
-                  const remainingNames = remainingSpecifiers.map(spec => spec.imported.name)
+                  const remainingNames = remainingSpecifiers.map(formatSpecifier)
                   fixes.push(
                     fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
 
-                  const movedComponents = changes.toMove.join(', ')
+                  const movedComponents = movedSpecifiers.map(formatSpecifier).join(', ')
                   fixes.push(
                     fixer.insertTextAfter(importNode, `\nimport { ${movedComponents} } from '${primerReactPath}'`),
                   )
@@ -386,18 +407,14 @@ module.exports = {
                   // if there are no remaining specifiers, we can remove the whole import
                   fixes.push(fixer.remove(importNode))
                 } else {
-                  const remainingNames = remainingSpecifiers.map(spec =>
-                    spec.importKind === 'type' ? `type ${spec.imported.name}` : spec.imported.name,
-                  )
+                  const remainingNames = remainingSpecifiers.map(formatSpecifier)
                   fixes.push(
                     fixer.replaceText(importNode, `import { ${remainingNames.join(', ')} } from '${importSource}'`),
                   )
                 }
 
                 if (specifiersToMove.length > 0) {
-                  const movedComponents = specifiersToMove.map(spec =>
-                    spec.importKind === 'type' ? `type ${spec.imported.name}` : spec.imported.name,
-                  )
+                  const movedComponents = specifiersToMove.map(formatSpecifier)
                   const onNewLine = remainingSpecifiers.length > 0
                   fixes.push(
                     fixer.insertTextAfter(
