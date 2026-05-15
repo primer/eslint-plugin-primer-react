@@ -14,6 +14,6 @@ function casingMatches(name, type) {
       throw new Error(`Invalid case type ${type}`)
   }
 }
-exports.casingMatches = casingMatches
+export {casingMatches}
 
-exports.availableCasings = ['camel', 'pascal', 'kebab']
+export const availableCasings = ['camel', 'pascal', 'kebab']

@@ -1,6 +1,4 @@
-'use strict'
-
-const url = require('../url')
+import url from '../url.js'
 
 const wildcardImports = new Map([
   // Components
@@ -233,13 +231,13 @@ const wildcardImports = new Map([
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     docs: {
       description: 'Wildcard imports are discouraged. Import from a main entrypoint instead',
       recommended: true,
-      url: url(module),
+      url: url(import.meta.url),
     },
     fixable: true,
     schema: [],

@@ -1,9 +1,10 @@
-const {RuleTester} = require('@typescript-eslint/rule-tester')
-const rule = require('../prefer-action-list-item-onselect')
+import {RuleTester} from '@typescript-eslint/rule-tester'
+import rule from '../prefer-action-list-item-onselect.js'
 
+import tsParser from '@typescript-eslint/parser'
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
+    parser: tsParser,
     ecmaVersion: 2018,
     sourceType: 'module',
     parserOptions: {

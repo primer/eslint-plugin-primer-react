@@ -1,5 +1,5 @@
-const rule = require('../a11y-use-accessible-tooltip')
-const {RuleTester} = require('eslint')
+import rule from '../a11y-use-accessible-tooltip.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

@@ -5,7 +5,7 @@ const messages = {
 }
 
 /** @type {import('@typescript-eslint/utils/ts-eslint').RuleModule<keyof typeof messages>} */
-module.exports = {
+export default {
   meta: {
     docs: {
       description:

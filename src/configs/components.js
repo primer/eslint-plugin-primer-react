@@ -1,4 +1,4 @@
-const {flattenComponents} = require('../utils/flatten-components')
+import {flattenComponents} from '../utils/flatten-components.js'
 
 const components = flattenComponents({
   Button: 'button',
@@ -25,7 +25,6 @@ const components = flattenComponents({
 const githubMapping = Object.assign({}, components)
 githubMapping['Box'] = 'div'
 
-module.exports = {
-  jsxA11yMapping: components,
-  githubMapping,
-}
+const jsxA11yMapping = components
+
+export {githubMapping, jsxA11yMapping}

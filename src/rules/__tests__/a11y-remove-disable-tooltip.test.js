@@ -1,7 +1,5 @@
-'use strict'
-
-const {RuleTester} = require('eslint')
-const rule = require('../a11y-remove-disable-tooltip')
+import {RuleTester} from 'eslint'
+import rule from '../a11y-remove-disable-tooltip.js'
 
 const ruleTester = new RuleTester({
   languageOptions: {

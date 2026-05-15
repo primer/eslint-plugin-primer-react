@@ -1,16 +1,15 @@
-'use strict'
-const url = require('../url')
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
+import url from '../url.js'
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
 
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
     docs: {
       description: 'recommends the use of @primer/react Tooltip component',
       category: 'Best Practices',
       recommended: true,
-      url: url(module),
+      url: url(import.meta.url),
     },
     fixable: true,
     schema: [],

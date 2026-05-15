@@ -7,4 +7,4 @@ function getJSXOpeningElementName(jsxNode) {
   }
 }
 
-exports.getJSXOpeningElementName = getJSXOpeningElementName
+export {getJSXOpeningElementName}

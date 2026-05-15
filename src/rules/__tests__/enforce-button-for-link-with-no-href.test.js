@@ -1,5 +1,5 @@
-const rule = require('../enforce-button-for-link-with-no-href')
-const {RuleTester} = require('eslint')
+import rule from '../enforce-button-for-link-with-no-href.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

@@ -8,4 +8,4 @@ function isHTMLElement(jsxNode) {
 
   return false
 }
-exports.isHTMLElement = isHTMLElement
+export {isHTMLElement}

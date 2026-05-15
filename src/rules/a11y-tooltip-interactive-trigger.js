@@ -1,7 +1,9 @@
-const {getPropValue, propName} = require('jsx-ast-utils')
-const {isPrimerComponent} = require('../utils/is-primer-component')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
+import jsxAstUtils from 'jsx-ast-utils'
+import {isPrimerComponent} from '../utils/is-primer-component.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
+
+const {getPropValue, propName} = jsxAstUtils
 
 const isInteractive = child => {
   const childName = getJSXOpeningElementName(child.openingElement)
@@ -135,7 +137,7 @@ const checkTriggerElement = jsxNode => {
   return errors
 }
 
-module.exports = {
+export default {
   meta: {
     type: 'problem',
     schema: [
