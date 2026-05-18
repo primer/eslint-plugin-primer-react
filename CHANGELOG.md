@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 8.6.1
+
+### Patch Changes
+
+- [#548](https://github.com/primer/eslint-plugin-primer-react/pull/548) [`7f5af96`](https://github.com/primer/eslint-plugin-primer-react/commit/7f5af9610d0dde4c0e9941dc485ef1487c8d48ac) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Fix use-styled-react-import fixer stripping type keyword from import specifiers
+
 ## 8.6.0
 
 ### Minor Changes
