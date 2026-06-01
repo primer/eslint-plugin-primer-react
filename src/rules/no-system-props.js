@@ -34,6 +34,7 @@ const excludedComponentProps = new Map([
   ['SplitPageLayout.Footer', new Set(['padding'])],
   ['SplitPageLayout.Pane', new Set(['padding', 'position', 'width'])],
   ['SplitPageLayout.Content', new Set(['padding', 'width'])],
+  ['SplitPageLayout.Sidebar', new Set(['padding', 'position', 'width'])],
   ['StyledOcticon', new Set(['size'])],
   ['Octicon', new Set(['size', 'color'])],
   ['PointerBox', new Set(['bg'])],
