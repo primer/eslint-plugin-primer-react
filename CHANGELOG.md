@@ -1,5 +1,13 @@
 # eslint-plugin-primer-react
 
+## 8.6.1
+
+### Patch Changes
+
+- [#548](https://github.com/primer/eslint-plugin-primer-react/pull/548) [`7f5af96`](https://github.com/primer/eslint-plugin-primer-react/commit/7f5af9610d0dde4c0e9941dc485ef1487c8d48ac) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Fix use-styled-react-import fixer stripping type keyword from import specifiers
+
+- [#565](https://github.com/primer/eslint-plugin-primer-react/pull/565) [`93f3788`](https://github.com/primer/eslint-plugin-primer-react/commit/93f3788bcc042ec35f4c62eb050431d1f4f439f5) Thanks [@mattcosta7](https://github.com/mattcosta7)! - Add SplitPageLayout.Sidebar to no-system-props exclusions for padding, position, and width.
+
 ## 8.6.0
 
 ### Minor Changes
