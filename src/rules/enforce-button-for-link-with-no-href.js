@@ -1,15 +1,15 @@
-const url = require('../url')
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
-const {isPrimerComponent} = require('../utils/is-primer-component')
+import url from '../url.js'
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
+import {isPrimerComponent} from '../utils/is-primer-component.js'
 
-module.exports = {
+export default {
   meta: {
     type: 'error',
     docs: {
       description: 'Disallow usage of Link component without href',
       recommended: true,
-      url: url(module),
+      url: url(import.meta.url),
     },
     messages: {
       noLinkWithoutHref: 'Links without href and other side effects are not accessible. Use a Button instead.',

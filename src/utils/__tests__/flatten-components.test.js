@@ -1,4 +1,4 @@
-const {flattenComponents} = require('../flatten-components')
+import {flattenComponents} from '../flatten-components.js'
 
 const mockComponents = passedObj => {
   return {

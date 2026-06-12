@@ -1,5 +1,5 @@
-const rule = require('../enforce-css-module-identifier-casing')
-const {RuleTester} = require('eslint')
+import rule from '../enforce-css-module-identifier-casing.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

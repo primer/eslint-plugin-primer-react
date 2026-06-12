@@ -1,4 +1,4 @@
-const cssVars = require('../utils/css-variable-map.json')
+import cssVars from '../utils/css-variable-map.json' with {type: 'json'}
 
 const reportError = (propertyName, valueNode, context, suggestFix = true) => {
   // performance optimisation: exit early
@@ -77,7 +77,7 @@ const reportOnTemplateElement = (node, context) => {
   reportError(undefined, node, context, false)
 }
 
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
     hasSuggestions: true,

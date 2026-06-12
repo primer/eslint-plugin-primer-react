@@ -1,7 +1,5 @@
-'use strict'
-
-const {RuleTester} = require('eslint')
-const rule = require('../no-deprecated-entrypoints')
+import {RuleTester} from 'eslint'
+import rule from '../no-deprecated-entrypoints.js'
 
 const ruleTester = new RuleTester({
   languageOptions: {

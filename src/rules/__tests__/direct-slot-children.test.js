@@ -1,5 +1,5 @@
-const rule = require('../direct-slot-children')
-const {RuleTester} = require('eslint')
+import rule from '../direct-slot-children.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

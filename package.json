@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "lint:md": "markdownlint-cli2 \"**/*.{md,mdx}\" \"!.github\" \"!.changeset\" \"!node_modules\" \"!CHANGELOG.md\"",
     "release": "changeset publish",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -47,6 +47,7 @@
     "@github/prettier-config": "0.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.0.2",
+    "@typescript-eslint/parser": "^8.59.0",
     "@typescript-eslint/rule-tester": "^8.50.0",
     "eslint": "^9.0.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
@@ -60,5 +61,6 @@
     "markdownlint-cli2": "^0.22.0",
     "markdownlint-cli2-formatter-pretty": "^0.0.10"
   },
-  "prettier": "@github/prettier-config"
+  "prettier": "@github/prettier-config",
+  "type": "module"
 }

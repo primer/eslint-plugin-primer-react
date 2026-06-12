@@ -7,4 +7,4 @@ function getJSXOpeningElementAttribute(openingEl, name) {
   return attribute
 }
 
-exports.getJSXOpeningElementAttribute = getJSXOpeningElementAttribute
+export {getJSXOpeningElementAttribute}

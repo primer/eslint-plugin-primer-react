@@ -1,5 +1,5 @@
-const rule = require('../a11y-explicit-heading')
-const {RuleTester} = require('eslint')
+import rule from '../a11y-explicit-heading.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

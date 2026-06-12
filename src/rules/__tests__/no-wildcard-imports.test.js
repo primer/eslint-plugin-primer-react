@@ -1,11 +1,10 @@
-'use strict'
+import {RuleTester} from 'eslint'
+import rule from '../no-wildcard-imports.js'
 
-const {RuleTester} = require('eslint')
-const rule = require('../no-wildcard-imports')
-
+import tsParser from '@typescript-eslint/parser'
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require(require.resolve('@typescript-eslint/parser', {paths: [require.resolve('eslint-plugin-github')]})),
+    parser: tsParser,
     ecmaVersion: 'latest',
     sourceType: 'module',
     parserOptions: {

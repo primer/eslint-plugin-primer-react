@@ -1,5 +1,5 @@
-const rule = require('../spread-props-first')
-const {RuleTester} = require('eslint')
+import rule from '../spread-props-first.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

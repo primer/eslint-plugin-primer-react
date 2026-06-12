@@ -1,5 +1,5 @@
-const rule = require('../a11y-tooltip-interactive-trigger')
-const {RuleTester} = require('eslint')
+import rule from '../a11y-tooltip-interactive-trigger.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

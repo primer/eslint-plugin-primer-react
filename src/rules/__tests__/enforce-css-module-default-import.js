@@ -1,5 +1,5 @@
-const rule = require('../enforce-css-module-default-import')
-const {RuleTester} = require('eslint')
+import rule from '../enforce-css-module-default-import.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   parserOptions: {

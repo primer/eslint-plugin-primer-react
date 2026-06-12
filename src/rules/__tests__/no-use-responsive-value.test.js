@@ -1,7 +1,5 @@
-'use strict'
-
-const {RuleTester} = require('eslint')
-const rule = require('../no-use-responsive-value')
+import {RuleTester} from 'eslint'
+import rule from '../no-use-responsive-value.js'
 
 const ruleTester = new RuleTester({
   languageOptions: {

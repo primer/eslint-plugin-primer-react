@@ -14,4 +14,4 @@ function getVariableDeclaration(scope, identifier) {
 
   return getVariableDeclaration(scope.upper, identifier)
 }
-exports.getVariableDeclaration = getVariableDeclaration
+export {getVariableDeclaration}
