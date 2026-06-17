@@ -46,11 +46,9 @@ ESLint rules for Primer React
 - [no-deprecated-entrypoints](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-entrypoints.md)
 - [no-deprecated-experimental-components](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-experimental-components.md)
 - [no-deprecated-props](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-props.md)
-- [no-system-props](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-system-props.md)
-- [no-unnecessary-components](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-unnecessary-components.md)
+
 - [no-use-responsive-value](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-use-responsive-value.md)
 - [no-wildcard-imports](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-wildcard-imports.md)
 - [prefer-action-list-item-onselect](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/prefer-action-list-item-onselect.md)
 - [spread-props-first](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/spread-props-first.md)
 - [use-deprecated-from-deprecated](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/use-deprecated-from-deprecated.md)
-- [use-styled-react-import](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/use-styled-react-import.md)
