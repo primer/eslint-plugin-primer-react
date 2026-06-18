@@ -1,7 +1,5 @@
-'use strict'
-
-const url = require('../url')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
+import url from '../url.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
 
 /**
  * Format a specifier name, preserving the `type` keyword if present.
@@ -47,13 +45,13 @@ const defaultStyledUtilities = ['sx', 'useTheme']
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
     docs: {
       description: 'Enforce importing components that use sx prop from @primer/styled-react',
       recommended: false,
-      url: url(module),
+      url: url(import.meta.url),
     },
     fixable: 'code',
     schema: [

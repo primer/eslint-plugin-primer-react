@@ -1,11 +1,10 @@
-'use strict'
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
+import {getJSXOpeningElementName} from '../utils/get-jsx-opening-element-name.js'
 
 /**
  * @type {import('eslint').Rule.RuleModule}
  */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
     docs: {

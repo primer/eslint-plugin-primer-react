@@ -1,5 +1,5 @@
-const rule = require('../a11y-no-title-usage')
-const {RuleTester} = require('eslint')
+import rule from '../a11y-no-title-usage.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

@@ -11,5 +11,5 @@ function identifierIsCSSModuleBinding(node, context) {
   return false
 }
 
-exports.importBindingIsFromCSSModuleImport = importBindingIsFromCSSModuleImport
-exports.identifierIsCSSModuleBinding = identifierIsCSSModuleBinding
+export {importBindingIsFromCSSModuleImport}
+export {identifierIsCSSModuleBinding}

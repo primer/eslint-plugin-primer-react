@@ -1,5 +1,5 @@
-const rule = require('../new-color-css-vars')
-const {RuleTester} = require('eslint')
+import rule from '../new-color-css-vars.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

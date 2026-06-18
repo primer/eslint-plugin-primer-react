@@ -1,5 +1,5 @@
-const rule = require('../a11y-link-in-text-block')
-const {RuleTester} = require('eslint')
+import rule from '../a11y-link-in-text-block.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {

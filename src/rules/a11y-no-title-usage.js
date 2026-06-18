@@ -1,13 +1,13 @@
-const url = require('../url')
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
+import url from '../url.js'
+import {getJSXOpeningElementAttribute} from '../utils/get-jsx-opening-element-attribute.js'
 
-module.exports = {
+export default {
   meta: {
     type: 'error',
     docs: {
       description: 'Disallow usage of title attribute on some components',
       recommended: true,
-      url: url(module),
+      url: url(import.meta.url),
     },
     messages: {
       noTitleOnRelativeTime: 'Avoid using the title attribute on RelativeTime.',

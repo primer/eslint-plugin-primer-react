@@ -1,7 +1,7 @@
-const {availableCasings, casingMatches} = require('../utils/casing-matches')
-const {identifierIsCSSModuleBinding} = require('../utils/css-modules')
+import {availableCasings, casingMatches} from '../utils/casing-matches.js'
+import {identifierIsCSSModuleBinding} from '../utils/css-modules.js'
 
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
     fixable: 'code',

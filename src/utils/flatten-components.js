@@ -14,4 +14,4 @@ function flattenComponents(componentObj) {
   return result
 }
 
-exports.flattenComponents = flattenComponents
+export {flattenComponents}

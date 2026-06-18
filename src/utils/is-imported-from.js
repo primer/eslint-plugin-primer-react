@@ -1,4 +1,4 @@
-const {getVariableDeclaration} = require('./get-variable-declaration')
+import {getVariableDeclaration} from './get-variable-declaration.js'
 
 /**
  * Check if the given identifier is imported from the given module
@@ -9,4 +9,4 @@ function isImportedFrom(moduleRegex, identifier, scope) {
   // Return true if the variable was imported from the given module
   return definition && definition.type === 'ImportBinding' && moduleRegex.test(definition.parent.source.value)
 }
-exports.isImportedFrom = isImportedFrom
+export {isImportedFrom}

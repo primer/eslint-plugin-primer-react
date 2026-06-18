@@ -1,5 +1,5 @@
-const rule = require('../a11y-no-duplicate-form-labels')
-const {RuleTester} = require('eslint')
+import rule from '../a11y-no-duplicate-form-labels.js'
+import {RuleTester} from 'eslint'
 
 const ruleTester = new RuleTester({
   languageOptions: {
