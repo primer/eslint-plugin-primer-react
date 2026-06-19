@@ -15,14 +15,12 @@ module.exports = {
     'no-deprecated-entrypoints': require('./rules/no-deprecated-entrypoints'),
     'no-deprecated-experimental-components': require('./rules/no-deprecated-experimental-components'),
     'no-deprecated-props': require('./rules/no-deprecated-props'),
-    'no-system-props': require('./rules/no-system-props'),
-    'no-unnecessary-components': require('./rules/no-unnecessary-components'),
+
     'no-use-responsive-value': require('./rules/no-use-responsive-value'),
     'no-wildcard-imports': require('./rules/no-wildcard-imports'),
     'prefer-action-list-item-onselect': require('./rules/prefer-action-list-item-onselect'),
     'spread-props-first': require('./rules/spread-props-first'),
     'use-deprecated-from-deprecated': require('./rules/use-deprecated-from-deprecated'),
-    'use-styled-react-import': require('./rules/use-styled-react-import'),
     'no-deprecated-octicon': require('./rules/no-deprecated-octicon'),
   },
   configs: {
