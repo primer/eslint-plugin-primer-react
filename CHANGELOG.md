@@ -1,5 +1,14 @@
 # eslint-plugin-primer-react
 
+## 9.0.0
+
+### Major Changes
+
+- [#577](https://github.com/primer/eslint-plugin-primer-react/pull/577) [`f0c6656`](https://github.com/primer/eslint-plugin-primer-react/commit/f0c66568b76a3acc9c03c29ce1530026b6878903) Thanks [@francinelucca](https://github.com/francinelucca)! - - BREAKING CHANGE: Deleted the `no-system-props` rule to eliminate checks for styled-system props in components.
+  - BREAKING CHANGE: Removed the `no-unnecessary-components` rule that enforced the use of plain HTML elements over `Box` and `Text` when not using `sx` for styling.
+  - BREAKING CHANGE: Eliminated the `use-styled-react-import` rule that enforced importing components from `@primer/styled-react` when using the `sx` prop.
+  - Removed styled-system, @types/styled-system dependencies
+
 ## 8.6.1
 
 ### Patch Changes
