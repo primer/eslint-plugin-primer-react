@@ -8,7 +8,6 @@ module.exports = {
     },
   },
   plugins: ['primer-react', 'github'],
-  extends: ['plugin:github/react'],
   rules: {
     'primer-react/direct-slot-children': 'error',
 
