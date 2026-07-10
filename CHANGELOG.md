@@ -1,5 +1,13 @@
 # eslint-plugin-primer-react
 
+## 9.1.0
+
+### Minor Changes
+
+- [#592](https://github.com/primer/eslint-plugin-primer-react/pull/592) [`0988020`](https://github.com/primer/eslint-plugin-primer-react/commit/0988020be213c0158f607b250a4faef6e1e41b99) Thanks [@alaingoga](https://github.com/alaingoga)! - Remove plugin:github/react from src/configs/recommended.js to avoid silently depending on GitHub’s React config behavior.
+  Expand this package’s eslint peer dependency range to include ESLint ^10.0.0.
+  Update the lockfile to reflect the peer dependency change.
+
 ## 9.0.0
 
 ### Major Changes
