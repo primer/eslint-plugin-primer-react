@@ -50,5 +50,8 @@ ESLint rules for Primer React
 - [no-use-responsive-value](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-use-responsive-value.md)
 - [no-wildcard-imports](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-wildcard-imports.md)
 - [prefer-action-list-item-onselect](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/prefer-action-list-item-onselect.md)
+- [require-octicon-symbols](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/require-octicon-symbols.md)
+- [require-registered-octicons](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/require-registered-octicons.md)
 - [spread-props-first](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/spread-props-first.md)
 - [use-deprecated-from-deprecated](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/use-deprecated-from-deprecated.md)
+- [use-octicons-react-symbols](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/use-octicons-react-symbols.md)

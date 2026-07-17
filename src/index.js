@@ -19,8 +19,11 @@ module.exports = {
     'no-use-responsive-value': require('./rules/no-use-responsive-value'),
     'no-wildcard-imports': require('./rules/no-wildcard-imports'),
     'prefer-action-list-item-onselect': require('./rules/prefer-action-list-item-onselect'),
+    'require-octicon-symbols': require('./rules/require-octicon-symbols'),
+    'require-registered-octicons': require('./rules/require-registered-octicons'),
     'spread-props-first': require('./rules/spread-props-first'),
     'use-deprecated-from-deprecated': require('./rules/use-deprecated-from-deprecated'),
+    'use-octicons-react-symbols': require('./rules/use-octicons-react-symbols'),
     'no-deprecated-octicon': require('./rules/no-deprecated-octicon'),
   },
   configs: {
