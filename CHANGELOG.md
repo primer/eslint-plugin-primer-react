@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 9.2.0
+
+### Minor Changes
+
+- [#599](https://github.com/primer/eslint-plugin-primer-react/pull/599) [`589e822`](https://github.com/primer/eslint-plugin-primer-react/commit/589e822a8d21c2d4f4d411d23c761dfe0e25dee7) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Upgrade ESLint to v10.7.0 and related ESLint dependencies to compatible versions
+
 ## 9.1.0
 
 ### Minor Changes
