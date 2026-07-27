@@ -38,7 +38,7 @@ module.exports = {
 
         const hasOtherImports = node.specifiers.length > 1
 
-        const sourceCode = context.getSourceCode()
+        const sourceCode = context.sourceCode ?? context.getSourceCode()
         // Checking to see if there is an existing root (@primer/react) import
         // Assuming there is one root import per file
         const rootImport = sourceCode.ast.body.find(statement => {
