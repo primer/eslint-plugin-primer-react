@@ -12,6 +12,7 @@ module.exports = {
     'enforce-css-module-default-import': require('./rules/enforce-css-module-default-import'),
     'enforce-css-module-identifier-casing': require('./rules/enforce-css-module-identifier-casing'),
     'new-color-css-vars': require('./rules/new-color-css-vars'),
+    'no-deprecated-components': require('./rules/no-deprecated-components'),
     'no-deprecated-entrypoints': require('./rules/no-deprecated-entrypoints'),
     'no-deprecated-experimental-components': require('./rules/no-deprecated-experimental-components'),
     'no-deprecated-props': require('./rules/no-deprecated-props'),
