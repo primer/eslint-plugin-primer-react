@@ -3,17 +3,6 @@
 const url = require('../url')
 
 const migrationGuide = 'https://primer.style/product/getting-started/react/migration-guides/primer-flash'
-
-const deprecatedComponents = new Map([
-  [
-    'Flash',
-    {
-      replacement: 'Banner',
-      migrationGuide,
-    },
-  ],
-])
-
 const primerReactEntrypoints = new Set(['@primer/react', '@primer/react/deprecated'])
 
 /**
@@ -23,13 +12,12 @@ module.exports = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'Discourage the use of deprecated Primer React components',
+      description: 'Discourage the use of the deprecated Flash component',
       recommended: true,
       url: url(module),
     },
     messages: {
-      deprecatedComponent:
-        '`{{component}}` is deprecated. Use `{{replacement}}` from `@primer/react` instead. See the migration guide: {{migrationGuide}}',
+      deprecatedFlash: `\`Flash\` is deprecated. Use \`Banner\` from \`@primer/react\` instead. See the migration guide: ${migrationGuide}`,
     },
     schema: [],
   },
@@ -45,19 +33,13 @@ module.exports = {
             continue
           }
 
-          const component = deprecatedComponents.get(specifier.imported.name)
-          if (!component) {
+          if (specifier.imported.name !== 'Flash') {
             continue
           }
 
           context.report({
             node: specifier,
-            messageId: 'deprecatedComponent',
-            data: {
-              component: specifier.imported.name,
-              replacement: component.replacement,
-              migrationGuide: component.migrationGuide,
-            },
+            messageId: 'deprecatedFlash',
           })
         }
       },

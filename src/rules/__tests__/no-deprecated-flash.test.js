@@ -1,7 +1,7 @@
 'use strict'
 
 const {RuleTester} = require('eslint')
-const rule = require('../no-deprecated-components')
+const rule = require('../no-deprecated-flash')
 
 const ruleTester = new RuleTester({
   languageOptions: {
@@ -10,16 +10,9 @@ const ruleTester = new RuleTester({
   },
 })
 
-const error = {
-  messageId: 'deprecatedComponent',
-  data: {
-    component: 'Flash',
-    replacement: 'Banner',
-    migrationGuide: 'https://primer.style/product/getting-started/react/migration-guides/primer-flash',
-  },
-}
+const error = {messageId: 'deprecatedFlash'}
 
-ruleTester.run('no-deprecated-components', rule, {
+ruleTester.run('no-deprecated-flash', rule, {
   valid: [
     {
       code: `import {Banner} from '@primer/react'`,

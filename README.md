@@ -43,9 +43,9 @@ ESLint rules for Primer React
 - [enforce-css-module-default-import](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/enforce-css-module-default-import.md)
 - [enforce-css-module-identifier-casing](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/enforce-css-module-identifier-casing.md)
 - [new-color-css-vars](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/new-color-css-vars.md)
-- [no-deprecated-components](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-components.md)
 - [no-deprecated-entrypoints](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-entrypoints.md)
 - [no-deprecated-experimental-components](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-experimental-components.md)
+- [no-deprecated-flash](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-flash.md)
 - [no-deprecated-props](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-deprecated-props.md)
 
 - [no-use-responsive-value](https://github.com/primer/eslint-plugin-primer-react/blob/main/docs/rules/no-use-responsive-value.md)

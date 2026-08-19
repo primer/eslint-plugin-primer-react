@@ -1,8 +1,8 @@
-# No deprecated components
+# No deprecated Flash
 
 ## Rule details
 
-This rule discourages imports of deprecated Primer React components from
+This rule discourages imports of the deprecated `Flash` component from
 `@primer/react` and `@primer/react/deprecated`.
 
 👎 Example of **incorrect** code for this rule:
