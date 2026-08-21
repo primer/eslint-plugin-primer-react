@@ -13,7 +13,7 @@ module.exports = {
     type: 'problem',
     docs: {
       description: 'Discourage the use of the deprecated Flash component',
-      recommended: true,
+      recommended: false,
       url: url(module),
     },
     messages: {
