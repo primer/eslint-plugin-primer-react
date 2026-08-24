@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 9.3.0
+
+### Minor Changes
+
+- [#630](https://github.com/primer/eslint-plugin-primer-react/pull/630) [`7e5fc05`](https://github.com/primer/eslint-plugin-primer-react/commit/7e5fc05e6b227a29bd757779688e325c6f61ccbc) Thanks [@llastflowers](https://github.com/llastflowers)! - Add lint rule to discourage Flash usage
+
 ## 9.2.0
 
 ### Minor Changes
