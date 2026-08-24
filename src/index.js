@@ -14,6 +14,7 @@ module.exports = {
     'new-color-css-vars': require('./rules/new-color-css-vars'),
     'no-deprecated-entrypoints': require('./rules/no-deprecated-entrypoints'),
     'no-deprecated-experimental-components': require('./rules/no-deprecated-experimental-components'),
+    'no-deprecated-flash': require('./rules/no-deprecated-flash'),
     'no-deprecated-props': require('./rules/no-deprecated-props'),
 
     'no-use-responsive-value': require('./rules/no-use-responsive-value'),
