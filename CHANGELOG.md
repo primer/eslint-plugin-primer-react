@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 9.3.1
+
+### Patch Changes
+
+- [#651](https://github.com/primer/eslint-plugin-primer-react/pull/651) [`1c62769`](https://github.com/primer/eslint-plugin-primer-react/commit/1c62769aa8920ef7c973ba43c3f22b79497b545a) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update js-yaml to address a security vulnerability.
+
 ## 9.3.0
 
 ### Minor Changes
