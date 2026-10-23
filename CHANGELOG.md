@@ -1,5 +1,11 @@
 # eslint-plugin-primer-react
 
+## 9.3.2
+
+### Patch Changes
+
+- [#695](https://github.com/primer/eslint-plugin-primer-react/pull/695) [`2d9480f`](https://github.com/primer/eslint-plugin-primer-react/commit/2d9480f91ef77955cee32ec4f26f76838a138fb3) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update the launch-editor development dependency to 2.14.2.
+
 ## 9.3.1
 
 ### Patch Changes
