@@ -1,6 +1,127 @@
 'use strict'
-const {getJSXOpeningElementAttribute} = require('../utils/get-jsx-opening-element-attribute')
-const {getJSXOpeningElementName} = require('../utils/get-jsx-opening-element-name')
+const {getVariableDeclaration} = require('../utils/get-variable-declaration')
+const url = require('../url')
+
+// Keep this catalogue aligned with @deprecated prop declarations and deprecated
+// props in packages/react/src/**/*.docs.json in primer/react.
+const textInputProps = {
+  icon: 'Use `leadingVisual` or `trailingVisual` instead.',
+  contrast: 'Omit this prop to use the default background.',
+  variant: 'Use `size` instead.',
+  width: 'Set `width` using CSS or `style` instead.',
+  minWidth: 'Set `min-width` using CSS or `style` instead.',
+  maxWidth: 'Set `max-width` using CSS or `style` instead.',
+}
+const buttonProps = {
+  leadingIcon: 'Use `leadingVisual` instead.',
+  trailingIcon: 'Use `trailingVisual` instead.',
+}
+const narrowDivider = 'Use `divider` with a responsive value instead.'
+const deprecations = {
+  'ActionList.Group': {title: 'Use `ActionList.GroupHeading` instead.'},
+  'ActionList.Item': {as: 'Use `ActionList.LinkItem` for links; `as` has no effect on `ActionList.Item`.'},
+  'ActionMenu.Button': buttonProps,
+  'Autocomplete.Input': {
+    ...textInputProps,
+    openOnFocus: 'Remove this prop. Review whether opening the menu on focus is still needed.',
+  },
+  'Autocomplete.Overlay': {overlayProps: 'Pass overlay props directly to `Autocomplete.Overlay` instead.'},
+  Banner: {icon: 'Use `leadingVisual` instead.'},
+  Button: buttonProps,
+  CounterLabel: {scheme: 'Use `variant` instead.'},
+  IconButton: {keyshortcuts: 'Use `keybindingHint` instead.'},
+  Link: {hoverColor: 'Style hover color using CSS instead.'},
+  LinkButton: buttonProps,
+  'PageLayout.Header': {dividerWhenNarrow: narrowDivider},
+  'PageLayout.Pane': {
+    dividerWhenNarrow: narrowDivider,
+    positionWhenNarrow: 'Use `position` with a responsive value instead.',
+  },
+  'PageLayout.Footer': {dividerWhenNarrow: narrowDivider},
+  'SegmentedControl.Button': {
+    icon: 'Use `leadingVisual` instead.',
+    leadingIcon: 'Use `leadingVisual` instead.',
+  },
+  SelectPanel: {footer: 'Use `secondaryAction` instead.'},
+  Spinner: {'aria-label': 'Use `srText` instead.'},
+  StateLabel: {variant: 'Use `size` with `small` or `medium` instead.'},
+  TextInput: textInputProps,
+  'TextInput.Action': {
+    children: 'Use an icon-only action with the `icon` prop instead.',
+    variant: 'Omit this prop to use the invisible button variant.',
+  },
+  TextInputWithTokens: textInputProps,
+  Textarea: {contrast: 'Omit this prop to use the default background.'},
+  ThemeProvider: {preventSSRMismatch: 'Remove this prop; it no longer has any effect.'},
+  'UnderlineNav.Item': {icon: 'Use `leadingVisual` instead.'},
+}
+
+const legacyDeprecations = {
+  'ActionList.Item': {
+    trailingIcon: 'Use `trailingVisual` instead.',
+    trailingText: 'Use `trailingVisual` instead.',
+  },
+}
+
+const experimentalDeprecations = {
+  'FilteredActionList.Input': textInputProps,
+}
+
+function getPrimerComponent(node, scope) {
+  const members = []
+  let root = node.name
+  while (root.type === 'JSXMemberExpression') {
+    members.unshift(root.property.name)
+    root = root.object
+  }
+  if (root.type !== 'JSXIdentifier') return null
+
+  const definition = getVariableDeclaration(scope, {name: root.name})
+  if (definition?.type !== 'ImportBinding') return null
+  const entrypoint = definition.parent.source.value
+  const specifier = definition.node
+  if (specifier.type === 'ImportSpecifier') {
+    members.unshift(specifier.imported.name ?? specifier.imported.value)
+  } else if (specifier.type !== 'ImportNamespaceSpecifier') {
+    return null
+  }
+
+  const component = members.join('.')
+  let catalogue
+  if (entrypoint === '@primer/react') {
+    catalogue = deprecations
+  } else if (entrypoint === '@primer/react/deprecated') {
+    catalogue = legacyDeprecations
+  } else if (entrypoint === '@primer/react/experimental') {
+    catalogue = experimentalDeprecations
+  } else if (entrypoint === '@primer/react/next' && component === 'ThemeProvider') {
+    catalogue = deprecations
+  }
+  // Other entrypoints can export different APIs under the same component name.
+  if (!catalogue || !Object.hasOwn(catalogue, component)) return null
+  return {component, props: catalogue[component]}
+}
+
+function fixGroupTitle(fixer, node, title, sourceCode) {
+  if (!title.value || node.selfClosing) return null
+  let groupTitle
+  if (title.value.type === 'Literal') {
+    // Preserve JSX entities and escaping from the original attribute.
+    groupTitle = sourceCode.getText(title.value).slice(1, -1)
+    if (/[{}<>]/.test(groupTitle)) return null
+  } else if (title.value.type === 'JSXExpressionContainer' && title.value.expression.type !== 'JSXEmptyExpression') {
+    groupTitle = sourceCode.getText(title.value)
+  } else {
+    return null
+  }
+  const heading = `${sourceCode.getText(node.name).slice(0, -'Group'.length)}GroupHeading`
+  const start = title.range[0]
+  const whitespace = sourceCode.text[start - 1]
+  return [
+    fixer.removeRange([whitespace === ' ' ? start - 1 : start, title.range[1]]),
+    fixer.insertTextAfter(node, `<${heading}>${groupTitle}</${heading}>`),
+  ]
+}
 
 /**
  * @type {import('eslint').Rule.RuleModule}
@@ -9,51 +130,56 @@ module.exports = {
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Avoid using deprecated `title` prop on `ActionList.Group` component. Use `ActionList.GroupHeading` instead.',
+      description: 'Avoid deprecated Primer React component props.',
       recommended: true,
-      url: 'https://primer.style/components/action-list/react/beta#actionlistgroupheading',
+      url: url(module),
     },
     fixable: 'code',
     schema: [],
     messages: {
       titlePropDeprecated: 'The `title` prop is deprecated. Please use `ActionList.GroupHeading` instead.',
+      deprecatedProp: 'The `{{prop}}` prop on `{{component}}` is deprecated. {{hint}}',
     },
   },
   create(context) {
     return {
       JSXOpeningElement(node) {
-        const openingElName = getJSXOpeningElementName(node)
-        if (openingElName !== 'ActionList.Group') {
-          return
+        const primer = getPrimerComponent(node, context.sourceCode.getScope(node))
+        if (!primer) return
+        for (const attribute of node.attributes) {
+          if (attribute.type !== 'JSXAttribute' || attribute.name.type !== 'JSXIdentifier') continue
+          const prop = attribute.name.name
+          if (!Object.hasOwn(primer.props, prop)) continue
+          if (primer.component === 'ActionList.Group' && prop === 'title') {
+            context.report({
+              node: attribute,
+              messageId: 'titlePropDeprecated',
+              fix: fixer => fixGroupTitle(fixer, node, attribute, context.sourceCode),
+            })
+          } else {
+            context.report({
+              node: attribute,
+              messageId: 'deprecatedProp',
+              data: {component: primer.component, prop, hint: primer.props[prop]},
+            })
+          }
         }
-        const title = getJSXOpeningElementAttribute(node, 'title')
-        let groupTitle = ''
-        if (title !== undefined) {
+        if (
+          Object.hasOwn(primer.props, 'children') &&
+          !node.selfClosing &&
+          node.parent.children.some(
+            child =>
+              (child.type === 'JSXText' && child.value.trim() !== '') ||
+              (child.type === 'JSXExpressionContainer' && child.expression.type !== 'JSXEmptyExpression') ||
+              child.type === 'JSXElement' ||
+              child.type === 'JSXFragment' ||
+              child.type === 'JSXSpreadChild',
+          )
+        ) {
           context.report({
             node,
-            messageId: 'titlePropDeprecated',
-            fix(fixer) {
-              // Group title is a string literal i.e. title="title"
-              if (title.value.type === 'Literal') {
-                groupTitle = title.value.value
-                // Group title is a JSX expression i.e. title={title}
-              } else if (title.value.type === 'JSXExpressionContainer') {
-                groupTitle = context.sourceCode.getText(title.value)
-              } else {
-                // we don't provide fix for cases where the title prop is not a string literal or JSX expression
-                return []
-              }
-              const start = title.range[0]
-              const end = title.range[1]
-              return [
-                fixer.removeRange([start - 1, end]), // remove the space before the title as well
-                fixer.insertTextAfterRange(
-                  [node.range[1], node.range[1]],
-                  `<ActionList.GroupHeading>${groupTitle}</ActionList.GroupHeading>`,
-                ),
-              ]
-            },
+            messageId: 'deprecatedProp',
+            data: {component: primer.component, prop: 'children', hint: primer.props.children},
           })
         }
       },
