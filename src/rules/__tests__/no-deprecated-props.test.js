@@ -65,64 +65,26 @@ ruleTester.run('no-deprecated-props', rule, {
     </ActionList>`,
   ],
   invalid: [
-    {
-      code: `<ActionList.Group title="Group heading 1"></ActionList.Group>`,
-      output: `<ActionList.Group><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
-      errors: [
-        {
-          messageId: 'titlePropDeprecated',
-        },
-      ],
-    },
-    {
-      code: `<ActionList.Group title="Group heading 1" sx={{padding: 2}}></ActionList.Group>`,
-      output: `<ActionList.Group sx={{padding: 2}}><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
-      errors: [
-        {
-          messageId: 'titlePropDeprecated',
-        },
-      ],
-    },
-    {
-      code: `<ActionList.Group variant="filled" title="Group heading 1"></ActionList.Group>`,
-      output: `<ActionList.Group variant="filled"><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
-      errors: [
-        {
-          messageId: 'titlePropDeprecated',
-        },
-      ],
-    },
-    {
-      code: `<ActionList.Group title={titleVariable}></ActionList.Group>`,
-      output: `<ActionList.Group><ActionList.GroupHeading>{titleVariable}</ActionList.GroupHeading></ActionList.Group>`,
-      errors: [
-        {
-          messageId: 'titlePropDeprecated',
-        },
-      ],
-    },
-    {
-      code: `<ActionList.Group title={'Title'}></ActionList.Group>`,
-      output: `<ActionList.Group><ActionList.GroupHeading>{'Title'}</ActionList.GroupHeading></ActionList.Group>`,
-      errors: [
-        {
-          messageId: 'titlePropDeprecated',
-        },
-      ],
-    },
-    {
-      code: `<ActionList.Group title={condition ? 'Title' : undefined}></ActionList.Group>`,
-      output: `<ActionList.Group><ActionList.GroupHeading>{condition ? 'Title' : undefined}</ActionList.GroupHeading></ActionList.Group>`,
-      errors: [
-        {
-          messageId: 'titlePropDeprecated',
-        },
-      ],
-    },
-  ].map(test => ({
-    ...test,
-    code: `import {ActionList} from '@primer/react';\n${test.code}`,
-    output: `import {ActionList} from '@primer/react';\n${test.output}`,
+    [
+      `<ActionList.Group title="Group heading 1"></ActionList.Group>`,
+      `<ActionList.Group><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
+    ],
+    [
+      `<ActionList.Group title="Group heading 1" sx={{padding: 2}}></ActionList.Group>`,
+      `<ActionList.Group sx={{padding: 2}}><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
+    ],
+    [
+      `<ActionList.Group variant="filled" title="Group heading 1"></ActionList.Group>`,
+      `<ActionList.Group variant="filled"><ActionList.GroupHeading>Group heading 1</ActionList.GroupHeading></ActionList.Group>`,
+    ],
+    ...['titleVariable', "'Title'", "condition ? 'Title' : undefined"].map(title => [
+      `<ActionList.Group title={${title}}></ActionList.Group>`,
+      `<ActionList.Group><ActionList.GroupHeading>{${title}}</ActionList.GroupHeading></ActionList.Group>`,
+    ]),
+  ].map(([code, output]) => ({
+    code: `import {ActionList} from '@primer/react';\n${code}`,
+    output: `import {ActionList} from '@primer/react';\n${output}`,
+    errors: [{messageId: 'titlePropDeprecated'}],
   })),
 })
 

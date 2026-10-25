@@ -2,8 +2,6 @@
 const {getVariableDeclaration} = require('../utils/get-variable-declaration')
 const url = require('../url')
 
-// Keep this catalogue aligned with @deprecated prop declarations and deprecated
-// props in packages/react/src/**/*.docs.json in primer/react.
 const textInputProps = {
   icon: 'Use `leadingVisual` or `trailingVisual` instead.',
   contrast: 'Omit this prop to use the default background.',
@@ -56,16 +54,30 @@ const deprecations = {
   'UnderlineNav.Item': {icon: 'Use `leadingVisual` instead.'},
 }
 
-const legacyDeprecations = {
-  'ActionList.Item': {
-    trailingIcon: 'Use `trailingVisual` instead.',
-    trailingText: 'Use `trailingVisual` instead.',
-  },
-}
-
-const experimentalDeprecations = {
-  'FilteredActionList.Input': textInputProps,
-}
+const entrypoints = new Map([
+  ['@primer/react', deprecations],
+  [
+    '@primer/react/deprecated',
+    {
+      'ActionList.Item': {
+        trailingIcon: 'Use `trailingVisual` instead.',
+        trailingText: 'Use `trailingVisual` instead.',
+      },
+    },
+  ],
+  [
+    '@primer/react/experimental',
+    {
+      'FilteredActionList.Input': textInputProps,
+    },
+  ],
+  [
+    '@primer/react/next',
+    {
+      ThemeProvider: deprecations.ThemeProvider,
+    },
+  ],
+])
 
 function getPrimerComponent(node, scope) {
   const members = []
@@ -87,17 +99,7 @@ function getPrimerComponent(node, scope) {
   }
 
   const component = members.join('.')
-  let catalogue
-  if (entrypoint === '@primer/react') {
-    catalogue = deprecations
-  } else if (entrypoint === '@primer/react/deprecated') {
-    catalogue = legacyDeprecations
-  } else if (entrypoint === '@primer/react/experimental') {
-    catalogue = experimentalDeprecations
-  } else if (entrypoint === '@primer/react/next' && component === 'ThemeProvider') {
-    catalogue = deprecations
-  }
-  // Other entrypoints can export different APIs under the same component name.
+  const catalogue = entrypoints.get(entrypoint)
   if (!catalogue || !Object.hasOwn(catalogue, component)) return null
   return {component, props: catalogue[component]}
 }
@@ -106,7 +108,6 @@ function fixGroupTitle(fixer, node, title, sourceCode) {
   if (!title.value || node.selfClosing) return null
   let groupTitle
   if (title.value.type === 'Literal') {
-    // Preserve JSX entities and escaping from the original attribute.
     groupTitle = sourceCode.getText(title.value).slice(1, -1)
     if (/[{}<>]/.test(groupTitle)) return null
   } else if (title.value.type === 'JSXExpressionContainer' && title.value.expression.type !== 'JSXEmptyExpression') {
