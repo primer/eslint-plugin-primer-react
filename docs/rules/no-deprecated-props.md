@@ -1,48 +1,31 @@
 ## Rule Details
 
-This rule enforces to use the recommended API (`ActionList.GroupHeading`) component over the deprecated prop (`title` prop on `ActionList.Group`) for ActionList component.
+Reports known deprecated Primer React props. Supports compound components, import
+aliases, and namespace imports without TypeScript type information.
 
-👎 Examples of **incorrect** code for this rule:
-
-```jsx
-/* eslint primer-react/no-deprecated-props: "error" */
-import {ActionList} from '@primer/react'
-
-const App = () => (
-  <ActionList>
-    <ActionList.Group title="Group heading">
-      <ActionList.Item>Item 1</ActionList.Item>
-    </ActionList.Group>
-  </ActionList>
-)
-```
-
-👍 Examples of **correct** code for this rule:
+### Incorrect
 
 ```jsx
-/* eslint primer-react/no-deprecated-props: "error" */
-import {ActionList} from '@primer/react'
+import {Autocomplete, Banner} from '@primer/react'
 
-const App = () => (
-  <ActionList>
-    <ActionList.Group>
-      <ActionList.GroupHeading as="h2">Group heading</ActionList.GroupHeading>
-      <ActionList.Item>Item 1</ActionList.Item>
-    </ActionList.Group>
-  </ActionList>
-)
+const input = <Autocomplete.Input openOnFocus />
+const banner = <Banner icon={InfoIcon} />
 ```
+
+### Correct
 
 ```jsx
-/* eslint primer-react/no-deprecated-props: "error" */
-import {ActionList} from '@primer/react'
+import {Autocomplete, Banner} from '@primer/react'
 
-const App = () => (
-  <ActionList role="lisbox">
-    <ActionList.Group>
-      <ActionList.GroupHeading>Group heading</ActionList.GroupHeading>
-      <ActionList.Item>Item 1</ActionList.Item>
-    </ActionList.Group>
-  </ActionList>
-)
+const input = <Autocomplete.Input />
+const banner = <Banner leadingVisual={InfoIcon} />
 ```
+
+Removing `openOnFocus` changes when suggestions open; it has no replacement prop.
+
+The [prop list](../../src/rules/no-deprecated-props.js) is maintained manually.
+The rule checks explicit JSX props, not spreads, nested objects, wrappers,
+re-exports, or `React.createElement`.
+
+Only `ActionList.Group.title` has an autofix, for paired tags with string or
+expression values. Other migrations require manual changes.
