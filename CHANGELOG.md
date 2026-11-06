@@ -1,5 +1,15 @@
 # eslint-plugin-primer-react
 
+## 9.4.0
+
+### Minor Changes
+
+- [#705](https://github.com/primer/eslint-plugin-primer-react/pull/705) [`9b282ba`](https://github.com/primer/eslint-plugin-primer-react/commit/9b282babfb4436dee689eaeeec568b1f6b3ce8b4) Thanks [@rickyzhangca](https://github.com/rickyzhangca)! - Expand `no-deprecated-props` to cover known deprecated Primer props, including compound components and aliased imports.
+
+### Patch Changes
+
+- [#695](https://github.com/primer/eslint-plugin-primer-react/pull/695) [`2d9480f`](https://github.com/primer/eslint-plugin-primer-react/commit/2d9480f91ef77955cee32ec4f26f76838a138fb3) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update the launch-editor development dependency to 2.14.2.
+
 ## 9.3.1
 
 ### Patch Changes
